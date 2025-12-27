@@ -15,10 +15,7 @@
         "penalty_taking": "43",
         "jumping": "300"
       },
-      "currentPOS": [
-        340,
-        0
-      ],
+      "currentPOS": [340, 0],
       "fitness": 100,
       "injured": false
     },
@@ -36,10 +33,7 @@
         "penalty_taking": "20",
         "jumping": "235"
       },
-      "currentPOS": [
-        80,
-        80
-      ],
+      "currentPOS": [80, 80],
       "fitness": 100,
       "injured": false
     },
@@ -57,10 +51,7 @@
         "penalty_taking": "20",
         "jumping": "212"
       },
-      "currentPOS": [
-        230,
-        80
-      ],
+      "currentPOS": [230, 80],
       "fitness": 100,
       "injured": false
     },
@@ -78,10 +69,7 @@
         "penalty_taking": "21",
         "jumping": "280"
       },
-      "currentPOS": [
-        420,
-        80
-      ],
+      "currentPOS": [420, 80],
       "fitness": 100,
       "injured": false
     },
@@ -99,10 +87,7 @@
         "penalty_taking": "20",
         "jumping": "299"
       },
-      "currentPOS": [
-        600,
-        80
-      ],
+      "currentPOS": [600, 80],
       "fitness": 100,
       "injured": false
     },
@@ -120,10 +105,7 @@
         "penalty_taking": "20",
         "jumping": "250"
       },
-      "currentPOS": [
-        80,
-        270
-      ],
+      "currentPOS": [80, 270],
       "fitness": 100,
       "injured": false
     },
@@ -141,10 +123,7 @@
         "penalty_taking": "1",
         "jumping": "120"
       },
-      "currentPOS": [
-        230,
-        270
-      ],
+      "currentPOS": [230, 270],
       "fitness": 100,
       "injured": false
     },
@@ -162,10 +141,7 @@
         "penalty_taking": "20",
         "jumping": "175"
       },
-      "currentPOS": [
-        420,
-        270
-      ],
+      "currentPOS": [420, 270],
       "fitness": 100,
       "injured": false
     },
@@ -183,10 +159,7 @@
         "penalty_taking": "20",
         "jumping": "288"
       },
-      "currentPOS": [
-        600,
-        270
-      ],
+      "currentPOS": [600, 270],
       "fitness": 100,
       "injured": false
     },
@@ -204,10 +177,7 @@
         "penalty_taking": "20",
         "jumping": "291"
       },
-      "currentPOS": [
-        280,
-        500
-      ],
+      "currentPOS": [280, 500],
       "fitness": 100,
       "injured": false
     },
@@ -225,10 +195,7 @@
         "penalty_taking": "20",
         "jumping": "280"
       },
-      "currentPOS": [
-        440,
-        500
-      ],
+      "currentPOS": [440, 500],
       "fitness": 100,
       "injured": false
     }

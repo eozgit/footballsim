@@ -1,6 +1,6 @@
 module.exports = {
   extends: 'unu',
   rules: {
-    'no-console': 'off'
-  }
-}
+    'no-console': 'off',
+  },
+};

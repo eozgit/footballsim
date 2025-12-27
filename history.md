@@ -1,6 +1,7 @@
 # History of footballSimulationEngine
 
 ## Version 4.0.0
+
 - fixed: red cards didn't send players off the pitch correctly
 - fixed: player skills incorrectly assigned for tackles and slide tackles
 - fixed: corners and goal kicks not correctly assigned / calculated
@@ -9,13 +10,15 @@
 - new: added ability to set the width of the goal to make the game more customisable
 
 ## Version 3.0.1
+
 - added new test scripts
 - code fixes for assigning actions
 - code fixes for determining offside
-- code fixes for setting positions 
+- code fixes for setting positions
 - code fixes for when ball moving
 
 ## Version 3.0.0
+
 - altered 'startPOS' to 'currentPOS' to better reflect what the variable is used for
 - altered 'relativePOS' to 'intentPOS' to better reflect what what the variable is used for
 - added 100+ test cases
@@ -25,8 +28,11 @@
 - penalty taking improvements
 - skills used more intensively i.e. shooting can be both on/off target determined by skill
 - add player specific stats including tackles, passes, shots, saves and goals
+
 ---
+
 ## Version 2.2.0
+
 - fix closestPlayer Report
 - enhance test cases
 - keep ball with player when they run or sprint
@@ -37,13 +43,19 @@
 - add saving
 - add simple player marking
 - add test simulation data
+
 ---
+
 ## Version 2.1.2
+
 - security fix for https://nvd.nist.gov/vuln/detail/CVE-2018-16487
 - limit ability for players to become 'stuck'
 - checks to reduce occurances of players.hasBall = true when the ball is not with the player
+
 ---
+
 ## Version 2.1.0
+
 - Added to allow more tackles and fouls
 - Added fitness measure (currently has no affect on the game - see later versions)
 - Remove promises from the internal functions (still required for three main functions as above)
@@ -56,6 +68,9 @@
 - Allow interception of the ball whilst in transit
 - Included ability to set a players action for each iteration to enforce a specific move
 - Added Offside logic
+
 ---
+
 ## Version 1.x
+
 - initial creation of the FSE node module

@@ -13,20 +13,11 @@
     "penalty_taking": "100",
     "jumping": "212"
   },
-  "currentPOS": [
-    274,
-    740
-  ],
+  "currentPOS": [274, 740],
   "fitness": 96.97,
   "injured": false,
-  "originPOS": [
-    230,
-    970
-  ],
-  "intentPOS": [
-    230,
-    787.5
-  ],
+  "originPOS": [230, 970],
+  "intentPOS": [230, 787.5],
   "action": "none",
   "offside": false,
   "hasBall": false,
