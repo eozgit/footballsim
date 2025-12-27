@@ -4,72 +4,72 @@ const common = require('../lib/common');
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async () => {
-    let itlocation = './init_config/iteration.json';
+    const itlocation = './init_config/iteration.json';
 
-    let nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
+    const nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
 
     expect(nextJSON).to.be.an('object');
-    for (let player of nextJSON.kickOffTeam.players) {
+    for (const player of nextJSON.kickOffTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
-    for (let player of nextJSON.secondTeam.players) {
+    for (const player of nextJSON.secondTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
   });
 });
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
-    let itlocation = './init_config/iteration.json';
-    let matchDetails = await common.readFile(itlocation);
-    var testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
-    let nextJSON = await setpieces.switchSide(
+    const itlocation = './init_config/iteration.json';
+    const matchDetails = await common.readFile(itlocation);
+    const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
+    const nextJSON = await setpieces.switchSide(
       matchDetails,
       matchDetails.kickOffTeam,
     );
 
-    for (let playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+    for (const playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
         nextJSON.kickOffTeam.players[playerNum].originPOS,
       );
     }
   });
   it('check players sides are switched second team', async () => {
-    let itlocation = './init_config/iteration.json';
-    let matchDetails = await common.readFile(itlocation);
-    var testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
-    let nextJSON = await setpieces.switchSide(
+    const itlocation = './init_config/iteration.json';
+    const matchDetails = await common.readFile(itlocation);
+    const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
+    const nextJSON = await setpieces.switchSide(
       matchDetails,
       matchDetails.secondTeam,
     );
 
-    for (let playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
+    for (const playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
         nextJSON.secondTeam.players[playerNum].originPOS,
       );
     }
   });
   it('no origin POS set', async () => {
-    let itlocation = './init_config/iteration.json';
-    let matchDetails = await common.readFile(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const matchDetails = await common.readFile(itlocation);
     delete matchDetails.secondTeam.players[0].originPOS;
 
     try {
-      let nextJSON = await setpieces.switchSide(
+      const nextJSON = await setpieces.switchSide(
         matchDetails,
         matchDetails.secondTeam,
       );
       expect(nextJSON).to.be.an(Object);
     } catch (err) {
       expect(err).to.be.an('Error');
-      let expectedOutput = 'Each player must have an origin position set';
+      const expectedOutput = 'Each player must have an origin position set';
       expect(err.toString()).to.have.string(expectedOutput);
     }
   });
   it('low fitness level', async () => {
-    let itlocation = './init_config/iteration.json';
-    let matchDetails = await common.readFile(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const matchDetails = await common.readFile(itlocation);
     matchDetails.secondTeam.players[0].fitness = 10;
-    let nextJSON = await setpieces.switchSide(
+    const nextJSON = await setpieces.switchSide(
       matchDetails,
       matchDetails.secondTeam,
     );

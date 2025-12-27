@@ -16,13 +16,13 @@ async function initiateGame(team1, team2, pitchDetails) {
   validate.validateTeam(team1);
   validate.validateTeam(team2);
   validate.validatePitch(pitchDetails);
-  let matchDetails = setVariables.populateMatchDetails(
+  const matchDetails = setVariables.populateMatchDetails(
     team1,
     team2,
     pitchDetails,
   );
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam);
-  let secondTeam = setVariables.setGameVariables(matchDetails.secondTeam);
+  const secondTeam = setVariables.setGameVariables(matchDetails.secondTeam);
   kickOffTeam = setVariables.koDecider(kickOffTeam, matchDetails);
   matchDetails.iterationLog.push(`Team to kick off - ${kickOffTeam.name}`);
   matchDetails.iterationLog.push(`Second team - ${secondTeam.name}`);
@@ -33,11 +33,11 @@ async function initiateGame(team1, team2, pitchDetails) {
 }
 
 async function playIteration(matchDetails) {
-  let closestPlayerA = {
+  const closestPlayerA = {
     name: '',
     position: 100000,
   };
-  let closestPlayerB = {
+  const closestPlayerB = {
     name: '',
     position: 100000,
   };
@@ -84,7 +84,7 @@ async function startSecondHalf(matchDetails) {
   validate.validateTeamSecondHalf(matchDetails.kickOffTeam);
   validate.validateTeamSecondHalf(matchDetails.secondTeam);
   validate.validatePlayerPositions(matchDetails);
-  let { kickOffTeam, secondTeam } = matchDetails;
+  const { kickOffTeam, secondTeam } = matchDetails;
   setPositions.switchSide(matchDetails, kickOffTeam);
   setPositions.switchSide(matchDetails, secondTeam);
   common.removeBallFromAllPlayers(matchDetails);

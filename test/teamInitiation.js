@@ -3,9 +3,9 @@ const initteams = require('./lib/initiate_team');
 
 describe('testTeamSetup()', function () {
   it('check all players origin positions are the same as the start positions', async () => {
-    let t1location = './init_config/team1.json';
+    const t1location = './init_config/team1.json';
 
-    let teamOutput = await initteams.setTeam(t1location);
+    const teamOutput = await initteams.setTeam(t1location);
 
     expect(teamOutput).to.be.an('object');
     expect(teamOutput.players[0].originPOS).to.eql(
@@ -43,9 +43,9 @@ describe('testTeamSetup()', function () {
     );
   });
   it('check all players relative positions are the same as the start positions', async () => {
-    let t1location = './init_config/team1.json';
+    const t1location = './init_config/team1.json';
 
-    let teamOutput = await initteams.setTeam(t1location);
+    const teamOutput = await initteams.setTeam(t1location);
 
     expect(teamOutput).to.be.an('object');
     expect(teamOutput.players[0].intentPOS).to.eql(

@@ -3,18 +3,18 @@ const setpieces = require('./lib/set_pieces');
 
 describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setBottomGoalKick(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
-    let goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setBottomGoalKick(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
     expect(goalKick).to.be.greaterThan(-1);
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[0].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] - 80,
@@ -25,16 +25,16 @@ describe('testBoundariesForBottomGoal()', function () {
 });
 describe('testBoundariesForTopGoal()', function () {
   it('expected Top Goal', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setTopGoalKick(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
-    let goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setTopGoalKick(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
     expect(goalKick).to.be.greaterThan(-1);
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[0].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] + 80,
@@ -45,18 +45,18 @@ describe('testBoundariesForTopGoal()', function () {
 });
 describe('testBoundariesForBottomGoalSecondHalf()', function () {
   it('expected Bottom Goal', async () => {
-    let itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
-    let nextJSON = await setpieces.setBottomGoalKick(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
-    let goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
+    const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
+    const nextJSON = await setpieces.setBottomGoalKick(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
     expect(goalKick).to.be.greaterThan(-1);
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[0].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] - 80,
@@ -67,16 +67,16 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
 });
 describe('testBoundariesForTopGoalSecondHalf()', function () {
   it('expected Top Goal', async () => {
-    let itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
-    let nextJSON = await setpieces.setTopGoalKick(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
-    let goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
+    const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
+    const nextJSON = await setpieces.setTopGoalKick(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
     expect(goalKick).to.be.greaterThan(-1);
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[0].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] + 80,
@@ -87,20 +87,20 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
 });
 describe('setKickOffTeamGoalScored()', function () {
   it('kickOff team in same position', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setKickOffTeamGoalScored(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setKickOffTeamGoalScored(itlocation);
     expect(nextJSON.kickOffTeamStatistics.goals).to.eql(1);
-    for (let player of nextJSON.kickOffTeam.players) {
+    for (const player of nextJSON.kickOffTeam.players) {
       expect(player.currentPOS).to.eql(player.originPOS);
     }
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.name == 'Aiden Smith') {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.name === 'Aiden Smith') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
         );
-      } else if (player.name == 'Wayne Smith') {
+      } else if (player.name === 'Wayne Smith') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
@@ -114,20 +114,20 @@ describe('setKickOffTeamGoalScored()', function () {
 });
 describe('setSecondTeamGoalScored()', function () {
   it('second team in same position', async () => {
-    let itlocation = './init_config/iteration2.json';
-    let nextJSON = await setpieces.setSecondTeamGoalScored(itlocation);
+    const itlocation = './init_config/iteration2.json';
+    const nextJSON = await setpieces.setSecondTeamGoalScored(itlocation);
     expect(nextJSON.secondTeamStatistics.goals).to.eql(1);
-    for (let player of nextJSON.secondTeam.players) {
+    for (const player of nextJSON.secondTeam.players) {
       expect(player.currentPOS).to.eql(player.originPOS);
     }
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.name == 'Peter Johnson') {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.name === 'Peter Johnson') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
         );
-      } else if (player.name == 'Louise Johnson') {
+      } else if (player.name === 'Louise Johnson') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
@@ -141,15 +141,15 @@ describe('setSecondTeamGoalScored()', function () {
 });
 describe('setFreekick()', function () {
   it('kickoff team assigned a freekick', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeamStatistics.freekicks).to.eql(1);
   });
   it('second team assigned a freekick', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeamStatistics.freekicks).to.eql(1);
@@ -157,39 +157,40 @@ describe('setFreekick()', function () {
 });
 describe('setPenalties()', function () {
   it('kickoff team assigned a bottom penalty', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteambottompenalty.json';
-    let nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
-    let penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
+    const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
+    const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
   it('second team assigned a bottom penalty', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/secondteambottompenalty.json';
-    let nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
-    let penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
+    const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
+    const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
   it('kickoff team assigned a top penalty', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
-    let penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
+    const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
+    const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
   it('second team assigned a top penalty', async () => {
-    let itlocation = './test/input/boundaryPositions/secondteamtoppenalty.json';
-    let nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
-    let penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
+    const itlocation =
+      './test/input/boundaryPositions/secondteamtoppenalty.json';
+    const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
+    const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
@@ -198,10 +199,10 @@ describe('setPenalties()', function () {
 });
 describe('testPenalties()', function () {
   it('top penalty returns kick off team players in the positions', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.setupTopPenalty(itlocation);
-    let pitchWidth = nextJSON.pitchSize[0];
+    const nextJSON = await setpieces.setupTopPenalty(itlocation);
+    const pitchWidth = nextJSON.pitchSize[0];
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeam.teamID).to.eql(nextJSON.ball.withTeam);
@@ -211,15 +212,15 @@ describe('testPenalties()', function () {
       pitchWidth / 2,
       60,
     ]);
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[10].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[10].playerID) {
         expect(player.currentPOS[1]).to.be.gt(
           nextJSON.kickOffTeam.players[10].currentPOS[1],
         );
       }
     }
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[0].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS[1]).to.be.gt(
           nextJSON.kickOffTeam.players[10].currentPOS[1],
         );
@@ -227,10 +228,10 @@ describe('testPenalties()', function () {
     }
   });
   it('bottom penalty returns kick off team players in the correct positions', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteambottompenalty.json';
-    let nextJSON = await setpieces.setupBottomPenalty(itlocation);
-    let [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+    const nextJSON = await setpieces.setupBottomPenalty(itlocation);
+    const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeam.teamID).to.eql(nextJSON.ball.withTeam);
@@ -240,15 +241,15 @@ describe('testPenalties()', function () {
       pitchWidth / 2,
       pitchHeight - 60,
     ]);
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[10].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[10].playerID) {
         expect(player.currentPOS[1]).to.be.lt(
           nextJSON.kickOffTeam.players[10].currentPOS[1],
         );
       }
     }
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[0].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS[1]).to.be.lt(
           nextJSON.kickOffTeam.players[10].currentPOS[1],
         );
@@ -256,9 +257,10 @@ describe('testPenalties()', function () {
     }
   });
   it('top penalty returns second team players in the correct positions', async () => {
-    let itlocation = './test/input/boundaryPositions/secondteamtoppenalty.json';
-    let nextJSON = await setpieces.setupTopPenalty(itlocation);
-    let pitchWidth = nextJSON.pitchSize[0];
+    const itlocation =
+      './test/input/boundaryPositions/secondteamtoppenalty.json';
+    const nextJSON = await setpieces.setupTopPenalty(itlocation);
+    const pitchWidth = nextJSON.pitchSize[0];
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeam.teamID).to.eql(nextJSON.ball.withTeam);
@@ -268,15 +270,15 @@ describe('testPenalties()', function () {
       pitchWidth / 2,
       60,
     ]);
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[10].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[10].playerID) {
         expect(player.currentPOS[1]).to.be.gt(
           nextJSON.secondTeam.players[10].currentPOS[1],
         );
       }
     }
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[0].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS[1]).to.be.gt(
           nextJSON.secondTeam.players[10].currentPOS[1],
         );
@@ -284,10 +286,10 @@ describe('testPenalties()', function () {
     }
   });
   it('bottom penalty returns second team players in the correct positions', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/secondteambottompenalty.json';
-    let nextJSON = await setpieces.setupBottomPenalty(itlocation);
-    let [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+    const nextJSON = await setpieces.setupBottomPenalty(itlocation);
+    const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.secondTeam.teamID).to.eql(nextJSON.ball.withTeam);
@@ -297,15 +299,15 @@ describe('testPenalties()', function () {
       pitchWidth / 2,
       pitchHeight - 60,
     ]);
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.playerID != nextJSON.secondTeam.players[10].playerID) {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.playerID !== nextJSON.secondTeam.players[10].playerID) {
         expect(player.currentPOS[1]).to.be.lt(
           nextJSON.secondTeam.players[10].currentPOS[1],
         );
       }
     }
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.playerID != nextJSON.kickOffTeam.players[0].playerID) {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS[1]).to.be.lt(
           nextJSON.secondTeam.players[10].currentPOS[1],
         );
@@ -316,16 +318,16 @@ describe('testPenalties()', function () {
 
 describe('testCorners()', function () {
   it('attacking team players are in relevant halves top left corner', async () => {
-    let itlocation = './init_config/iteration.json';
+    const itlocation = './init_config/iteration.json';
 
-    let nextJSON = await setpieces.setupTopLeftCorner(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const nextJSON = await setpieces.setupTopLeftCorner(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.position == 'GK' || player.position == 'CB') {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.position === 'GK' || player.position === 'CB') {
         expect(player.currentPOS[1]).to.be.greaterThan(insideHalf);
-      } else if (player.position != 'LB' && player.position != 'RB') {
+      } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
@@ -336,16 +338,16 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves bottom Left corner', async () => {
-    let itlocation = './init_config/iteration.json';
+    const itlocation = './init_config/iteration.json';
 
-    let nextJSON = await setpieces.setupBottomLeftCorner(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const nextJSON = await setpieces.setupBottomLeftCorner(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.position == 'GK' || player.position == 'CB') {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.position === 'GK' || player.position === 'CB') {
         expect(player.currentPOS[1]).to.be.lessThan(insideHalf);
-      } else if (player.position != 'LB' && player.position != 'RB') {
+      } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
@@ -358,16 +360,16 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves bottom right corner', async () => {
-    let itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
-    let nextJSON = await setpieces.setupBottomRightCorner(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const nextJSON = await setpieces.setupBottomRightCorner(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
-    for (let player of nextJSON.secondTeam.players) {
-      if (player.position == 'GK' || player.position == 'CB') {
+    for (const player of nextJSON.secondTeam.players) {
+      if (player.position === 'GK' || player.position === 'CB') {
         expect(player.currentPOS[1]).to.be.lessThan(insideHalf);
-      } else if (player.position != 'LB' && player.position != 'RB') {
+      } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
@@ -380,16 +382,16 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves top right corner', async () => {
-    let itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
-    let nextJSON = await setpieces.setupTopRightCorner(itlocation);
-    let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const nextJSON = await setpieces.setupTopRightCorner(itlocation);
+    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
-    for (let player of nextJSON.kickOffTeam.players) {
-      if (player.position == 'GK' || player.position == 'CB') {
+    for (const player of nextJSON.kickOffTeam.players) {
+      if (player.position === 'GK' || player.position === 'CB') {
         expect(player.currentPOS[1]).to.be.greaterThan(insideHalf);
-      } else if (player.position != 'LB' && player.position != 'RB') {
+      } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
@@ -402,8 +404,8 @@ describe('testCorners()', function () {
 });
 describe('testThrowIns()', function () {
   it('kick off team left throw in', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setLeftKickOffTeamThrowIn(
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setLeftKickOffTeamThrowIn(
       itlocation,
       [-5, 120],
     );
@@ -433,8 +435,8 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team left throw in', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setLeftSecondTeamThrowIn(
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setLeftSecondTeamThrowIn(
       itlocation,
       [-5, 120],
     );
@@ -464,8 +466,8 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
   it('kick off team right throw in', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setRightKickOffTeamThrowIn(
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setRightKickOffTeamThrowIn(
       itlocation,
       [1200, 120],
     );
@@ -495,8 +497,8 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team right throw in', async () => {
-    let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.setRightSecondTeamThrowIn(
+    const itlocation = './init_config/iteration.json';
+    const nextJSON = await setpieces.setRightSecondTeamThrowIn(
       itlocation,
       [1200, 120],
     );
@@ -528,35 +530,35 @@ describe('testThrowIns()', function () {
 });
 describe('setPenalties()', function () {
   it('in bottom penalty area', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteambottompenalty.json';
-    let isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
+    const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
   it('in top penalty area', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
+    const isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
   it('not in bottom penalty area', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
-    let isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
+    const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(false);
   });
   it('not in top penalty area', async () => {
-    let itlocation =
+    const itlocation =
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
-    let isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
+    const isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(false);
   });
 });
 
 describe('setGoalieHasBall()', function () {
   it('checkGoalieHasBall', async () => {
-    let itlocation = './init_config/iteration.json';
-    let goalieHasBallSetup = await setpieces.goalieHasBall(itlocation);
+    const itlocation = './init_config/iteration.json';
+    const goalieHasBallSetup = await setpieces.goalieHasBall(itlocation);
     expect(goalieHasBallSetup.kickOffTeam.players[0].hasBall).to.eql(true);
     expect(goalieHasBallSetup.ball.withPlayer).to.eql(true);
     expect(goalieHasBallSetup.ball.withTeam).to.eql('78883930303030002');

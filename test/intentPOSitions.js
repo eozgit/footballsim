@@ -4,18 +4,18 @@ const setPos = require('../lib/setPositions');
 
 describe('intentPOSitionsDefence()', function () {
   it('kickoff team defensive players move towards ball on opposite side', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf2.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    let ballPosition = matchDetails.ball.position;
+    const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.kickOffTeam.players) {
-      if (player.playerID == closestPlayer.playerID)
+    for (const player of matchDetails.kickOffTeam.players) {
+      if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
         expect(player.intentPOS).to.eql([
@@ -25,22 +25,22 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players move towards ball on opposite side with player near', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf3.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    let ballPosition = matchDetails.ball.position;
+    const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.kickOffTeam.players) {
-      let diffXPOSplayerandball = ballPosition[0] - player.currentPOS[0];
-      let diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
-      let xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
-      let yPosProx = common.isBetween(diffYPOSplayerandball, -40, 40);
-      if (player.playerID == closestPlayer.playerID)
+    for (const player of matchDetails.kickOffTeam.players) {
+      const diffXPOSplayerandball = ballPosition[0] - player.currentPOS[0];
+      const diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
+      const xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
+      const yPosProx = common.isBetween(diffYPOSplayerandball, -40, 40);
+      if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else if (xPosProx && yPosProx)
         expect(player.intentPOS).to.eql(ballPosition);
@@ -52,18 +52,18 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('secondteam defensive players move towards ball on opposite side', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    let ballPosition = matchDetails.ball.position;
+    const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.secondTeam.players) {
-      if (player.playerID == closestPlayer.playerID)
+    for (const player of matchDetails.secondTeam.players) {
+      if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
         expect(player.intentPOS).to.eql([
@@ -73,40 +73,40 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players ball in own half', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf2.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
-    let ballPosition = matchDetails.ball.position;
+    const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
-    for (let playerNum of [0, 1, 2, 3, 4]) {
-      let thisPlayer = matchDetails.kickOffTeam.players[playerNum];
-      if (thisPlayer.playerID == closestPlayer.playerID)
+    for (const playerNum of [0, 1, 2, 3, 4]) {
+      const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
+      if (thisPlayer.playerID === closestPlayer.playerID)
         expect(thisPlayer.intentPOS).to.eql(ballPosition);
       else expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
     }
-    for (let playerNum of [5, 6, 7, 8, 9, 10]) {
-      let thisPlayer = matchDetails.kickOffTeam.players[playerNum];
+    for (const playerNum of [5, 6, 7, 8, 9, 10]) {
+      const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
       expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
     }
   });
   it('second team defensive players ball in own half', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    let ballPosition = matchDetails.ball.position;
+    const ballPosition = matchDetails.ball.position;
     ballPosition.pop();
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.secondTeam.players) {
-      if (player.playerID == closestPlayer.playerID)
+    for (const player of matchDetails.secondTeam.players) {
+      if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else expect(player.intentPOS).to.eql(player.originPOS);
     }
@@ -114,14 +114,14 @@ describe('intentPOSitionsDefence()', function () {
 });
 describe('intentPOSitionsAttacking()', function () {
   it('kickoff team attacking from behind originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.kickOffTeam.players) {
+    for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] + 20,
@@ -129,14 +129,14 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.kickOffTeam.players) {
+    for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] + 20,
@@ -144,14 +144,14 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from ahead of originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.kickOffTeam.players) {
+    for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] + 20,
@@ -159,14 +159,14 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from behind originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin2.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.secondTeam.players) {
+    for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] - 20,
@@ -174,14 +174,14 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin2.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.secondTeam.players) {
+    for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] - 20,
@@ -189,14 +189,14 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from ahead of originPOS', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin2.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
-    for (let player of matchDetails.secondTeam.players) {
+    for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
         player.currentPOS[1] - 20,
@@ -204,15 +204,15 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking in own half from top', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf4.json',
     );
-    let closestPlayer = await common.readFile(
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.kickOffTeam.players) {
+    for (const player of matchDetails.kickOffTeam.players) {
       if (!player.hasBall) {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
@@ -222,32 +222,32 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team deep in opposition half do not exceed forward limits', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTdeep.json',
     );
-    let [, pitchHeight] = matchDetails.pitchSize;
-    let closestPlayer = await common.readFile(
+    const [, pitchHeight] = matchDetails.pitchSize;
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.kickOffTeam.players) {
-      if (player.position == 'GK') {
+    for (const player of matchDetails.kickOffTeam.players) {
+      if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.15, 10),
         ]);
-      } else if (player.position == 'CB') {
+      } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.25, 10),
         ]);
-      } else if (player.position == 'LB' || player.position == 'RB') {
+      } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.66, 10),
         ]);
-      } else if (player.position == 'CM') {
+      } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.75, 10),
@@ -258,32 +258,32 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team deep in opposition half do not exceed forward limits', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/intentPositionATTdeep2.json',
     );
-    let [, pitchHeight] = matchDetails.pitchSize;
-    let closestPlayer = await common.readFile(
+    const [, pitchHeight] = matchDetails.pitchSize;
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
-    for (let player of matchDetails.secondTeam.players) {
-      if (player.position == 'GK') {
+    for (const player of matchDetails.secondTeam.players) {
+      if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.85, 10),
         ]);
-      } else if (player.position == 'CB') {
+      } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.75, 10),
         ]);
-      } else if (player.position == 'LB' || player.position == 'RB') {
+      } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.33, 10),
         ]);
-      } else if (player.position == 'CM') {
+      } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           parseInt(pitchHeight * 0.25, 10),
@@ -296,11 +296,11 @@ describe('intentPOSitionsAttacking()', function () {
 });
 describe('intentPOSitionsLooseBall()', function () {
   it('kickoff team moves towards ball', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/looseBall.json',
     );
-    let { kickOffTeam } = matchDetails;
-    let closestPlayer = await common.readFile(
+    const { kickOffTeam } = matchDetails;
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -348,11 +348,11 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/looseBall2.json',
     );
-    let { secondTeam } = matchDetails;
-    let closestPlayer = await common.readFile(
+    const { secondTeam } = matchDetails;
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -400,11 +400,11 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball player near ball', async () => {
-    let matchDetails = await common.readFile(
+    const matchDetails = await common.readFile(
       './test/input/boundaryPositions/looseBall3.json',
     );
-    let { secondTeam } = matchDetails;
-    let closestPlayer = await common.readFile(
+    const { secondTeam } = matchDetails;
+    const closestPlayer = await common.readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);

@@ -4,13 +4,13 @@ const common = require('../lib/common');
 
 describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 1', async () => {
-    let inputIteration = './test/input/closestPositions/closest1.json';
-    let matchInfo = await common.readFile(inputIteration);
-    let closestPlayerA = {
+    const inputIteration = './test/input/closestPositions/closest1.json';
+    const matchInfo = await common.readFile(inputIteration);
+    const closestPlayerA = {
       name: '',
       position: 10000,
     };
-    let closestPlayerB = {
+    const closestPlayerB = {
       name: '',
       position: 10000,
     };
@@ -28,13 +28,13 @@ describe('testClosestPlayer()', function () {
     expect(closestPlayerB).to.eql({ name: 'Wayne Smith', position: 229 });
   });
   it('find the closest player to the ball - test 2', async () => {
-    let inputIteration = './test/input/closestPositions/closest2.json';
-    let matchInfo = await common.readFile(inputIteration);
-    let closestPlayerA = {
+    const inputIteration = './test/input/closestPositions/closest2.json';
+    const matchInfo = await common.readFile(inputIteration);
+    const closestPlayerA = {
       name: '',
       position: 10000,
     };
-    let closestPlayerB = {
+    const closestPlayerB = {
       name: '',
       position: 10000,
     };
@@ -52,13 +52,13 @@ describe('testClosestPlayer()', function () {
     expect(closestPlayerB).to.eql({ name: 'Wayne Smith', position: 227 });
   });
   it('find the closest player to the ball - test 3', async () => {
-    let inputIteration = './test/input/closestPositions/closest3.json';
-    let matchInfo = await common.readFile(inputIteration);
-    let closestPlayerA = {
+    const inputIteration = './test/input/closestPositions/closest3.json';
+    const matchInfo = await common.readFile(inputIteration);
+    const closestPlayerA = {
       name: '',
       position: 10000,
     };
-    let closestPlayerB = {
+    const closestPlayerB = {
       name: '',
       position: 10000,
     };
@@ -76,13 +76,13 @@ describe('testClosestPlayer()', function () {
     expect(closestPlayerB).to.eql({ name: 'Emily Smith', position: 66.5 });
   });
   it('find the closest player to the ball - test 4', async () => {
-    let inputIteration = './test/input/closestPositions/closest4.json';
-    let matchInfo = await common.readFile(inputIteration);
-    let closestPlayerA = {
+    const inputIteration = './test/input/closestPositions/closest4.json';
+    const matchInfo = await common.readFile(inputIteration);
+    const closestPlayerA = {
       name: '',
       position: 10000,
     };
-    let closestPlayerB = {
+    const closestPlayerB = {
       name: '',
       position: 10000,
     };

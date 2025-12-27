@@ -7,36 +7,44 @@ console.error = function () {};
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
 
-    let initJSON = await validation.initGame(t1location, t2location, plocation);
+    const initJSON = await validation.initGame(
+      t1location,
+      t2location,
+      plocation,
+    );
 
     expect(initJSON).to.be.an('object');
   });
   it('playIteration returns an Object', async () => {
-    let providedItJson = './init_config/iteration.json';
+    const providedItJson = './init_config/iteration.json';
 
-    let outputIteration = await validation.playIteration(providedItJson);
+    const outputIteration = await validation.playIteration(providedItJson);
 
     expect(outputIteration).to.be.an('object');
   });
   it('start second half returns an Object', async () => {
-    let providedItJson = './init_config/iteration.json';
+    const providedItJson = './init_config/iteration.json';
 
-    let shJSON = await validation.setupSecondHalf(providedItJson);
+    const shJSON = await validation.setupSecondHalf(providedItJson);
 
     expect(shJSON).to.be.an('object');
   });
 });
 describe('testValidationOfBadInitInputData()', function () {
   it('init game fails on pitch height', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './test/input/badInput/badPitchHeight.json';
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './test/input/badInput/badPitchHeight.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -46,11 +54,15 @@ describe('testValidationOfBadInitInputData()', function () {
     }
   });
   it('init game fails on pitch width', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './test/input/badInput/badPitchWidth.json';
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './test/input/badInput/badPitchWidth.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -60,11 +72,15 @@ describe('testValidationOfBadInitInputData()', function () {
     }
   });
   it('init game fails on bad team name', async () => {
-    let t1location = './test/input/badInput/badTeamName.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './test/input/badInput/badTeamName.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -72,11 +88,15 @@ describe('testValidationOfBadInitInputData()', function () {
     }
   });
   it('init game fails on not enough players', async () => {
-    let t1location = './test/input/badInput/notEnoughPlayers.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './test/input/badInput/notEnoughPlayers.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -86,25 +106,33 @@ describe('testValidationOfBadInitInputData()', function () {
     }
   });
   it('init game fails on player no strength', async () => {
-    let t1location = './test/input/badInput/playerNoStrength.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './test/input/badInput/playerNoStrength.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      let expectedString =
+      const expectedString =
         'Provide skills: passing,shooting,tackling,saving,agility,strength,penalty_taking,jumping';
       expect(err.toString()).to.have.string(expectedString);
     }
   });
   it('init game fails on player no injury', async () => {
-    let t1location = './test/input/badInput/noInjury.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './test/input/badInput/noInjury.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -114,11 +142,15 @@ describe('testValidationOfBadInitInputData()', function () {
     }
   });
   it('init game fails on player no fitness', async () => {
-    let t1location = './test/input/badInput/noFitness.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
+    const t1location = './test/input/badInput/noFitness.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
     try {
-      let output = await validation.initGame(t1location, t2location, plocation);
+      const output = await validation.initGame(
+        t1location,
+        t2location,
+        plocation,
+      );
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -130,9 +162,9 @@ describe('testValidationOfBadInitInputData()', function () {
 });
 describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no player name', async () => {
-    let providedItJson = './test/input/badInput/noPlayerNameIteration.json';
+    const providedItJson = './test/input/badInput/noPlayerNameIteration.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -142,9 +174,9 @@ describe('testValidationOfBadIterationInputData()', function () {
     }
   });
   it('playIteration no half', async () => {
-    let providedItJson = './test/input/badInput/noHalf.json';
+    const providedItJson = './test/input/badInput/noHalf.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -154,21 +186,21 @@ describe('testValidationOfBadIterationInputData()', function () {
     }
   });
   it('playIteration no ball with team', async () => {
-    let providedItJson = './test/input/badInput/noBallWithTeam.json';
+    const providedItJson = './test/input/badInput/noBallWithTeam.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      let expectedOutput =
+      const expectedOutput =
         'Provide: position,withPlayer,Player,withTeam,direction,ballOverIterations';
       expect(err.toString()).to.have.string(expectedOutput);
     }
   });
   it('playIteration no current pos', async () => {
-    let providedItJson = './test/input/badInput/nocurrentPOS.json';
+    const providedItJson = './test/input/badInput/nocurrentPOS.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -178,9 +210,9 @@ describe('testValidationOfBadIterationInputData()', function () {
     }
   });
   it('playIteration no iteration log', async () => {
-    let providedItJson = './test/input/badInput/noIterationLog.json';
+    const providedItJson = './test/input/badInput/noIterationLog.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -192,9 +224,9 @@ describe('testValidationOfBadIterationInputData()', function () {
 });
 describe('testValidationOfSecondHalfInputData()', function () {
   it('start second half no intent', async () => {
-    let providedItJson = './test/input/badInput/secondHalfNoIntent.json';
+    const providedItJson = './test/input/badInput/secondHalfNoIntent.json';
     try {
-      let shJSON = await validation.setupSecondHalf(providedItJson);
+      const shJSON = await validation.setupSecondHalf(providedItJson);
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -202,9 +234,9 @@ describe('testValidationOfSecondHalfInputData()', function () {
     }
   });
   it('start second half no kick off team', async () => {
-    let providedItJson = './test/input/badInput/secondHalfNoKickoffTeam.json';
+    const providedItJson = './test/input/badInput/secondHalfNoKickoffTeam.json';
     try {
-      let shJSON = await validation.setupSecondHalf(providedItJson);
+      const shJSON = await validation.setupSecondHalf(providedItJson);
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -214,9 +246,9 @@ describe('testValidationOfSecondHalfInputData()', function () {
     }
   });
   it('start second half no red card', async () => {
-    let providedItJson = './test/input/badInput/secondHalfNoRedCard.json';
+    const providedItJson = './test/input/badInput/secondHalfNoRedCard.json';
     try {
-      let shJSON = await validation.setupSecondHalf(providedItJson);
+      const shJSON = await validation.setupSecondHalf(providedItJson);
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -228,12 +260,12 @@ describe('testValidationOfSecondHalfInputData()', function () {
 });
 describe('testObjectIDsInitiateGame()', function () {
   it('object id given to match', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
-    let output = await validation.initGame(t1location, t2location, plocation);
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
+    const output = await validation.initGame(t1location, t2location, plocation);
     expect(output.matchID).to.be.an('number');
-    let idNumberBetweenOutliers = common.isBetween(
+    const idNumberBetweenOutliers = common.isBetween(
       output.matchID,
       1000000000000,
       999999999999999,
@@ -241,19 +273,19 @@ describe('testObjectIDsInitiateGame()', function () {
     expect(idNumberBetweenOutliers).to.eql(true);
   });
   it('object id given to team', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
-    let output = await validation.initGame(t1location, t2location, plocation);
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
+    const output = await validation.initGame(t1location, t2location, plocation);
     expect(output.kickOffTeam.teamID).to.be.an('number');
-    let idNumberBetweenKOTOutliers = common.isBetween(
+    const idNumberBetweenKOTOutliers = common.isBetween(
       output.kickOffTeam.teamID,
       1000000000000,
       999999999999999,
     );
     expect(idNumberBetweenKOTOutliers).to.eql(true);
     expect(output.secondTeam.teamID).to.be.an('number');
-    let idNumberBetweenSTOutliers = common.isBetween(
+    const idNumberBetweenSTOutliers = common.isBetween(
       output.secondTeam.teamID,
       1000000000000,
       999999999999999,
@@ -261,13 +293,13 @@ describe('testObjectIDsInitiateGame()', function () {
     expect(idNumberBetweenSTOutliers).to.eql(true);
   });
   it('object id given to players', async () => {
-    let t1location = './init_config/team1.json';
-    let t2location = './init_config/team2.json';
-    let plocation = './init_config/pitch.json';
-    let output = await validation.initGame(t1location, t2location, plocation);
-    for (let player of output.kickOffTeam.players) {
+    const t1location = './init_config/team1.json';
+    const t2location = './init_config/team2.json';
+    const plocation = './init_config/pitch.json';
+    const output = await validation.initGame(t1location, t2location, plocation);
+    for (const player of output.kickOffTeam.players) {
       expect(player.playerID).to.be.an('number');
-      let idNumberBetweenOutliers = common.isBetween(
+      const idNumberBetweenOutliers = common.isBetween(
         player.playerID,
         1000000000000,
         999999999999999,
@@ -278,9 +310,9 @@ describe('testObjectIDsInitiateGame()', function () {
 });
 describe('testObjectIDsIteration()', function () {
   it('match id validation', async () => {
-    let providedItJson = './test/input/badInput/noMatchID.json';
+    const providedItJson = './test/input/badInput/noMatchID.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -290,9 +322,9 @@ describe('testObjectIDsIteration()', function () {
     }
   });
   it('team id validation', async () => {
-    let providedItJson = './test/input/badInput/noTeamID.json';
+    const providedItJson = './test/input/badInput/noTeamID.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -300,9 +332,9 @@ describe('testObjectIDsIteration()', function () {
     }
   });
   it('player id validation', async () => {
-    let providedItJson = './test/input/badInput/noPlayerID.json';
+    const providedItJson = './test/input/badInput/noPlayerID.json';
     try {
-      let outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIteration(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -324,19 +356,19 @@ describe('otherValidationTests()', function () {
     }
   });
   it('validate team even if not in JSON format', async () => {
-    let team = await validation.readFile('./init_config/team1.json');
+    const team = await validation.readFile('./init_config/team1.json');
     expect(validation.validateTeam(team)).to.not.be.an('Error');
   });
   it('validate team in second half even if not in JSON format', async () => {
-    let iteration = await common.readFile('./init_config/iteration.json');
-    let team = JSON.stringify(iteration.kickOffTeam);
+    const iteration = await common.readFile('./init_config/iteration.json');
+    const team = JSON.stringify(iteration.kickOffTeam);
     expect(validation.validateTeamSecondHalf(team)).to.not.be.an('Error');
   });
   it('validate team in second half with no team name', async () => {
-    let iteration = await common.readFile('./init_config/iteration.json');
+    const iteration = await common.readFile('./init_config/iteration.json');
     delete iteration.kickOffTeam.name;
     try {
-      let team = JSON.stringify(iteration.kickOffTeam);
+      const team = JSON.stringify(iteration.kickOffTeam);
       expect(validation.validateTeamSecondHalf(team)).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');

@@ -66,7 +66,7 @@ describe('testCommonFunction()', function () {
   });
   it('read file', async () => {
     let pitch = await common.readFile('./init_config/pitch.json');
-    let testPitchData = {
+    const testPitchData = {
       pitchWidth: 680,
       pitchHeight: 1050,
       goalWidth: 90,
@@ -77,13 +77,13 @@ describe('testCommonFunction()', function () {
       expect(pitch).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      let errorText =
+      const errorText =
         "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
       expect(err.toString()).to.have.string(errorText);
     }
   });
   it('is injured', async () => {
-    let number = common.isInjured(1);
+    const number = common.isInjured(1);
     expect(number).to.eql(false);
   });
   it('is even', async () => {
