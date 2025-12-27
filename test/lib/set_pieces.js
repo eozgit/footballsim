@@ -161,7 +161,10 @@ async function goalieHasBall(iterationFile) {
   let matchDetails = await common.readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });
-  return setPos.setGoalieHasBall(matchDetails, matchDetails.kickOffTeam.players[0]);
+  return setPos.setGoalieHasBall(
+    matchDetails,
+    matchDetails.kickOffTeam.players[0],
+  );
 }
 
 module.exports = {

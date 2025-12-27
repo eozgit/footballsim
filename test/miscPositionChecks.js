@@ -22,11 +22,14 @@ describe('switchTeamSides()', function () {
     let itlocation = './init_config/iteration.json';
     let matchDetails = await common.readFile(itlocation);
     var testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
-    let nextJSON = await setpieces.switchSide(matchDetails, matchDetails.kickOffTeam);
+    let nextJSON = await setpieces.switchSide(
+      matchDetails,
+      matchDetails.kickOffTeam,
+    );
 
     for (let playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
-        nextJSON.kickOffTeam.players[playerNum].originPOS
+        nextJSON.kickOffTeam.players[playerNum].originPOS,
       );
     }
   });
@@ -34,11 +37,14 @@ describe('switchTeamSides()', function () {
     let itlocation = './init_config/iteration.json';
     let matchDetails = await common.readFile(itlocation);
     var testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
-    let nextJSON = await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
+    let nextJSON = await setpieces.switchSide(
+      matchDetails,
+      matchDetails.secondTeam,
+    );
 
     for (let playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
-        nextJSON.secondTeam.players[playerNum].originPOS
+        nextJSON.secondTeam.players[playerNum].originPOS,
       );
     }
   });
@@ -48,7 +54,10 @@ describe('switchTeamSides()', function () {
     delete matchDetails.secondTeam.players[0].originPOS;
 
     try {
-      let nextJSON = await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
+      let nextJSON = await setpieces.switchSide(
+        matchDetails,
+        matchDetails.secondTeam,
+      );
       expect(nextJSON).to.be.an(Object);
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -60,7 +69,10 @@ describe('switchTeamSides()', function () {
     let itlocation = './init_config/iteration.json';
     let matchDetails = await common.readFile(itlocation);
     matchDetails.secondTeam.players[0].fitness = 10;
-    let nextJSON = await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
+    let nextJSON = await setpieces.switchSide(
+      matchDetails,
+      matchDetails.secondTeam,
+    );
 
     expect(nextJSON.secondTeam.players[0].fitness).to.eql(60);
   });

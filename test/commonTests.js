@@ -77,7 +77,8 @@ describe('testCommonFunction()', function () {
       expect(pitch).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      let errorText = "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
+      let errorText =
+        "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
       expect(err.toString()).to.have.string(errorText);
     }
   });

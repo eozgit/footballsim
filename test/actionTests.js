@@ -14,169 +14,333 @@ describe('testPositionInTopBox()', function () {
     expect(inPosition).to.be.eql(false);
   });
   it('Outside Top Box Right', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBox([660, 100], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBox(
+      [660, 100],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Outside Top Box Below', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBox([300, 1000], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBox(
+      [300, 1000],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
 });
 describe('testPositionInTopClose()', function () {
   it('Inside Top Box Close Test', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBoxClose([330, 10], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBoxClose(
+      [330, 10],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(true);
-    inPosition = actions.checkPositionInTopPenaltyBoxClose([300, 50], 680, 1050);
+    inPosition = actions.checkPositionInTopPenaltyBoxClose(
+      [300, 50],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(true);
   });
   it('Outside Top Box Close Left', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBoxClose([10, 10], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBoxClose(
+      [10, 10],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Outside Top Box Close Right', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBoxClose([660, 100], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBoxClose(
+      [660, 100],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Outside Top Box Close Below', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBoxClose([300, 1000], 680, 1050);
+    let inPosition = actions.checkPositionInTopPenaltyBoxClose(
+      [300, 1000],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
 });
 describe('testPositionInBottomBox()', function () {
   it('Inside Bottom Box Close Test', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBox([345, 1010], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBox(
+      [345, 1010],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(true);
     inPosition = actions.checkPositionInBottomPenaltyBox([295, 975], 680, 1050);
     expect(inPosition).to.be.eql(true);
   });
   it('Inside Bottom Box Close Left', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBox([1, 1010], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBox(
+      [1, 1010],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Inside Bottom Box Close Right', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBox([677, 1040], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBox(
+      [677, 1040],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Inside Bottom Box Close Above', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBox([677, 500], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBox(
+      [677, 500],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
 });
 describe('testPositionInBottomBoxClose()', function () {
   it('Inside Bottom Box Test', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose([345, 1010], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose(
+      [345, 1010],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(true);
-    inPosition = actions.checkPositionInBottomPenaltyBoxClose([295, 975], 680, 1050);
+    inPosition = actions.checkPositionInBottomPenaltyBoxClose(
+      [295, 975],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(true);
   });
   it('Inside Bottom Box Left', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose([1, 1010], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose(
+      [1, 1010],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Inside Bottom Box Right', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose([677, 1040], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose(
+      [677, 1040],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
   it('Inside Bottom Box Above', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose([677, 500], 680, 1050);
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose(
+      [677, 500],
+      680,
+      1050,
+    );
     expect(inPosition).to.be.eql(false);
   });
 });
 describe('noBallNotGK2CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [320, 1000], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBallBottomTeam(
+      matchDetails,
+      [320, 1000],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [320, 1000], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBallBottomTeam(
+      matchDetails,
+      [320, 1000],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [15, 500], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBallBottomTeam(
+      matchDetails,
+      [15, 500],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle, intercept and slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [604, 485], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBallBottomTeam(
+      matchDetails,
+      [604, 485],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
 });
 describe('noBallNotGK4CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [320, 1000], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBallBottomTeam(
+      matchDetails,
+      [320, 1000],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [320, 1000], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBallBottomTeam(
+      matchDetails,
+      [320, 1000],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [15, 500], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBallBottomTeam(
+      matchDetails,
+      [15, 500],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [604, 485], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBallBottomTeam(
+      matchDetails,
+      [604, 485],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
 });
 describe('noBallNotGK2CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK2CloseBall(matchDetails, [320, 15], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK2CloseBall(matchDetails, [320, 15], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (not own), tackle, intercept and slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK2CloseBall(matchDetails, [320, 15], [320, 805], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 805],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK2CloseBall(matchDetails, [320, 300], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBall(
+      matchDetails,
+      [320, 300],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, not in top Goal (own), tackle, intercept and slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK2CloseBall(matchDetails, [320, 300], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK2CloseBall(
+      matchDetails,
+      [320, 300],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
 });
 describe('noBallNotGK4CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK4CloseBall(matchDetails, [320, 15], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK4CloseBall(matchDetails, [320, 15], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (not own), tackle slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK4CloseBall(matchDetails, [320, 15], [320, 805], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBall(
+      matchDetails,
+      [320, 15],
+      [320, 805],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
     let matchDetails = { ball: { withPlayer: false } };
-    let parameters = actions.noBallNotGK4CloseBall(matchDetails, [320, 300], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBall(
+      matchDetails,
+      [320, 300],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, not in top Goal (own), tackle slide', async () => {
     let matchDetails = { ball: { withPlayer: true } };
-    let parameters = actions.noBallNotGK4CloseBall(matchDetails, [320, 300], [320, 5], 680, 1050);
+    let parameters = actions.noBallNotGK4CloseBall(
+      matchDetails,
+      [320, 300],
+      [320, 5],
+      680,
+      1050,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
 });
@@ -202,19 +366,34 @@ describe('playerDoesNotHaveBall()', function () {
   it('Midfielder - within 20 - No Player has ball - run sprint', async () => {
     let player = { position: 'CM', currentPOS: [320, 15], originPOS: [320, 5] };
     let matchDetails = { pitchSize: [680, 1050], ball: { withPlayer: false } };
-    let parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
+    let parameters = actions.playerDoesNotHaveBall(
+      player,
+      15,
+      12,
+      matchDetails,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Midfielder - within 20 - No Player has ball - intercept run sprint', async () => {
     let player = { position: 'CM', currentPOS: [320, 15], originPOS: [320, 5] };
     let matchDetails = { pitchSize: [680, 1050], ball: { withPlayer: true } };
-    let parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
+    let parameters = actions.playerDoesNotHaveBall(
+      player,
+      15,
+      12,
+      matchDetails,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Striker - over 20 - No Player has ball - intercept run sprint', async () => {
     let player = { position: 'ST', currentPOS: [320, 15], originPOS: [320, 5] };
     let matchDetails = { pitchSize: [680, 1050], ball: { withPlayer: true } };
-    let parameters = actions.playerDoesNotHaveBall(player, 105, 88, matchDetails);
+    let parameters = actions.playerDoesNotHaveBall(
+      player,
+      105,
+      88,
+      matchDetails,
+    );
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0]);
   });
 });
@@ -338,7 +517,7 @@ describe('checkPlayerIsDistanceFromPosition()', function () {
 describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   it('Top Box Close, not within space of goal, no opposition, no team mate, half/shooting skill from goal', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -347,13 +526,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
   it('Top Box Close, not within space of goal, no opposition, no team mate, 0/half skill from goal', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -364,13 +543,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -380,13 +559,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0]);
   });
   it('In Top Box Not close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -398,13 +577,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0]);
   });
   it('In Top Box Not close, No opposition ahead, no close team mate, within shooting skill distance from goal', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -416,13 +595,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Not Close, no close team mate, player ahead', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -435,13 +614,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0]);
   });
   it('In Top Box Close, player ahead, no close team mate, 0/half of shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -451,13 +630,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, no close team mate, half/full shooting range ', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -468,13 +647,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, close team mate', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -485,13 +664,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, no close team mate, further than shooting', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -502,13 +681,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, 0/half of shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -518,13 +697,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, half/shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -535,13 +714,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, < shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -552,13 +731,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, 0/half of shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -569,13 +748,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, half/shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -587,13 +766,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, over shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -605,13 +784,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, 0/half shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -622,13 +801,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, half/shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -639,13 +818,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, over shooting range', async () => {
     let matchDetails = await common.readFile(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json'
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
     let player = matchDetails.secondTeam.players[9];
     let team = matchDetails.secondTeam;
@@ -656,7 +835,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
       matchDetails,
       player,
       team,
-      opposition
+      opposition,
     );
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0]);
   });

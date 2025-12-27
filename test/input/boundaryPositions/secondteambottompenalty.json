@@ -638,5 +638,8 @@
     "penalties": 0,
     "fouls": 0
   },
-  "iterationLog": ["Closest Player to ball: Bill Johnson", "Closest Player to ball: Louise Johnson"]
+  "iterationLog": [
+    "Closest Player to ball: Bill Johnson",
+    "Closest Player to ball: Louise Johnson"
+  ]
 }

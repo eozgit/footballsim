@@ -633,5 +633,8 @@
     "penalties": 0,
     "fouls": 0
   },
-  "iterationLog": ["Closest Player to ball: George Johnson", "Closest Player to ball: Wayne Smith"]
+  "iterationLog": [
+    "Closest Player to ball: George Johnson",
+    "Closest Player to ball: Wayne Smith"
+  ]
 }

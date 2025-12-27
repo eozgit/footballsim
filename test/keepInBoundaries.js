@@ -5,79 +5,125 @@ const common = require('../lib/common');
 describe('testBoundariesForCorners1()', function () {
   it('expected Top Left Corner', async () => {
     let itlocation = './test/input/keepInBoundaries/topLeftCorner.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '53137486250364320', [25, -1]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '53137486250364320',
+      [25, -1],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - Dragons');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(insideHalf);
+    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Right Corner', async () => {
     let itlocation = './test/input/keepInBoundaries/topRightCorner.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '53137486250364320', [558, -1]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '53137486250364320',
+      [558, -1],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - Dragons');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(insideHalf);
+    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Left Corner', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [15, 100000]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [15, 100000],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(insideHalf);
+    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Right Corner', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [400, 100000]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [400, 100000],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(insideHalf);
+    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
 });
 describe('testBoundariesForCorners2()', function () {
   it('expected Top Left Corner', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [15, -1]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [15, -1],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(insideHalf);
+    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Right Corner', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [400, -1]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [400, -1],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(insideHalf);
+    expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Left Corner', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [15, 100000]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [15, 100000],
+    );
     let insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
-    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.greaterThan(insideHalf);
+    expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.greaterThan(
+      insideHalf,
+    );
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Right Corner', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [400, 100000]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [400, 100000],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -87,7 +133,11 @@ describe('testBoundariesForCorners2()', function () {
 describe('set throw in()', function () {
   it('expected kick off team throw in left', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [-1, 200]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [-1, 200],
+    );
     let throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -95,7 +145,11 @@ describe('set throw in()', function () {
   });
   it('expected kick off team throw in right', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [8000, 200]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [8000, 200],
+    );
     let throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -103,7 +157,11 @@ describe('set throw in()', function () {
   });
   it('expected second team throw in left', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [-1, 200]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [-1, 200],
+    );
     let throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -111,7 +169,11 @@ describe('set throw in()', function () {
   });
   it('expected second team throw in right', async () => {
     let itlocation = './test/input/boundaryPositions/setCorners2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [8000, 200]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [8000, 200],
+    );
     let throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -121,7 +183,11 @@ describe('set throw in()', function () {
 describe('goalKicks()', function () {
   it('expected Top Goal Kick', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [10, -1]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [10, -1],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -129,55 +195,89 @@ describe('goalKicks()', function () {
   });
   it('expected Bottom Goal Kick', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [10, 1500]);
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [10, 1500],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Goal Kick 2', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [500, -1]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [500, -1],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Goal Kick 2', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [500, 1500]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [500, 1500],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Goal Kick 3', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [50, -1]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [50, -1],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Goal Kick 4', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteambottompenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [400, -1]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [400, -1],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Goal Kick 5', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteambottompenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [500, 1500]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [500, 1500],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Goal Kick 6', async () => {
-    let itlocation = './test/input/boundaryPositions/secondteambottompenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [40, 1100]);
+    let itlocation =
+      './test/input/boundaryPositions/secondteambottompenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [40, 1100],
+    );
     let cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -187,40 +287,72 @@ describe('goalKicks()', function () {
 describe('goalScored()', function () {
   it('expected second team goal scored', async () => {
     let itlocation = './init_config/iteration2.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030002', [330, -1]);
-    let goalLog = nextJSON.iterationLog.indexOf('Goal Scored by - Emily Smith - (ThatTeam)');
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030002',
+      [330, -1],
+    );
+    let goalLog = nextJSON.iterationLog.indexOf(
+      'Goal Scored by - Emily Smith - (ThatTeam)',
+    );
 
     expect(nextJSON).to.be.an('object');
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected kick off team goal scored', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [330, 1500]);
-    let goalLog = nextJSON.iterationLog.indexOf('Goal Scored by - Peter Johnson - (ThisTeam)');
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [330, 1500],
+    );
+    let goalLog = nextJSON.iterationLog.indexOf(
+      'Goal Scored by - Peter Johnson - (ThisTeam)',
+    );
 
     expect(nextJSON).to.be.an('object');
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected kick off team goal scored 2', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [352, 1500]);
-    let goalLog = nextJSON.iterationLog.indexOf('Goal Scored by - Peter Johnson - (ThisTeam)');
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [352, 1500],
+    );
+    let goalLog = nextJSON.iterationLog.indexOf(
+      'Goal Scored by - Peter Johnson - (ThisTeam)',
+    );
 
     expect(nextJSON).to.be.an('object');
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected kick off team goal scored 3', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '78883930303030003', [330, -1]);
-    let goalLog = nextJSON.iterationLog.indexOf('Goal Scored by - Peter Johnson - (ThisTeam)');
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '78883930303030003',
+      [330, -1],
+    );
+    let goalLog = nextJSON.iterationLog.indexOf(
+      'Goal Scored by - Peter Johnson - (ThisTeam)',
+    );
 
     expect(nextJSON).to.be.an('object');
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected second team goal scored - own goal', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '53137486250364320', [349, 1500]);
-    let goalLog = nextJSON.iterationLog.indexOf('Goal Scored by - Peter Johnson - (ThatTeam)');
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '53137486250364320',
+      [349, 1500],
+    );
+    let goalLog = nextJSON.iterationLog.indexOf(
+      'Goal Scored by - Peter Johnson - (ThatTeam)',
+    );
 
     expect(nextJSON).to.be.an('object');
     expect(goalLog).to.be.greaterThan(-1);
@@ -228,8 +360,13 @@ describe('goalScored()', function () {
 });
 describe('no boundary()', function () {
   it('returns unchanged matchDetails', async () => {
-    let itlocation = './test/input/boundaryPositions/kickoffteamtoppenalty.json';
-    let nextJSON = await setpieces.keepInBoundaries(itlocation, '53137486250364320', [349, 200]);
+    let itlocation =
+      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+    let nextJSON = await setpieces.keepInBoundaries(
+      itlocation,
+      '53137486250364320',
+      [349, 200],
+    );
     let matchDetails = await common.readFile(itlocation);
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.ballIntended).to.eql([349, 200]);

@@ -40,7 +40,9 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide pitchWidth and pitchHeight');
+      expect(err.toString()).to.have.string(
+        'Please provide pitchWidth and pitchHeight',
+      );
     }
   });
   it('init game fails on pitch width', async () => {
@@ -52,7 +54,9 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide pitchWidth and pitchHeight');
+      expect(err.toString()).to.have.string(
+        'Please provide pitchWidth and pitchHeight',
+      );
     }
   });
   it('init game fails on bad team name', async () => {
@@ -76,7 +80,9 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('There must be 11 players in a team');
+      expect(err.toString()).to.have.string(
+        'There must be 11 players in a team',
+      );
     }
   });
   it('init game fails on player no strength', async () => {
@@ -102,7 +108,9 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: injured');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: injured',
+      );
     }
   });
   it('init game fails on player no fitness', async () => {
@@ -114,7 +122,9 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: fitness');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: fitness',
+      );
     }
   });
 });
@@ -126,7 +136,9 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: name');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: name',
+      );
     }
   });
   it('playIteration no half', async () => {
@@ -136,7 +148,9 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide valid match details JSON');
+      expect(err.toString()).to.have.string(
+        'Please provide valid match details JSON',
+      );
     }
   });
   it('playIteration no ball with team', async () => {
@@ -158,7 +172,9 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: currentPOS');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: currentPOS',
+      );
     }
   });
   it('playIteration no iteration log', async () => {
@@ -168,7 +184,9 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide valid match details JSON');
+      expect(err.toString()).to.have.string(
+        'Please provide valid match details JSON',
+      );
     }
   });
 });
@@ -190,7 +208,9 @@ describe('testValidationOfSecondHalfInputData()', function () {
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide valid match details JSON');
+      expect(err.toString()).to.have.string(
+        'Please provide valid match details JSON',
+      );
     }
   });
   it('start second half no red card', async () => {
@@ -200,7 +220,9 @@ describe('testValidationOfSecondHalfInputData()', function () {
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: stats');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: stats',
+      );
     }
   });
 });
@@ -211,7 +233,11 @@ describe('testObjectIDsInitiateGame()', function () {
     let plocation = './init_config/pitch.json';
     let output = await validation.initGame(t1location, t2location, plocation);
     expect(output.matchID).to.be.an('number');
-    let idNumberBetweenOutliers = common.isBetween(output.matchID, 1000000000000, 999999999999999);
+    let idNumberBetweenOutliers = common.isBetween(
+      output.matchID,
+      1000000000000,
+      999999999999999,
+    );
     expect(idNumberBetweenOutliers).to.eql(true);
   });
   it('object id given to team', async () => {
@@ -223,14 +249,14 @@ describe('testObjectIDsInitiateGame()', function () {
     let idNumberBetweenKOTOutliers = common.isBetween(
       output.kickOffTeam.teamID,
       1000000000000,
-      999999999999999
+      999999999999999,
     );
     expect(idNumberBetweenKOTOutliers).to.eql(true);
     expect(output.secondTeam.teamID).to.be.an('number');
     let idNumberBetweenSTOutliers = common.isBetween(
       output.secondTeam.teamID,
       1000000000000,
-      999999999999999
+      999999999999999,
     );
     expect(idNumberBetweenSTOutliers).to.eql(true);
   });
@@ -244,7 +270,7 @@ describe('testObjectIDsInitiateGame()', function () {
       let idNumberBetweenOutliers = common.isBetween(
         player.playerID,
         1000000000000,
-        999999999999999
+        999999999999999,
       );
       expect(idNumberBetweenOutliers).to.eql(true);
     }
@@ -258,7 +284,9 @@ describe('testObjectIDsIteration()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide valid match details JSON');
+      expect(err.toString()).to.have.string(
+        'Please provide valid match details JSON',
+      );
     }
   });
   it('team id validation', async () => {
@@ -278,7 +306,9 @@ describe('testObjectIDsIteration()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Player must contain JSON variable: playerID');
+      expect(err.toString()).to.have.string(
+        'Player must contain JSON variable: playerID',
+      );
     }
   });
 });
@@ -288,7 +318,9 @@ describe('otherValidationTests()', function () {
       validation.validateArguments('', '');
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('Please provide two teams and a pitch');
+      expect(err.toString()).to.have.string(
+        'Please provide two teams and a pitch',
+      );
     }
   });
   it('validate team even if not in JSON format', async () => {

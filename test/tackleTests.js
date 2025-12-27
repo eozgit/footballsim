@@ -58,9 +58,9 @@ describe('testSettingOfFoul()', function () {
     let thatPlayer = matchDetails.kickOffTeam.players[6];
     let testTackleTeam = matchDetails.secondTeam;
     actions.setFoul(matchDetails, testTackleTeam, testPlayer, thatPlayer);
-    expect(matchDetails.iterationLog.indexOf(`Foul against: ${thatPlayer.name}`)).to.be.greaterThan(
-      -1
-    );
+    expect(
+      matchDetails.iterationLog.indexOf(`Foul against: ${thatPlayer.name}`),
+    ).to.be.greaterThan(-1);
     expect(matchDetails.secondTeam.players[4].stats.tackles.fouls).to.eql(1);
   });
   it('foul is set', async () => {
@@ -69,9 +69,9 @@ describe('testSettingOfFoul()', function () {
     let thatPlayer = matchDetails.secondTeam.players[6];
     let testTackleTeam = matchDetails.kickOffTeam;
     actions.setFoul(matchDetails, testTackleTeam, testPlayer, thatPlayer);
-    expect(matchDetails.iterationLog.indexOf(`Foul against: ${thatPlayer.name}`)).to.be.greaterThan(
-      -1
-    );
+    expect(
+      matchDetails.iterationLog.indexOf(`Foul against: ${thatPlayer.name}`),
+    ).to.be.greaterThan(-1);
     expect(matchDetails.kickOffTeam.players[4].stats.tackles.fouls).to.eql(1);
   });
   it('injury test setting', async () => {
@@ -81,12 +81,16 @@ describe('testSettingOfFoul()', function () {
     actions.setInjury(matchDetails, thatPlayer, testPlayer, 14000, 15000);
     if (matchDetails.secondTeam.players[4].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
     if (matchDetails.kickOffTeam.players[6].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${thatPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${thatPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
   });
@@ -97,12 +101,16 @@ describe('testSettingOfFoul()', function () {
     actions.setInjury(matchDetails, thatPlayer, testPlayer, 23, 23);
     if (matchDetails.secondTeam.players[4].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
     if (matchDetails.kickOffTeam.players[6].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${thatPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${thatPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
   });
@@ -114,12 +122,16 @@ describe('testSettingOfFoul()', function () {
     actions.setInjury(matchDetails, thatPlayer, testPlayer, 23, 23);
     if (matchDetails.secondTeam.players[4].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
     if (matchDetails.kickOffTeam.players[6].injured == true) {
       expect(
-        matchDetails.iterationLog.indexOf(`Player Injured - ${thatPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Player Injured - ${thatPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
     }
   });
@@ -164,7 +176,12 @@ describe('testSetPostTackleBall()', function () {
     let testPlayer = matchDetails.secondTeam.players[4];
     let testTeam = matchDetails.secondTeam;
     let testOpposition = matchDetails.kickOffTeam;
-    actions.setPostTackleBall(matchDetails, testTeam, testOpposition, testPlayer);
+    actions.setPostTackleBall(
+      matchDetails,
+      testTeam,
+      testOpposition,
+      testPlayer,
+    );
     expect(matchDetails.ball.lastTouch.playerName).to.eql('Emily Smith');
     expect(matchDetails.ball.position).to.eql([600, 970]);
     expect(matchDetails.ball.Player).to.eql('78883930303030204');
@@ -227,35 +244,55 @@ describe('testSlideTackle()', function () {
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Slide tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Slide tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve slide tackle opposite ${x}`, async () => {
-      let matchDetails = await common.readFile('test/input/opposite/iterationSwitch.json');
+      let matchDetails = await common.readFile(
+        'test/input/opposite/iterationSwitch.json',
+      );
       let testPlayer = matchDetails.secondTeam.players[4];
       let testTeam = matchDetails.secondTeam;
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Slide tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Slide tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve slide tackle - failed ${x}`, async () => {
-      let matchDetails = await common.readFile('test/input/opposite/iterationSwitch.json');
+      let matchDetails = await common.readFile(
+        'test/input/opposite/iterationSwitch.json',
+      );
       let testPlayer = matchDetails.secondTeam.players[4];
       testPlayer.skill.tackling = 60;
       testPlayer.skill.strength = 32;
@@ -265,11 +302,19 @@ describe('testSlideTackle()', function () {
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Slide tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Slide tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
@@ -288,35 +333,55 @@ describe('testTackle()', function () {
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve tackle opposite ${x}`, async () => {
-      let matchDetails = await common.readFile('test/input/opposite/iterationSwitch.json');
+      let matchDetails = await common.readFile(
+        'test/input/opposite/iterationSwitch.json',
+      );
       let testPlayer = matchDetails.secondTeam.players[4];
       let testTeam = matchDetails.secondTeam;
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve tackle - failed ${x}`, async () => {
-      let matchDetails = await common.readFile('test/input/opposite/iterationSwitch.json');
+      let matchDetails = await common.readFile(
+        'test/input/opposite/iterationSwitch.json',
+      );
       let testPlayer = matchDetails.secondTeam.players[4];
       testPlayer.skill.tackling = 60;
       testPlayer.skill.strength = 32;
@@ -326,11 +391,19 @@ describe('testTackle()', function () {
       let testOpposition = matchDetails.kickOffTeam;
       actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
       expect(
-        matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`)
+        matchDetails.iterationLog.indexOf(
+          `Tackle attempted by: ${testPlayer.name}`,
+        ),
       ).to.be.greaterThan(-1);
-      let FTlog = matchDetails.iterationLog.indexOf(`Failed tackle by: ${testPlayer.name}`);
-      let STlog = matchDetails.iterationLog.indexOf(`Successful tackle by: ${testPlayer.name}`);
-      let FAlog = matchDetails.iterationLog.indexOf(`Foul against: Peter Johnson`);
+      let FTlog = matchDetails.iterationLog.indexOf(
+        `Failed tackle by: ${testPlayer.name}`,
+      );
+      let STlog = matchDetails.iterationLog.indexOf(
+        `Successful tackle by: ${testPlayer.name}`,
+      );
+      let FAlog = matchDetails.iterationLog.indexOf(
+        `Foul against: Peter Johnson`,
+      );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
       if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
       if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
@@ -341,33 +414,63 @@ describe('testTackle()', function () {
 });
 describe('checkCards()', function () {
   it('completeSlide - test 1', async () => {
-    let matchDetails = await common.readFile('test/input/tackleTests/completeSlide.json');
+    let matchDetails = await common.readFile(
+      'test/input/tackleTests/completeSlide.json',
+    );
     let team = matchDetails.kickOffTeam;
     let opp = matchDetails.secondTeam;
     let thisPlayer = matchDetails.kickOffTeam.players[8];
-    matchDetails = playerMovement.completeSlide(matchDetails, thisPlayer, team, opp);
+    matchDetails = playerMovement.completeSlide(
+      matchDetails,
+      thisPlayer,
+      team,
+      opp,
+    );
     if (matchDetails.kickOffTeam.players[8].stats.cards.red == 1) {
-      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql(['NP', 'NP']);
+      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql([
+        'NP',
+        'NP',
+      ]);
     }
   });
   it('completeSlide - test 2', async () => {
-    let matchDetails = await common.readFile('test/input/tackleTests/completeSlide.json');
+    let matchDetails = await common.readFile(
+      'test/input/tackleTests/completeSlide.json',
+    );
     let team = matchDetails.kickOffTeam;
     let opp = matchDetails.secondTeam;
     let thisPlayer = matchDetails.kickOffTeam.players[6];
-    matchDetails = playerMovement.completeSlide(matchDetails, thisPlayer, team, opp);
+    matchDetails = playerMovement.completeSlide(
+      matchDetails,
+      thisPlayer,
+      team,
+      opp,
+    );
     if (matchDetails.kickOffTeam.players[8].stats.cards.red == 1) {
-      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql(['NP', 'NP']);
+      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql([
+        'NP',
+        'NP',
+      ]);
     }
   });
   it('completeSlide - test 3', async () => {
-    let matchDetails = await common.readFile('test/input/tackleTests/completeSlide.json');
+    let matchDetails = await common.readFile(
+      'test/input/tackleTests/completeSlide.json',
+    );
     let team = matchDetails.kickOffTeam;
     let opp = matchDetails.secondTeam;
     let thisPlayer = matchDetails.kickOffTeam.players[2];
-    matchDetails = playerMovement.completeSlide(matchDetails, thisPlayer, team, opp);
+    matchDetails = playerMovement.completeSlide(
+      matchDetails,
+      thisPlayer,
+      team,
+      opp,
+    );
     if (matchDetails.kickOffTeam.players[8].stats.cards.red == 1) {
-      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql(['NP', 'NP']);
+      expect(matchDetails.kickOffTeam.players[8].currentPOS).to.eql([
+        'NP',
+        'NP',
+      ]);
     }
   });
 });

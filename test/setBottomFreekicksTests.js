@@ -5,19 +5,27 @@ const common = require('../lib/common');
 describe('testFreekicksBottomOwnHalf()', function () {
   it('freekick in own half - Bottom boundary', async () => {
     let itlocation = './init_config/iteration.json';
-    let nextJSON = await setfreekicks.setBottomFreekick(itlocation, [340, 1040]);
+    let nextJSON = await setfreekicks.setBottomFreekick(
+      itlocation,
+      [340, 1040],
+    );
     let { kickOffTeam, secondTeam } = nextJSON;
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.ball.direction).to.eql('north');
     expect(nextJSON.ball.position).to.eql([340, 1040]);
     expect(secondTeam.players[0].currentPOS).to.eql([340, 1040]);
     for (let player of secondTeam.players) {
-      if (player.position != 'GK') expect(player.currentPOS).to.eql(player.originPOS);
+      if (player.position != 'GK')
+        expect(player.currentPOS).to.eql(player.originPOS);
     }
     for (let player of kickOffTeam.players) {
-      if (player.position == 'GK') expect(player.currentPOS).to.eql(player.originPOS);
+      if (player.position == 'GK')
+        expect(player.currentPOS).to.eql(player.originPOS);
       if (player.position != 'GK')
-        expect(player.currentPOS).to.eql([player.originPOS[0], player.originPOS[1] + 100]);
+        expect(player.currentPOS).to.eql([
+          player.originPOS[0],
+          player.originPOS[1] + 100,
+        ]);
     }
   });
   it('freekick in own half - Bottom origin positions', async () => {
@@ -30,14 +38,20 @@ describe('testFreekicksBottomOwnHalf()', function () {
     expect(secondTeam.players[0].currentPOS).to.eql([340, 900]);
     for (let player of secondTeam.players) {
       if (!player.position == 'GK') {
-        expect(player.currentPOS).to.eql([player.originPOS[0], player.originPOS[1] - 300]);
+        expect(player.currentPOS).to.eql([
+          player.originPOS[0],
+          player.originPOS[1] - 300,
+        ]);
       }
     }
     for (let player of kickOffTeam.players) {
       if (player.position == 'GK') {
         expect(player.currentPOS).to.eql(player.originPOS);
       } else {
-        expect(player.currentPOS).to.eql([player.originPOS[0], player.originPOS[1] + 100]);
+        expect(player.currentPOS).to.eql([
+          player.originPOS[0],
+          player.originPOS[1] + 100,
+        ]);
       }
     }
   });
@@ -52,8 +66,13 @@ describe('testFreekicksBottomOwnHalf()', function () {
     expect(nextJSON.ball.direction).to.eql('north');
     expect(nextJSON.ball.position).to.eql([340, 526]);
     expect(secondTeam.players[3].currentPOS).to.eql([340, 526]);
-    expect(kickOffTeam.players[3].currentPOS).to.eql(kickOffTeam.players[3].originPOS);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(kickOffTeam.players[3].currentPOS).to.eql(
+      kickOffTeam.players[3].originPOS,
+    );
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     for (let num of [1, 2, 4]) {
       let thisPlayer = secondTeam.players[num];
       let thatPlayer = kickOffTeam.players[num];
@@ -99,8 +118,14 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('north');
     expect(nextJSON.ball.position).to.eql([400, 500]);
     expect(secondTeam.players[5].currentPOS).to.eql([400, 500]);
-    expect(kickOffTeam.players[5].currentPOS).to.eql([80, parseInt(pitchHeight * 0.25, 10)]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(kickOffTeam.players[5].currentPOS).to.eql([
+      80,
+      parseInt(pitchHeight * 0.25, 10),
+    ]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -123,7 +148,9 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       let thisPlayer = secondTeam.players[num];
       let thatPlayer = kickOffTeam.players[num];
 
-      expect(thisPlayer.currentPOS[1]).to.lt(parseInt(pitchHeight * 0.25 + 50, 10));
+      expect(thisPlayer.currentPOS[1]).to.lt(
+        parseInt(pitchHeight * 0.25 + 50, 10),
+      );
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         parseInt(pitchHeight * 0.5, 10),
@@ -142,8 +169,14 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('northeast');
     expect(nextJSON.ball.position).to.eql([29, 500]);
     expect(secondTeam.players[5].currentPOS).to.eql([29, 500]);
-    expect(kickOffTeam.players[5].currentPOS).to.eql([80, parseInt(pitchHeight * 0.25, 10)]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(kickOffTeam.players[5].currentPOS).to.eql([
+      80,
+      parseInt(pitchHeight * 0.25, 10),
+    ]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -166,7 +199,9 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       let thisPlayer = secondTeam.players[num];
       let thatPlayer = kickOffTeam.players[num];
 
-      expect(thisPlayer.currentPOS[1]).to.lt(parseInt(pitchHeight * 0.25 - 60, 10));
+      expect(thisPlayer.currentPOS[1]).to.lt(
+        parseInt(pitchHeight * 0.25 - 60, 10),
+      );
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         parseInt(pitchHeight * 0.5, 10),
@@ -185,8 +220,14 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('northwest');
     expect(nextJSON.ball.position).to.eql([655, 500]);
     expect(secondTeam.players[5].currentPOS).to.eql([655, 500]);
-    expect(kickOffTeam.players[5].currentPOS).to.eql([80, parseInt(pitchHeight * 0.25, 10)]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(kickOffTeam.players[5].currentPOS).to.eql([
+      80,
+      parseInt(pitchHeight * 0.25, 10),
+    ]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -209,7 +250,9 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       let thisPlayer = secondTeam.players[num];
       let thatPlayer = kickOffTeam.players[num];
 
-      expect(thisPlayer.currentPOS[1]).to.lt(parseInt(pitchHeight * 0.25 - 60, 10));
+      expect(thisPlayer.currentPOS[1]).to.lt(
+        parseInt(pitchHeight * 0.25 - 60, 10),
+      );
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         parseInt(pitchHeight * 0.5, 10),
@@ -231,7 +274,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('north');
     expect(nextJSON.ball.position).to.eql([340, 250]);
     expect(secondTeam.players[5].currentPOS).to.eql([340, 250]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -239,7 +285,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       let midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
       if (thisPlayer.position == 'CB') {
@@ -268,11 +314,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
@@ -289,7 +343,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('north');
     expect(nextJSON.ball.position).to.eql([340, 171]);
     expect(secondTeam.players[5].currentPOS).to.eql([340, 171]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -297,7 +354,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       let midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
       if (thisPlayer.position == 'CB') {
@@ -326,11 +383,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
@@ -347,7 +412,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('northeast');
     expect(nextJSON.ball.position).to.eql([10, 174]);
     expect(secondTeam.players[5].currentPOS).to.eql([10, 174]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -355,7 +423,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       let midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
       if (thisPlayer.position == 'CB') {
@@ -384,11 +452,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
@@ -405,7 +481,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('northwest');
     expect(nextJSON.ball.position).to.eql([600, 177]);
     expect(secondTeam.players[5].currentPOS).to.eql([600, 177]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -413,7 +492,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       let midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
       if (thisPlayer.position == 'CB') {
@@ -442,11 +521,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
@@ -463,7 +550,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('east');
     expect(nextJSON.ball.position).to.eql([10, 1]);
     expect(secondTeam.players[5].currentPOS).to.eql([10, 1]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -471,7 +561,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       if (thisPlayer.position == 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
@@ -484,7 +574,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
           parseInt(pitchHeight * 0.33, 10),
         ]);
       }
-      expect(thatPlayer.currentPOS).to.eql([midWayFromBalltoGoalX, firstWallPosition]);
+      expect(thatPlayer.currentPOS).to.eql([
+        midWayFromBalltoGoalX,
+        firstWallPosition,
+      ]);
       firstWallPosition += 2;
     }
     let boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -496,11 +589,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
@@ -517,7 +618,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('west');
     expect(nextJSON.ball.position).to.eql([600, 1]);
     expect(secondTeam.players[5].currentPOS).to.eql([600, 1]);
-    expect(STgoalie.currentPOS).to.eql([STgoalie.originPOS[0], parseInt(pitchHeight * 0.75, 10)]);
+    expect(STgoalie.currentPOS).to.eql([
+      STgoalie.originPOS[0],
+      parseInt(pitchHeight * 0.75, 10),
+    ]);
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (let num of [1, 2, 3, 4]) {
       let thisPlayer = secondTeam.players[num];
@@ -525,7 +629,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
       let midWayFromBalltoGoalX = parseInt(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10
+        10,
       );
       if (thisPlayer.position == 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
@@ -538,7 +642,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
           parseInt(pitchHeight * 0.33, 10),
         ]);
       }
-      expect(thatPlayer.currentPOS).to.eql([midWayFromBalltoGoalX, firstWallPosition]);
+      expect(thatPlayer.currentPOS).to.eql([
+        midWayFromBalltoGoalX,
+        firstWallPosition,
+      ]);
       firstWallPosition += 2;
     }
     let boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -550,11 +657,19 @@ describe('testFreekicksBottomLastQuarter()', function () {
       let thisYPOSST = secondTeam.players[num].currentPOS[1];
 
       if (num != 5) {
-        expect(true).to.eql(common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
+        );
       } else {
-        expect(true).to.eql(common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]));
-        expect(true).to.eql(common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]));
+        expect(true).to.eql(
+          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
+        );
+        expect(true).to.eql(
+          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
+        );
       }
     }
   });
