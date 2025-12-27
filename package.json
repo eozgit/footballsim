@@ -5,9 +5,11 @@
   "main": "engine.js",
   "scripts": {
     "start": "node engine.js",
+    "format": "prettier --write .",
     "lint": "eslint .",
-    "lint-fix": "eslint --fix .",
-    "test": "nyc --reporter=html mocha"
+    "test": "vitest run --globals",
+    "test:watch": "vitest",
+    "prepare": "husky"
   },
   "repository": {
     "type": "git",
@@ -31,16 +33,21 @@
   "author": "Aiden Gallagher <aiden.g@live.co.uk>",
   "license": "ISC",
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=20.0.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.2",
     "chai": "^4.3.6",
-    "eslint": "^7.32.0",
-    "eslint-config-unu": "^1.2.4",
-    "lodash": "^4.17.21",
-    "mocha": "^10.0.0",
-    "nyc": "^15.1.0",
+    "eslint": "^9.39.2",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "vitest": "^4.0.16"
+  },
+  "lint-staged": {
+    "**/*.(js|mjs|cjs|json|md)": [
+      "prettier --write"
+    ]
   }
 }

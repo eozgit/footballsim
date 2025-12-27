@@ -216,7 +216,7 @@ function runTest() {
       let idNumberBetweenOutliers = common.isBetween(
         output.matchID,
         1000000000000,
-        99999999999999999
+        999999999999999
       );
       expect(idNumberBetweenOutliers).to.eql(true);
     });
@@ -229,14 +229,14 @@ function runTest() {
       let idNumberBetweenKOTOutliers = common.isBetween(
         output.kickOffTeam.teamID,
         1000000000000,
-        99999999999999999
+        999999999999999
       );
       expect(idNumberBetweenKOTOutliers).to.eql(true);
       expect(output.secondTeam.teamID).to.be.an('number');
       let idNumberBetweenSTOutliers = common.isBetween(
         output.secondTeam.teamID,
         1000000000000,
-        99999999999999999
+        999999999999999
       );
       expect(idNumberBetweenSTOutliers).to.eql(true);
     });
@@ -250,7 +250,7 @@ function runTest() {
         let idNumberBetweenOutliers = common.isBetween(
           player.playerID,
           1000000000000,
-          99999999999999999
+          999999999999999
         );
         expect(idNumberBetweenOutliers).to.eql(true);
       }

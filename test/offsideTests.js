@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/*eslint-disable max-len*/
 const mocha = require('mocha');
 const { expect } = require('chai');
 const pMovement = require('../lib/playerMovement');
