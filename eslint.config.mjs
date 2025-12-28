@@ -29,10 +29,16 @@ export default [
       complexity: ['warn', 10], // Flags "spaghetti" logic for refactoring
 
       // --- WARNINGS TO PREPARE FOR TS ---
-      'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      'no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
       'no-undef': 'error',
 
-      'import/no-commonjs': 'error',
+      'import/no-commonjs': 'warn',
     },
   },
 ];

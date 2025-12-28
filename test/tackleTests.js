@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { expect } = require('chai');
 const actions = require('../lib/actions');
 const common = require('../lib/common');

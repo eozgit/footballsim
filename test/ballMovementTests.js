@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 const { expect } = require('chai');
 const bMovement = require('../lib/ballMovement');
 const common = require('../lib/common');
