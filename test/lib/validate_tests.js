@@ -1,7 +1,6 @@
 import { readFile } from '../../lib/fileReader.js';
-import common from '../../lib/common';
-import engine from '../../engine';
-import validate from '../../lib/validate';
+import engine from '../../engine.js';
+import validate from '../../lib/validate.js';
 
 async function initGame(t1, t2, p) {
   const team1 = await readFile(t1);

@@ -1,6 +1,6 @@
 import { readFile } from '../../lib/fileReader.js';
-import common from '../../lib/common';
-import setPos from '../../lib/setPositions';
+import common from '../../lib/common.js';
+import setPos from '../../lib/setPositions.js';
 
 async function setupTopPenalty(iterationFile) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {

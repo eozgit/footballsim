@@ -1,6 +1,5 @@
 import { readFile } from '../../lib/fileReader.js';
-import setVariables from '../../lib/setVariables';
-import common from '../../lib/common';
+import setVariables from '../../lib/setVariables.js';
 
 async function setTeam(teamLocation) {
   const team = await readFile(teamLocation).catch(function (err) {

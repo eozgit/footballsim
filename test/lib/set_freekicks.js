@@ -1,6 +1,5 @@
 import { readFile } from '../../lib/fileReader.js';
-import common from '../../lib/common';
-import setFreekick from '../../lib/setFreekicks';
+import setFreekick from '../../lib/setFreekicks.js';
 
 async function setTopFreekick(iterationFile, ballPosition) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
