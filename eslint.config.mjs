@@ -1,9 +1,11 @@
 import js from '@eslint/js';
 import globals from 'globals';
+import importPlugin from 'eslint-plugin-import';
 
 export default [
   js.configs.recommended,
   {
+    plugins: { import: importPlugin },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -29,6 +31,8 @@ export default [
       // --- WARNINGS TO PREPARE FOR TS ---
       'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       'no-undef': 'error',
+
+      'import/no-commonjs': 'error',
     },
   },
 ];
