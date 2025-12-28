@@ -2,9 +2,6 @@ const { expect } = require('chai');
 const validation = require('./lib/validate_tests');
 const common = require('../lib/common');
 
-//disable console errors in tests
-console.error = function () {};
-
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
     const t1location = './init_config/team1.json';

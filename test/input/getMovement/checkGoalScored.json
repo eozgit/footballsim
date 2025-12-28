@@ -1057,7 +1057,11 @@
     "Player": "",
     "withTeam": "",
     "direction": "north",
-    "lastTouch": "Peter Johnson",
+    "lastTouch": {
+      "playerName": "Peter Johnson",
+      "playerID": -99,
+      "teamID": -99
+    },
     "ballOverIterations": []
   },
   "half": 1,

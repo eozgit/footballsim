@@ -1063,7 +1063,11 @@
     "withTeam": 63984879176356230,
     "direction": "wait",
     "ballOverIterations": [],
-    "lastTouch": "Georgina Dragon"
+    "lastTouch": {
+      "playerName": "Georgina Dragon",
+      "playerID": -99,
+      "teamID": -99
+    }
   },
   "half": 1,
   "kickOffTeamStatistics": {

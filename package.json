@@ -8,6 +8,7 @@
     "format": "prettier --write .",
     "lint": "eslint .",
     "test": "vitest run --globals",
+    "test:bail": "vitest run --bail 1",
     "test:watch": "vitest",
     "prepare": "husky"
   },

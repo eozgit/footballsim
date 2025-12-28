@@ -1067,7 +1067,7 @@
   "half": 1,
   "kickOffTeamStatistics": {
     "goals": 0,
-    "shots": 0,
+    "shots": { "total": 0, "off": 0 },
     "corners": 0,
     "freekicks": 0,
     "penalties": 0,
@@ -1075,7 +1075,7 @@
   },
   "secondTeamStatistics": {
     "goals": 0,
-    "shots": 0,
+    "shots": { "total": 0, "off": 0 },
     "corners": 0,
     "freekicks": 0,
     "penalties": 0,
