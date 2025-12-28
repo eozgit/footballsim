@@ -1,13 +1,13 @@
 //------------------------
 //    NPM Modules
 //------------------------
-const common = require('./lib/common');
-const injury = require('./lib/injury');
-const setPositions = require('./lib/setPositions');
-const setVariables = require('./lib/setVariables');
-const playerMovement = require('./lib/playerMovement');
-const ballMovement = require('./lib/ballMovement');
-const validate = require('./lib/validate');
+const common = require('./lib/common.js');
+const injury = require('./lib/injury.js');
+const setPositions = require('./lib/setPositions.js');
+const setVariables = require('./lib/setVariables.js');
+const playerMovement = require('./lib/playerMovement.js');
+const ballMovement = require('./lib/ballMovement.js');
+const validate = require('./lib/validate.js');
 
 //------------------------
 //    Functions
