@@ -1,11 +1,12 @@
-const { expect } = require('chai');
-const playerMovement = require('../lib/playerMovement');
-const common = require('../lib/common');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import playerMovement from '../lib/playerMovement.js';
+import common from '../lib/common.js';
 
 describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 1', async () => {
     const inputIteration = './test/input/closestPositions/closest1.json';
-    const matchInfo = await common.readFile(inputIteration);
+    const matchInfo = await readFile(inputIteration);
     const closestPlayerA = {
       name: '',
       position: 10000,
@@ -29,7 +30,7 @@ describe('testClosestPlayer()', function () {
   });
   it('find the closest player to the ball - test 2', async () => {
     const inputIteration = './test/input/closestPositions/closest2.json';
-    const matchInfo = await common.readFile(inputIteration);
+    const matchInfo = await readFile(inputIteration);
     const closestPlayerA = {
       name: '',
       position: 10000,
@@ -53,7 +54,7 @@ describe('testClosestPlayer()', function () {
   });
   it('find the closest player to the ball - test 3', async () => {
     const inputIteration = './test/input/closestPositions/closest3.json';
-    const matchInfo = await common.readFile(inputIteration);
+    const matchInfo = await readFile(inputIteration);
     const closestPlayerA = {
       name: '',
       position: 10000,
@@ -77,7 +78,7 @@ describe('testClosestPlayer()', function () {
   });
   it('find the closest player to the ball - test 4', async () => {
     const inputIteration = './test/input/closestPositions/closest4.json';
-    const matchInfo = await common.readFile(inputIteration);
+    const matchInfo = await readFile(inputIteration);
     const closestPlayerA = {
       name: '',
       position: 10000,

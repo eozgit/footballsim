@@ -54,5 +54,6 @@
     "**/*.(js|mjs|cjs|json|md)": [
       "prettier --write"
     ]
-  }
+  },
+  "type": "module"
 }

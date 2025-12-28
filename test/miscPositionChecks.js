@@ -1,6 +1,7 @@
-const { expect } = require('chai');
-const setpieces = require('./lib/set_pieces');
-const common = require('../lib/common');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import setpieces from './lib/set_pieces.js';
+import common from '../lib/common.js';
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async () => {
@@ -20,7 +21,7 @@ describe('removeBallFromAllPlayers()', function () {
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await common.readFile(itlocation);
+    const matchDetails = await readFile(itlocation);
     const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
@@ -35,7 +36,7 @@ describe('switchTeamSides()', function () {
   });
   it('check players sides are switched second team', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await common.readFile(itlocation);
+    const matchDetails = await readFile(itlocation);
     const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
@@ -50,7 +51,7 @@ describe('switchTeamSides()', function () {
   });
   it('no origin POS set', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await common.readFile(itlocation);
+    const matchDetails = await readFile(itlocation);
     delete matchDetails.secondTeam.players[0].originPOS;
 
     try {
@@ -67,7 +68,7 @@ describe('switchTeamSides()', function () {
   });
   it('low fitness level', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await common.readFile(itlocation);
+    const matchDetails = await readFile(itlocation);
     matchDetails.secondTeam.players[0].fitness = 10;
     const nextJSON = await setpieces.switchSide(
       matchDetails,

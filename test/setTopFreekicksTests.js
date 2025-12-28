@@ -1,6 +1,6 @@
-const { expect } = require('chai');
-const setfreekicks = require('./lib/set_freekicks');
-const common = require('../lib/common');
+import { expect } from 'chai';
+import setfreekicks from './lib/set_freekicks.js';
+import common from '../lib/common.js';
 
 describe('testFreekicksTopOwnHalf()', function () {
   it('freekick in own half - top boundary', async () => {

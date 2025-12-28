@@ -1,14 +1,15 @@
-const setVariables = require('../../lib/setVariables');
-const common = require('../../lib/common');
+import { readFile } from '../../lib/fileReader.js';
+import setVariables from '../../lib/setVariables';
+import common from '../../lib/common';
 
 async function setTeam(teamLocation) {
-  const team = await common.readFile(teamLocation).catch(function (err) {
+  const team = await readFile(teamLocation).catch(function (err) {
     throw err.stack;
   });
   const teamReady = setVariables.setGameVariables(team);
   return teamReady;
 }
 
-module.exports = {
+export default {
   setTeam,
 };

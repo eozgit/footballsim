@@ -1,6 +1,7 @@
-const { expect } = require('chai');
-const setpieces = require('./lib/set_pieces');
-const common = require('../lib/common');
+import { expect } from 'chai';
+import setpieces from './lib/set_pieces.js';
+import common from '../lib/common.js';
+import { readFile } from '../lib/fileReader.js';
 
 describe('testBoundariesForCorners1()', function () {
   it('expected Top Left Corner', async () => {
@@ -367,7 +368,7 @@ describe('no boundary()', function () {
       '53137486250364320',
       [349, 200],
     );
-    const matchDetails = await common.readFile(itlocation);
+    const matchDetails = await readFile(itlocation);
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.ballIntended).to.eql([349, 200]);
     delete nextJSON.ballIntended;

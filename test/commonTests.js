@@ -1,6 +1,7 @@
-const { expect } = require('chai');
-const common = require('../lib/common');
-const injury = require('../lib/injury');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import common from '../lib/common.js';
+import injury from '../lib/injury.js';
 
 describe('testCommonFunction()', function () {
   it('check random number', async () => {
@@ -66,7 +67,7 @@ describe('testCommonFunction()', function () {
     expect(number).to.eql(6);
   });
   it('read file', async () => {
-    let pitch = await common.readFile('./init_config/pitch.json');
+    let pitch = await readFile('./init_config/pitch.json');
     const testPitchData = {
       pitchWidth: 680,
       pitchHeight: 1050,
@@ -74,7 +75,7 @@ describe('testCommonFunction()', function () {
     };
     expect(pitch).to.eql(testPitchData);
     try {
-      pitch = await common.readFile('./init_config/patch.json');
+      pitch = await readFile('./init_config/patch.json');
       expect(pitch).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');

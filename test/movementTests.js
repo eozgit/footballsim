@@ -1,10 +1,11 @@
-const { expect } = require('chai');
-const pMovement = require('../lib/playerMovement');
-const common = require('../lib/common');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import pMovement from '../lib/playerMovement.js';
+import common from '../lib/common.js';
 
 describe('getMovement()', function () {
   it('Has Ball - runs', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -21,7 +22,7 @@ describe('getMovement()', function () {
     expect(true).to.eql(common.isBetween(movement[1], -3, 1));
   });
   it('Has Ball - sprint', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -38,7 +39,7 @@ describe('getMovement()', function () {
     expect(true).to.eql(common.isBetween(movement[1], 1, 5));
   });
   it('Has Ball - shoot', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -54,7 +55,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - throughball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -70,7 +71,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - pass', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -86,7 +87,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - cross', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -102,7 +103,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - cleared', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -118,7 +119,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - boot', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -134,7 +135,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - penalty', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
@@ -150,7 +151,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - tackle +/+', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -166,7 +167,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - tackle 0/0', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -182,7 +183,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - tackle -/-', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -198,7 +199,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, 1]);
   });
   it('No Ball - tackle +/-', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -214,7 +215,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 1]);
   });
   it('No Ball - slide', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -230,7 +231,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - intercept +/0', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -247,7 +248,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 0]);
   });
   it('No Ball - intercept -/-', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails2.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -263,7 +264,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, 1]);
   });
   it('No Ball - intercept 0/-', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -280,7 +281,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 1]);
   });
   it('No Ball - intercept 0/0', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -298,7 +299,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - intercept 0/+', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -316,7 +317,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, -1]);
   });
   it('No Ball - intercept +/+', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -334,7 +335,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - intercept +/-', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -352,7 +353,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 1]);
   });
   it('No Ball - intercept -/+', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
@@ -370,7 +371,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, -1]);
   });
   it('No Ball - run', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -386,7 +387,7 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - sprint', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
@@ -404,7 +405,7 @@ describe('getMovement()', function () {
 });
 describe('misc()', function () {
   it('updateInformation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const newPosition = [12, 32];
@@ -412,7 +413,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.eql([12, 32, 0]);
   });
   it('ballMoved', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.secondTeam.players[4];
@@ -428,7 +429,7 @@ describe('misc()', function () {
     expect(matchDetails.kickOffTeam.intent).to.eql(`attack`);
   });
   it('ballPlayerActions - cleared', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -448,7 +449,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - boot', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -468,7 +469,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - pass', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -492,7 +493,7 @@ describe('misc()', function () {
     expect(ballLog).to.be.greaterThan(-1);
   });
   it('ballPlayerActions - cross', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -516,7 +517,7 @@ describe('misc()', function () {
     expect(ballLog).to.be.greaterThan(-1);
   });
   it('ballPlayerActions - throughball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -536,7 +537,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - shoot', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -556,7 +557,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - penalty', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -576,7 +577,7 @@ describe('misc()', function () {
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('checkProvidedAction - no ball, valid provided action', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -586,7 +587,7 @@ describe('misc()', function () {
     expect(action).to.eql(`tackle`);
   });
   it('checkProvidedAction - no ball, provided ball action', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -596,7 +597,7 @@ describe('misc()', function () {
     expect(action).to.eql(`run`);
   });
   it('checkProvidedAction - has ball, provided none ball action', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -606,7 +607,7 @@ describe('misc()', function () {
     expect(action).to.not.eql(`slide`);
   });
   it('checkProvidedAction - has ball, provided none ball action intercept', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -616,7 +617,7 @@ describe('misc()', function () {
     expect(action).to.not.eql(`intercept`);
   });
   it('checkProvidedAction - has ball, provided ball action', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -626,7 +627,7 @@ describe('misc()', function () {
     expect(action).to.eql(`shoot`);
   });
   it('checkProvidedAction - none', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -636,7 +637,7 @@ describe('misc()', function () {
     expect(action).to.eql(`run`);
   });
   it('checkProvidedAction - nothing', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -652,7 +653,7 @@ describe('misc()', function () {
     }
   });
   it('checkProvidedAction - invalid action', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -670,7 +671,7 @@ describe('misc()', function () {
 });
 describe('getSprintMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -682,7 +683,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.98);
   });
   it('Move SouthWest - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -699,7 +700,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.98);
   });
   it('Move Wait - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -712,7 +713,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(29);
   });
   it('Top player with ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -725,7 +726,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(29);
   });
   it('Bottom player with ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -739,7 +740,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(30.99);
   });
   it('Move SouthEast - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -752,7 +753,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move NorthWest - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -765,7 +766,7 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Wait - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -780,7 +781,7 @@ describe('getSprintMovement()', function () {
 });
 describe('getRunMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -792,7 +793,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move SouthWest - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -804,7 +805,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move Wait - close to ball ', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
@@ -817,7 +818,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(28.995);
   });
   it('Top player with ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -830,7 +831,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(19);
   });
   it('Bottom player with ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
@@ -844,7 +845,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(30.995);
   });
   it('Move SouthEast - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -857,7 +858,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.99);
   });
   it('Move NorthWest - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -870,7 +871,7 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.99);
   });
   it('Wait - keep in formation', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
@@ -885,7 +886,7 @@ describe('getRunMovement()', function () {
 });
 describe('decideMovement()', function () {
   it('completeSlide and same position as ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
@@ -904,7 +905,7 @@ describe('decideMovement()', function () {
     expect(slideInfo).to.be.greaterThan(-1);
   });
   it('completeTackle and same position as ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
@@ -923,7 +924,7 @@ describe('decideMovement()', function () {
     expect(tackleInfo).to.be.greaterThan(-1);
   });
   it('completeSlide and wiithin 3 of ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
@@ -943,7 +944,7 @@ describe('decideMovement()', function () {
     expect(slideInfo).to.be.greaterThan(-1);
   });
   it('same position as ball not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
@@ -960,7 +961,7 @@ describe('decideMovement()', function () {
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('within 2 of ball not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
@@ -978,7 +979,7 @@ describe('decideMovement()', function () {
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
@@ -997,7 +998,7 @@ describe('decideMovement()', function () {
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
@@ -1019,7 +1020,7 @@ describe('decideMovement()', function () {
     expect(offsideInfo).to.be.greaterThan(-1);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/getMovement/matchDetails3.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[10];

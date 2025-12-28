@@ -1,13 +1,10 @@
-//------------------------
-//    NPM Modules
-//------------------------
-const common = require('./lib/common.js');
-const injury = require('./lib/injury.js');
-const setPositions = require('./lib/setPositions.js');
-const setVariables = require('./lib/setVariables.js');
-const playerMovement = require('./lib/playerMovement.js');
-const ballMovement = require('./lib/ballMovement.js');
-const validate = require('./lib/validate.js');
+import common from './lib/common.js';
+import injury from './lib/injury.js';
+import setPositions from './lib/setPositions.js';
+import setVariables from './lib/setVariables.js';
+import playerMovement from './lib/playerMovement.js';
+import ballMovement from './lib/ballMovement.js';
+import validate from './lib/validate.js';
 
 //------------------------
 //    Functions
@@ -103,7 +100,7 @@ async function startSecondHalf(matchDetails) {
   return matchDetails;
 }
 
-module.exports = {
+export default {
   initiateGame,
   playIteration,
   startSecondHalf,

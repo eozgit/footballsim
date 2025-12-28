@@ -1,10 +1,11 @@
-const { expect } = require('chai');
-const pMovement = require('../lib/playerMovement');
-const common = require('../lib/common');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import pMovement from '../lib/playerMovement.js';
+import common from '../lib/common.js';
 
 describe('checkOffside()', function () {
   it('1 Bottom Player offside', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsidePosition1.json',
     );
     const team = matchDetails.secondTeam;
@@ -16,7 +17,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.secondTeam.players[9].offside).to.eql(true);
   });
   it('1 Player top offside', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsideTopPosition1.json',
     );
     const team = matchDetails.secondTeam;
@@ -29,7 +30,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(true);
   });
   it('1 Player top offside w/ ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsideTopPosition1withBall.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -42,7 +43,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(false);
   });
   it('1 Player top offside w/ ball switched', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsideTopPosition1withBall.json',
     );
     const team = matchDetails.secondTeam;
@@ -55,7 +56,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(false);
   });
   it('1 Player btm offside w/ ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -68,7 +69,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(false);
   });
   it('1 Player btm offside w/ ball switched', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
     const team = matchDetails.secondTeam;
@@ -81,7 +82,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(false);
   });
   it('2 Player offside', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsidePosition2.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -94,7 +95,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.secondTeam.players[10].offside).to.eql(true);
   });
   it('1 offside player, same team with ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/onsidePosition1.json',
     );
     const team = matchDetails.secondTeam;
@@ -110,7 +111,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.secondTeam.players[10].offside).to.eql(true);
   });
   it('Team 1 at top, 1 player offside', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsidePosition3.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -123,7 +124,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(true);
   });
   it('Team 1 at bottom, 1 player offside', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/offsidePosition3.json',
     );
     const team = matchDetails.secondTeam;
@@ -136,7 +137,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.kickOffTeam.players[10].offside).to.eql(true);
   });
   it('Goalkeeper has ball, no offside positions', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/onsideBottomPosition2GK.json',
     );
     const team = matchDetails.secondTeam;
@@ -149,7 +150,7 @@ describe('checkOffside()', function () {
     expect(matchDetails.secondTeam.players[10].offside).to.eql(false);
   });
   it('Ball not with team', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       'test/input/offsideTests/ballNotWithTeam.json',
     );
     const team = matchDetails.secondTeam;

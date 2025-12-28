@@ -1,6 +1,7 @@
-const { expect } = require('chai');
-const validation = require('./lib/validate_tests');
-const common = require('../lib/common');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import validation from './lib/validate_tests.js';
+import common from '../lib/common.js';
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
@@ -353,16 +354,16 @@ describe('otherValidationTests()', function () {
     }
   });
   it('validate team even if not in JSON format', async () => {
-    const team = await validation.readFile('./init_config/team1.json');
+    const team = await readFile('./init_config/team1.json');
     expect(validation.validateTeam(team)).to.not.be.an('Error');
   });
   it('validate team in second half even if not in JSON format', async () => {
-    const iteration = await common.readFile('./init_config/iteration.json');
+    const iteration = await readFile('./init_config/iteration.json');
     const team = JSON.stringify(iteration.kickOffTeam);
     expect(validation.validateTeamSecondHalf(team)).to.not.be.an('Error');
   });
   it('validate team in second half with no team name', async () => {
-    const iteration = await common.readFile('./init_config/iteration.json');
+    const iteration = await readFile('./init_config/iteration.json');
     delete iteration.kickOffTeam.name;
     try {
       const team = JSON.stringify(iteration.kickOffTeam);

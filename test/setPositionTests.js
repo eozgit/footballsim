@@ -1,5 +1,5 @@
-const { expect } = require('chai');
-const setpieces = require('./lib/set_pieces');
+import { expect } from 'chai';
+import setpieces from './lib/set_pieces.js';
 
 describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {

@@ -1,13 +1,14 @@
-const { expect } = require('chai');
-const common = require('../lib/common');
-const setPos = require('../lib/setPositions');
+import { readFile } from '../lib/fileReader.js';
+import { expect } from 'chai';
+import common from '../lib/common.js';
+import setPos from '../lib/setPositions.js';
 
 describe('intentPOSitionsDefence()', function () {
   it('kickoff team defensive players move towards ball on opposite side', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf2.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -25,10 +26,10 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players move towards ball on opposite side with player near', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf3.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -52,10 +53,10 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('secondteam defensive players move towards ball on opposite side', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -73,10 +74,10 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players ball in own half', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf2.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -95,10 +96,10 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('second team defensive players ball in own half', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -114,10 +115,10 @@ describe('intentPOSitionsDefence()', function () {
 });
 describe('intentPOSitionsAttacking()', function () {
   it('kickoff team attacking from behind originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -129,10 +130,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -144,10 +145,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from ahead of originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -159,10 +160,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from behind originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin2.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -174,10 +175,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin2.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -189,10 +190,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from ahead of originPOS', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin2.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -204,10 +205,10 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking in own half from top', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf4.json',
     );
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -222,11 +223,11 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team deep in opposition half do not exceed forward limits', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep.json',
     );
     const [, pitchHeight] = matchDetails.pitchSize;
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -258,11 +259,11 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team deep in opposition half do not exceed forward limits', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep2.json',
     );
     const [, pitchHeight] = matchDetails.pitchSize;
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -296,11 +297,11 @@ describe('intentPOSitionsAttacking()', function () {
 });
 describe('intentPOSitionsLooseBall()', function () {
   it('kickoff team moves towards ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall.json',
     );
     const { kickOffTeam } = matchDetails;
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -348,11 +349,11 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall2.json',
     );
     const { secondTeam } = matchDetails;
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -400,11 +401,11 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball player near ball', async () => {
-    const matchDetails = await common.readFile(
+    const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall3.json',
     );
     const { secondTeam } = matchDetails;
-    const closestPlayer = await common.readFile(
+    const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
