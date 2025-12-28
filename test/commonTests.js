@@ -1,5 +1,6 @@
 const { expect } = require('chai');
 const common = require('../lib/common');
+const injury = require('../lib/injury');
 
 describe('testCommonFunction()', function () {
   it('check random number', async () => {
@@ -83,7 +84,7 @@ describe('testCommonFunction()', function () {
     }
   });
   it('is injured', async () => {
-    const number = common.isInjured(1);
+    const number = injury.isInjured(1);
     expect(number).to.eql(false);
   });
   it('is even', async () => {

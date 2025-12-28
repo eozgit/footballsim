@@ -2,6 +2,7 @@
 //    NPM Modules
 //------------------------
 const common = require('./lib/common');
+const injury = require('./lib/injury');
 const setPositions = require('./lib/setPositions');
 const setVariables = require('./lib/setVariables');
 const playerMovement = require('./lib/playerMovement');
@@ -47,8 +48,8 @@ async function playIteration(matchDetails) {
   validate.validatePlayerPositions(matchDetails);
   matchDetails.iterationLog = [];
   let { kickOffTeam, secondTeam } = matchDetails;
-  common.matchInjury(matchDetails, kickOffTeam);
-  common.matchInjury(matchDetails, secondTeam);
+  injury.matchInjury(matchDetails, kickOffTeam);
+  injury.matchInjury(matchDetails, secondTeam);
   matchDetails = ballMovement.moveBall(matchDetails);
   if (matchDetails.endIteration == true) {
     delete matchDetails.endIteration;
