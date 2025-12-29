@@ -3,7 +3,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     // Look for any .js files inside the test/ folder
-    include: ['test/**/*.js'],
+    include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts}'],
     // But ignore the helper files in test/lib/ and test/input/
     exclude: [
       'test/lib/**',
