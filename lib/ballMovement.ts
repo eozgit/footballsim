@@ -161,7 +161,13 @@ function getBottomKickedPosition(direction: any, position: any, power: any) {
     return newKickedPosition(position, -(power / 2), 0, power / 2, power);
 }
 
-function newKickedPosition(pos: any, lowX: any, highX: any, lowY: any, highY: any) {
+function newKickedPosition(
+  pos: any,
+  lowX: any,
+  highX: any,
+  lowY: any,
+  highY: any,
+) {
   const newPosition = [0, 0];
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
   newPosition[1] = pos[1] + common.getRandomNumber(lowY, highY);
@@ -619,7 +625,11 @@ function resolveDeflection(
   return lastPOS;
 }
 
-function setDeflectionDirectionPos(direction: any, defPosition: any, newPower: any) {
+function setDeflectionDirectionPos(
+  direction: any,
+  defPosition: any,
+  newPower: any,
+) {
   const tempPosition = [0, 0];
   if (
     direction === `east` ||
@@ -674,7 +684,11 @@ function setDeflectionDirectionPos(direction: any, defPosition: any, newPower: a
   return tempPosition;
 }
 
-function setDeflectionPlayerHasBall(matchDetails: any, defPlayer: any, defTeam: any) {
+function setDeflectionPlayerHasBall(
+  matchDetails: any,
+  defPlayer: any,
+  defTeam: any,
+) {
   defPlayer.hasBall = true;
   matchDetails.ball.lastTouch.playerName = defPlayer.name;
   matchDetails.ball.lastTouch.playerID = defPlayer.playerID;
@@ -691,7 +705,11 @@ function setDeflectionPlayerHasBall(matchDetails: any, defPlayer: any, defTeam: 
   matchDetails.ball.position = tempArray.map((x: any) => x);
 }
 
-function setDeflectionPlayerOffside(matchDetails: any, defTeam: any, defPlayer: any) {
+function setDeflectionPlayerOffside(
+  matchDetails: any,
+  defTeam: any,
+  defPlayer: any,
+) {
   defPlayer.offside = false;
   defPlayer.hasBall = false;
   matchDetails.ball.Player = '';
@@ -769,7 +787,13 @@ function ballPassed(matchDetails: any, team: any, player: any) {
   );
 }
 
-function setTargetPlyPos(tplyr: any, lowX: any, highX: any, lowY: any, highY: any) {
+function setTargetPlyPos(
+  tplyr: any,
+  lowX: any,
+  highX: any,
+  lowY: any,
+  highY: any,
+) {
   const closePlyPos = [0, 0];
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
   closePlyPos[0] = common.round(
@@ -899,7 +923,14 @@ function splitNumberIntoN(number: any, n: any) {
   return splitNumber;
 }
 
-function mergeArrays(arrayLength: any, oldPos: any, newPos: any, array1: any, array2: any, array3: any) {
+function mergeArrays(
+  arrayLength: any,
+  oldPos: any,
+  newPos: any,
+  array1: any,
+  array2: any,
+  array3: any,
+) {
   let tempPos = [oldPos[0], oldPos[1]];
   const arrayN = Array.from(Array(arrayLength - 1).keys());
   const newArray = [];

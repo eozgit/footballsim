@@ -156,11 +156,7 @@ function removeBallFromAllPlayers(matchDetails: any) {
 }
 
 function debug(label: any, ...args: any[]) {
-  // @ts-expect-error TS(2578): Unused '@ts-expect-error' directive.
-  // @ts-expect-error TS(2580): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.DEBUG_ENGINE) {
-    // @ts-expect-error TS(2578): Unused '@ts-expect-error' directive.
-    // @ts-expect-error TS(2584): Cannot find name 'console'. Do you need to change ... Remove this comment to see the full error message
     console.log(`[DEBUG:${label}]`, ...args);
   }
 }

@@ -13,7 +13,14 @@ function selectAction(possibleActions: any) {
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
 }
 
-function findPossActions(player: any, team: any, opposition: any, ballX: any, ballY: any, matchDetails: any) {
+function findPossActions(
+  player: any,
+  team: any,
+  opposition: any,
+  ballX: any,
+  ballY: any,
+  matchDetails: any,
+) {
   const possibleActions = populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
   let params = [];
@@ -27,7 +34,12 @@ function findPossActions(player: any, team: any, opposition: any, ballX: any, ba
   return populatePossibleActions(possibleActions, ...params);
 }
 
-function topTeamPlayerHasBall(matchDetails: any, player: any, team: any, opposition: any) {
+function topTeamPlayerHasBall(
+  matchDetails: any,
+  player: any,
+  team: any,
+  opposition: any,
+) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -150,7 +162,12 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
-function bottomTeamPlayerHasBall(matchDetails: any, player: any, team: any, opposition: any) {
+function bottomTeamPlayerHasBall(
+  matchDetails: any,
+  player: any,
+  team: any,
+  opposition: any,
+) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -188,7 +205,11 @@ function bottomTeamPlayerHasBall(matchDetails: any, player: any, team: any, oppo
   return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
 }
 
-function bottomTeamPlayerHasBallInMiddle(playerInformation: any, position: any, skill: any) {
+function bottomTeamPlayerHasBallInMiddle(
+  playerInformation: any,
+  position: any,
+  skill: any,
+) {
   if (oppositionNearPlayer(playerInformation, 10, 10))
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
   else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0];
@@ -273,7 +294,13 @@ function oppositionNearPlayer(oppositionPlayer: any, spaceX: any, spaceY: any) {
   return false;
 }
 
-function checkTeamMateSpaceClose(tmateProximity: any, lowX: any, highX: any, lowY: any, highY: any) {
+function checkTeamMateSpaceClose(
+  tmateProximity: any,
+  lowX: any,
+  highX: any,
+  lowY: any,
+  highY: any,
+) {
   if (
     common.isBetween(tmateProximity[0], lowX, highX) &&
     common.isBetween(tmateProximity[1], lowY, highY)
@@ -302,7 +329,12 @@ function checkOppositionBelow(closePlayerPosition: any, currentPOS: any) {
   return false;
 }
 
-function playerDoesNotHaveBall(player: any, ballX: any, ballY: any, matchDetails: any) {
+function playerDoesNotHaveBall(
+  player: any,
+  ballX: any,
+  ballY: any,
+  matchDetails: any,
+) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, originPOS } = player;
   if (position === 'GK') return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
@@ -418,7 +450,11 @@ function noBallNotGK2CloseBallBottomTeam(
   return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
 }
 
-function checkPositionInBottomPenaltyBox(position: any, pitchWidth: any, pitchHeight: any) {
+function checkPositionInBottomPenaltyBox(
+  position: any,
+  pitchWidth: any,
+  pitchHeight: any,
+) {
   const yPos = common.isBetween(
     position[0],
     pitchWidth / 4 - 5,
@@ -452,7 +488,11 @@ function checkPositionInBottomPenaltyBoxClose(
   return false;
 }
 
-function checkPositionInTopPenaltyBox(position: any, pitchWidth: any, pitchHeight: any) {
+function checkPositionInTopPenaltyBox(
+  position: any,
+  pitchWidth: any,
+  pitchHeight: any,
+) {
   const xPos = common.isBetween(
     position[0],
     pitchWidth / 4 - 5,
@@ -463,7 +503,11 @@ function checkPositionInTopPenaltyBox(position: any, pitchWidth: any, pitchHeigh
   return false;
 }
 
-function checkPositionInTopPenaltyBoxClose(position: any, pitchWidth: any, pitchHeight: any) {
+function checkPositionInTopPenaltyBoxClose(
+  position: any,
+  pitchWidth: any,
+  pitchHeight: any,
+) {
   const xPos = common.isBetween(
     position[0],
     pitchWidth / 3 - 5,
@@ -474,7 +518,11 @@ function checkPositionInTopPenaltyBoxClose(position: any, pitchWidth: any, pitch
   return false;
 }
 
-function onBottomCornerBoundary(position: any, pitchWidth: any, pitchHeight: any) {
+function onBottomCornerBoundary(
+  position: any,
+  pitchWidth: any,
+  pitchHeight: any,
+) {
   if (
     position[1] === pitchHeight &&
     (position[0] === 0 || position[0] === pitchWidth)
@@ -568,7 +616,12 @@ function populateActionsJSON() {
   ];
 }
 
-function resolveTackle(player: any, team: any, opposition: any, matchDetails: any) {
+function resolveTackle(
+  player: any,
+  team: any,
+  opposition: any,
+  matchDetails: any,
+) {
   matchDetails.iterationLog.push(`Tackle attempted by: ${player.name}`);
   const tackleDetails = {
     injuryHigh: 1500,
@@ -604,7 +657,12 @@ function resolveTackle(player: any, team: any, opposition: any, matchDetails: an
   return false;
 }
 
-function resolveSlide(player: any, team: any, opposition: any, matchDetails: any) {
+function resolveSlide(
+  player: any,
+  team: any,
+  opposition: any,
+  matchDetails: any,
+) {
   matchDetails.iterationLog.push(`Slide tackle attempted by: ${player.name}`);
   const tackleDetails = {
     injuryHigh: 1500,
@@ -640,7 +698,12 @@ function resolveSlide(player: any, team: any, opposition: any, matchDetails: any
   return false;
 }
 
-function setFailedTackle(matchDetails: any, player: any, thatPlayer: any, tackleDetails: any) {
+function setFailedTackle(
+  matchDetails: any,
+  player: any,
+  thatPlayer: any,
+  tackleDetails: any,
+) {
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
   player.stats.tackles.off++;
   setInjury(
@@ -698,7 +761,12 @@ function calcRetentionScore(skill: any, diff: any) {
   );
 }
 
-function setPostTackleBall(matchDetails: any, team: any, opposition: any, player: any) {
+function setPostTackleBall(
+  matchDetails: any,
+  team: any,
+  opposition: any,
+  player: any,
+) {
   player.hasBall = true;
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;

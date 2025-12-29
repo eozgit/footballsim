@@ -2,13 +2,10 @@
 import { readFile as _readFile } from 'fs';
 
 import {
-  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'ini... Remove this comment to see the full error message
   initiateGame,
-  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'pla... Remove this comment to see the full error message
   playIteration as _playIteration,
-  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'sta... Remove this comment to see the full error message
   startSecondHalf,
-} from './../engine';
+} from './../engine.js';
 
 let nextIteration;
 gameOfTenIterations()

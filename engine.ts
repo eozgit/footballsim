@@ -102,6 +102,7 @@ async function startSecondHalf(matchDetails: any) {
   return matchDetails;
 }
 
+export { initiateGame, playIteration, startSecondHalf };
 export default {
   initiateGame,
   playIteration,

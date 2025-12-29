@@ -44,7 +44,11 @@ async function setupBottomRightCorner(iterationFile: any) {
   return setPos.setBottomRightCornerPositions(matchDetails);
 }
 
-async function keepInBoundaries(iterationFile: any, kickersSide: any, ballIntended: any) {
+async function keepInBoundaries(
+  iterationFile: any,
+  kickersSide: any,
+  ballIntended: any,
+) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });
@@ -112,7 +116,10 @@ async function setSecondTeamGoalScored(iterationFile: any) {
   return matchDetails;
 }
 
-async function setLeftKickOffTeamThrowIn(iterationFile: any, ballIntended: any) {
+async function setLeftKickOffTeamThrowIn(
+  iterationFile: any,
+  ballIntended: any,
+) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });
@@ -128,7 +135,10 @@ async function setLeftSecondTeamThrowIn(iterationFile: any, ballIntended: any) {
   return matchDetails;
 }
 
-async function setRightKickOffTeamThrowIn(iterationFile: any, ballIntended: any) {
+async function setRightKickOffTeamThrowIn(
+  iterationFile: any,
+  ballIntended: any,
+) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });
@@ -136,7 +146,10 @@ async function setRightKickOffTeamThrowIn(iterationFile: any, ballIntended: any)
   return matchDetails;
 }
 
-async function setRightSecondTeamThrowIn(iterationFile: any, ballIntended: any) {
+async function setRightSecondTeamThrowIn(
+  iterationFile: any,
+  ballIntended: any,
+) {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });

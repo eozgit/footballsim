@@ -138,7 +138,11 @@ function setBottomOneHundredYPos(matchDetails: any, attack: any, defence: any) {
   return matchDetails;
 }
 
-function setTopOneHundredToHalfwayYPos(matchDetails: any, attack: any, defence: any) {
+function setTopOneHundredToHalfwayYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
   const goalieToKick = common.isBetween(
@@ -225,7 +229,11 @@ function setTopOneHundredToHalfwayYPos(matchDetails: any, attack: any, defence: 
   return matchDetails;
 }
 
-function setBottomOneHundredToHalfwayYPos(matchDetails: any, attack: any, defence: any) {
+function setBottomOneHundredToHalfwayYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
   const goalieToKick = common.isBetween(
@@ -312,7 +320,11 @@ function setBottomOneHundredToHalfwayYPos(matchDetails: any, attack: any, defenc
   return matchDetails;
 }
 
-function setTopHalfwayToBottomQtrYPos(matchDetails: any, attack: any, defence: any) {
+function setTopHalfwayToBottomQtrYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -381,7 +393,11 @@ function setTopHalfwayToBottomQtrYPos(matchDetails: any, attack: any, defence: a
   return matchDetails;
 }
 
-function setBottomHalfwayToTopQtrYPos(matchDetails: any, attack: any, defence: any) {
+function setBottomHalfwayToTopQtrYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -450,7 +466,11 @@ function setBottomHalfwayToTopQtrYPos(matchDetails: any, attack: any, defence: a
   return matchDetails;
 }
 
-function setTopBottomQtrCentreYPos(matchDetails: any, attack: any, defence: any) {
+function setTopBottomQtrCentreYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -510,7 +530,9 @@ function setTopBottomQtrCentreYPos(matchDetails: any, attack: any, defence: any)
       10,
     );
     if (player.position === 'GK')
-      player.currentPOS = player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = player.currentPOS = player.originPOS.map(
+        (x: any) => x,
+      );
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = [
         midWayFromBalltoGoalX + playerSpace,
@@ -525,7 +547,11 @@ function setTopBottomQtrCentreYPos(matchDetails: any, attack: any, defence: any)
   return matchDetails;
 }
 
-function setBottomUpperQtrCentreYPos(matchDetails: any, attack: any, defence: any) {
+function setBottomUpperQtrCentreYPos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -581,7 +607,9 @@ function setBottomUpperQtrCentreYPos(matchDetails: any, attack: any, defence: an
     // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const midWayFromBalltoGoalY = parseInt(ball.position[1] / 2, 10);
     if (player.position === 'GK')
-      player.currentPOS = player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = player.currentPOS = player.originPOS.map(
+        (x: any) => x,
+      );
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = [
         midWayFromBalltoGoalX + playerSpace,
@@ -596,7 +624,11 @@ function setBottomUpperQtrCentreYPos(matchDetails: any, attack: any, defence: an
   return matchDetails;
 }
 
-function setTopLowerFinalQtrBylinePos(matchDetails: any, attack: any, defence: any) {
+function setTopLowerFinalQtrBylinePos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -643,7 +675,11 @@ function setTopLowerFinalQtrBylinePos(matchDetails: any, attack: any, defence: a
   return matchDetails;
 }
 
-function setBottomLowerFinalQtrBylinePos(matchDetails: any, attack: any, defence: any) {
+function setBottomLowerFinalQtrBylinePos(
+  matchDetails: any,
+  attack: any,
+  defence: any,
+) {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
