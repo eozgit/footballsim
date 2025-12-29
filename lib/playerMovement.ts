@@ -30,7 +30,7 @@ function decideMovement(
   const { position, withPlayer, withTeam } = matchDetails.ball;
   for (const thisPlayer of team.players) {
     //players closer than the closest player stand still near the ball???
-    if (thisPlayer.currentPOS[0].toString() !== 'NP') {
+    if (thisPlayer.currentPOS[0] !== 'NP') {
       let ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
       let ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
       const possibleActions = actions.findPossActions(
@@ -459,6 +459,9 @@ function getInterceptMovement(
     ballPosition,
     pitchSize,
   );
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error(`Player ${player.name} (ID: ${player.playerID}) is 'NP' at an active logic gate!`);
+  }
   const intcptPosX = player.currentPOS[0] - intcptPos[0];
   const intcptPosY = player.currentPOS[1] - intcptPos[1];
   if (intcptPosX === 0) {
@@ -520,6 +523,53 @@ function getClosestTrajPosition(
   return intcptPos;
 }
 
+export const mockPlayer: Player = {
+  name: "George Johnson",
+  position: 'ST', // or "ST"
+  rating: "85",
+  skill: {
+    passing: 80,
+    shooting: 90,
+    tackling: 50,
+    saving: 10,
+    agility: 85,
+    strength: 75,
+    penalty_taking: 80,
+    jumping: 70
+  },
+  currentPOS: [400, 200],
+  fitness: 95,
+  injured: false,
+  playerID: 10,
+  originPOS: [400, 200],
+  intentPOS: [410, 210],
+  action: "none",
+  offside: false,
+  hasBall: false,
+  stats: {
+    goals: 0,
+    shots: {
+      total: 0,
+      on: 0,
+      off: 0,
+      fouls: 0
+    },
+    cards: {
+      yellow: 0,
+      red: 0
+    },
+    passes: {
+      total: 0,
+      on: 0,
+      off: 0
+    },
+    tackles: {
+      total: 0,
+      on: 0,
+      off: 0
+    }
+  }
+};
 function getInterceptTrajectory(
   opposition: Team,
   ballPosition: any,
@@ -527,7 +577,7 @@ function getInterceptTrajectory(
 ) {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playerInformation = setPositions.closestPlayerToPosition(
-    `name`,
+    mockPlayer,
     opposition,
     ballPosition,
   );
@@ -665,6 +715,10 @@ function closestPlayerToBall(
   let closestPlayerDetails;
   const { position } = matchDetails.ball;
   for (const thisPlayer of team.players) {
+
+    if (thisPlayer.currentPOS[0] === 'NP') {
+      throw new Error(`Player ${thisPlayer.name} (ID: ${thisPlayer.playerID}) is 'NP' at an active logic gate!`);
+    }
     const ballToPlayerX = Math.abs(thisPlayer.currentPOS[0] - position[0]);
     const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
     const proximityToBall = ballToPlayerX + ballToPlayerY;
@@ -676,6 +730,7 @@ function closestPlayerToBall(
   }
 
   setPositions.setIntentPosition(matchDetails, closestPlayerDetails);
+  if (closestPlayerDetails === undefined) { throw new Error('Closest player details not found'); }
   matchDetails.iterationLog.push(
     `Closest Player to ball: ${closestPlayerDetails.name}`,
   );
@@ -723,6 +778,7 @@ function getBottomMostPlayer(team: Team) {
 function team1atBottom(team1: any, team2: any, pitchHeight: any) {
   const offT1Ypos = offsideYPOS(team2, `top`, pitchHeight);
   const topPlayer = getTopMostPlayer(team1, pitchHeight);
+  if (topPlayer === undefined) { throw new Error('Top player is undefined'); }
   const topPlayerOffsidePosition = common.isBetween(
     topPlayer.currentPOS[1],
     offT1Ypos.pos1,
@@ -739,6 +795,7 @@ function team1atBottom(team1: any, team2: any, pitchHeight: any) {
   }
   const offT2Ypos = offsideYPOS(team1, `bottom`, pitchHeight);
   const btmPlayer = getBottomMostPlayer(team2);
+  if (btmPlayer === undefined) { throw new Error('Bottom player is undefined'); }
   const btmPlayerOffsidePosition = common.isBetween(
     btmPlayer.currentPOS[1],
     offT2Ypos.pos2,
@@ -758,6 +815,7 @@ function team1atBottom(team1: any, team2: any, pitchHeight: any) {
 function team1atTop(team1: any, team2: any, pitchHeight: any) {
   const offT1Ypos = offsideYPOS(team2, `bottom`, pitchHeight);
   const btmPlayer = getBottomMostPlayer(team1);
+  if (btmPlayer === undefined) { throw new Error('Bottom player is undefined'); }
   const btmPlayerOffsidePosition = common.isBetween(
     btmPlayer.currentPOS[1],
     offT1Ypos.pos2,
@@ -774,6 +832,7 @@ function team1atTop(team1: any, team2: any, pitchHeight: any) {
   }
   const offT2Ypos = offsideYPOS(team1, `top`, pitchHeight);
   const topPlayer = getTopMostPlayer(team2, pitchHeight);
+  if (topPlayer === undefined) { throw new Error('Top player is undefined'); }
   const topPlayerOffsidePosition = common.isBetween(
     topPlayer.currentPOS[1],
     offT2Ypos.pos1,
