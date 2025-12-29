@@ -1,7 +1,8 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 
-function setTopFreekick(matchDetails: any) {
+function setTopFreekick(matchDetails: MatchDetails) {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -42,7 +43,7 @@ function setTopFreekick(matchDetails: any) {
     return setTopLowerFinalQtrBylinePos(matchDetails, attack, defence);
 }
 
-function setBottomFreekick(matchDetails: any) {
+function setBottomFreekick(matchDetails: MatchDetails) {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -84,7 +85,11 @@ function setBottomFreekick(matchDetails: any) {
     return setBottomLowerFinalQtrBylinePos(matchDetails, attack, defence);
 }
 
-function setTopOneHundredYPos(matchDetails: any, attack: any, defence: any) {
+function setTopOneHundredYPos(
+  matchDetails: MatchDetails,
+  attack: any,
+  defence: any,
+) {
   attack.players[0].hasBall = true;
   const { ball } = matchDetails;
   ball.lastTouch.playerName = attack.players[0].name;
@@ -110,7 +115,11 @@ function setTopOneHundredYPos(matchDetails: any, attack: any, defence: any) {
   return matchDetails;
 }
 
-function setBottomOneHundredYPos(matchDetails: any, attack: any, defence: any) {
+function setBottomOneHundredYPos(
+  matchDetails: MatchDetails,
+  attack: any,
+  defence: any,
+) {
   attack.players[0].hasBall = true;
   const { ball, pitchSize } = matchDetails;
   const [, pitchHeight] = pitchSize;
@@ -139,7 +148,7 @@ function setBottomOneHundredYPos(matchDetails: any, attack: any, defence: any) {
 }
 
 function setTopOneHundredToHalfwayYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -230,9 +239,9 @@ function setTopOneHundredToHalfwayYPos(
 }
 
 function setBottomOneHundredToHalfwayYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
-  defence: any,
+  defence: Team,
 ) {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -244,7 +253,7 @@ function setBottomOneHundredToHalfwayYPos(
   const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
   kickPlayer.hasBall = true;
   common.debug('sf1', ball.lastTouch);
-  common.debug('sf2', ball.player);
+  common.debug('sf2', ball.Player);
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
@@ -294,14 +303,13 @@ function setBottomOneHundredToHalfwayYPos(
   }
   for (const player of defence.players) {
     if (kickPlayer.position === 'GK') {
-      if (player.position === 'GK')
-        player.currentPOS = player.originPOS.map((x: any) => x);
+      if (player.position === 'GK') player.currentPOS = [...player.originPOS];
       if (player.position !== 'GK') {
         const newYPOS = common.upToMax(player.originPOS[1] + 100, pitchHeight);
         player.currentPOS = [player.originPOS[0], parseInt(newYPOS, 10)];
       }
     } else if (['GK', 'CB', 'LB', 'RB'].includes(player.position))
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
     else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [
         player.originPOS[0],
@@ -321,7 +329,7 @@ function setBottomOneHundredToHalfwayYPos(
 }
 
 function setTopHalfwayToBottomQtrYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -394,7 +402,7 @@ function setTopHalfwayToBottomQtrYPos(
 }
 
 function setBottomHalfwayToTopQtrYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -467,7 +475,7 @@ function setBottomHalfwayToTopQtrYPos(
 }
 
 function setTopBottomQtrCentreYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -548,7 +556,7 @@ function setTopBottomQtrCentreYPos(
 }
 
 function setBottomUpperQtrCentreYPos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -625,7 +633,7 @@ function setBottomUpperQtrCentreYPos(
 }
 
 function setTopLowerFinalQtrBylinePos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {
@@ -676,7 +684,7 @@ function setTopLowerFinalQtrBylinePos(
 }
 
 function setBottomLowerFinalQtrBylinePos(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   attack: any,
   defence: any,
 ) {

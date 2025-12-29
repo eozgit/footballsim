@@ -1,4 +1,5 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 
 //---------------
 //Maths Functions
@@ -90,7 +91,7 @@ function sumFrom1toX(x: any) {
   return (x * (x + 1)) / 2;
 }
 
-function inTopPenalty(matchDetails: any, item: any) {
+function inTopPenalty(matchDetails: MatchDetails, item: any) {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -102,7 +103,7 @@ function inTopPenalty(matchDetails: any, item: any) {
   return false;
 }
 
-function inBottomPenalty(matchDetails: any, item: any) {
+function inBottomPenalty(matchDetails: MatchDetails, item: any) {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -118,7 +119,7 @@ function inBottomPenalty(matchDetails: any, item: any) {
   return false;
 }
 
-function getRandomTopPenaltyPosition(matchDetails: any) {
+function getRandomTopPenaltyPosition(matchDetails: MatchDetails) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [0, pitchHeight / 6 + 6];
@@ -128,7 +129,7 @@ function getRandomTopPenaltyPosition(matchDetails: any) {
   ];
 }
 
-function getRandomBottomPenaltyPosition(matchDetails: any) {
+function getRandomBottomPenaltyPosition(matchDetails: MatchDetails) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];
@@ -146,7 +147,7 @@ function isOdd(n: any) {
   return Math.abs(n % 2) === 1;
 }
 
-function removeBallFromAllPlayers(matchDetails: any) {
+function removeBallFromAllPlayers(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
     player.hasBall = false;
   }

@@ -1,26 +1,27 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 
-function resetPlayerPositions(matchDetails: any) {
+function resetPlayerPositions(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
-      player.currentPOS = player.originPOS.map((x: any) => x);
-      player.intentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
+      player.intentPOS = [...player.originPOS];
     }
   }
   for (const player of matchDetails.secondTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
-      player.currentPOS = player.originPOS.map((x: any) => x);
-      player.intentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
+      player.intentPOS = [...player.originPOS];
     }
   }
 }
 
-function setGameVariables(team: any) {
-  team.players.forEach((player: any) => {
+function setGameVariables(team: Team) {
+  team.players.forEach((player: Player) => {
     player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
-    player.originPOS = player.currentPOS.slice();
-    player.intentPOS = player.currentPOS.slice();
+    player.originPOS = [Number(player.currentPOS[0]), player.currentPOS[1]];
+    player.intentPOS = [Number(player.currentPOS[0]), player.currentPOS[1]];
     player.action = `none`;
     player.offside = false;
     player.hasBall = false;
@@ -54,7 +55,7 @@ function setGameVariables(team: any) {
   return team;
 }
 
-function koDecider(team1: any, matchDetails: any) {
+function koDecider(team1: any, matchDetails: MatchDetails) {
   const playerWithBall = common.getRandomNumber(9, 10);
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.Player = team1.players[playerWithBall].playerID;
@@ -85,7 +86,11 @@ function koDecider(team1: any, matchDetails: any) {
   return team1;
 }
 
-function populateMatchDetails(team1: any, team2: any, pitchDetails: any) {
+function populateMatchDetails(
+  team1: any,
+  team2: any,
+  pitchDetails: any,
+): MatchDetails {
   return {
     matchID: common.getRandomNumber(1000000000000, 999999999999999),
     kickOffTeam: team1,
@@ -104,8 +109,8 @@ function populateMatchDetails(team1: any, team2: any, pitchDetails: any) {
       ballOverIterations: [],
       lastTouch: {
         playerName: ``,
-        playerID: ``,
-        teamID: ``,
+        playerID: -99,
+        teamID: -99,
       },
     },
     half: 1,

@@ -1,4 +1,5 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import ballMovement from '../lib/ballMovement.js';
 import setPositions from '../lib/setPositions.js';
@@ -6,9 +7,9 @@ import actions from '../lib/actions.js';
 
 function decideMovement(
   closestPlayer: any,
-  team: any,
+  team: Team,
   opp: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   const allActions = [
     `shoot`,
@@ -120,9 +121,9 @@ function decideMovement(
 }
 
 function setClosePlayerTakesBall(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
-  team: any,
+  team: Team,
   opp: any,
 ) {
   if (thisPlayer.offside) {
@@ -146,9 +147,9 @@ function setClosePlayerTakesBall(
 }
 
 function completeSlide(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
-  team: any,
+  team: Team,
   opp: any,
 ) {
   const foul = actions.resolveSlide(thisPlayer, team, opp, matchDetails);
@@ -185,9 +186,9 @@ function completeSlide(
 }
 
 function completeTackleWhenCloseNoBall(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
-  team: any,
+  team: Team,
   opp: any,
 ) {
   const foul = actions.resolveTackle(thisPlayer, team, opp, matchDetails);
@@ -219,7 +220,11 @@ function completeTackleWhenCloseNoBall(
   return setPositions.setSetpieceSecondTeam(matchDetails);
 }
 
-function completeMovement(matchDetails: any, currentPOS: any, move: any) {
+function completeMovement(
+  matchDetails: MatchDetails,
+  currentPOS: any,
+  move: any,
+) {
   if (currentPOS[0] !== 'NP') {
     const intendedMovementX = currentPOS[0] + move[0];
     const intendedMovementY = currentPOS[1] + move[1];
@@ -253,7 +258,11 @@ function closestPlayerActionBallY(ballToPlayerY: any) {
   return ballToPlayerY;
 }
 
-function checkProvidedAction(matchDetails: any, thisPlayer: any, action: any) {
+function checkProvidedAction(
+  matchDetails: MatchDetails,
+  thisPlayer: any,
+  action: any,
+) {
   const ballActions = [
     `shoot`,
     `throughBall`,
@@ -305,9 +314,9 @@ function checkProvidedAction(matchDetails: any, thisPlayer: any, action: any) {
 }
 
 function handleBallPlayerActions(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
-  team: any,
+  team: Team,
   opp: any,
   action: any,
 ) {
@@ -370,7 +379,12 @@ function handleBallPlayerActions(
   }
 }
 
-function ballMoved(matchDetails: any, thisPlayer: any, team: any, opp: any) {
+function ballMoved(
+  matchDetails: MatchDetails,
+  thisPlayer: any,
+  team: Team,
+  opp: any,
+) {
   thisPlayer.hasBall = false;
   matchDetails.ball.withPlayer = false;
   team.intent = `attack`;
@@ -379,7 +393,7 @@ function ballMoved(matchDetails: any, thisPlayer: any, team: any, opp: any) {
   matchDetails.ball.withTeam = ``;
 }
 
-function updateInformation(matchDetails: any, newPosition: any) {
+function updateInformation(matchDetails: MatchDetails, newPosition: any) {
   if (matchDetails.endIteration === true) return;
   const tempPosition = newPosition.map((x: any) => x);
   matchDetails.ball.position = tempPosition;
@@ -387,12 +401,12 @@ function updateInformation(matchDetails: any, newPosition: any) {
 }
 
 function getMovement(
-  player: any,
+  player: Player,
   action: any,
-  opposition: any,
+  opposition: Team,
   ballX: any,
   ballY: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   const { position } = matchDetails.ball;
   const ballActions = [
@@ -433,8 +447,8 @@ function getTackleMovement(ballX: any, ballY: any) {
 }
 
 function getInterceptMovement(
-  player: any,
-  opposition: any,
+  player: Player,
+  opposition: Team,
   ballPosition: any,
   pitchSize: any,
 ) {
@@ -463,7 +477,7 @@ function getInterceptMovement(
 
 function getInterceptPosition(
   currentPOS: any,
-  opposition: any,
+  opposition: Team,
   ballPosition: any,
   pitchSize: any,
 ) {
@@ -507,7 +521,7 @@ function getClosestTrajPosition(
 }
 
 function getInterceptTrajectory(
-  opposition: any,
+  opposition: Team,
   ballPosition: any,
   pitchSize: any,
 ) {
@@ -548,8 +562,8 @@ function getInterceptTrajectory(
 }
 
 function getRunMovement(
-  matchDetails: any,
-  player: any,
+  matchDetails: MatchDetails,
+  player: Player,
   ballX: any,
   ballY: any,
 ) {
@@ -596,8 +610,8 @@ function getRunMovement(
 }
 
 function getSprintMovement(
-  matchDetails: any,
-  player: any,
+  matchDetails: MatchDetails,
+  player: Player,
   ballX: any,
   ballY: any,
 ) {
@@ -643,7 +657,11 @@ function getSprintMovement(
   return move;
 }
 
-function closestPlayerToBall(closestPlayer: any, team: any, matchDetails: any) {
+function closestPlayerToBall(
+  closestPlayer: any,
+  team: Team,
+  matchDetails: MatchDetails,
+) {
   let closestPlayerDetails;
   const { position } = matchDetails.ball;
   for (const thisPlayer of team.players) {
@@ -663,7 +681,7 @@ function closestPlayerToBall(closestPlayer: any, team: any, matchDetails: any) {
   );
 }
 
-function checkOffside(team1: any, team2: any, matchDetails: any) {
+function checkOffside(team1: any, team2: any, matchDetails: MatchDetails) {
   const { ball } = matchDetails;
   const { pitchSize } = matchDetails;
   const team1side =
@@ -676,7 +694,7 @@ function checkOffside(team1: any, team2: any, matchDetails: any) {
   }
 }
 
-function getTopMostPlayer(team: any, pitchHeight: any) {
+function getTopMostPlayer(team: Team, pitchHeight: any) {
   let player;
   for (const thisPlayer of team.players) {
     let topMostPosition = pitchHeight;
@@ -689,7 +707,7 @@ function getTopMostPlayer(team: any, pitchHeight: any) {
   return player;
 }
 
-function getBottomMostPlayer(team: any) {
+function getBottomMostPlayer(team: Team) {
   let player;
   for (const thisPlayer of team.players) {
     let topMostPosition = 0;
@@ -772,7 +790,7 @@ function team1atTop(team1: any, team2: any, pitchHeight: any) {
   }
 }
 
-function offsideYPOS(team: any, side: any, pitchHeight: any) {
+function offsideYPOS(team: Team, side: any, pitchHeight: any) {
   const offsideYPOS = {
     pos1: 0,
     pos2: pitchHeight / 2,

@@ -1,4 +1,5 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import injury from '../lib/injury.js';
 import setPositions from '../lib/setPositions.js';
@@ -14,12 +15,12 @@ function selectAction(possibleActions: any) {
 }
 
 function findPossActions(
-  player: any,
-  team: any,
-  opposition: any,
+  player: Player,
+  team: Team,
+  opposition: Team,
   ballX: any,
   ballY: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   const possibleActions = populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -35,10 +36,10 @@ function findPossActions(
 }
 
 function topTeamPlayerHasBall(
-  matchDetails: any,
-  player: any,
-  team: any,
-  opposition: any,
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -94,10 +95,10 @@ function topTeamPlayerHasBall(
 }
 
 function topTeamPlayerHasBallInBottomPenaltyBox(
-  matchDetails: any,
-  player: any,
-  team: any,
-  opposition: any,
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -163,10 +164,10 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
 }
 
 function bottomTeamPlayerHasBall(
-  matchDetails: any,
-  player: any,
-  team: any,
-  opposition: any,
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -220,10 +221,10 @@ function bottomTeamPlayerHasBallInMiddle(
 }
 
 function bottomTeamPlayerHasBallInTopPenaltyBox(
-  matchDetails: any,
-  player: any,
-  team: any,
-  opposition: any,
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -330,10 +331,10 @@ function checkOppositionBelow(closePlayerPosition: any, currentPOS: any) {
 }
 
 function playerDoesNotHaveBall(
-  player: any,
+  player: Player,
   ballX: any,
   ballY: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, originPOS } = player;
@@ -372,7 +373,7 @@ function playerDoesNotHaveBall(
 }
 
 function noBallNotGK4CloseBall(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   currentPOS: any,
   originPOS: any,
   pitchWidth: any,
@@ -396,7 +397,7 @@ function noBallNotGK4CloseBall(
 }
 
 function noBallNotGK4CloseBallBottomTeam(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   currentPOS: any,
   pitchWidth: any,
   pitchHeight: any,
@@ -411,7 +412,7 @@ function noBallNotGK4CloseBallBottomTeam(
 }
 
 function noBallNotGK2CloseBall(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   currentPOS: any,
   originPOS: any,
   pitchWidth: any,
@@ -435,7 +436,7 @@ function noBallNotGK2CloseBall(
 }
 
 function noBallNotGK2CloseBallBottomTeam(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   currentPOS: any,
   pitchWidth: any,
   pitchHeight: any,
@@ -617,10 +618,10 @@ function populateActionsJSON() {
 }
 
 function resolveTackle(
-  player: any,
-  team: any,
-  opposition: any,
-  matchDetails: any,
+  player: Player,
+  team: Team,
+  opposition: Team,
+  matchDetails: MatchDetails,
 ) {
   matchDetails.iterationLog.push(`Tackle attempted by: ${player.name}`);
   const tackleDetails = {
@@ -658,10 +659,10 @@ function resolveTackle(
 }
 
 function resolveSlide(
-  player: any,
-  team: any,
-  opposition: any,
-  matchDetails: any,
+  player: Player,
+  team: Team,
+  opposition: Team,
+  matchDetails: MatchDetails,
 ) {
   matchDetails.iterationLog.push(`Slide tackle attempted by: ${player.name}`);
   const tackleDetails = {
@@ -699,8 +700,8 @@ function resolveSlide(
 }
 
 function setFailedTackle(
-  matchDetails: any,
-  player: any,
+  matchDetails: MatchDetails,
+  player: Player,
   thatPlayer: any,
   tackleDetails: any,
 ) {
@@ -722,15 +723,18 @@ function setFailedTackle(
 }
 
 function setSuccessTackle(
-  matchDetails: any,
-  team: any,
-  opposition: any,
-  player: any,
+  matchDetails: MatchDetails,
+  team: Team,
+  opposition: Team,
+  player: Player,
   thatPlayer: any,
   tackleDetails: any,
 ) {
   setPostTackleBall(matchDetails, team, opposition, player);
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
+  if (player.stats.tackles.on === undefined) {
+    player.stats.tackles.on = 0;
+  }
   player.stats.tackles.on++;
   setInjury(
     matchDetails,
@@ -762,10 +766,10 @@ function calcRetentionScore(skill: any, diff: any) {
 }
 
 function setPostTackleBall(
-  matchDetails: any,
-  team: any,
-  opposition: any,
-  player: any,
+  matchDetails: MatchDetails,
+  team: Team,
+  opposition: Team,
+  player: Player,
 ) {
   player.hasBall = true;
   matchDetails.ball.lastTouch.playerName = player.name;
@@ -781,7 +785,7 @@ function setPostTackleBall(
 }
 
 function setPostTacklePosition(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   winningPlyr: any,
   losePlayer: any,
   increment: any,
@@ -817,9 +821,9 @@ function setPostTacklePosition(
 }
 
 function setInjury(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thatPlayer: any,
-  player: any,
+  player: Player,
   tackledInjury: any,
   tacklerInjury: any,
 ) {
@@ -833,8 +837,16 @@ function setInjury(
   }
 }
 
-function setFoul(matchDetails: any, team: any, player: any, thatPlayer: any) {
+function setFoul(
+  matchDetails: MatchDetails,
+  team: Team,
+  player: Player,
+  thatPlayer: any,
+) {
   matchDetails.iterationLog.push(`Foul against: ${thatPlayer.name}`);
+  if (player.stats.tackles.fouls === undefined) {
+    player.stats.tackles.fouls = 0;
+  }
   player.stats.tackles.fouls++;
   if (team.teamID === matchDetails.kickOffTeam.teamID)
     matchDetails.kickOffTeamStatistics.fouls++;

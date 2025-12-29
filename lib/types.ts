@@ -8,6 +8,8 @@ export interface MatchDetails {
   kickOffTeamStatistics: TeamStatistics;
   secondTeamStatistics: TeamStatistics;
   iterationLog: string[];
+  endIteration?: boolean;
+  ballIntended?: number[];
 }
 
 export interface Ball {
@@ -17,7 +19,7 @@ export interface Ball {
   withTeam: number | string;
   direction: string;
   ballOverIterations: Array<number[]>;
-  lastTouch: LastTouch | string;
+  lastTouch: LastTouch;
 }
 
 export interface LastTouch {
@@ -31,7 +33,7 @@ export interface Team {
   rating: number;
   players: Player[];
   intent: string;
-  teamID: number | string;
+  teamID: number;
 }
 
 export interface Player {
@@ -39,12 +41,12 @@ export interface Player {
   position: Position | string;
   rating: string;
   skill: Skill;
-  currentPOS: number[];
+  currentPOS: [number | 'NP', number];
   fitness: number;
   injured: boolean;
-  playerID: number | string;
-  originPOS: number[];
-  intentPOS: Array<number | null | number[]>;
+  playerID: number;
+  originPOS: [number, number];
+  intentPOS: [number, number];
   action: string;
   offside: boolean;
   hasBall: boolean;
@@ -53,19 +55,25 @@ export interface Player {
 
 // Keeping this Enum is actually good—it validates soccer positions
 export enum Position {
-  CM = "CM",
-  Cb = "CB",
-  Gk = "GK",
-  LB = "LB",
-  LM = "LM",
-  Rb = "RB",
-  Rm = "RM",
-  St = "ST",
+  CM = 'CM',
+  Cb = 'CB',
+  Gk = 'GK',
+  LB = 'LB',
+  LM = 'LM',
+  Rb = 'RB',
+  Rm = 'RM',
+  St = 'ST',
 }
 
 export interface Skill {
-  passing: string; shooting: string; tackling: string; saving: string;
-  agility: string; strength: string; penalty_taking: string; jumping: string;
+  passing: number;
+  shooting: number;
+  tackling: number;
+  saving: number;
+  agility: number;
+  strength: number;
+  penalty_taking: number;
+  jumping: number;
 }
 
 export interface Stats {
@@ -77,7 +85,10 @@ export interface Stats {
   saves?: number;
 }
 
-export interface Cards { yellow: number; red: number; }
+export interface Cards {
+  yellow: number;
+  red: number;
+}
 
 export interface Shots {
   total: number;

@@ -1,8 +1,9 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
 
-function moveBall(matchDetails: any) {
+function moveBall(matchDetails: MatchDetails) {
   if (
     matchDetails.ball.ballOverIterations === undefined ||
     matchDetails.ball.ballOverIterations.length === 0
@@ -58,7 +59,7 @@ function setBPlayer(ballPos: any) {
   };
 }
 
-function ballKicked(matchDetails: any, team: any, player: any) {
+function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
   const { position } = matchDetails.ball;
   let { direction } = matchDetails.ball;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -174,7 +175,7 @@ function newKickedPosition(
   return newPosition;
 }
 
-function shotMade(matchDetails: any, team: any, player: any) {
+function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
   matchDetails.ball.lastTouch.playerName = player.name;
@@ -235,7 +236,7 @@ function shotMade(matchDetails: any, team: any, player: any) {
   return endPos;
 }
 
-function penaltyTaken(matchDetails: any, team: any, player: any) {
+function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   player.action = `none`;
   matchDetails.iterationLog.push(`Penalty Taken by: ${player.name}`);
@@ -289,7 +290,7 @@ function penaltyTaken(matchDetails: any, team: any, player: any) {
   return endPos;
 }
 
-function checkGoalScored(matchDetails: any) {
+function checkGoalScored(matchDetails: MatchDetails) {
   const { ball, half, kickOffTeam, secondTeam } = matchDetails;
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
   const centreGoal = pitchWidth / 2;
@@ -368,7 +369,7 @@ function checkGoalScored(matchDetails: any) {
   }
 }
 
-function throughBall(matchDetails: any, team: any, player: any) {
+function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -413,7 +414,7 @@ function throughBall(matchDetails: any, team: any, player: any) {
   );
 }
 
-function getPlayersInDistance(team: any, player: any, pitchSize: any) {
+function getPlayersInDistance(team: Team, player: Player, pitchSize: any) {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playersInDistance = [];
   for (const teamPlayer of team.players) {
@@ -447,13 +448,13 @@ function getPlayersInDistance(team: any, player: any, pitchSize: any) {
 }
 
 function resolveBallMovement(
-  player: any,
+  player: Player,
   thisPOS: any,
   newPOS: any,
   power: any,
-  team: any,
+  team: Team,
   opp: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   common.removeBallFromAllPlayers(matchDetails);
   const lineToEndPosition = common.getBallTrajectory(thisPOS, newPOS, power);
@@ -504,7 +505,7 @@ function resolveBallMovement(
 }
 
 function thisPlayerIsInProximity(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
   thisPOS: any,
   thisPos: any,
@@ -570,7 +571,7 @@ function thisPlayerIsInProximity(
 }
 
 function setBallMovementMatchDetails(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   thisPlayer: any,
   thisPos: any,
   thisTeam: any,
@@ -593,7 +594,7 @@ function resolveDeflection(
   defPosition: any,
   defPlayer: any,
   defTeam: any,
-  matchDetails: any,
+  matchDetails: MatchDetails,
 ) {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
@@ -685,7 +686,7 @@ function setDeflectionDirectionPos(
 }
 
 function setDeflectionPlayerHasBall(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   defPlayer: any,
   defTeam: any,
 ) {
@@ -706,7 +707,7 @@ function setDeflectionPlayerHasBall(
 }
 
 function setDeflectionPlayerOffside(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   defTeam: any,
   defPlayer: any,
 ) {
@@ -723,7 +724,7 @@ function setDeflectionPlayerOffside(
   else matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
 }
 
-function getBallDirection(matchDetails: any, nextPOS: any) {
+function getBallDirection(matchDetails: MatchDetails, nextPOS: any) {
   const thisPOS = matchDetails.ball.position;
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
@@ -744,7 +745,7 @@ function getBallDirection(matchDetails: any, nextPOS: any) {
     matchDetails.ball.direction = `northeast`;
 }
 
-function ballPassed(matchDetails: any, team: any, player: any) {
+function ballPassed(matchDetails: MatchDetails, team: Team, player: Player) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -836,7 +837,7 @@ function getTargetPlayer(playersArray: any, side: any, pitchHeight: any) {
   return thisPlayer;
 }
 
-function ballCrossed(matchDetails: any, team: any, player: any) {
+function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -869,10 +870,10 @@ function ballCrossed(matchDetails: any, team: any, player: any) {
 }
 
 function calcBallMovementOverTime(
-  matchDetails: any,
+  matchDetails: MatchDetails,
   strength: any,
   nextPosition: any,
-  player: any,
+  player: Player,
 ) {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;

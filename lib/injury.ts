@@ -1,4 +1,5 @@
 'use strict';
+import { MatchDetails, Player, Team } from './types.js';
 import common from './common.js';
 
 //---------------
@@ -9,7 +10,7 @@ function isInjured(x: any) {
   return common.getRandomNumber(0, x) === 23;
 }
 
-function matchInjury(matchDetails: any, team: any) {
+function matchInjury(matchDetails: MatchDetails, team: Team) {
   const player = team.players[common.getRandomNumber(0, 10)];
 
   if (isInjured(40000)) {

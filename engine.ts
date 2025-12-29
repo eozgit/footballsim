@@ -22,9 +22,7 @@ async function initiateGame(team1: any, team2: any, pitchDetails: any) {
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam);
   const secondTeam = setVariables.setGameVariables(matchDetails.secondTeam);
   kickOffTeam = setVariables.koDecider(kickOffTeam, matchDetails);
-  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   matchDetails.iterationLog.push(`Team to kick off - ${kickOffTeam.name}`);
-  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   matchDetails.iterationLog.push(`Second team - ${secondTeam.name}`);
   setPositions.switchSide(matchDetails, secondTeam);
   matchDetails.kickOffTeam = kickOffTeam;
