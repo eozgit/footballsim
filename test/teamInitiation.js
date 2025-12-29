@@ -1,4 +1,5 @@
 import { expect, it, describe } from 'vitest';
+
 import initteams from './lib/initiate_team.js';
 
 describe('testTeamSetup()', function () {

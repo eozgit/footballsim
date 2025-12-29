@@ -1,7 +1,9 @@
 import { expect, it, describe } from 'vitest';
-import setpieces from './lib/set_pieces.js';
+
 import common from '../lib/common.js';
 import { readFile } from '../lib/fileReader.js';
+
+import setpieces from './lib/set_pieces.js';
 
 describe('testBoundariesForCorners1()', function () {
   it('expected Top Left Corner', async () => {

@@ -1,6 +1,7 @@
 //example implementation application
-const engine = require('./../engine');
 const fs = require('fs');
+
+const engine = require('./../engine');
 
 let nextIteration;
 gameOfTenIterations()

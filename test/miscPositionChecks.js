@@ -1,7 +1,9 @@
 import { expect, it, describe } from 'vitest';
+
 import { readFile } from '../lib/fileReader.js';
-import setpieces from './lib/set_pieces.js';
 import common from '../lib/common.js';
+
+import setpieces from './lib/set_pieces.js';
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async () => {

@@ -1,6 +1,8 @@
 import { expect, it, describe } from 'vitest';
-import setfreekicks from './lib/set_freekicks.js';
+
 import common from '../lib/common.js';
+
+import setfreekicks from './lib/set_freekicks.js';
 
 describe('testFreekicksTopOwnHalf()', function () {
   it('freekick in own half - top boundary', async () => {
