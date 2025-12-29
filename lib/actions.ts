@@ -3,8 +3,8 @@ import common from '../lib/common.js';
 import injury from '../lib/injury.js';
 import setPositions from '../lib/setPositions.js';
 
-function selectAction(possibleActions) {
-  let goodActions = [];
+function selectAction(possibleActions: any) {
+  let goodActions: any = [];
   for (const thisAction of possibleActions) {
     const tempArray = Array(thisAction.points).fill(thisAction.name);
     goodActions = goodActions.concat(tempArray);
@@ -13,7 +13,7 @@ function selectAction(possibleActions) {
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
 }
 
-function findPossActions(player, team, opposition, ballX, ballY, matchDetails) {
+function findPossActions(player: any, team: any, opposition: any, ballX: any, ballY: any, matchDetails: any) {
   const possibleActions = populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
   let params = [];
@@ -23,10 +23,11 @@ function findPossActions(player, team, opposition, ballX, ballY, matchDetails) {
   else if (originPOS[1] > pitchHeight / 2)
     params = bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
   else params = topTeamPlayerHasBall(matchDetails, player, team, opposition);
+  // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
   return populatePossibleActions(possibleActions, ...params);
 }
 
-function topTeamPlayerHasBall(matchDetails, player, team, opposition) {
+function topTeamPlayerHasBall(matchDetails: any, player: any, team: any, opposition: any) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -81,10 +82,10 @@ function topTeamPlayerHasBall(matchDetails, player, team, opposition) {
 }
 
 function topTeamPlayerHasBallInBottomPenaltyBox(
-  matchDetails,
-  player,
-  team,
-  opposition,
+  matchDetails: any,
+  player: any,
+  team: any,
+  opposition: any,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -97,9 +98,12 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
     player.currentPOS,
   );
   const tmateProximity = [
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[0]),
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
+  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   const closePlayerPosition = playerInformation.thePlayer.currentPOS;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
@@ -146,7 +150,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
-function bottomTeamPlayerHasBall(matchDetails, player, team, opposition) {
+function bottomTeamPlayerHasBall(matchDetails: any, player: any, team: any, opposition: any) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -184,7 +188,7 @@ function bottomTeamPlayerHasBall(matchDetails, player, team, opposition) {
   return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
 }
 
-function bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill) {
+function bottomTeamPlayerHasBallInMiddle(playerInformation: any, position: any, skill: any) {
   if (oppositionNearPlayer(playerInformation, 10, 10))
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
   else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0];
@@ -195,10 +199,10 @@ function bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill) {
 }
 
 function bottomTeamPlayerHasBallInTopPenaltyBox(
-  matchDetails,
-  player,
-  team,
-  opposition,
+  matchDetails: any,
+  player: any,
+  team: any,
+  opposition: any,
 ) {
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -211,9 +215,12 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
     player.currentPOS,
   );
   const tmateProximity = [
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[0]),
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
+  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   const closePlayerPosition = playerInformation.thePlayer.currentPOS;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
@@ -256,7 +263,7 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
 }
 
-function oppositionNearPlayer(oppositionPlayer, spaceX, spaceY) {
+function oppositionNearPlayer(oppositionPlayer: any, spaceX: any, spaceY: any) {
   const oppositionProximity = [
     Math.abs(oppositionPlayer.proxPOS[0]),
     Math.abs(oppositionPlayer.proxPOS[1]),
@@ -266,7 +273,7 @@ function oppositionNearPlayer(oppositionPlayer, spaceX, spaceY) {
   return false;
 }
 
-function checkTeamMateSpaceClose(tmateProximity, lowX, highX, lowY, highY) {
+function checkTeamMateSpaceClose(tmateProximity: any, lowX: any, highX: any, lowY: any, highY: any) {
   if (
     common.isBetween(tmateProximity[0], lowX, highX) &&
     common.isBetween(tmateProximity[1], lowY, highY)
@@ -275,7 +282,7 @@ function checkTeamMateSpaceClose(tmateProximity, lowX, highX, lowY, highY) {
   return false;
 }
 
-function checkOppositionAhead(closePlayerPosition, currentPOS) {
+function checkOppositionAhead(closePlayerPosition: any, currentPOS: any) {
   const closePlyX = common.isBetween(
     closePlayerPosition[0],
     currentPOS[0] - 4,
@@ -285,7 +292,7 @@ function checkOppositionAhead(closePlayerPosition, currentPOS) {
   return false;
 }
 
-function checkOppositionBelow(closePlayerPosition, currentPOS) {
+function checkOppositionBelow(closePlayerPosition: any, currentPOS: any) {
   const closePlyX = common.isBetween(
     closePlayerPosition[0],
     currentPOS[0] - 4,
@@ -295,7 +302,7 @@ function checkOppositionBelow(closePlayerPosition, currentPOS) {
   return false;
 }
 
-function playerDoesNotHaveBall(player, ballX, ballY, matchDetails) {
+function playerDoesNotHaveBall(player: any, ballX: any, ballY: any, matchDetails: any) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, originPOS } = player;
   if (position === 'GK') return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
@@ -333,11 +340,11 @@ function playerDoesNotHaveBall(player, ballX, ballY, matchDetails) {
 }
 
 function noBallNotGK4CloseBall(
-  matchDetails,
-  currentPOS,
-  originPOS,
-  pitchWidth,
-  pitchHeight,
+  matchDetails: any,
+  currentPOS: any,
+  originPOS: any,
+  pitchWidth: any,
+  pitchHeight: any,
 ) {
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK4CloseBallBottomTeam(
@@ -357,10 +364,10 @@ function noBallNotGK4CloseBall(
 }
 
 function noBallNotGK4CloseBallBottomTeam(
-  matchDetails,
-  currentPOS,
-  pitchWidth,
-  pitchHeight,
+  matchDetails: any,
+  currentPOS: any,
+  pitchWidth: any,
+  pitchHeight: any,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false)
@@ -372,11 +379,11 @@ function noBallNotGK4CloseBallBottomTeam(
 }
 
 function noBallNotGK2CloseBall(
-  matchDetails,
-  currentPOS,
-  originPOS,
-  pitchWidth,
-  pitchHeight,
+  matchDetails: any,
+  currentPOS: any,
+  originPOS: any,
+  pitchWidth: any,
+  pitchHeight: any,
 ) {
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK2CloseBallBottomTeam(
@@ -396,10 +403,10 @@ function noBallNotGK2CloseBall(
 }
 
 function noBallNotGK2CloseBallBottomTeam(
-  matchDetails,
-  currentPOS,
-  pitchWidth,
-  pitchHeight,
+  matchDetails: any,
+  currentPOS: any,
+  pitchWidth: any,
+  pitchHeight: any,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false)
@@ -411,7 +418,7 @@ function noBallNotGK2CloseBallBottomTeam(
   return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
 }
 
-function checkPositionInBottomPenaltyBox(position, pitchWidth, pitchHeight) {
+function checkPositionInBottomPenaltyBox(position: any, pitchWidth: any, pitchHeight: any) {
   const yPos = common.isBetween(
     position[0],
     pitchWidth / 4 - 5,
@@ -427,9 +434,9 @@ function checkPositionInBottomPenaltyBox(position, pitchWidth, pitchHeight) {
 }
 
 function checkPositionInBottomPenaltyBoxClose(
-  position,
-  pitchWidth,
-  pitchHeight,
+  position: any,
+  pitchWidth: any,
+  pitchHeight: any,
 ) {
   const yPos = common.isBetween(
     position[0],
@@ -445,7 +452,7 @@ function checkPositionInBottomPenaltyBoxClose(
   return false;
 }
 
-function checkPositionInTopPenaltyBox(position, pitchWidth, pitchHeight) {
+function checkPositionInTopPenaltyBox(position: any, pitchWidth: any, pitchHeight: any) {
   const xPos = common.isBetween(
     position[0],
     pitchWidth / 4 - 5,
@@ -456,7 +463,7 @@ function checkPositionInTopPenaltyBox(position, pitchWidth, pitchHeight) {
   return false;
 }
 
-function checkPositionInTopPenaltyBoxClose(position, pitchWidth, pitchHeight) {
+function checkPositionInTopPenaltyBoxClose(position: any, pitchWidth: any, pitchHeight: any) {
   const xPos = common.isBetween(
     position[0],
     pitchWidth / 3 - 5,
@@ -467,7 +474,7 @@ function checkPositionInTopPenaltyBoxClose(position, pitchWidth, pitchHeight) {
   return false;
 }
 
-function onBottomCornerBoundary(position, pitchWidth, pitchHeight) {
+function onBottomCornerBoundary(position: any, pitchWidth: any, pitchHeight: any) {
   if (
     position[1] === pitchHeight &&
     (position[0] === 0 || position[0] === pitchWidth)
@@ -476,25 +483,25 @@ function onBottomCornerBoundary(position, pitchWidth, pitchHeight) {
   return false;
 }
 
-function onTopCornerBoundary(position, pitchWidth) {
+function onTopCornerBoundary(position: any, pitchWidth: any) {
   if (position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth))
     return true;
   return false;
 }
 
 function populatePossibleActions(
-  possibleActions,
-  a,
-  b,
-  c,
-  d,
-  e,
-  f,
-  g,
-  h,
-  i,
-  j,
-  k,
+  possibleActions: any,
+  a: any,
+  b: any,
+  c: any,
+  d: any,
+  e: any,
+  f: any,
+  g: any,
+  h: any,
+  i: any,
+  j: any,
+  k: any,
 ) {
   //a-shoot, b-throughBall, c-pass, d-cross, e-tackle, f-intercept
   //g-slide, h-run, i-sprint j-cleared k-boot
@@ -561,14 +568,14 @@ function populateActionsJSON() {
   ];
 }
 
-function resolveTackle(player, team, opposition, matchDetails) {
+function resolveTackle(player: any, team: any, opposition: any, matchDetails: any) {
   matchDetails.iterationLog.push(`Tackle attempted by: ${player.name}`);
   const tackleDetails = {
     injuryHigh: 1500,
     injuryLow: 1400,
     increment: 1,
   };
-  const index = opposition.players.findIndex(function (thisPlayer) {
+  const index = opposition.players.findIndex(function (thisPlayer: any) {
     return thisPlayer.playerID === matchDetails.ball.Player;
   });
   let thatPlayer;
@@ -597,14 +604,14 @@ function resolveTackle(player, team, opposition, matchDetails) {
   return false;
 }
 
-function resolveSlide(player, team, opposition, matchDetails) {
+function resolveSlide(player: any, team: any, opposition: any, matchDetails: any) {
   matchDetails.iterationLog.push(`Slide tackle attempted by: ${player.name}`);
   const tackleDetails = {
     injuryHigh: 1500,
     injuryLow: 1400,
     increment: 3,
   };
-  const index = opposition.players.findIndex(function (thisPlayer) {
+  const index = opposition.players.findIndex(function (thisPlayer: any) {
     return thisPlayer.playerID === matchDetails.ball.Player;
   });
   let thatPlayer;
@@ -633,7 +640,7 @@ function resolveSlide(player, team, opposition, matchDetails) {
   return false;
 }
 
-function setFailedTackle(matchDetails, player, thatPlayer, tackleDetails) {
+function setFailedTackle(matchDetails: any, player: any, thatPlayer: any, tackleDetails: any) {
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
   player.stats.tackles.off++;
   setInjury(
@@ -652,12 +659,12 @@ function setFailedTackle(matchDetails, player, thatPlayer, tackleDetails) {
 }
 
 function setSuccessTackle(
-  matchDetails,
-  team,
-  opposition,
-  player,
-  thatPlayer,
-  tackleDetails,
+  matchDetails: any,
+  team: any,
+  opposition: any,
+  player: any,
+  thatPlayer: any,
+  tackleDetails: any,
 ) {
   setPostTackleBall(matchDetails, team, opposition, player);
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
@@ -677,27 +684,27 @@ function setSuccessTackle(
   );
 }
 
-function calcTackleScore(skill, diff) {
+function calcTackleScore(skill: any, diff: any) {
   return (
     (parseInt(skill.tackling, 10) + parseInt(skill.strength, 10)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
-function calcRetentionScore(skill, diff) {
+function calcRetentionScore(skill: any, diff: any) {
   return (
     (parseInt(skill.agility, 10) + parseInt(skill.strength, 10)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
-function setPostTackleBall(matchDetails, team, opposition, player) {
+function setPostTackleBall(matchDetails: any, team: any, opposition: any, player: any) {
   player.hasBall = true;
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
   const tempArray = player.currentPOS;
-  matchDetails.ball.position = tempArray.map((x) => x);
+  matchDetails.ball.position = tempArray.map((x: any) => x);
   matchDetails.ball.Player = player.playerID;
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = team.teamID;
@@ -706,10 +713,10 @@ function setPostTackleBall(matchDetails, team, opposition, player) {
 }
 
 function setPostTacklePosition(
-  matchDetails,
-  winningPlyr,
-  losePlayer,
-  increment,
+  matchDetails: any,
+  winningPlyr: any,
+  losePlayer: any,
+  increment: any,
 ) {
   const [, pitchHeight] = matchDetails.pitchSize;
   if (losePlayer.originPOS[1] > pitchHeight / 2) {
@@ -742,11 +749,11 @@ function setPostTacklePosition(
 }
 
 function setInjury(
-  matchDetails,
-  thatPlayer,
-  player,
-  tackledInjury,
-  tacklerInjury,
+  matchDetails: any,
+  thatPlayer: any,
+  player: any,
+  tackledInjury: any,
+  tacklerInjury: any,
 ) {
   if (injury.isInjured(tackledInjury)) {
     thatPlayer.injured = true;
@@ -758,7 +765,7 @@ function setInjury(
   }
 }
 
-function setFoul(matchDetails, team, player, thatPlayer) {
+function setFoul(matchDetails: any, team: any, player: any, thatPlayer: any) {
   matchDetails.iterationLog.push(`Foul against: ${thatPlayer.name}`);
   player.stats.tackles.fouls++;
   if (team.teamID === matchDetails.kickOffTeam.teamID)
@@ -766,7 +773,7 @@ function setFoul(matchDetails, team, player, thatPlayer) {
   else matchDetails.secondTeamStatistics.fouls++;
 }
 
-function wasFoul(x, y) {
+function wasFoul(x: any, y: any) {
   const foul = common.getRandomNumber(0, x);
   if (common.isBetween(foul, 0, y / 2 - 1)) return true;
   return false;

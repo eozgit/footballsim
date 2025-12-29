@@ -17,12 +17,14 @@ describe('testClosestPlayer()', function () {
     };
     playerMovement.closestPlayerToBall(
       closestPlayerA,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.kickOffTeam,
       matchInfo,
     );
     expect(closestPlayerA).to.eql({ name: 'Arthur Johnson', position: 101 });
     playerMovement.closestPlayerToBall(
       closestPlayerB,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.secondTeam,
       matchInfo,
     );
@@ -41,12 +43,14 @@ describe('testClosestPlayer()', function () {
     };
     playerMovement.closestPlayerToBall(
       closestPlayerA,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.kickOffTeam,
       matchInfo,
     );
     expect(closestPlayerA).to.eql({ name: 'Arthur Johnson', position: 97 });
     playerMovement.closestPlayerToBall(
       closestPlayerB,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.secondTeam,
       matchInfo,
     );
@@ -65,12 +69,14 @@ describe('testClosestPlayer()', function () {
     };
     playerMovement.closestPlayerToBall(
       closestPlayerA,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.kickOffTeam,
       matchInfo,
     );
     expect(closestPlayerA).to.eql({ name: 'Louise Johnson', position: 162.5 });
     playerMovement.closestPlayerToBall(
       closestPlayerB,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.secondTeam,
       matchInfo,
     );
@@ -89,12 +95,14 @@ describe('testClosestPlayer()', function () {
     };
     playerMovement.closestPlayerToBall(
       closestPlayerA,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.kickOffTeam,
       matchInfo,
     );
     expect(closestPlayerA).to.eql({ name: 'George Johnson', position: 110 });
     playerMovement.closestPlayerToBall(
       closestPlayerB,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchInfo.secondTeam,
       matchInfo,
     );

@@ -575,8 +575,11 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -590,10 +593,14 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 23;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.position[1] = 23;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -607,8 +614,11 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 3;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -623,10 +633,14 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.position = 105;
     player.skill.shooting = 3;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -641,10 +655,14 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.position = 105;
     player.skill.shooting = 300;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -659,12 +677,17 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.position = 105;
     player.skill.shooting = 3;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 100];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -678,9 +701,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -694,10 +721,14 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 60;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -711,10 +742,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -728,10 +764,14 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 20;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -745,9 +785,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -761,9 +805,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     player.skill.shooting = 45;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -778,9 +826,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     player.skill.shooting = 5;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -795,10 +847,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -812,10 +869,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -830,10 +892,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -848,9 +915,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 80;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -865,9 +936,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -882,9 +957,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const matchDetails = await readFile(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(

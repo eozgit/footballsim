@@ -1,7 +1,7 @@
 'use strict';
 import common from '../lib/common.js';
 
-function validateTeam(team) {
+function validateTeam(team: any) {
   if (typeof team !== `object`) team = JSON.parse(team);
   if (!team.name) throw new Error(`No team name given.`);
   else {
@@ -12,7 +12,7 @@ function validateTeam(team) {
   }
 }
 
-function validateTeamSecondHalf(team) {
+function validateTeamSecondHalf(team: any) {
   if (typeof team !== `object`) team = JSON.parse(team);
   if (!team.name) throw new Error(`No team name given.`);
   else if (!team.intent) throw new Error(`No team intent given.`);
@@ -25,13 +25,13 @@ function validateTeamSecondHalf(team) {
   }
 }
 
-function validateNumberOfPlayers(players) {
+function validateNumberOfPlayers(players: any) {
   if (players.length !== 11) {
     throw new Error(`There must be 11 players in a team`);
   }
 }
 
-function validatePlayerObjects(player) {
+function validatePlayerObjects(player: any) {
   const playerObjects = [
     `name`,
     `position`,
@@ -48,7 +48,7 @@ function validatePlayerObjects(player) {
   validatePlayerSkills(player.skill);
 }
 
-function validatePlayerObjectsIteration(player) {
+function validatePlayerObjectsIteration(player: any) {
   const playerObjects = [
     `playerID`,
     `name`,
@@ -75,7 +75,7 @@ function validatePlayerObjectsIteration(player) {
   validateStats(player.stats);
 }
 
-function validateStats(stats) {
+function validateStats(stats: any) {
   const statsObject = [`cards`, `goals`, `tackles`, `passes`, `shots`];
   let badObjects = 0;
   for (const type of statsObject) {
@@ -89,7 +89,7 @@ function validateStats(stats) {
   }
 }
 
-function validatePlayerSkills(skills) {
+function validatePlayerSkills(skills: any) {
   const skillType = [
     `passing`,
     `shooting`,
@@ -114,7 +114,7 @@ function validatePlayerSkills(skills) {
   }
 }
 
-function validatePitch(pitchDetails) {
+function validatePitch(pitchDetails: any) {
   const pitchObjects = [`pitchWidth`, `pitchHeight`];
   let badObjects = 0;
   for (const obj of pitchObjects) {
@@ -128,12 +128,12 @@ function validatePitch(pitchDetails) {
   }
 }
 
-function validateArguments(a, b, c) {
+function validateArguments(a: any, b: any, c: any) {
   if (a === undefined || b === undefined || c === undefined)
     throw new Error(`Please provide two teams and a pitch`);
 }
 
-function validateMatchDetails(matchDetails) {
+function validateMatchDetails(matchDetails: any) {
   const matchObjects = [
     `matchID`,
     `kickOffTeam`,
@@ -161,7 +161,7 @@ function validateMatchDetails(matchDetails) {
   validateBall(matchDetails.ball);
 }
 
-function validateBall(ball) {
+function validateBall(ball: any) {
   const ballProps = [
     `position`,
     `withPlayer`,
@@ -183,7 +183,7 @@ function validateBall(ball) {
     );
 }
 
-function validatePlayerPositions(matchDetails) {
+function validatePlayerPositions(matchDetails: any) {
   const { kickOffTeam, secondTeam } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   for (const player of kickOffTeam.players) {

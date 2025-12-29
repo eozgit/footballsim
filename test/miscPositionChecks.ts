@@ -11,9 +11,11 @@ describe('removeBallFromAllPlayers()', function () {
     const nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.kickOffTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
@@ -23,9 +25,11 @@ describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
     const itlocation = './init_config/iteration.json';
     const matchDetails = await readFile(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.kickOffTeam,
     );
 
@@ -38,9 +42,11 @@ describe('switchTeamSides()', function () {
   it('check players sides are switched second team', async () => {
     const itlocation = './init_config/iteration.json';
     const matchDetails = await readFile(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.secondTeam,
     );
 
@@ -53,26 +59,32 @@ describe('switchTeamSides()', function () {
   it('no origin POS set', async () => {
     const itlocation = './init_config/iteration.json';
     const matchDetails = await readFile(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     delete matchDetails.secondTeam.players[0].originPOS;
 
     try {
       const nextJSON = await setpieces.switchSide(
         matchDetails,
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         matchDetails.secondTeam,
       );
+      // @ts-expect-error TS(2345): Argument of type 'ObjectConstructor' is not assign... Remove this comment to see the full error message
       expect(nextJSON).to.be.an(Object);
     } catch (err) {
       expect(err).to.be.an('Error');
       const expectedOutput = 'Each player must have an origin position set';
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(expectedOutput);
     }
   });
   it('low fitness level', async () => {
     const itlocation = './init_config/iteration.json';
     const matchDetails = await readFile(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[0].fitness = 10;
     const nextJSON = await setpieces.switchSide(
       matchDetails,
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.secondTeam,
     );
 

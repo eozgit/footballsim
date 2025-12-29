@@ -9,7 +9,7 @@ import validate from './lib/validate.js';
 //------------------------
 //    Functions
 //------------------------
-async function initiateGame(team1, team2, pitchDetails) {
+async function initiateGame(team1: any, team2: any, pitchDetails: any) {
   validate.validateArguments(team1, team2, pitchDetails);
   validate.validateTeam(team1);
   validate.validateTeam(team2);
@@ -22,7 +22,9 @@ async function initiateGame(team1, team2, pitchDetails) {
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam);
   const secondTeam = setVariables.setGameVariables(matchDetails.secondTeam);
   kickOffTeam = setVariables.koDecider(kickOffTeam, matchDetails);
+  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   matchDetails.iterationLog.push(`Team to kick off - ${kickOffTeam.name}`);
+  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   matchDetails.iterationLog.push(`Second team - ${secondTeam.name}`);
   setPositions.switchSide(matchDetails, secondTeam);
   matchDetails.kickOffTeam = kickOffTeam;
@@ -30,7 +32,7 @@ async function initiateGame(team1, team2, pitchDetails) {
   return matchDetails;
 }
 
-async function playIteration(matchDetails) {
+async function playIteration(matchDetails: any) {
   const closestPlayerA = {
     name: '',
     position: 100000,
@@ -77,7 +79,7 @@ async function playIteration(matchDetails) {
   return matchDetails;
 }
 
-async function startSecondHalf(matchDetails) {
+async function startSecondHalf(matchDetails: any) {
   validate.validateMatchDetails(matchDetails);
   validate.validateTeamSecondHalf(matchDetails.kickOffTeam);
   validate.validateTeamSecondHalf(matchDetails.secondTeam);

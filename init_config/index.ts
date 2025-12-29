@@ -2,8 +2,11 @@
 import { readFile as _readFile } from 'fs';
 
 import {
+  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'ini... Remove this comment to see the full error message
   initiateGame,
+  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'pla... Remove this comment to see the full error message
   playIteration as _playIteration,
+  // @ts-expect-error TS(2614): Module '"./../engine"' has no exported member 'sta... Remove this comment to see the full error message
   startSecondHalf,
 } from './../engine';
 
@@ -33,11 +36,12 @@ async function gameOfTenIterations() {
     nextIteration = await playIteration(nextIteration);
     return nextIteration;
   } catch (error) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     throw new Error(error);
   }
 }
 
-async function initGame(t1, t2, p) {
+async function initGame(t1: any, t2: any, p: any) {
   try {
     const team1 = await readFile(t1);
     const team2 = await readFile(t2);
@@ -45,29 +49,32 @@ async function initGame(t1, t2, p) {
     const matchSetup = initiateGame(team1, team2, pitch);
     return matchSetup;
   } catch (error) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     throw new Error(error);
   }
 }
 
-async function playIteration(inputIteration) {
+async function playIteration(inputIteration: any) {
   try {
     const outputIteration = await _playIteration(inputIteration);
     return outputIteration;
   } catch (error) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     throw new Error(error);
   }
 }
 
-async function setupSecondHalf(inputIteration) {
+async function setupSecondHalf(inputIteration: any) {
   try {
     const outputJSON = await startSecondHalf(inputIteration);
     return outputJSON;
   } catch (error) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     throw new Error(error);
   }
 }
 
-function readFile(filePath) {
+function readFile(filePath: any) {
   return new Promise(function (resolve, reject) {
     _readFile(filePath, 'utf8', function (err, data) {
       if (err) {

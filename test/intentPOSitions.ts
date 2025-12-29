@@ -13,10 +13,13 @@ describe('intentPOSitionsDefence()', function () {
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
@@ -34,14 +37,17 @@ describe('intentPOSitionsDefence()', function () {
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       const diffXPOSplayerandball = ballPosition[0] - player.currentPOS[0];
       const diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
       const xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
       const yPosProx = common.isBetween(diffYPOSplayerandball, -40, 40);
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else if (xPosProx && yPosProx)
@@ -61,10 +67,13 @@ describe('intentPOSitionsDefence()', function () {
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
@@ -83,15 +92,19 @@ describe('intentPOSitionsDefence()', function () {
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballPosition = matchDetails.ball.position;
     if (ballPosition[2] >= 0) ballPosition.pop();
     for (const playerNum of [0, 1, 2, 3, 4]) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (thisPlayer.playerID === closestPlayer.playerID)
         expect(thisPlayer.intentPOS).to.eql(ballPosition);
       else expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
     }
     for (const playerNum of [5, 6, 7, 8, 9, 10]) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
       expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
     }
@@ -104,10 +117,13 @@ describe('intentPOSitionsDefence()', function () {
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballPosition = matchDetails.ball.position;
     ballPosition.pop();
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else expect(player.intentPOS).to.eql(player.originPOS);
@@ -123,6 +139,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -138,6 +155,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -153,6 +171,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -168,6 +187,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -183,6 +203,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -198,6 +219,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
       expect(player.intentPOS).to.eql([
         player.originPOS[0],
@@ -214,6 +236,7 @@ describe('intentPOSitionsAttacking()', function () {
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       if (!player.hasBall) {
         expect(player.intentPOS).to.eql([
@@ -227,31 +250,37 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const [, pitchHeight] = matchDetails.pitchSize;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.kickOffTeam.players) {
       if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.15, 10),
         ]);
       } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.25, 10),
         ]);
       } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.66, 10),
         ]);
       } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.75, 10),
         ]);
       } else {
@@ -263,31 +292,37 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep2.json',
     );
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const [, pitchHeight] = matchDetails.pitchSize;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of matchDetails.secondTeam.players) {
       if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.85, 10),
         ]);
       } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.75, 10),
         ]);
       } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.33, 10),
         ]);
       } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
+          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
           parseInt(pitchHeight * 0.25, 10),
         ]);
       } else {
@@ -301,6 +336,7 @@ describe('intentPOSitionsLooseBall()', function () {
     const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall.json',
     );
+    // @ts-expect-error TS(2339): Property 'kickOffTeam' does not exist on type 'unk... Remove this comment to see the full error message
     const { kickOffTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
@@ -353,6 +389,7 @@ describe('intentPOSitionsLooseBall()', function () {
     const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall2.json',
     );
+    // @ts-expect-error TS(2339): Property 'secondTeam' does not exist on type 'unkn... Remove this comment to see the full error message
     const { secondTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
@@ -405,6 +442,7 @@ describe('intentPOSitionsLooseBall()', function () {
     const matchDetails = await readFile(
       './test/input/boundaryPositions/looseBall3.json',
     );
+    // @ts-expect-error TS(2339): Property 'secondTeam' does not exist on type 'unkn... Remove this comment to see the full error message
     const { secondTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',

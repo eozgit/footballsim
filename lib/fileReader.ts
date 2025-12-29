@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 
-export function readFile(filePath) {
+export function readFile(filePath: any) {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {

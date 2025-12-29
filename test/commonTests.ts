@@ -82,6 +82,7 @@ describe('testCommonFunction()', function () {
       expect(err).to.be.an('Error');
       const errorText =
         "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(errorText);
     }
   });

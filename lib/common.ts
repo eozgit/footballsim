@@ -3,30 +3,30 @@
 //---------------
 //Maths Functions
 //---------------
-function getRandomNumber(min, max) {
+function getRandomNumber(min: any, max: any) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function round(value, decimals) {
+function round(value: any, decimals: any) {
   // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   return Number(`${Math.round(`${value}e${decimals}`)}e-${decimals}`);
 }
 
-function isBetween(num, low, high) {
+function isBetween(num: any, low: any, high: any) {
   return num > low && num < high;
 }
 
-function upToMax(num, max) {
+function upToMax(num: any, max: any) {
   if (num > max) return max;
   return num;
 }
 
-function upToMin(num, min) {
+function upToMin(num: any, min: any) {
   if (num < min) return min;
   return num;
 }
 
-function getBallTrajectory(thisPOS, newPOS, power) {
+function getBallTrajectory(thisPOS: any, newPOS: any, power: any) {
   const xMovement = (thisPOS[0] - newPOS[0]) ** 2;
   const yMovement = (parseInt(thisPOS[1], 10) - parseInt(newPOS[1], 10)) ** 2;
   // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
@@ -77,20 +77,20 @@ function getBallTrajectory(thisPOS, newPOS, power) {
   return trajectory;
 }
 
-function calculatePower(strength) {
+function calculatePower(strength: any) {
   const hit = getRandomNumber(1, 5);
   return parseInt(strength, 10) * hit;
 }
 
-function aTimesbDividedByC(a, b, c) {
+function aTimesbDividedByC(a: any, b: any, c: any) {
   return a * (b / sumFrom1toX(c));
 }
 
-function sumFrom1toX(x) {
+function sumFrom1toX(x: any) {
   return (x * (x + 1)) / 2;
 }
 
-function inTopPenalty(matchDetails, item) {
+function inTopPenalty(matchDetails: any, item: any) {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -102,7 +102,7 @@ function inTopPenalty(matchDetails, item) {
   return false;
 }
 
-function inBottomPenalty(matchDetails, item) {
+function inBottomPenalty(matchDetails: any, item: any) {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -118,7 +118,7 @@ function inBottomPenalty(matchDetails, item) {
   return false;
 }
 
-function getRandomTopPenaltyPosition(matchDetails) {
+function getRandomTopPenaltyPosition(matchDetails: any) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [0, pitchHeight / 6 + 6];
@@ -128,7 +128,7 @@ function getRandomTopPenaltyPosition(matchDetails) {
   ];
 }
 
-function getRandomBottomPenaltyPosition(matchDetails) {
+function getRandomBottomPenaltyPosition(matchDetails: any) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];
@@ -138,15 +138,15 @@ function getRandomBottomPenaltyPosition(matchDetails) {
   ];
 }
 
-function isEven(n) {
+function isEven(n: any) {
   return n % 2 === 0;
 }
 
-function isOdd(n) {
+function isOdd(n: any) {
   return Math.abs(n % 2) === 1;
 }
 
-function removeBallFromAllPlayers(matchDetails) {
+function removeBallFromAllPlayers(matchDetails: any) {
   for (const player of matchDetails.kickOffTeam.players) {
     player.hasBall = false;
   }
@@ -155,9 +155,11 @@ function removeBallFromAllPlayers(matchDetails) {
   }
 }
 
-function debug(label, ...args) {
+function debug(label: any, ...args: any[]) {
+  // @ts-expect-error TS(2578): Unused '@ts-expect-error' directive.
   // @ts-expect-error TS(2580): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.DEBUG_ENGINE) {
+    // @ts-expect-error TS(2578): Unused '@ts-expect-error' directive.
     // @ts-expect-error TS(2584): Cannot find name 'console'. Do you need to change ... Remove this comment to see the full error message
     console.log(`[DEBUG:${label}]`, ...args);
   }

@@ -2,7 +2,7 @@
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
 
-function moveBall(matchDetails) {
+function moveBall(matchDetails: any) {
   if (
     matchDetails.ball.ballOverIterations === undefined ||
     matchDetails.ball.ballOverIterations.length === 0
@@ -37,7 +37,7 @@ function moveBall(matchDetails) {
   return matchDetails;
 }
 
-function setBPlayer(ballPos) {
+function setBPlayer(ballPos: any) {
   return {
     name: `Ball`,
     position: `LB`,
@@ -58,7 +58,7 @@ function setBPlayer(ballPos) {
   };
 }
 
-function ballKicked(matchDetails, team, player) {
+function ballKicked(matchDetails: any, team: any, player: any) {
   const { position } = matchDetails.ball;
   let { direction } = matchDetails.ball;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -113,12 +113,14 @@ function ballKicked(matchDetails, team, player) {
   if (player.originPOS[1] > pitchHeight / 2) {
     direction =
       topTeamDirection[common.getRandomNumber(0, topTeamDirection.length - 1)];
+    // @ts-expect-error TS(2322): Type 'number[] | undefined' is not assignable to t... Remove this comment to see the full error message
     newPos = getTopKickedPosition(direction, position, power);
   } else {
     direction =
       bottomTeamDirection[
         common.getRandomNumber(0, bottomTeamDirection.length - 1)
       ];
+    // @ts-expect-error TS(2322): Type 'number[] | undefined' is not assignable to t... Remove this comment to see the full error message
     newPos = getBottomKickedPosition(direction, position, power);
   }
   return calcBallMovementOverTime(
@@ -129,7 +131,7 @@ function ballKicked(matchDetails, team, player) {
   );
 }
 
-function getTopKickedPosition(direction, position, power) {
+function getTopKickedPosition(direction: any, position: any, power: any) {
   if (direction === `wait`)
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
   else if (direction === `north`)
@@ -144,7 +146,7 @@ function getTopKickedPosition(direction, position, power) {
     return newKickedPosition(position, -(power / 2), 0, -power, -(power / 2));
 }
 
-function getBottomKickedPosition(direction, position, power) {
+function getBottomKickedPosition(direction: any, position: any, power: any) {
   if (direction === `wait`)
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
   else if (direction === `south`)
@@ -159,14 +161,14 @@ function getBottomKickedPosition(direction, position, power) {
     return newKickedPosition(position, -(power / 2), 0, power / 2, power);
 }
 
-function newKickedPosition(pos, lowX, highX, lowY, highY) {
+function newKickedPosition(pos: any, lowX: any, highX: any, lowY: any, highY: any) {
   const newPosition = [0, 0];
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
   newPosition[1] = pos[1] + common.getRandomNumber(lowY, highY);
   return newPosition;
 }
 
-function shotMade(matchDetails, team, player) {
+function shotMade(matchDetails: any, team: any, player: any) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
   matchDetails.ball.lastTouch.playerName = player.name;
@@ -227,7 +229,7 @@ function shotMade(matchDetails, team, player) {
   return endPos;
 }
 
-function penaltyTaken(matchDetails, team, player) {
+function penaltyTaken(matchDetails: any, team: any, player: any) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   player.action = `none`;
   matchDetails.iterationLog.push(`Penalty Taken by: ${player.name}`);
@@ -281,7 +283,7 @@ function penaltyTaken(matchDetails, team, player) {
   return endPos;
 }
 
-function checkGoalScored(matchDetails) {
+function checkGoalScored(matchDetails: any) {
   const { ball, half, kickOffTeam, secondTeam } = matchDetails;
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
   const centreGoal = pitchWidth / 2;
@@ -360,7 +362,7 @@ function checkGoalScored(matchDetails) {
   }
 }
 
-function throughBall(matchDetails, team, player) {
+function throughBall(matchDetails: any, team: any, player: any) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -405,7 +407,7 @@ function throughBall(matchDetails, team, player) {
   );
 }
 
-function getPlayersInDistance(team, player, pitchSize) {
+function getPlayersInDistance(team: any, player: any, pitchSize: any) {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playersInDistance = [];
   for (const teamPlayer of team.players) {
@@ -439,13 +441,13 @@ function getPlayersInDistance(team, player, pitchSize) {
 }
 
 function resolveBallMovement(
-  player,
-  thisPOS,
-  newPOS,
-  power,
-  team,
-  opp,
-  matchDetails,
+  player: any,
+  thisPOS: any,
+  newPOS: any,
+  power: any,
+  team: any,
+  opp: any,
+  matchDetails: any,
 ) {
   common.removeBallFromAllPlayers(matchDetails);
   const lineToEndPosition = common.getBallTrajectory(thisPOS, newPOS, power);
@@ -466,13 +468,16 @@ function resolveBallMovement(
       checkPos,
     );
     const thisPlayerProx = Math.max(
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       playerInfo1.proxToBall,
       playerInfo2.proxToBall,
     );
     const thisPlayer =
+      // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
       thisPlayerProx === playerInfo1.proxToBall
         ? playerInfo1.thePlayer
         : playerInfo2.thePlayer;
+    // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
     const thisTeam = thisPlayerProx === playerInfo1.proxToBall ? team : opp;
     if (thisPlayer)
       thisPlayerIsInProximity(
@@ -493,12 +498,12 @@ function resolveBallMovement(
 }
 
 function thisPlayerIsInProximity(
-  matchDetails,
-  thisPlayer,
-  thisPOS,
-  thisPos,
-  power,
-  thisTeam,
+  matchDetails: any,
+  thisPlayer: any,
+  thisPOS: any,
+  thisPos: any,
+  power: any,
+  thisTeam: any,
 ) {
   const checkPos = [
     common.round(thisPos[0], 0),
@@ -559,10 +564,10 @@ function thisPlayerIsInProximity(
 }
 
 function setBallMovementMatchDetails(
-  matchDetails,
-  thisPlayer,
-  thisPos,
-  thisTeam,
+  matchDetails: any,
+  thisPlayer: any,
+  thisPos: any,
+  thisTeam: any,
 ) {
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
@@ -572,17 +577,17 @@ function setBallMovementMatchDetails(
   matchDetails.ball.lastTouch.teamID = thisTeam.teamID;
   matchDetails.ball.withTeam = thisTeam.teamID;
   const tempArray = thisPos;
-  matchDetails.ball.position = tempArray.map((x) => x);
-  thisPlayer.currentPOS = tempArray.map((x) => x);
+  matchDetails.ball.position = tempArray.map((x: any) => x);
+  thisPlayer.currentPOS = tempArray.map((x: any) => x);
 }
 
 function resolveDeflection(
-  power,
-  thisPOS,
-  defPosition,
-  defPlayer,
-  defTeam,
-  matchDetails,
+  power: any,
+  thisPOS: any,
+  defPosition: any,
+  defPlayer: any,
+  defTeam: any,
+  matchDetails: any,
 ) {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
@@ -598,6 +603,7 @@ function resolveDeflection(
   matchDetails.ball.Player = '';
   matchDetails.ball.withPlayer = false;
   matchDetails.ball.withTeam = '';
+  // @ts-expect-error TS(2322): Type 'number[]' is not assignable to type 'string[... Remove this comment to see the full error message
   tempPosition = setDeflectionDirectionPos(direction, defPosition, newPower);
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(
@@ -607,13 +613,13 @@ function resolveDeflection(
   );
   const intended = matchDetails.ballIntended;
   const lastPOS = intended
-    ? intended.map((x) => x)
-    : matchDetails.ball.position.map((x) => x);
+    ? intended.map((x: any) => x)
+    : matchDetails.ball.position.map((x: any) => x);
   delete matchDetails.ballIntended;
   return lastPOS;
 }
 
-function setDeflectionDirectionPos(direction, defPosition, newPower) {
+function setDeflectionDirectionPos(direction: any, defPosition: any, newPower: any) {
   const tempPosition = [0, 0];
   if (
     direction === `east` ||
@@ -668,7 +674,7 @@ function setDeflectionDirectionPos(direction, defPosition, newPower) {
   return tempPosition;
 }
 
-function setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam) {
+function setDeflectionPlayerHasBall(matchDetails: any, defPlayer: any, defTeam: any) {
   defPlayer.hasBall = true;
   matchDetails.ball.lastTouch.playerName = defPlayer.name;
   matchDetails.ball.lastTouch.playerID = defPlayer.playerID;
@@ -682,10 +688,10 @@ function setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam) {
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = defTeam.teamID;
   const tempArray = defPlayer.currentPOS;
-  matchDetails.ball.position = tempArray.map((x) => x);
+  matchDetails.ball.position = tempArray.map((x: any) => x);
 }
 
-function setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer) {
+function setDeflectionPlayerOffside(matchDetails: any, defTeam: any, defPlayer: any) {
   defPlayer.offside = false;
   defPlayer.hasBall = false;
   matchDetails.ball.Player = '';
@@ -699,7 +705,7 @@ function setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer) {
   else matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
 }
 
-function getBallDirection(matchDetails, nextPOS) {
+function getBallDirection(matchDetails: any, nextPOS: any) {
   const thisPOS = matchDetails.ball.position;
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
@@ -720,7 +726,7 @@ function getBallDirection(matchDetails, nextPOS) {
     matchDetails.ball.direction = `northeast`;
 }
 
-function ballPassed(matchDetails, team, player) {
+function ballPassed(matchDetails: any, team: any, player: any) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -763,7 +769,7 @@ function ballPassed(matchDetails, team, player) {
   );
 }
 
-function setTargetPlyPos(tplyr, lowX, highX, lowY, highY) {
+function setTargetPlyPos(tplyr: any, lowX: any, highX: any, lowY: any, highY: any) {
   const closePlyPos = [0, 0];
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
   closePlyPos[0] = common.round(
@@ -777,7 +783,7 @@ function setTargetPlyPos(tplyr, lowX, highX, lowY, highY) {
   return closePlyPos;
 }
 
-function getTargetPlayer(playersArray, side, pitchHeight) {
+function getTargetPlayer(playersArray: any, side: any, pitchHeight: any) {
   let tempArray = [];
   for (const tempPlayer of playersArray) {
     if (tempPlayer.proximity < pitchHeight / 2) tempArray.push(tempPlayer);
@@ -806,7 +812,7 @@ function getTargetPlayer(playersArray, side, pitchHeight) {
   return thisPlayer;
 }
 
-function ballCrossed(matchDetails, team, player) {
+function ballCrossed(matchDetails: any, team: any, player: any) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -839,10 +845,10 @@ function ballCrossed(matchDetails, team, player) {
 }
 
 function calcBallMovementOverTime(
-  matchDetails,
-  strength,
-  nextPosition,
-  player,
+  matchDetails: any,
+  strength: any,
+  nextPosition: any,
+  player: any,
 ) {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;
@@ -882,7 +888,7 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(number, n) {
+function splitNumberIntoN(number: any, n: any) {
   const arrayN = Array.from(Array(n).keys());
   const splitNumber = [];
   for (const thisn of arrayN) {
@@ -893,7 +899,7 @@ function splitNumberIntoN(number, n) {
   return splitNumber;
 }
 
-function mergeArrays(arrayLength, oldPos, newPos, array1, array2, array3) {
+function mergeArrays(arrayLength: any, oldPos: any, newPos: any, array1: any, array2: any, array3: any) {
   let tempPos = [oldPos[0], oldPos[1]];
   const arrayN = Array.from(Array(arrayLength - 1).keys());
   const newArray = [];

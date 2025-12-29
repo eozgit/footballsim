@@ -6,15 +6,20 @@ describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {
     const itlocation = './init_config/iteration.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
     expect(goalKick).to.be.greaterThan(-1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
@@ -28,13 +33,18 @@ describe('testBoundariesForTopGoal()', function () {
   it('expected Top Goal', async () => {
     const itlocation = './init_config/iteration.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
     expect(goalKick).to.be.greaterThan(-1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.kickOffTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
@@ -48,15 +58,20 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
   it('expected Bottom Goal', async () => {
     const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
     expect(goalKick).to.be.greaterThan(-1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.kickOffTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
@@ -70,13 +85,18 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
   it('expected Top Goal', async () => {
     const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
     expect(goalKick).to.be.greaterThan(-1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
@@ -90,21 +110,30 @@ describe('setKickOffTeamGoalScored()', function () {
   it('kickOff team in same position', async () => {
     const itlocation = './init_config/iteration.json';
     const nextJSON = await setpieces.setKickOffTeamGoalScored(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeamStatistics.goals).to.eql(1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.kickOffTeam.players) {
       expect(player.currentPOS).to.eql(player.originPOS);
     }
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
       if (player.name === 'Aiden Smith') {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0],
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0] + 20,
         );
       } else if (player.name === 'Wayne Smith') {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0],
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0] + 20,
         );
       } else {
@@ -117,21 +146,30 @@ describe('setSecondTeamGoalScored()', function () {
   it('second team in same position', async () => {
     const itlocation = './init_config/iteration2.json';
     const nextJSON = await setpieces.setSecondTeamGoalScored(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeamStatistics.goals).to.eql(1);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
       expect(player.currentPOS).to.eql(player.originPOS);
     }
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
       if (player.name === 'Peter Johnson') {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0],
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0] + 20,
         );
       } else if (player.name === 'Louise Johnson') {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
         expect(player.currentPOS[0]).to.within(
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0],
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           nextJSON.ball.position[0] + 20,
         );
       } else {
@@ -146,6 +184,7 @@ describe('setFreekick()', function () {
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeamStatistics.freekicks).to.eql(1);
   });
   it('second team assigned a freekick', async () => {
@@ -153,6 +192,7 @@ describe('setFreekick()', function () {
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeamStatistics.freekicks).to.eql(1);
   });
 });
@@ -161,9 +201,11 @@ describe('setPenalties()', function () {
     const itlocation =
       './test/input/boundaryPositions/kickoffteambottompenalty.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
@@ -171,9 +213,11 @@ describe('setPenalties()', function () {
     const itlocation =
       './test/input/boundaryPositions/secondteambottompenalty.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
@@ -181,9 +225,11 @@ describe('setPenalties()', function () {
     const itlocation =
       './test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
@@ -191,9 +237,11 @@ describe('setPenalties()', function () {
     const itlocation =
       './test/input/boundaryPositions/secondteamtoppenalty.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
     expect(penaltyLog).to.be.greaterThan(-1);
   });
@@ -322,6 +370,7 @@ describe('testCorners()', function () {
     const itlocation = './init_config/iteration.json';
 
     const nextJSON = await setpieces.setupTopLeftCorner(itlocation);
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
@@ -342,6 +391,7 @@ describe('testCorners()', function () {
     const itlocation = './init_config/iteration.json';
 
     const nextJSON = await setpieces.setupBottomLeftCorner(itlocation);
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
@@ -364,6 +414,7 @@ describe('testCorners()', function () {
     const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupBottomRightCorner(itlocation);
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
@@ -386,6 +437,7 @@ describe('testCorners()', function () {
     const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupTopRightCorner(itlocation);
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
@@ -412,27 +464,49 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([0, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 420]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([10, 130]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([15, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([10, 110]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 650]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([20, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 630]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([30, 125]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([25, 105]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([10, 90]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team left throw in', async () => {
@@ -443,27 +517,49 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([20, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 270]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([30, 125]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([25, 105]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([10, 90]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 500]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([0, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 780]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([10, 130]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([15, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([10, 110]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
   it('kick off team right throw in', async () => {
@@ -474,27 +570,49 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 230]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([680, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 420]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([670, 130]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([665, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([670, 110]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 650]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 820]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([660, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 630]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([650, 125]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([655, 105]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([670, 90]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team right throw in', async () => {
@@ -505,27 +623,49 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 80]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([660, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 270]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([650, 125]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([655, 105]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([670, 90]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 500]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 970]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([680, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 780]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([670, 130]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([665, 120]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([670, 110]);
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
 });

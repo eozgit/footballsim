@@ -48,6 +48,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide pitchWidth and pitchHeight',
       );
@@ -66,6 +67,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide pitchWidth and pitchHeight',
       );
@@ -84,6 +86,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string('No team name given');
     }
   });
@@ -100,6 +103,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'There must be 11 players in a team',
       );
@@ -120,6 +124,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(err).to.be.an('Error');
       const expectedString =
         'Provide skills: passing,shooting,tackling,saving,agility,strength,penalty_taking,jumping';
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(expectedString);
     }
   });
@@ -136,6 +141,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: injured',
       );
@@ -154,6 +160,7 @@ describe('testValidationOfBadInitInputData()', function () {
       expect(output).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: fitness',
       );
@@ -168,6 +175,7 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: name',
       );
@@ -180,6 +188,7 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide valid match details JSON',
       );
@@ -194,6 +203,7 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(err).to.be.an('Error');
       const expectedOutput =
         'Provide: position,withPlayer,Player,withTeam,direction,ballOverIterations';
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(expectedOutput);
     }
   });
@@ -204,6 +214,7 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: currentPOS',
       );
@@ -216,6 +227,7 @@ describe('testValidationOfBadIterationInputData()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide valid match details JSON',
       );
@@ -230,6 +242,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string('No team intent given.');
     }
   });
@@ -240,6 +253,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide valid match details JSON',
       );
@@ -252,6 +266,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
       expect(shJSON).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: stats',
       );
@@ -316,6 +331,7 @@ describe('testObjectIDsIteration()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide valid match details JSON',
       );
@@ -328,6 +344,7 @@ describe('testObjectIDsIteration()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string('No team ID given.');
     }
   });
@@ -338,6 +355,7 @@ describe('testObjectIDsIteration()', function () {
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Player must contain JSON variable: playerID',
       );
@@ -347,9 +365,11 @@ describe('testObjectIDsIteration()', function () {
 describe('otherValidationTests()', function () {
   it('Not enough paramaters in validate arguments', async () => {
     try {
+      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
       validation.validateArguments('', '');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Please provide two teams and a pitch',
       );
@@ -361,17 +381,21 @@ describe('otherValidationTests()', function () {
   });
   it('validate team in second half even if not in JSON format', async () => {
     const iteration = await readFile('./init_config/iteration.json');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = JSON.stringify(iteration.kickOffTeam);
     expect(validation.validateTeamSecondHalf(team)).to.not.be.an('Error');
   });
   it('validate team in second half with no team name', async () => {
     const iteration = await readFile('./init_config/iteration.json');
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     delete iteration.kickOffTeam.name;
     try {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       const team = JSON.stringify(iteration.kickOffTeam);
       expect(validation.validateTeamSecondHalf(team)).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string('No team name given');
     }
   });
