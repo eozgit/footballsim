@@ -2,7 +2,7 @@
 import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 
-function setTopFreekick(matchDetails: MatchDetails) {
+function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -41,9 +41,10 @@ function setTopFreekick(matchDetails: MatchDetails) {
     return setTopBottomQtrCentreYPos(matchDetails, attack, defence);
   if (lowerFinalQtr)
     return setTopLowerFinalQtrBylinePos(matchDetails, attack, defence);
+  throw new Error(`Unhandled freekick position: ball at [${matchDetails.ball.position}]`);
 }
 
-function setBottomFreekick(matchDetails: MatchDetails) {
+function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -83,13 +84,14 @@ function setBottomFreekick(matchDetails: MatchDetails) {
     return setBottomUpperQtrCentreYPos(matchDetails, attack, defence);
   if (lowerFinalQtr)
     return setBottomLowerFinalQtrBylinePos(matchDetails, attack, defence);
+  throw new Error(`Unhandled freekick position: ball at [${matchDetails.ball.position}]`);
 }
 
 function setTopOneHundredYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   attack.players[0].hasBall = true;
   const { ball } = matchDetails;
   ball.lastTouch.playerName = attack.players[0].name;
@@ -119,7 +121,7 @@ function setBottomOneHundredYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   attack.players[0].hasBall = true;
   const { ball, pitchSize } = matchDetails;
   const [, pitchHeight] = pitchSize;
@@ -151,7 +153,7 @@ function setTopOneHundredToHalfwayYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
   const goalieToKick = common.isBetween(
@@ -242,7 +244,7 @@ function setBottomOneHundredToHalfwayYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: Team,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
   const goalieToKick = common.isBetween(
@@ -332,7 +334,7 @@ function setTopHalfwayToBottomQtrYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -405,7 +407,7 @@ function setBottomHalfwayToTopQtrYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -478,7 +480,7 @@ function setTopBottomQtrCentreYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -559,7 +561,7 @@ function setBottomUpperQtrCentreYPos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -636,7 +638,7 @@ function setTopLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -687,7 +689,7 @@ function setBottomLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
   attack: any,
   defence: any,
-) {
+): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
