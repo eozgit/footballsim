@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import initteams from './lib/initiate_team.js';
 
 describe('testTeamSetup()', function () {

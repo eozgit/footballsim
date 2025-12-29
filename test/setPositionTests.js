@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import setpieces from './lib/set_pieces.js';
 
 describe('testBoundariesForBottomGoal()', function () {

@@ -1,5 +1,4 @@
 import { readFile } from '../lib/fileReader.js';
-import { expect } from 'chai';
 import validation from './lib/validate_tests.js';
 import common from '../lib/common.js';
 

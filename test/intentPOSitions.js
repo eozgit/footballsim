@@ -1,5 +1,4 @@
 import { readFile } from '../lib/fileReader.js';
-import { expect } from 'chai';
 import common from '../lib/common.js';
 import setPos from '../lib/setPositions.js';
 

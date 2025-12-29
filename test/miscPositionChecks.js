@@ -1,5 +1,4 @@
 import { readFile } from '../lib/fileReader.js';
-import { expect } from 'chai';
 import setpieces from './lib/set_pieces.js';
 import common from '../lib/common.js';
 

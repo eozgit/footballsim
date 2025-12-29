@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import setfreekicks from './lib/set_freekicks.js';
 import common from '../lib/common.js';
 

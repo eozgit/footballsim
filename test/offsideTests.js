@@ -1,5 +1,4 @@
 import { readFile } from '../lib/fileReader.js';
-import { expect } from 'chai';
 import pMovement from '../lib/playerMovement.js';
 import common from '../lib/common.js';
 
