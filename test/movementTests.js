@@ -646,6 +646,7 @@ describe('misc()', function () {
     thisPlayer.action = ``;
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
+      common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
       expect(err.toString()).to.have.string(
@@ -662,6 +663,7 @@ describe('misc()', function () {
     thisPlayer.action = `megs`;
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
+      common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
       expect(err.toString()).to.have.string(

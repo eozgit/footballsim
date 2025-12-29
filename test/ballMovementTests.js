@@ -39,7 +39,7 @@ describe('ArrayStuffs()', function () {
     );
     try {
       expect(newPosition).to.eql([335, 523]);
-    } catch (err) {
+    } catch {
       expect(newPosition).to.eql([333, 521]);
     }
   });
@@ -815,11 +815,7 @@ describe('shotMade()', function () {
     const player = matchDetails.secondTeam.players[3];
     matchDetails.half = 'abc';
     try {
-      const endPos = bMovement.shotMade(
-        matchDetails,
-        matchDetails.secondTeam,
-        player,
-      );
+      bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
       expect(err.toString()).to.have.string('You cannot supply 0 as a half');
@@ -896,11 +892,7 @@ describe('penaltyTaken()', function () {
     const player = matchDetails.secondTeam.players[3];
     matchDetails.half = 'abc';
     try {
-      const endPos = bMovement.penaltyTaken(
-        matchDetails,
-        matchDetails.secondTeam,
-        player,
-      );
+      bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
       expect(err.toString()).to.have.string('You cannot supply 0 as a half');

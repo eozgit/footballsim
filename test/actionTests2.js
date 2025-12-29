@@ -2,7 +2,6 @@ import { expect, it, describe } from 'vitest';
 
 import { readFile } from '../lib/fileReader.js';
 import actions from '../lib/actions.js';
-import common from '../lib/common.js';
 
 describe('bottomTeamPlayerHasBallInMiddle()', function () {
   it('In middle of pitch, no opp. near, shooting over 85', async () => {

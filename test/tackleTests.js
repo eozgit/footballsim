@@ -25,7 +25,7 @@ describe('testWasFoul()', function () {
   it('Foul returns false for (10,18)', async () => {
     let timesTrue = 0;
     let timesFalse = 0;
-    for (const i of new Array(1000)) {
+    for (let i = 0; i < 1000; i++) {
       const foul = actions.wasFoul(10, 18);
       if (foul === true) timesTrue++;
       else timesFalse++;
@@ -36,8 +36,7 @@ describe('testWasFoul()', function () {
   it('Foul returns false for (11,20)', async () => {
     let timesTrue = 0;
     let timesFalse = 0;
-    let i;
-    for (i of new Array(1000)) {
+    for (let i = 0; i < 1000; i++) {
       const foul = actions.wasFoul(11, 20);
       if (foul === true) timesTrue++;
       else timesFalse++;
@@ -237,7 +236,7 @@ describe('testCalculationOfTackleScores()', function () {
 });
 describe('testSlideTackle()', function () {
   let x = 0;
-  for (const i of new Array(10)) {
+  for (let i = 0; i < 10; i++) {
     it(`resolve slide tackle ${x}`, async () => {
       const matchDetails = await readFile('init_config/iteration.json');
       const testPlayer = matchDetails.secondTeam.players[4];
@@ -326,7 +325,7 @@ describe('testSlideTackle()', function () {
 });
 describe('testTackle()', function () {
   let x = 0;
-  for (const i of new Array(10)) {
+  for (let i = 0; i < 10; i++) {
     it(`resolve tackle ${x}`, async () => {
       const matchDetails = await readFile('init_config/iteration.json');
       const testPlayer = matchDetails.secondTeam.players[4];

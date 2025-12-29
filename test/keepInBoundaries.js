@@ -1,6 +1,5 @@
 import { expect, it, describe } from 'vitest';
 
-import common from '../lib/common.js';
 import { readFile } from '../lib/fileReader.js';
 
 import setpieces from './lib/set_pieces.js';
