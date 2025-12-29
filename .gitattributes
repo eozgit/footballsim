@@ -1,0 +1,9 @@
+* text=auto eol=lf
+
+*.json text eol=lf
+*.js   text eol=lf
+*.ts   text eol=lf linguist-language=TypeScript diff=typescript
+*.md text
+*.yml text
+
+package-lock.json binary
