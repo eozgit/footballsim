@@ -1,7 +1,11 @@
 //example implementation application
-const fs = require('fs');
+import { readFile as _readFile } from 'fs';
 
-const engine = require('./../engine');
+import {
+  initiateGame,
+  playIteration as _playIteration,
+  startSecondHalf,
+} from './../engine';
 
 let nextIteration;
 gameOfTenIterations()
@@ -38,7 +42,7 @@ async function initGame(t1, t2, p) {
     const team1 = await readFile(t1);
     const team2 = await readFile(t2);
     const pitch = await readFile(p);
-    const matchSetup = engine.initiateGame(team1, team2, pitch);
+    const matchSetup = initiateGame(team1, team2, pitch);
     return matchSetup;
   } catch (error) {
     throw new Error(error);
@@ -47,7 +51,7 @@ async function initGame(t1, t2, p) {
 
 async function playIteration(inputIteration) {
   try {
-    const outputIteration = await engine.playIteration(inputIteration);
+    const outputIteration = await _playIteration(inputIteration);
     return outputIteration;
   } catch (error) {
     throw new Error(error);
@@ -56,7 +60,7 @@ async function playIteration(inputIteration) {
 
 async function setupSecondHalf(inputIteration) {
   try {
-    const outputJSON = await engine.startSecondHalf(inputIteration);
+    const outputJSON = await startSecondHalf(inputIteration);
     return outputJSON;
   } catch (error) {
     throw new Error(error);
@@ -65,7 +69,7 @@ async function setupSecondHalf(inputIteration) {
 
 function readFile(filePath) {
   return new Promise(function (resolve, reject) {
-    fs.readFile(filePath, 'utf8', function (err, data) {
+    _readFile(filePath, 'utf8', function (err, data) {
       if (err) {
         reject(err);
       } else {
