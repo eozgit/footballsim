@@ -8,6 +8,7 @@ function getRandomNumber(min, max) {
 }
 
 function round(value, decimals) {
+  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
   return Number(`${Math.round(`${value}e${decimals}`)}e-${decimals}`);
 }
 
@@ -28,11 +29,13 @@ function upToMin(num, min) {
 function getBallTrajectory(thisPOS, newPOS, power) {
   const xMovement = (thisPOS[0] - newPOS[0]) ** 2;
   const yMovement = (parseInt(thisPOS[1], 10) - parseInt(newPOS[1], 10)) ** 2;
+  // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
   const movementDistance = Math.round(Math.sqrt(xMovement + yMovement), 0);
 
   let arraySize = Math.round(thisPOS[1] - newPOS[1]);
 
   if (movementDistance >= power) {
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     power = parseInt(power, 10) + parseInt(movementDistance, 10);
   }
   const height = Math.sqrt(
@@ -57,7 +60,9 @@ function getBallTrajectory(thisPOS, newPOS, power) {
     const xPos = round(lastX + changeInX, 5);
     let yPos = 0;
     if (newPOS[1] > thisPOS[1])
+      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       yPos = parseInt(lastY, 10) - parseInt(changeInY, 10);
+    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
     else yPos = parseInt(lastY, 10) + parseInt(changeInY, 10);
     let hPos;
     if (elevation === 1) {
@@ -151,7 +156,9 @@ function removeBallFromAllPlayers(matchDetails) {
 }
 
 function debug(label, ...args) {
+  // @ts-expect-error TS(2580): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.DEBUG_ENGINE) {
+    // @ts-expect-error TS(2584): Cannot find name 'console'. Do you need to change ... Remove this comment to see the full error message
     console.log(`[DEBUG:${label}]`, ...args);
   }
 }
