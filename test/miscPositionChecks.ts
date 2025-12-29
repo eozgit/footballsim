@@ -11,11 +11,9 @@ describe('removeBallFromAllPlayers()', function () {
     const nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
 
     expect(nextJSON).to.be.an('object');
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.kickOffTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     for (const player of nextJSON.secondTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
