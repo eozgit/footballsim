@@ -48,7 +48,7 @@ async function playIteration(matchDetails) {
   injury.matchInjury(matchDetails, kickOffTeam);
   injury.matchInjury(matchDetails, secondTeam);
   matchDetails = ballMovement.moveBall(matchDetails);
-  if (matchDetails.endIteration == true) {
+  if (matchDetails.endIteration === true) {
     delete matchDetails.endIteration;
     return matchDetails;
   }
@@ -69,8 +69,8 @@ async function playIteration(matchDetails) {
   matchDetails.kickOffTeam = kickOffTeam;
   matchDetails.secondTeam = secondTeam;
   if (
-    matchDetails.ball.ballOverIterations.length == 0 ||
-    matchDetails.ball.withTeam != ''
+    matchDetails.ball.ballOverIterations.length === 0 ||
+    matchDetails.ball.withTeam !== ''
   ) {
     playerMovement.checkOffside(kickOffTeam, secondTeam, matchDetails);
   }
