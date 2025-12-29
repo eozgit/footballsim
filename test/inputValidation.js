@@ -1,3 +1,4 @@
+import { expect, it, describe } from 'vitest';
 import { readFile } from '../lib/fileReader.js';
 import validation from './lib/validate_tests.js';
 import common from '../lib/common.js';
