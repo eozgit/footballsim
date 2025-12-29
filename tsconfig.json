@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["ESNext"],
+    "allowJs": true,
+    "checkJs": false,
+    "noImplicitAny": false,
+    "strict": false,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": [
+    "lib/**/*",
+    "engine.ts", // Changed to .ts for post-rename
+    "test/**/*",
+    "init_config/**/*"
+  ]
+}
