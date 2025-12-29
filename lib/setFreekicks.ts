@@ -41,7 +41,9 @@ function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
     return setTopBottomQtrCentreYPos(matchDetails, attack, defence);
   if (lowerFinalQtr)
     return setTopLowerFinalQtrBylinePos(matchDetails, attack, defence);
-  throw new Error(`Unhandled freekick position: ball at [${matchDetails.ball.position}]`);
+  throw new Error(
+    `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
+  );
 }
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
@@ -84,7 +86,9 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
     return setBottomUpperQtrCentreYPos(matchDetails, attack, defence);
   if (lowerFinalQtr)
     return setBottomLowerFinalQtrBylinePos(matchDetails, attack, defence);
-  throw new Error(`Unhandled freekick position: ball at [${matchDetails.ball.position}]`);
+  throw new Error(
+    `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
+  );
 }
 
 function setTopOneHundredYPos(

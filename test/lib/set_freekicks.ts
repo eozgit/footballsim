@@ -10,7 +10,10 @@ async function setTopFreekick(iterationFile: any, ballPosition: any) {
   matchDetails.ball.position = ballPosition.map((x: any) => x);
   return setFreekick.setTopFreekick(matchDetails as MatchDetails);
 }
-async function setBottomFreekick(iterationFile: any, ballPosition: any): Promise<MatchDetails> {
+async function setBottomFreekick(
+  iterationFile: any,
+  ballPosition: any,
+): Promise<MatchDetails> {
   const matchDetails = await readFile(iterationFile).catch(function (err) {
     throw err.stack;
   });

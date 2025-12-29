@@ -7,9 +7,9 @@ import { MatchDetails } from 'lib/types.ts';
 
 describe('intentPOSitionsDefence()', function () {
   it('kickoff team defensive players move towards ball on opposite side', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -29,9 +29,9 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players move towards ball on opposite side with player near', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf3.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -40,7 +40,11 @@ describe('intentPOSitionsDefence()', function () {
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
-      if (player.currentPOS[0] === 'NP') { throw new Error(`Test Failure: Player ${player.name} is 'NP', cannot calculate position difference.`); }
+      if (player.currentPOS[0] === 'NP') {
+        throw new Error(
+          `Test Failure: Player ${player.name} is 'NP', cannot calculate position difference.`,
+        );
+      }
       const diffXPOSplayerandball = ballPosition[0] - player.currentPOS[0];
       const diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
       const xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
@@ -58,9 +62,9 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('secondteam defensive players move towards ball on opposite side', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
@@ -80,9 +84,9 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('kickoff team defensive players ball in own half', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -103,9 +107,9 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
   it('second team defensive players ball in own half', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
@@ -123,9 +127,9 @@ describe('intentPOSitionsDefence()', function () {
 });
 describe('intentPOSitionsAttacking()', function () {
   it('kickoff team attacking from behind originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -138,9 +142,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -153,9 +157,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking from ahead of originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -168,9 +172,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from behind originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
@@ -183,9 +187,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTfromOrigin2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
@@ -198,9 +202,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team attacking from ahead of originPOS', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
@@ -213,9 +217,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team attacking in own half from top', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf4.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
@@ -231,9 +235,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('kickoff team deep in opposition half do not exceed forward limits', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const [, pitchHeight] = matchDetails.pitchSize;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
@@ -271,9 +275,9 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
   it('second team deep in opposition half do not exceed forward limits', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/intentPositionATTdeep2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const [, pitchHeight] = matchDetails.pitchSize;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
@@ -313,9 +317,9 @@ describe('intentPOSitionsAttacking()', function () {
 });
 describe('intentPOSitionsLooseBall()', function () {
   it('kickoff team moves towards ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/looseBall.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const { kickOffTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerKOTInput.json',
@@ -365,9 +369,9 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/looseBall2.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const { secondTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
@@ -417,9 +421,9 @@ describe('intentPOSitionsLooseBall()', function () {
     ]);
   });
   it('second team moves towards ball player near ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = (await readFile(
       './test/input/boundaryPositions/looseBall3.json',
-    ) as MatchDetails;
+    )) as MatchDetails;
     const { secondTeam } = matchDetails;
     const closestPlayer = await readFile(
       './test/input/closestPositions/closestPlayerSTInput.json',
