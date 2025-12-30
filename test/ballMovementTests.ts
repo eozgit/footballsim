@@ -112,7 +112,6 @@ describe('targetPlayers()', function () {
       const playersArray = await readMatchDetails(
         'test/input/ballMovements/targetPlayersArray.json',
       );
-      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `top`,
@@ -132,7 +131,6 @@ describe('targetPlayers()', function () {
       const playersArray = await readMatchDetails(
         'test/input/ballMovements/targetPlayersArray.json',
       );
-      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `bottom`,
@@ -622,54 +620,42 @@ describe('moveBall()', function () {
 describe('getTopKickedPosition()', function () {
   it(`getTopKickedPosition - wait`, async () => {
     const endPos = bMovement.getTopKickedPosition(`wait`, [11, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 10, 17);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 199, 207);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getTopKickedPosition - north`, async () => {
     const endPos = bMovement.getTopKickedPosition(`north`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 20, 62);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 189, 196);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getTopKickedPosition - east`, async () => {
     const endPos = bMovement.getTopKickedPosition(`east`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 45, 52);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getTopKickedPosition - west`, async () => {
     const endPos = bMovement.getTopKickedPosition(`west`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 30, 37);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getTopKickedPosition - northeast`, async () => {
     const endPos = bMovement.getTopKickedPosition(`northeast`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 40, 47);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 189, 211);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getTopKickedPosition - northwest`, async () => {
     const endPos = bMovement.getTopKickedPosition(`northwest`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 35, 42);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 189, 196);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
@@ -678,36 +664,28 @@ describe('getTopKickedPosition()', function () {
 describe('getBottomKickedPosition()', function () {
   it(`getBottomKickedPosition - wait`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`wait`, [11, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 10, 17);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 199, 207);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getBottomKickedPosition - south`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`south`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 20, 62);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 189, 221);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getBottomKickedPosition - east`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`east`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 45, 52);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
   });
   it(`getBottomKickedPosition - west`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`west`, [41, 200], 10);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 30, 37);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
@@ -718,9 +696,7 @@ describe('getBottomKickedPosition()', function () {
       [41, 200],
       10,
     );
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 40, 47);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 204, 211);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
@@ -731,9 +707,7 @@ describe('getBottomKickedPosition()', function () {
       [41, 200],
       10,
     );
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const xBetween = common.isBetween(endPos[0], 35, 42);
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const yBetween = common.isBetween(endPos[1], 204, 211);
     expect(xBetween).to.eql(true);
     expect(yBetween).to.eql(true);
