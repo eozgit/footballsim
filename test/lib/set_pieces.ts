@@ -1,3 +1,4 @@
+import { MatchDetails } from 'lib/types.ts';
 import common from '../../lib/common.js';
 import setPos from '../../lib/setPositions.js';
 import { readMatchDetails } from './utils.ts';
@@ -36,7 +37,7 @@ async function keepInBoundaries(
   iterationFile: any,
   kickersSide: any,
   ballIntended: any,
-) {
+): Promise<MatchDetails> {
   const matchDetails = await readMatchDetails(iterationFile);
   setPos.keepInBoundaries(matchDetails, kickersSide, ballIntended);
   return matchDetails;
