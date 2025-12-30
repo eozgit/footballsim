@@ -455,7 +455,7 @@ function resolveBallMovement(
   team: Team,
   opp: any,
   matchDetails: MatchDetails,
-) {
+): [number, number] {
   common.removeBallFromAllPlayers(matchDetails);
   const lineToEndPosition = common.getBallTrajectory(thisPOS, newPOS, power);
   for (const thisPos of lineToEndPosition) {
@@ -837,7 +837,11 @@ function getTargetPlayer(playersArray: any, side: any, pitchHeight: any) {
   return thisPlayer;
 }
 
-function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player) {
+function ballCrossed(
+  matchDetails: MatchDetails,
+  team: Team,
+  player: Player,
+): [number, number] {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -874,7 +878,7 @@ function calcBallMovementOverTime(
   strength: any,
   nextPosition: any,
   player: Player,
-) {
+): [number, number] {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;
   const power = common.calculatePower(strength);

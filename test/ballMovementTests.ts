@@ -152,7 +152,9 @@ describe('targetPlayers()', function () {
     expect(output).to.eql([2, 2]);
   });
   it('set B Player', async () => {
-    const bPlayer = await readMatchDetails('test/input/ballMovements/bPlayer.json');
+    const bPlayer = await readMatchDetails(
+      'test/input/ballMovements/bPlayer.json',
+    );
     const thisPlayer = bMovement.setBPlayer([0, 200]);
     expect(thisPlayer).to.eql(bPlayer);
   });
