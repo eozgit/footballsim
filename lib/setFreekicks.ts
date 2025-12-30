@@ -348,9 +348,8 @@ function setTopHalfwayToBottomQtrYPos(
     if (player.position === 'GK')
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
-      const maxYPOSCheck = parseInt(
+      const maxYPOSCheck = Math.floor(
         common.upToMax(ball.position[1] - 100, pitchHeight * 0.5),
-        10,
       );
       player.currentPOS = [player.originPOS[0], maxYPOSCheck];
     } else if (['CM', 'LM', 'RM'].includes(player.position)) {
@@ -359,30 +358,22 @@ function setTopHalfwayToBottomQtrYPos(
         pitchHeight * 0.75,
       );
       if (player.name !== kickPlayer.name)
-        player.currentPOS = [player.originPOS[0], parseInt(maxYPOSCheck, 10)];
+        player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
     } else {
       const maxYPOSCheck = common.upToMax(
         ball.position[1] + common.getRandomNumber(300, 400),
         pitchHeight * 0.9,
       );
-      player.currentPOS = [player.originPOS[0], parseInt(maxYPOSCheck, 10)];
+      player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
     }
   }
   for (const player of defence.players) {
     if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = player.originPOS.map((x: any) => x);
     } else if (['CM', 'LM', 'RM'].includes(player.position)) {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
     } else {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.5)];
     }
   }
   matchDetails.endIteration = true;
@@ -415,11 +406,7 @@ function setBottomHalfwayToTopQtrYPos(
   kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
   for (const player of attack.players) {
     if (player.position === 'GK')
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       const maxYPOSCheck = parseInt(
         common.upToMin(ball.position[1] + 100, pitchHeight * 0.5),
@@ -480,23 +467,17 @@ function setTopBottomQtrCentreYPos(
   kickPlayer.currentPOS = ball.position.map((x: any) => x);
   for (const player of attack.players) {
     if (player.position === 'GK')
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.25, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       if (player.position === 'CB') {
         player.currentPOS = [
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ];
       } else if (player.position === 'LB' || player.position === 'RB') {
         player.currentPOS = [
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ];
       }
     } else if (player.name !== kickPlayer.name) {

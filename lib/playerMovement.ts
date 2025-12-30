@@ -587,18 +587,17 @@ function getInterceptTrajectory(
   const interceptPlayer = playerInformation.thePlayer;
   const targetX = pitchWidth / 2;
   const targetY =
-    // @ts-expect-error TS(2339): Property 'originPOS' does not exist on type 'strin... Remove this comment to see the full error message
     interceptPlayer.originPOS[1] < pitchHeight / 2 ? pitchHeight : 0;
-  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
+  if (interceptPlayer.currentPOS[0] === 'NP') {
+    throw new Error('Player no position!');
+  }
   const moveX = targetX - interceptPlayer.currentPOS[0];
-  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   const moveY = targetY - interceptPlayer.currentPOS[1];
   const highNum =
     Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
   const xDiff = moveX / highNum;
   const yDiff = moveY / highNum;
   const POI = [];
-  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   POI.push(interceptPlayer.currentPOS);
   for (const _ of new Array(Math.round(highNum))) {
     const lastArrayPOS = POI.length - 1;
