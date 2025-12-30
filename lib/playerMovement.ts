@@ -618,8 +618,8 @@ function getRunMovement(
   player: Player,
   ballX: any,
   ballY: any,
-) {
-  const move = [0, 0];
+): [number, number] {
+  const move: [number, number] = [0, 0];
   if (player.fitness > 20)
     player.fitness = common.round(player.fitness - 0.005, 6);
   const side =
@@ -666,8 +666,8 @@ function getSprintMovement(
   player: Player,
   ballX: any,
   ballY: any,
-) {
-  const move = [0, 0];
+): [number, number] {
+  const move: [number, number] = [0, 0];
   if (player.fitness > 30)
     player.fitness = common.round(player.fitness - 0.01, 6);
   const side =

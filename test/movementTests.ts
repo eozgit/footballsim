@@ -1,17 +1,15 @@
 import { expect, it, describe } from 'vitest';
 
-import { readFile } from '../lib/fileReader.js';
+import { readMatchDetails } from './lib/utils.js';
 import pMovement from '../lib/playerMovement.js';
 import common from '../lib/common.js';
 
 describe('getMovement()', function () {
   it('Has Ball - runs', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -27,12 +25,10 @@ describe('getMovement()', function () {
     expect(true).to.eql(common.isBetween(movement[1], -3, 1));
   });
   it('Has Ball - sprint', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -48,12 +44,10 @@ describe('getMovement()', function () {
     expect(true).to.eql(common.isBetween(movement[1], 1, 5));
   });
   it('Has Ball - shoot', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -66,12 +60,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - throughball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -84,12 +76,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - pass', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -102,12 +92,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - cross', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -120,12 +108,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - cleared', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -138,12 +124,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - boot', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -156,12 +140,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('Has Ball - penalty', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.secondTeam;
     const movement = pMovement.getMovement(
       player,
@@ -174,12 +156,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - tackle +/+', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -192,12 +172,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - tackle 0/0', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -210,12 +188,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - tackle -/-', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -228,12 +204,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, 1]);
   });
   it('No Ball - tackle +/-', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -246,12 +220,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 1]);
   });
   it('No Ball - slide', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -264,13 +236,11 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - intercept +/0', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
     player.currentPOS[1] += 2;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -283,12 +253,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 0]);
   });
   it('No Ball - intercept -/-', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails2.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -301,13 +269,11 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, 1]);
   });
   it('No Ball - intercept 0/-', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -320,14 +286,12 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 1]);
   });
   it('No Ball - intercept 0/0', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
     player.currentPOS[1] = 527;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -340,14 +304,12 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - intercept 0/+', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
     player.currentPOS[1] = 957;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -360,14 +322,12 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, -1]);
   });
   it('No Ball - intercept +/+', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 537;
     player.currentPOS[1] = 1357;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -380,14 +340,12 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, -1]);
   });
   it('No Ball - intercept +/-', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 537;
     player.currentPOS[1] = 1;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -400,14 +358,12 @@ describe('getMovement()', function () {
     expect(movement).to.eql([-1, 1]);
   });
   it('No Ball - intercept -/+', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 1;
     player.currentPOS[1] = 1357;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -420,12 +376,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([1, -1]);
   });
   it('No Ball - run', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -438,12 +392,10 @@ describe('getMovement()', function () {
     expect(movement).to.eql([0, 0]);
   });
   it('No Ball - sprint', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[4];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -458,48 +410,35 @@ describe('getMovement()', function () {
 });
 describe('misc()', function () {
   it('updateInformation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
     const newPosition = [12, 32];
     pMovement.updateInformation(matchDetails, newPosition);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.eql([12, 32, 0]);
   });
   it('ballMoved', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.secondTeam.players[4];
     thisPlayer.hasBall = true;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.kickOffTeam;
     pMovement.ballMoved(matchDetails, thisPlayer, team, opp);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.secondTeam.players[4].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.secondTeam.intent).to.eql(`attack`);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.intent).to.eql(`attack`);
   });
   it('ballPlayerActions - cleared', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -508,26 +447,18 @@ describe('misc()', function () {
       opp,
       `cleared`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - boot', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -536,26 +467,18 @@ describe('misc()', function () {
       opp,
       `boot`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - pass', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -564,31 +487,22 @@ describe('misc()', function () {
       opp,
       `pass`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballLog = matchDetails.iterationLog[4].indexOf(
       `passed to new position:`,
     );
     expect(ballLog).to.be.greaterThan(-1);
   });
   it('ballPlayerActions - cross', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -597,31 +511,22 @@ describe('misc()', function () {
       opp,
       `cross`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const ballLog = matchDetails.iterationLog[4].indexOf(
       `crossed to new position:`,
     );
     expect(ballLog).to.be.greaterThan(-1);
   });
   it('ballPlayerActions - throughball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -630,26 +535,18 @@ describe('misc()', function () {
       opp,
       `throughBall`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - shoot', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -658,26 +555,18 @@ describe('misc()', function () {
       opp,
       `shoot`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('ballPlayerActions - penalty', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.handleBallPlayerActions(
       matchDetails,
@@ -686,22 +575,16 @@ describe('misc()', function () {
       opp,
       `penalty`,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withPlayer).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.Player).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.withTeam).to.eql(``);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[9].hasBall).to.eql(false);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.position).to.not.eql(thisPlayer.currentPOS);
   });
   it('checkProvidedAction - no ball, valid provided action', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.action = `tackle`;
     let action = `run`;
@@ -709,10 +592,9 @@ describe('misc()', function () {
     expect(action).to.eql(`tackle`);
   });
   it('checkProvidedAction - no ball, provided ball action', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
     thisPlayer.action = `pass`;
@@ -720,10 +602,9 @@ describe('misc()', function () {
     expect(action).to.eql(`run`);
   });
   it('checkProvidedAction - has ball, provided none ball action', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
     thisPlayer.action = `slide`;
@@ -731,10 +612,9 @@ describe('misc()', function () {
     expect(action).to.not.eql(`slide`);
   });
   it('checkProvidedAction - has ball, provided none ball action intercept', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
     thisPlayer.action = `intercept`;
@@ -742,10 +622,9 @@ describe('misc()', function () {
     expect(action).to.not.eql(`intercept`);
   });
   it('checkProvidedAction - has ball, provided ball action', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
     thisPlayer.action = `shoot`;
@@ -753,10 +632,9 @@ describe('misc()', function () {
     expect(action).to.eql(`shoot`);
   });
   it('checkProvidedAction - none', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
     thisPlayer.action = `none`;
@@ -764,10 +642,9 @@ describe('misc()', function () {
     expect(action).to.eql(`run`);
   });
   it('checkProvidedAction - nothing', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
     thisPlayer.action = ``;
@@ -776,17 +653,15 @@ describe('misc()', function () {
       common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Invalid player action for Cameron Johnson',
       );
     }
   });
   it('checkProvidedAction - invalid action', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
     thisPlayer.action = `megs`;
@@ -795,7 +670,6 @@ describe('misc()', function () {
       common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(
         'Invalid player action for Cameron Johnson',
       );
@@ -804,10 +678,9 @@ describe('misc()', function () {
 });
 describe('getSprintMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 20, 20);
     const betweenX = common.isBetween(move[0], -3, 1);
@@ -817,10 +690,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.98);
   });
   it('Move SouthWest - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getSprintMovement(
       matchDetails,
@@ -835,10 +707,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.98);
   });
   it('Move Wait - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.fitness = 29;
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 0, 0);
@@ -849,10 +720,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(29);
   });
   it('Top player with ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 29;
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, -20, 10);
@@ -863,10 +733,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(29);
   });
   it('Bottom player with ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 31;
     thisPlayer.originPOS[1] = 720;
@@ -878,10 +747,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(30.99);
   });
   it('Move SouthEast - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [10, 100];
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
@@ -892,10 +760,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move NorthWest - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [600, 1000];
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
@@ -906,10 +773,9 @@ describe('getSprintMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Wait - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [230, 290];
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
@@ -922,10 +788,9 @@ describe('getSprintMovement()', function () {
 });
 describe('getRunMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 20, 20);
     const betweenX = common.isBetween(move[0], -2, 1);
@@ -935,10 +800,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move SouthWest - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, -20);
     const betweenX = common.isBetween(move[0], -1, 2);
@@ -948,10 +812,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.985);
   });
   it('Move Wait - close to ball ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.fitness = 29;
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 0, 0);
@@ -962,10 +825,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(28.995);
   });
   it('Top player with ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 19;
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, 10);
@@ -976,10 +838,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(19);
   });
   it('Bottom player with ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 31;
     thisPlayer.originPOS[1] = 720;
@@ -991,10 +852,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(30.995);
   });
   it('Move SouthEast - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [10, 100];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
@@ -1005,10 +865,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.99);
   });
   it('Move NorthWest - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [600, 1000];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
@@ -1019,10 +878,9 @@ describe('getRunMovement()', function () {
     expect(thisPlayer.fitness).to.eql(99.99);
   });
   it('Wait - keep in formation', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [230, 290];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
@@ -1035,199 +893,149 @@ describe('getRunMovement()', function () {
 });
 describe('decideMovement()', function () {
   it('completeSlide and same position as ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].action = `slide`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const slideInfo = matchDetails.iterationLog[2].indexOf(
       `Slide tackle attempted by: Louise Johnson`,
     );
     expect(slideInfo).to.be.greaterThan(-1);
   });
   it('completeTackle and same position as ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].action = `tackle`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const tackleInfo = matchDetails.iterationLog[2].indexOf(
       `Tackle attempted by: Louise Johnson`,
     );
     expect(tackleInfo).to.be.greaterThan(-1);
   });
   it('completeSlide and wiithin 3 of ball', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].action = `slide`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const slideInfo = matchDetails.iterationLog[2].indexOf(
       `Slide tackle attempted by: Louise Johnson`,
     );
     expect(slideInfo).to.be.greaterThan(-1);
   });
   it('same position as ball not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withPlayer = false;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[10].hasBall).to.eql(true);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('within 2 of ball not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withPlayer = false;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[10].hasBall).to.eql(true);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withTeam = `78883930303030002`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withPlayer = false;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.kickOffTeam.players[10].hasBall).to.eql(true);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     expect(matchDetails.ball.lastTouch.playerName).to.eql(`Louise Johnson`);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].offside = true;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withTeam = `78883930303030002`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.withPlayer = false;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
       opp,
       matchDetails,
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const offsideInfo = matchDetails.iterationLog[2].indexOf(
       `Louise Johnson is offside`,
     );
     expect(offsideInfo).to.be.greaterThan(-1);
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails3.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const thisPlayer = matchDetails.kickOffTeam.players[10];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[10].offside = true;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
     team.name = `aaaa`;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opp = matchDetails.secondTeam;
     pMovement.setClosePlayerTakesBall(matchDetails, thisPlayer, team, opp);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const offsideInfo = matchDetails.iterationLog[2].indexOf(
       `Louise Johnson is offside`,
     );
