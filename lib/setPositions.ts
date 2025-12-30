@@ -205,7 +205,7 @@ function setLeftKickOffTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  kickOffTeam.players[5].currentPOS = [...matchDetails.ball.position];
+  kickOffTeam.players[5].currentPOS = [matchDetails.ball.position[0], matchDetails.ball.position[1]];
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -232,7 +232,7 @@ function setRightKickOffTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  kickOffTeam.players[5].currentPOS = [...matchDetails.ball.position];
+  kickOffTeam.players[5].currentPOS = [matchDetails.ball.position[0], matchDetails.ball.position[1]];
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -259,7 +259,7 @@ function setLeftSecondTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  secondTeam.players[5].currentPOS = [...matchDetails.ball.position];
+  kickOffTeam.players[5].currentPOS = [matchDetails.ball.position[0], matchDetails.ball.position[1]];
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;
@@ -286,7 +286,7 @@ function setRightSecondTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  secondTeam.players[5].currentPOS = [...matchDetails.ball.position];
+  kickOffTeam.players[5].currentPOS = [matchDetails.ball.position[0], matchDetails.ball.position[1]];
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;

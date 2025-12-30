@@ -47,7 +47,7 @@ function topTeamPlayerHasBall(
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    player.currentPOS,
+    player.currentPOS as [number, number],
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
@@ -106,15 +106,16 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
+  const curPOS = player.currentPOS as [number, number]
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    player.currentPOS,
+    curPOS,
   );
   const ownPlayerInformation = setPositions.closestPlayerToPosition(
     player,
     team,
-    player.currentPOS,
+    curPOS,
   );
   const tmateProximity = [
     Math.abs(ownPlayerInformation.proxPOS[0]),
@@ -172,10 +173,12 @@ function bottomTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ) {
+  if (player.currentPOS[0] === 'NP') { throw new Error('No player position!') }
+  const curPOS = player.currentPOS as [number, number]
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    player.currentPOS,
+    curPOS,
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
@@ -229,15 +232,20 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   team: Team,
   opposition: Team,
 ) {
+
+
+  if (player.currentPOS[0] === 'NP') { throw new Error('No player position!') }
+  const curPOS = player.currentPOS as [number, number]
+
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    player.currentPOS,
+    curPOS,
   );
   const ownPlayerInformation = setPositions.closestPlayerToPosition(
     player,
     team,
-    player.currentPOS,
+    curPOS,
   );
   const tmateProximity = [
     Math.abs(ownPlayerInformation.proxPOS[0]),
