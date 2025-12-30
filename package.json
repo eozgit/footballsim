@@ -52,7 +52,7 @@
     "vitest": "^4.0.16"
   },
   "lint-staged": {
-    "**/*.(js|mjs|cjs|json|md)": [
+    "*.{js,ts,tsx,json,md}": [
       "prettier --write"
     ]
   },
