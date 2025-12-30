@@ -407,7 +407,7 @@ function getMovement(
   ballX: any,
   ballY: any,
   matchDetails: MatchDetails,
-) {
+): [number, number] {
   const { position } = matchDetails.ball;
   const ballActions = [
     `shoot`,
@@ -433,10 +433,11 @@ function getMovement(
   } else if (action === `sprint`) {
     return getSprintMovement(matchDetails, player, ballX, ballY);
   }
+  throw new Error('No action');
 }
 
-function getTackleMovement(ballX: any, ballY: any) {
-  const move = [0, 0];
+function getTackleMovement(ballX: any, ballY: any): [number, number] {
+  const move: [number, number] = [0, 0];
   if (ballX > 0) move[0] = -1;
   else if (ballX === 0) move[0] = 0;
   else if (ballX < 0) move[0] = 1;
@@ -451,8 +452,8 @@ function getInterceptMovement(
   opposition: Team,
   ballPosition: any,
   pitchSize: any,
-) {
-  let move = [0, 0];
+): [number, number] {
+  let move: [number, number] = [0, 0];
   const intcptPos = getInterceptPosition(
     player.currentPOS,
     opposition,

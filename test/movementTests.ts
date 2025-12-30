@@ -19,9 +19,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     expect(true).to.eql(common.isBetween(movement[0], -3, 1));
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     expect(true).to.eql(common.isBetween(movement[1], -3, 1));
   });
   it('Has Ball - sprint', async () => {
@@ -38,9 +36,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     expect(true).to.eql(common.isBetween(movement[0], -5, 5));
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     expect(true).to.eql(common.isBetween(movement[1], 1, 5));
   });
   it('Has Ball - shoot', async () => {
@@ -653,7 +649,7 @@ describe('misc()', function () {
       common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string(
+      expect(String(err)).to.have.string(
         'Invalid player action for Cameron Johnson',
       );
     }
@@ -670,7 +666,7 @@ describe('misc()', function () {
       common.debug('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string(
+      expect(String(err)).to.have.string(
         'Invalid player action for Cameron Johnson',
       );
     }
