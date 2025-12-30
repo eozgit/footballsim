@@ -119,7 +119,9 @@ function inBottomPenalty(matchDetails: MatchDetails, item: any) {
   return false;
 }
 
-function getRandomTopPenaltyPosition(matchDetails: MatchDetails) {
+function getRandomTopPenaltyPosition(
+  matchDetails: MatchDetails,
+): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [0, pitchHeight / 6 + 6];
@@ -129,7 +131,9 @@ function getRandomTopPenaltyPosition(matchDetails: MatchDetails) {
   ];
 }
 
-function getRandomBottomPenaltyPosition(matchDetails: MatchDetails) {
+function getRandomBottomPenaltyPosition(
+  matchDetails: MatchDetails,
+): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];

@@ -45,12 +45,12 @@ function setTopRightCornerPositions(matchDetails: MatchDetails) {
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = attack.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
-    defence.players[playerNum].currentPOS = defence.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
+    attack.players[playerNum].currentPOS = [
+      ...attack.players[playerNum].originPOS,
+    ];
+    defence.players[playerNum].currentPOS = [
+      ...defence.players[playerNum].originPOS,
+    ];
   }
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
     attack.players[playerNum].currentPOS =
@@ -80,12 +80,12 @@ function setTopLeftCornerPositions(matchDetails: MatchDetails) {
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = attack.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
-    defence.players[playerNum].currentPOS = defence.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
+    attack.players[playerNum].currentPOS = [
+      ...attack.players[playerNum].originPOS,
+    ];
+    defence.players[playerNum].currentPOS = [
+      ...defence.players[playerNum].originPOS,
+    ];
   }
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
     attack.players[playerNum].currentPOS =
@@ -116,12 +116,12 @@ function setBottomLeftCornerPositions(matchDetails: MatchDetails) {
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = attack.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
-    defence.players[playerNum].currentPOS = defence.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
+    attack.players[playerNum].currentPOS = [
+      ...attack.players[playerNum].originPOS,
+    ];
+    defence.players[playerNum].currentPOS = [
+      ...defence.players[playerNum].originPOS,
+    ];
   }
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
     attack.players[playerNum].currentPOS =
@@ -152,12 +152,12 @@ function setBottomRightCornerPositions(matchDetails: MatchDetails) {
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = attack.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
-    defence.players[playerNum].currentPOS = defence.players[
-      playerNum
-    ].originPOS.map((x: any) => x);
+    attack.players[playerNum].currentPOS = [
+      ...attack.players[playerNum].originPOS,
+    ];
+    defence.players[playerNum].currentPOS = [
+      ...defence.players[playerNum].originPOS,
+    ];
   }
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
     attack.players[playerNum].currentPOS =
@@ -204,9 +204,7 @@ function setLeftKickOffTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  kickOffTeam.players[5].currentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
-  );
+  kickOffTeam.players[5].currentPOS = [...matchDetails.ball.position];
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -233,9 +231,7 @@ function setRightKickOffTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  kickOffTeam.players[5].currentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
-  );
+  kickOffTeam.players[5].currentPOS = [...matchDetails.ball.position];
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -262,9 +258,7 @@ function setLeftSecondTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  secondTeam.players[5].currentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
-  );
+  secondTeam.players[5].currentPOS = [...matchDetails.ball.position];
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;
@@ -291,9 +285,7 @@ function setRightSecondTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  secondTeam.players[5].currentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
-  );
+  secondTeam.players[5].currentPOS = [...matchDetails.ball.position];
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;
@@ -422,12 +414,15 @@ function setBallSpecificGoalKickValue(matchDetails: MatchDetails, attack: any) {
 function closestPlayerToPosition(player: Player, team: Team, position: any) {
   let currentDifference = 1000000;
   const playerInformation = {
-    thePlayer: ``,
+    thePlayer: {},
     proxPOS: [``, ``],
     proxToBall: '',
   };
   for (const thisPlayer of team.players) {
     if (player.playerID !== thisPlayer.playerID) {
+      if (thisPlayer.currentPOS[0] === 'NP') {
+        throw new Error('Player no position!');
+      }
       const ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
       const ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
       const proximityToBall = Math.abs(ballToPlayerX) + Math.abs(ballToPlayerY);
@@ -531,9 +526,7 @@ function setTopPenalty(matchDetails: MatchDetails) {
       : matchDetails.kickOffTeam;
   const tempArray = [pitchWidth / 2, pitchHeight / 6];
   const shootArray = [pitchWidth / 2, common.round(pitchHeight / 17.5, 0)];
-  defence.players[0].currentPOS = defence.players[0].originPOS.map(
-    (x: any) => x,
-  );
+  defence.players[0].currentPOS = [...defence.players[0].originPOS];
   setPlayerPenaltyPositions(tempArray, attack, defence);
   setBallSpecificPenaltyValue(matchDetails, shootArray, attack);
   matchDetails.ball.direction = `north`;
@@ -561,9 +554,7 @@ function setBottomPenalty(matchDetails: MatchDetails) {
     pitchWidth / 2,
     pitchHeight - common.round(pitchHeight / 17.5, 0),
   ];
-  defence.players[0].currentPOS = defence.players[0].originPOS.map(
-    (x: any) => x,
-  );
+  defence.players[0].currentPOS = [...defence.players[0].originPOS];
   setPlayerPenaltyPositions(tempArray, attack, defence);
   setBallSpecificPenaltyValue(matchDetails, shootArray, attack);
   matchDetails.ball.direction = `south`;
@@ -624,8 +615,8 @@ function setKickOffTeamGoalScored(matchDetails: MatchDetails) {
   if (thisIndex > -1) matchDetails.kickOffTeam.players[thisIndex].stats.goals++;
   common.debug('sp3', matchDetails.ball.lastTouch);
   matchDetails.ball.lastTouch.playerName = ``;
-  matchDetails.ball.lastTouch.playerID = ``;
-  matchDetails.ball.lastTouch.teamID = ``;
+  matchDetails.ball.lastTouch.playerID = -99;
+  matchDetails.ball.lastTouch.teamID = -99;
   common.removeBallFromAllPlayers(matchDetails);
   setVariables.resetPlayerPositions(matchDetails);
   setBallSpecificGoalScoreValue(matchDetails, matchDetails.secondTeam);
@@ -649,8 +640,8 @@ function setSecondTeamGoalScored(matchDetails: MatchDetails) {
   if (thisIndex > -1) matchDetails.secondTeam.players[thisIndex].stats.goals++;
   common.debug('sp4', matchDetails.ball.lastTouch);
   matchDetails.ball.lastTouch.playerName = '';
-  matchDetails.ball.lastTouch.playerID = ``;
-  matchDetails.ball.lastTouch.teamID = ``;
+  matchDetails.ball.lastTouch.playerID = -99;
+  matchDetails.ball.lastTouch.teamID = -99;
   common.removeBallFromAllPlayers(matchDetails);
   setVariables.resetPlayerPositions(matchDetails);
   setBallSpecificGoalScoreValue(matchDetails, matchDetails.kickOffTeam);
@@ -700,12 +691,9 @@ function keepInBoundaries(
   const { kickOffTeam } = matchDetails;
   const KOTid = kickOffTeam.teamID;
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
-  // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-  const halfMWidth = parseInt(pitchWidth / 2, 10);
-  // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-  const leftPost = parseInt(halfMWidth, 10) - parseInt(goalWidth / 2, 10);
-  // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-  const rightPost = parseInt(halfMWidth, 10) + parseInt(goalWidth / 2, 10);
+  const halfMWidth = pitchWidth / 2;
+  const leftPost = halfMWidth - goalWidth / 2;
+  const rightPost = halfMWidth + goalWidth / 2;
   const [bXPOS, bYPOS] = ballIntended;
   const kickOffTeamSide =
     kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
@@ -793,10 +781,13 @@ function setPlayerPositions(
 ) {
   for (const thisPlayer of team.players) {
     if (thisPlayer.position === `GK`)
-      thisPlayer.currentPOS = thisPlayer.originPOS.map((x: any) => x);
+      thisPlayer.currentPOS = [...thisPlayer.originPOS];
     else {
-      thisPlayer.currentPOS = thisPlayer.originPOS.map((x: any) => x);
-      const playerPos = parseInt(thisPlayer.currentPOS[1], 10) + extra;
+      thisPlayer.currentPOS = [...thisPlayer.originPOS];
+      if (thisPlayer.currentPOS[0] === 'NP') {
+        throw new Error('Player no position!');
+      }
+      const playerPos = thisPlayer.currentPOS[1] + extra;
       if (common.isBetween(playerPos, -1, matchDetails.pitchSize[1] + 1))
         thisPlayer.currentPOS[1] = playerPos;
       thisPlayer.intentPOS = [thisPlayer.originPOS[0], playerPos];
@@ -819,8 +810,8 @@ function switchSide(matchDetails: MatchDetails, team: Team) {
       throw new Error(`Each player must have an origin position set`);
     thisPlayer.originPOS[1] =
       matchDetails.pitchSize[1] - thisPlayer.originPOS[1];
-    thisPlayer.currentPOS = thisPlayer.originPOS.map((x: any) => x);
-    thisPlayer.intentPOS = thisPlayer.originPOS.map((x: any) => x);
+    thisPlayer.currentPOS = [...thisPlayer.originPOS];
+    thisPlayer.intentPOS = [...thisPlayer.originPOS];
     thisPlayer.fitness =
       thisPlayer.fitness < 51 ? common.round(thisPlayer.fitness + 50, 2) : 100;
   }

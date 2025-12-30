@@ -673,7 +673,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('PLayer no position');
+    }
     matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 3;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -692,7 +694,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('PLayer no position');
+    }
     matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 300;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -711,7 +715,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('PLayer no position');
+    }
     matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 3;
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 100];
