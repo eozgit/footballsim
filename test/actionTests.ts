@@ -1,7 +1,8 @@
 import { expect, it, describe } from 'vitest';
 
-import { readFile } from '../lib/fileReader.js';
+import { readMatchDetails } from './lib/utils.js';
 import actions from '../lib/actions.js';
+import { Player } from 'lib/types.ts';
 
 describe('testPositionInTopBox()', function () {
   it('Inside Top Box Test', async () => {
@@ -153,7 +154,10 @@ describe('testPositionInBottomBoxClose()', function () {
 });
 describe('noBallNotGK2CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
       matchDetails,
       [320, 1000],
@@ -163,7 +167,10 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
       matchDetails,
       [320, 1000],
@@ -173,7 +180,10 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
       matchDetails,
       [15, 500],
@@ -183,7 +193,10 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle, intercept and slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
       matchDetails,
       [604, 485],
@@ -195,7 +208,10 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 });
 describe('noBallNotGK4CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
       matchDetails,
       [320, 1000],
@@ -205,7 +221,10 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
       matchDetails,
       [320, 1000],
@@ -215,7 +234,10 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
       matchDetails,
       [15, 500],
@@ -225,7 +247,10 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
       matchDetails,
       [604, 485],
@@ -237,7 +262,10 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 });
 describe('noBallNotGK2CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK2CloseBall(
       matchDetails,
       [320, 15],
@@ -248,7 +276,10 @@ describe('noBallNotGK2CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBall(
       matchDetails,
       [320, 15],
@@ -259,7 +290,10 @@ describe('noBallNotGK2CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (not own), tackle, intercept and slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBall(
       matchDetails,
       [320, 15],
@@ -270,7 +304,10 @@ describe('noBallNotGK2CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK2CloseBall(
       matchDetails,
       [320, 300],
@@ -281,7 +318,10 @@ describe('noBallNotGK2CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, not in top Goal (own), tackle, intercept and slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBall(
       matchDetails,
       [320, 300],
@@ -294,7 +334,10 @@ describe('noBallNotGK2CloseBall()', function () {
 });
 describe('noBallNotGK4CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK4CloseBall(
       matchDetails,
       [320, 15],
@@ -305,7 +348,10 @@ describe('noBallNotGK4CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBall(
       matchDetails,
       [320, 15],
@@ -316,7 +362,10 @@ describe('noBallNotGK4CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Player has the ball, not GK, in top Goal (not own), tackle slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBall(
       matchDetails,
       [320, 15],
@@ -327,7 +376,10 @@ describe('noBallNotGK4CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = { ball: { withPlayer: false } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK4CloseBall(
       matchDetails,
       [320, 300],
@@ -338,7 +390,10 @@ describe('noBallNotGK4CloseBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Player has the ball, not GK, not in top Goal (own), tackle slide', async () => {
-    const matchDetails = { ball: { withPlayer: true } };
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBall(
       matchDetails,
       [320, 300],
@@ -351,15 +406,14 @@ describe('noBallNotGK4CloseBall()', function () {
 });
 describe('playerDoesNotHaveBall()', function () {
   it('Goalkeeper - run, sprint', async () => {
-    const player = {
-      position: 'GK',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = {
-      pitchSize: [680, 1050],
-      ball: { withPlayer: false },
-    };
+    const player: Player = createPlayer('GK');
+
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = false;
+
     const parameters = actions.playerDoesNotHaveBall(
       player,
       0,
@@ -369,15 +423,13 @@ describe('playerDoesNotHaveBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0]);
   });
   it('Defender - within 2', async () => {
-    const player = {
-      position: 'LB',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = {
-      pitchSize: [680, 1050],
-      ball: { withPlayer: false },
-    };
+    const player = createPlayer('LB');
+
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
       0,
@@ -387,15 +439,12 @@ describe('playerDoesNotHaveBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Midfielder - within 4', async () => {
-    const player = {
-      position: 'CM',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = {
-      pitchSize: [680, 1050],
-      ball: { withPlayer: false },
-    };
+    const player = createPlayer('CM');
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
       3,
@@ -405,15 +454,12 @@ describe('playerDoesNotHaveBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Midfielder - within 20 - No Player has ball - run sprint', async () => {
-    const player = {
-      position: 'CM',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = {
-      pitchSize: [680, 1050],
-      ball: { withPlayer: false },
-    };
+    const player = createPlayer('CM');
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
       15,
@@ -423,12 +469,12 @@ describe('playerDoesNotHaveBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
   it('Midfielder - within 20 - No Player has ball - intercept run sprint', async () => {
-    const player = {
-      position: 'CM',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = { pitchSize: [680, 1050], ball: { withPlayer: true } };
+    const player = createPlayer('CM');
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.playerDoesNotHaveBall(
       player,
       15,
@@ -438,12 +484,12 @@ describe('playerDoesNotHaveBall()', function () {
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
   it('Striker - over 20 - No Player has ball - intercept run sprint', async () => {
-    const player = {
-      position: 'ST',
-      currentPOS: [320, 15],
-      originPOS: [320, 5],
-    };
-    const matchDetails = { pitchSize: [680, 1050], ball: { withPlayer: true } };
+    const player = createPlayer('ST');
+    const matchDetails = await readMatchDetails(
+      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+    );
+    matchDetails.pitchSize = [680, 1050];
+    matchDetails.ball.withPlayer = true;
     const parameters = actions.playerDoesNotHaveBall(
       player,
       105,
@@ -572,14 +618,11 @@ describe('checkPlayerIsDistanceFromPosition()', function () {
 });
 describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   it('Top Box Close, not within space of goal, no opposition, no team mate, half/shooting skill from goal', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -590,17 +633,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
   it('Top Box Close, not within space of goal, no opposition, no team mate, 0/half skill from goal', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 23;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.ball.position[1] = 23;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -611,14 +650,11 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 3;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -630,18 +666,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0]);
   });
   it('In Top Box Not close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    matchDetails.ball.position = 105;
+    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 3;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -652,18 +685,15 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0]);
   });
   it('In Top Box Not close, No opposition ahead, no close team mate, within shooting skill distance from goal', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    matchDetails.ball.position = 105;
+    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 300;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -674,20 +704,16 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Not Close, no close team mate, player ahead', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.currentPOS[1] = 105;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    matchDetails.ball.position = 105;
+    if (player.currentPOS[0] === 'NP') { throw new Error('PLayer no position'); }
+    matchDetails.ball.position = [player.currentPOS[0], 105];
     player.skill.shooting = 3;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 100];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -698,16 +724,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0]);
   });
   it('In Top Box Close, player ahead, no close team mate, 0/half of shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -718,17 +740,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, no close team mate, half/full shooting range ', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 60;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -739,18 +757,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, close team mate', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -761,17 +774,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
   it('In Top Box Not Close, player ahead, no close team mate, further than shooting', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 20;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -782,16 +791,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, 0/half of shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -802,16 +807,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, half/shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     player.skill.shooting = 45;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -823,16 +824,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, not in goal space, no player ahead, close team mate, < shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoal.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 40];
     player.skill.shooting = 5;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -844,18 +841,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, 0/half of shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
@@ -866,18 +858,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, half/shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -889,18 +876,13 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, no player ahead, close team mate, over shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.secondTeam.players[8].currentPOS = [379, 27];
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -912,16 +894,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, 0/half shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 80;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -933,16 +911,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, half/shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -954,16 +928,12 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
   it('In Top Box Close, opp. near, no player ahead, no close team mate, over shooting range', async () => {
-    const matchDetails = await readFile(
+    const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBoxWithinGoalLess25.json',
     );
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const player = matchDetails.secondTeam.players[9];
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const team = matchDetails.secondTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     const opposition = matchDetails.kickOffTeam;
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -975,3 +945,56 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0]);
   });
 });
+function createPlayer(position: string): Player {
+  return {
+    position,
+    currentPOS: [320, 15],
+    originPOS: [320, 5],
+
+    name: 'string',
+    rating: '99',
+    skill: {
+      passing: 80,
+      shooting: 80,
+      tackling: 80,
+      saving: 80,
+      agility: 80,
+      strength: 80,
+      penalty_taking: 80,
+      jumping: 90,
+    },
+    fitness: 50,
+    injured: false,
+    playerID: -99,
+    intentPOS: [0, 0],
+    action: '',
+    offside: false,
+    hasBall: false,
+    stats: {
+      goals: 0,
+      shots: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      cards: {
+        yellow: 0,
+        red: 0,
+      },
+      passes: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      tackles: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      saves: 0,
+    },
+  };
+}
