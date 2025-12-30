@@ -111,9 +111,9 @@ describe('targetPlayers()', function () {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
   ]) {
     it(`target Players top ${i}`, async () => {
-      const playersArray = await readMatchDetails(
+      const playersArray = (await readFile(
         'test/input/ballMovements/targetPlayersArray.json',
-      );
+      )) as { thisArray: Player[] };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `top`,
@@ -130,9 +130,9 @@ describe('targetPlayers()', function () {
     0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
   ]) {
     it(`target Players bottom ${i}`, async () => {
-      const playersArray = await readMatchDetails(
+      const playersArray = (await readFile(
         'test/input/ballMovements/targetPlayersArray.json',
-      );
+      )) as { thisArray: Player[] };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `bottom`,
@@ -171,6 +171,11 @@ describe('ballPassed()', function () {
     const player = matchDetails.kickOffTeam.players[1];
     player.skill.passing = 1;
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 330, 355);
     const yBetween = common.isBetween(newPosition[1], 520, 540);
     expect(xBetween).to.eql(true);
@@ -185,6 +190,11 @@ describe('ballPassed()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position = [200, 995];
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 195, 225);
     const yBetween = common.isBetween(newPosition[1], 985, 995);
     expect(xBetween).to.eql(true);
@@ -199,6 +209,11 @@ describe('ballPassed()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position = [200, 105];
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 190, 220);
     const yBetween = common.isBetween(newPosition[1], 99, 120);
     expect(xBetween).to.eql(true);
@@ -212,6 +227,11 @@ describe('ballPassed()', function () {
     const player = matchDetails.secondTeam.players[1];
     player.skill.passing = 1;
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 328, 347);
     const yBetween = common.isBetween(newPosition[1], 523, 542);
     expect(xBetween).to.eql(true);
@@ -226,6 +246,11 @@ describe('ballPassed()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position = [200, 105];
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 195, 210);
     const yBetween = common.isBetween(newPosition[1], 100, 115);
     expect(xBetween).to.eql(true);
@@ -240,6 +265,11 @@ describe('ballPassed()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position = [200, 995];
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 191, 222);
     const yBetween = common.isBetween(newPosition[1], 983, 999);
     expect(xBetween).to.eql(true);
@@ -252,6 +282,11 @@ describe('ballPassed()', function () {
     const teammates = matchDetails.secondTeam;
     const player = matchDetails.secondTeam.players[9];
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
+    if (!Array.isArray(newPosition)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(newPosition[0], 330, 345);
     const yBetween = common.isBetween(newPosition[1], 525, 540);
     expect(xBetween).to.eql(true);
@@ -500,6 +535,11 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[3];
     player.skill.passing = 101;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 320, 345);
     const yBetween = common.isBetween(endPos[1], 510, 535);
     expect(xBetween).to.eql(true);
@@ -513,6 +553,11 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[3];
     player.skill.passing = 101;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 520, 535);
     expect(xBetween).to.eql(true);
@@ -526,6 +571,11 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[9];
     player.skill.passing = 1;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 520, 535);
     expect(xBetween).to.eql(true);
@@ -540,6 +590,11 @@ describe('throughBall()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position[1] = 1000;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 990, 1007);
     expect(xBetween).to.eql(true);
@@ -554,6 +609,11 @@ describe('throughBall()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position[1] = 100;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 90, 110);
     expect(xBetween).to.eql(true);
@@ -567,6 +627,11 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[9];
     player.skill.passing = 1;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 520, 535);
     expect(xBetween).to.eql(true);
@@ -581,6 +646,11 @@ describe('throughBall()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position[1] = 1000;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 990, 1005);
     expect(xBetween).to.eql(true);
@@ -595,6 +665,11 @@ describe('throughBall()', function () {
     player.skill.passing = 1;
     matchDetails.ball.position[1] = 100;
     const endPos = bMovement.throughBall(matchDetails, team, player);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 90, 107);
     expect(xBetween).to.eql(true);
@@ -625,6 +700,11 @@ describe('moveBall()', function () {
 describe('getTopKickedPosition()', function () {
   it(`getTopKickedPosition - wait`, async () => {
     const endPos = bMovement.getTopKickedPosition(`wait`, [11, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 10, 17);
     const yBetween = common.isBetween(endPos[1], 199, 207);
     expect(xBetween).to.eql(true);
@@ -632,6 +712,11 @@ describe('getTopKickedPosition()', function () {
   });
   it(`getTopKickedPosition - north`, async () => {
     const endPos = bMovement.getTopKickedPosition(`north`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 20, 62);
     const yBetween = common.isBetween(endPos[1], 189, 196);
     expect(xBetween).to.eql(true);
@@ -639,6 +724,11 @@ describe('getTopKickedPosition()', function () {
   });
   it(`getTopKickedPosition - east`, async () => {
     const endPos = bMovement.getTopKickedPosition(`east`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 45, 52);
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
@@ -646,6 +736,11 @@ describe('getTopKickedPosition()', function () {
   });
   it(`getTopKickedPosition - west`, async () => {
     const endPos = bMovement.getTopKickedPosition(`west`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 30, 37);
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
@@ -653,6 +748,11 @@ describe('getTopKickedPosition()', function () {
   });
   it(`getTopKickedPosition - northeast`, async () => {
     const endPos = bMovement.getTopKickedPosition(`northeast`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 40, 47);
     const yBetween = common.isBetween(endPos[1], 189, 211);
     expect(xBetween).to.eql(true);
@@ -660,6 +760,11 @@ describe('getTopKickedPosition()', function () {
   });
   it(`getTopKickedPosition - northwest`, async () => {
     const endPos = bMovement.getTopKickedPosition(`northwest`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 35, 42);
     const yBetween = common.isBetween(endPos[1], 189, 196);
     expect(xBetween).to.eql(true);
@@ -669,6 +774,11 @@ describe('getTopKickedPosition()', function () {
 describe('getBottomKickedPosition()', function () {
   it(`getBottomKickedPosition - wait`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`wait`, [11, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 10, 17);
     const yBetween = common.isBetween(endPos[1], 199, 207);
     expect(xBetween).to.eql(true);
@@ -676,6 +786,11 @@ describe('getBottomKickedPosition()', function () {
   });
   it(`getBottomKickedPosition - south`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`south`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 20, 62);
     const yBetween = common.isBetween(endPos[1], 189, 221);
     expect(xBetween).to.eql(true);
@@ -683,6 +798,11 @@ describe('getBottomKickedPosition()', function () {
   });
   it(`getBottomKickedPosition - east`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`east`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 45, 52);
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
@@ -690,6 +810,11 @@ describe('getBottomKickedPosition()', function () {
   });
   it(`getBottomKickedPosition - west`, async () => {
     const endPos = bMovement.getBottomKickedPosition(`west`, [41, 200], 10);
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 30, 37);
     const yBetween = common.isBetween(endPos[1], 179, 221);
     expect(xBetween).to.eql(true);
@@ -701,6 +826,11 @@ describe('getBottomKickedPosition()', function () {
       [41, 200],
       10,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 40, 47);
     const yBetween = common.isBetween(endPos[1], 204, 211);
     expect(xBetween).to.eql(true);
@@ -712,6 +842,11 @@ describe('getBottomKickedPosition()', function () {
       [41, 200],
       10,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 35, 42);
     const yBetween = common.isBetween(endPos[1], 204, 211);
     expect(xBetween).to.eql(true);
@@ -729,6 +864,11 @@ describe('ballKicked()', function () {
       matchDetails.kickOffTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -744,6 +884,11 @@ describe('ballKicked()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -761,6 +906,11 @@ describe('shotMade()', function () {
       matchDetails.kickOffTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -776,6 +926,11 @@ describe('shotMade()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -792,6 +947,11 @@ describe('shotMade()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -808,6 +968,11 @@ describe('shotMade()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -818,12 +983,12 @@ describe('shotMade()', function () {
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[3];
-    matchDetails.half = 'abc';
+    matchDetails.half = 2;
     try {
       bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('You cannot supply 0 as a half');
+      expect(String(err)).to.have.string('You cannot supply 0 as a half');
     }
   });
 });
@@ -838,6 +1003,11 @@ describe('penaltyTaken()', function () {
       matchDetails.kickOffTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -853,6 +1023,11 @@ describe('penaltyTaken()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -869,6 +1044,11 @@ describe('penaltyTaken()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -885,6 +1065,11 @@ describe('penaltyTaken()', function () {
       matchDetails.secondTeam,
       player,
     );
+    if (!Array.isArray(endPos)) {
+      throw new Error(
+        `Expected [number, number] but received MatchDetails state update.`,
+      );
+    }
     const xBetween = common.isBetween(endPos[0], 330, 345);
     const yBetween = common.isBetween(endPos[1], 519, 535);
     expect(xBetween).to.eql(true);
@@ -895,12 +1080,12 @@ describe('penaltyTaken()', function () {
       'test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[3];
-    matchDetails.half = 'abc';
+    matchDetails.half = 22;
     try {
       bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('You cannot supply 0 as a half');
+      expect(String(err)).to.have.string('You cannot supply 0 as a half');
     }
   });
 });
@@ -984,7 +1169,7 @@ describe('checkGoalScored()', function () {
       bMovement.checkGoalScored(matchDetails);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('cannot set half as 0');
+      expect(String(err)).to.have.string('cannot set half as 0');
     }
   });
   it(`bottom goal scored - bad half`, async () => {
@@ -997,7 +1182,7 @@ describe('checkGoalScored()', function () {
       bMovement.checkGoalScored(matchDetails);
     } catch (err) {
       expect(err).to.be.an('Error');
-      expect(err.toString()).to.have.string('cannot set half as 0');
+      expect(String(err)).to.have.string('cannot set half as 0');
     }
   });
 });

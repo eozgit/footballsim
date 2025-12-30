@@ -900,7 +900,11 @@ function getBallDirection(matchDetails: MatchDetails, nextPOS: any) {
     matchDetails.ball.direction = `northeast`;
 }
 
-function ballPassed(matchDetails: MatchDetails, team: Team, player: Player) {
+function ballPassed(
+  matchDetails: MatchDetails,
+  team: Team,
+  player: Player,
+): [number, number] | MatchDetails {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -963,7 +967,11 @@ function setTargetPlyPos(
   return closePlyPos;
 }
 
-function getTargetPlayer(playersArray: any, side: any, pitchHeight: any) {
+function getTargetPlayer(
+  playersArray: any[],
+  side: string,
+  pitchHeight: number = 1050,
+) {
   let tempArray = [];
   for (const tempPlayer of playersArray) {
     if (tempPlayer.proximity < pitchHeight / 2) tempArray.push(tempPlayer);

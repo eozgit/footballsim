@@ -463,11 +463,7 @@ function setBottomHalfwayToTopQtrYPos(
     if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = [...player.originPOS];
     } else if (['CM', 'LM', 'RM'].includes(player.position)) {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.25, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
     } else {
       player.currentPOS = [player.originPOS[0], pitchHeight * 0.5];
     }
