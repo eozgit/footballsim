@@ -5,7 +5,6 @@ import common from '../lib/common.js';
 import playerMovement from '../lib/playerMovement.js';
 import { readMatchDetails } from './lib/utils.ts';
 
-import { readFile } from '../lib/fileReader.js';
 describe('testFoulIntensity()', function () {
   it('Foul intensity between 0 and 100 - 1', async () => {
     const testIntensity = actions.foulIntensity();
@@ -264,7 +263,7 @@ describe('testSlideTackle()', function () {
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve slide tackle opposite ${x}`, async () => {
-      const matchDetails = await readFile(
+      const matchDetails = await readMatchDetails(
         'test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
@@ -291,7 +290,7 @@ describe('testSlideTackle()', function () {
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve slide tackle - failed ${x}`, async () => {
-      const matchDetails = await readFile(
+      const matchDetails = await readMatchDetails(
         'test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
@@ -353,7 +352,7 @@ describe('testTackle()', function () {
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve tackle opposite ${x}`, async () => {
-      const matchDetails = await readFile(
+      const matchDetails = await readMatchDetails(
         'test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
@@ -380,7 +379,7 @@ describe('testTackle()', function () {
       if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
     });
     it(`resolve tackle - failed ${x}`, async () => {
-      const matchDetails = await readFile(
+      const matchDetails = await readMatchDetails(
         'test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
@@ -415,7 +414,7 @@ describe('testTackle()', function () {
 });
 describe('checkCards()', function () {
   it('completeSlide - test 1', async () => {
-    let matchDetails = await readFile(
+    let matchDetails = await readMatchDetails(
       'test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -435,7 +434,7 @@ describe('checkCards()', function () {
     }
   });
   it('completeSlide - test 2', async () => {
-    let matchDetails = await readFile(
+    let matchDetails = await readMatchDetails(
       'test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
@@ -455,7 +454,7 @@ describe('checkCards()', function () {
     }
   });
   it('completeSlide - test 3', async () => {
-    let matchDetails = await readFile(
+    let matchDetails = await readMatchDetails(
       'test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
