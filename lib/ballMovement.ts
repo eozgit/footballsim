@@ -2,6 +2,7 @@
 import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
+import { threadCpuUsage } from 'node:process';
 
 function moveBall(matchDetails: MatchDetails) {
   if (
@@ -610,27 +611,22 @@ function resolveBallMovement(
       common.round(thisPos[1], 0),
       thisPos[2],
     ];
-    const playerInfo1 = setPositions.closestPlayerToPosition(
-      player,
-      team,
-      checkPos,
-    );
-    const playerInfo2 = setPositions.closestPlayerToPosition(
-      player,
-      opp,
-      checkPos,
-    );
+    const playerInfo1 = setPositions.closestPlayerToPosition(player, team, [
+      checkPos[0],
+      checkPos[1],
+    ]);
+    const playerInfo2 = setPositions.closestPlayerToPosition(player, opp, [
+      checkPos[0],
+      checkPos[1],
+    ]);
     const thisPlayerProx = Math.max(
-      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       playerInfo1.proxToBall,
       playerInfo2.proxToBall,
     );
     const thisPlayer =
-      // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
       thisPlayerProx === playerInfo1.proxToBall
         ? playerInfo1.thePlayer
         : playerInfo2.thePlayer;
-    // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
     const thisTeam = thisPlayerProx === playerInfo1.proxToBall ? team : opp;
     if (thisPlayer)
       thisPlayerIsInProximity(
@@ -704,7 +700,11 @@ function thisPlayerIsInProximity(
           thisTeam,
         );
         matchDetails.iterationLog.push(`Ball saved`);
-        thisPlayer.stats.saves++;
+        if (thisPlayer.stats.saves === undefined) {
+          thisPlayer.stats.saves = 0;
+        } else {
+          thisPlayer.stats.saves++;
+        }
         return thisPos;
       }
     }
@@ -755,7 +755,7 @@ function resolveDeflection(
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
   const movementDistance = Math.sqrt(xMovement + yMovement);
   const newPower = power - movementDistance;
-  let tempPosition = ['', ''];
+  let tempPosition = [];
   const { direction } = matchDetails.ball;
   if (newPower < 75) {
     setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
@@ -765,7 +765,6 @@ function resolveDeflection(
   matchDetails.ball.Player = '';
   matchDetails.ball.withPlayer = false;
   matchDetails.ball.withTeam = '';
-  // @ts-expect-error TS(2322): Type 'number[]' is not assignable to type 'string[... Remove this comment to see the full error message
   tempPosition = setDeflectionDirectionPos(direction, defPosition, newPower);
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(
@@ -1031,12 +1030,16 @@ function ballCrossed(
   }
   matchDetails.iterationLog.push(`ball crossed by: ${player.name}`);
   player.stats.passes.total++;
-  return calcBallMovementOverTime(
+  const result = calcBallMovementOverTime(
     matchDetails,
     player.skill.strength,
     ballIntended,
     player,
   );
+  if (!Array.isArray(result)) {
+    throw new Error('No coordinates!');
+  }
+  return result;
 }
 
 function calcBallMovementOverTime(

@@ -17,7 +17,7 @@ function isBetween(num: any, low: any, high: any) {
   return num > low && num < high;
 }
 
-function upToMax(num: any, max: any): number {
+function upToMax(num: number, max: number): number {
   if (num > max) return max;
   return num;
 }

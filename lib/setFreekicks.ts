@@ -180,7 +180,7 @@ function setTopOneHundredToHalfwayYPos(
           player.originPOS[1] + 300,
           pitchHeight * 0.9,
         );
-        player.currentPOS = [player.originPOS[0], parseInt(newYPOS, 10)];
+        player.currentPOS = [player.originPOS[0], newYPOS];
       }
     } else {
       const newYPOS =
@@ -188,27 +188,23 @@ function setTopOneHundredToHalfwayYPos(
       if (player.name === kickPlayer.name)
         player.currentPOS = ball.position.map((x: any) => x);
       else if (player.position === 'GK') {
-        const maxYPOSCheck = parseInt(
+        const maxYPOSCheck = Math.floor(
           common.upToMax(newYPOS, pitchHeight * 0.25),
-          10,
         );
         player.currentPOS = [player.originPOS[0], maxYPOSCheck];
       } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-        const maxYPOSCheck = parseInt(
+        const maxYPOSCheck = Math.floor(
           common.upToMax(newYPOS, pitchHeight * 0.5),
-          10,
         );
         player.currentPOS = [player.originPOS[0], maxYPOSCheck];
       } else if (['CM', 'LM', 'RM'].includes(player.position)) {
-        const maxYPOSCheck = parseInt(
+        const maxYPOSCheck = Math.floor(
           common.upToMax(newYPOS, pitchHeight * 0.75),
-          10,
         );
         player.currentPOS = [player.originPOS[0], maxYPOSCheck];
       } else {
-        const maxYPOSCheck = parseInt(
+        const maxYPOSCheck = Math.floor(
           common.upToMax(newYPOS, pitchHeight * 0.9),
-          10,
         );
         player.currentPOS = [player.originPOS[0], maxYPOSCheck];
       }
@@ -229,15 +225,10 @@ function setTopOneHundredToHalfwayYPos(
     else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [
         player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75 + 5, 10),
+        Math.floor(pitchHeight * 0.75 + 5),
       ];
     } else {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.5)];
     }
   }
   matchDetails.endIteration = true;
@@ -319,15 +310,10 @@ function setBottomOneHundredToHalfwayYPos(
     else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [
         player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.25 - 5, 10),
+        Math.floor(pitchHeight * 0.25 - 5),
       ];
     } else {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.5)];
     }
   }
   matchDetails.endIteration = true;
@@ -360,11 +346,7 @@ function setTopHalfwayToBottomQtrYPos(
   kickPlayer.currentPOS = ball.position.map((x: any) => x);
   for (const player of attack.players) {
     if (player.position === 'GK')
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.25, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       const maxYPOSCheck = parseInt(
         common.upToMax(ball.position[1] - 100, pitchHeight * 0.5),

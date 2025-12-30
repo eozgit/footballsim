@@ -41,6 +41,9 @@ function topTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ) {
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -100,6 +103,9 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   team: Team,
   opposition: Team,
 ) {
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -111,12 +117,9 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
     player.currentPOS,
   );
   const tmateProximity = [
-    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[0]),
-    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
-  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   const closePlayerPosition = playerInformation.thePlayer.currentPOS;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
@@ -237,12 +240,9 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
     player.currentPOS,
   );
   const tmateProximity = [
-    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[0]),
-    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
-  // @ts-expect-error TS(2339): Property 'currentPOS' does not exist on type 'stri... Remove this comment to see the full error message
   const closePlayerPosition = playerInformation.thePlayer.currentPOS;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
