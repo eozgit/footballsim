@@ -29,7 +29,7 @@ function upToMin(num: number, min: number): number {
 function getBallTrajectory(
   thisPOS: [number, number] | [number, number, number],
   newPOS: [number, number],
-  power: number
+  power: number,
 ): [number, number, number][] {
   const xMovement = (thisPOS[0] - newPOS[0]) ** 2;
   const yMovement = (Math.floor(thisPOS[1]) - Math.floor(newPOS[1])) ** 2;
@@ -99,7 +99,10 @@ function sumFrom1toX(x: number): number {
   return (x * (x + 1)) / 2;
 }
 
-function inTopPenalty(matchDetails: MatchDetails, item: [number, number] | [number, number, number]): boolean {
+function inTopPenalty(
+  matchDetails: MatchDetails,
+  item: [number, number] | [number, number, number],
+): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -110,7 +113,10 @@ function inTopPenalty(matchDetails: MatchDetails, item: [number, number] | [numb
   return ballInPenalyBoxX && ballInTopPenalyBoxY;
 }
 
-function inBottomPenalty(matchDetails: MatchDetails, item: [number, number] | [number, number, number]): boolean {
+function inBottomPenalty(
+  matchDetails: MatchDetails,
+  item: [number, number] | [number, number, number],
+): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
