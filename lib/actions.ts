@@ -106,7 +106,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
-  const curPOS = player.currentPOS as [number, number]
+  const curPOS = player.currentPOS as [number, number];
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -173,8 +173,10 @@ function bottomTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ) {
-  if (player.currentPOS[0] === 'NP') { throw new Error('No player position!') }
-  const curPOS = player.currentPOS as [number, number]
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+  const curPOS = player.currentPOS as [number, number];
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -232,10 +234,10 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   team: Team,
   opposition: Team,
 ) {
-
-
-  if (player.currentPOS[0] === 'NP') { throw new Error('No player position!') }
-  const curPOS = player.currentPOS as [number, number]
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+  const curPOS = player.currentPOS as [number, number];
 
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
