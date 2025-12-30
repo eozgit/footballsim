@@ -1,8 +1,10 @@
 import { expect, it, describe } from 'vitest';
 
-import bMovement from '../lib/ballMovement.js';
+import bMovement, { createPlayer } from '../lib/ballMovement.js';
 import common from '../lib/common.js';
 import { readMatchDetails } from './lib/utils.ts';
+import { readFile } from '../lib/fileReader.ts';
+import { Player } from 'lib/types.ts';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
@@ -152,11 +154,12 @@ describe('targetPlayers()', function () {
     expect(output).to.eql([2, 2]);
   });
   it('set B Player', async () => {
-    const bPlayer = await readMatchDetails(
+    const player = createPlayer('CM');
+    const bPlayer = (await readFile(
       'test/input/ballMovements/bPlayer.json',
-    );
+    )) as Player;
     const thisPlayer = bMovement.setBPlayer([0, 200]);
-    expect(thisPlayer).to.eql(bPlayer);
+    expect(thisPlayer).to.eql({ ...player, ...bPlayer });
   });
 });
 describe('ballPassed()', function () {

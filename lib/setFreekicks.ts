@@ -312,7 +312,7 @@ function setBottomOneHundredToHalfwayYPos(
       if (player.position === 'GK') player.currentPOS = [...player.originPOS];
       if (player.position !== 'GK') {
         const newYPOS = common.upToMax(player.originPOS[1] + 100, pitchHeight);
-        player.currentPOS = [player.originPOS[0], parseInt(newYPOS, 10)];
+        player.currentPOS = [player.originPOS[0], newYPOS];
       }
     } else if (['GK', 'CB', 'LB', 'RB'].includes(player.position))
       player.currentPOS = [...player.originPOS];
@@ -409,8 +409,8 @@ function setTopHalfwayToBottomQtrYPos(
 
 function setBottomHalfwayToTopQtrYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: Team,
+  defence: Team,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -430,7 +430,7 @@ function setBottomHalfwayToTopQtrYPos(
     : ballLeft
       ? 'northeast'
       : 'northwest';
-  kickPlayer.currentPOS = ball.position.map((x: any) => x);
+  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
   for (const player of attack.players) {
     if (player.position === 'GK')
       player.currentPOS = [
@@ -461,7 +461,7 @@ function setBottomHalfwayToTopQtrYPos(
   }
   for (const player of defence.players) {
     if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
     } else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [
         player.originPOS[0],
@@ -469,11 +469,7 @@ function setBottomHalfwayToTopQtrYPos(
         parseInt(pitchHeight * 0.25, 10),
       ];
     } else {
-      player.currentPOS = [
-        player.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
-      ];
+      player.currentPOS = [player.originPOS[0], pitchHeight * 0.5];
     }
   }
   matchDetails.endIteration = true;

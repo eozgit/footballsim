@@ -3,6 +3,7 @@ import { expect, it, describe } from 'vitest';
 import { readMatchDetails } from './lib/utils.js';
 import actions from '../lib/actions.js';
 import { Player } from 'lib/types.ts';
+import { createPlayer } from '../lib/ballMovement.ts';
 
 describe('testPositionInTopBox()', function () {
   it('Inside Top Box Test', async () => {
@@ -951,56 +952,3 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0]);
   });
 });
-function createPlayer(position: string): Player {
-  return {
-    position,
-    currentPOS: [320, 15],
-    originPOS: [320, 5],
-
-    name: 'string',
-    rating: '99',
-    skill: {
-      passing: 80,
-      shooting: 80,
-      tackling: 80,
-      saving: 80,
-      agility: 80,
-      strength: 80,
-      penalty_taking: 80,
-      jumping: 90,
-    },
-    fitness: 50,
-    injured: false,
-    playerID: -99,
-    intentPOS: [0, 0],
-    action: '',
-    offside: false,
-    hasBall: false,
-    stats: {
-      goals: 0,
-      shots: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      cards: {
-        yellow: 0,
-        red: 0,
-      },
-      passes: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      tackles: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      saves: 0,
-    },
-  };
-}

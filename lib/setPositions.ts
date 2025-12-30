@@ -3,6 +3,7 @@ import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import setVariables from '../lib/setVariables.js';
 import setFreekicks from '../lib/setFreekicks.js';
+import { createPlayer } from './ballMovement.ts';
 
 function setGoalieHasBall(matchDetails: MatchDetails, thisGoalie: any) {
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -411,12 +412,20 @@ function setBallSpecificGoalKickValue(matchDetails: MatchDetails, attack: any) {
   matchDetails.iterationLog.push(`Goal Kick to - ${attack.name}`);
 }
 
-function closestPlayerToPosition(player: Player, team: Team, position: any) {
+function closestPlayerToPosition(
+  player: Player,
+  team: Team,
+  position: [number, number],
+): { thePlayer: Player; proxPOS: [number, number]; proxToBall: number } {
   let currentDifference = 1000000;
-  const playerInformation = {
-    thePlayer: {},
-    proxPOS: [``, ``],
-    proxToBall: '',
+  const playerInformation: {
+    thePlayer: Player;
+    proxPOS: [number, number];
+    proxToBall: number;
+  } = {
+    thePlayer: createPlayer('GK'),
+    proxPOS: [0, 0],
+    proxToBall: 0,
   };
   for (const thisPlayer of team.players) {
     if (player.playerID !== thisPlayer.playerID) {
@@ -428,9 +437,7 @@ function closestPlayerToPosition(player: Player, team: Team, position: any) {
       const proximityToBall = Math.abs(ballToPlayerX) + Math.abs(ballToPlayerY);
       if (proximityToBall < currentDifference) {
         playerInformation.thePlayer = thisPlayer;
-        // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'string'.
         playerInformation.proxPOS = [ballToPlayerX, ballToPlayerY];
-        // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'string'.
         playerInformation.proxToBall = proximityToBall;
         currentDifference = proximityToBall;
       }

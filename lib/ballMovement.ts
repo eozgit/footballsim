@@ -15,10 +15,12 @@ function moveBall(matchDetails: MatchDetails) {
   const bPosition = ball.position;
   const { kickOffTeam, secondTeam } = matchDetails;
   const ballPos = ball.ballOverIterations[0];
+  if (ballPos.length < 2) {
+    throw new Error('Invalid ball position!');
+  }
   getBallDirection(matchDetails, ballPos);
   const power = ballPos[2];
-  ballPos.splice();
-  const bPlayer = setBPlayer(ballPos);
+  const bPlayer = setBPlayer([ballPos[0], ballPos[1]]);
   const endPos = resolveBallMovement(
     bPlayer,
     bPosition,
@@ -37,26 +39,81 @@ function moveBall(matchDetails: MatchDetails) {
   checkGoalScored(matchDetails);
   return matchDetails;
 }
-
-function setBPlayer(ballPos: any) {
+export function createPlayer(position: string): Player {
   return {
+    position,
+    currentPOS: [320, 15],
+    originPOS: [320, 5],
+
+    name: 'string',
+    rating: '99',
+    skill: {
+      passing: 80,
+      shooting: 80,
+      tackling: 80,
+      saving: 80,
+      agility: 80,
+      strength: 80,
+      penalty_taking: 80,
+      jumping: 90,
+    },
+    fitness: 50,
+    injured: false,
+    playerID: -99,
+    intentPOS: [0, 0],
+    action: '',
+    offside: false,
+    hasBall: false,
+    stats: {
+      goals: 0,
+      shots: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      cards: {
+        yellow: 0,
+        red: 0,
+      },
+      passes: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      tackles: {
+        total: 0,
+        on: 0,
+        off: 0,
+        fouls: 0,
+      },
+      saves: 0,
+    },
+  };
+}
+function setBPlayer(ballPos: any): Player {
+  const player = createPlayer('LB');
+  const patch = {
     name: `Ball`,
     position: `LB`,
     rating: `100`,
     skill: {
-      passing: `100`,
-      shooting: `100`,
-      saving: `100`,
-      tackling: `100`,
-      agility: `100`,
-      strength: `100`,
-      penalty_taking: `100`,
-      jumping: `100`,
+      passing: 100,
+      shooting: 100,
+      saving: 100,
+      tackling: 100,
+      agility: 100,
+      strength: 100,
+      penalty_taking: 100,
+      jumping: 100,
     },
     originPOS: ballPos,
     currentPOS: ballPos,
     injured: false,
   };
+  const result: Player = { ...player, ...patch };
+  return result;
 }
 
 function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
@@ -192,7 +249,11 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   else throw new Error(`You cannot supply 0 as a half`);
   common.debug('bm1', thisTeamStats.shots);
   common.debug('bm2', player.stats.shots);
-  thisTeamStats.shots.total++;
+  if (typeof thisTeamStats.shots === 'number') {
+    thisTeamStats.shots++;
+  } else {
+    thisTeamStats.shots.total++;
+  }
   player.stats.shots.total++;
   let shotReachGoal;
   if (player.originPOS[1] > pitchHeight / 2) {
@@ -201,8 +262,21 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
     shotReachGoal = !(PlyPos[1] + shotPower < pitchHeight);
   }
   if (shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40)) {
-    thisTeamStats.shots.on++;
-    player.stats.shots.on++;
+    if (typeof thisTeamStats.shots !== 'number') {
+      if (thisTeamStats.shots.on === undefined) {
+        thisTeamStats.shots.on = 0;
+      } else {
+        thisTeamStats.shots.on++;
+      }
+    }
+
+    if (typeof player.stats.shots !== 'number') {
+      if (player.stats.shots.on === undefined) {
+        player.stats.shots.on = 0;
+      } else {
+        player.stats.shots.on++;
+      }
+    }
     shotPosition[0] = common.getRandomNumber(
       pitchWidth / 2 - 50,
       pitchWidth / 2 + 50,
@@ -213,8 +287,21 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
     if (player.originPOS[1] > pitchHeight / 2) shotPosition[1] = -1;
     else shotPosition[1] = pitchHeight + 1;
   } else {
-    thisTeamStats.shots.off++;
-    player.stats.shots.off++;
+    if (typeof thisTeamStats.shots !== 'number') {
+      if (thisTeamStats.shots.off === undefined) {
+        thisTeamStats.shots.off = 0;
+      } else {
+        thisTeamStats.shots.off++;
+      }
+    }
+
+    if (typeof player.stats.shots !== 'number') {
+      if (player.stats.shots.off === undefined) {
+        player.stats.shots.off = 0;
+      } else {
+        player.stats.shots.off++;
+      }
+    }
     const left = common.getRandomNumber(0, 10) > 5;
     const leftPos = common.getRandomNumber(0, pitchWidth / 2 - 55);
     const righttPos = common.getRandomNumber(pitchWidth / 2 + 55, pitchWidth);
@@ -254,11 +341,37 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
   else throw new Error(`You cannot supply 0 as a half`);
   common.debug('bm3', thisTeamStats.shots);
   common.debug('bm4', player.stats.shots);
-  thisTeamStats.shots.total++;
-  player.stats.shots.total++;
+  if (typeof thisTeamStats.shots !== 'number') {
+    if (thisTeamStats.shots.total === undefined) {
+      thisTeamStats.shots.total = 0;
+    } else {
+      thisTeamStats.shots.total++;
+    }
+  }
+
+  if (typeof player.stats.shots !== 'number') {
+    if (player.stats.shots.total === undefined) {
+      player.stats.shots.total = 0;
+    } else {
+      player.stats.shots.total++;
+    }
+  }
   if (player.skill.penalty_taking > common.getRandomNumber(0, 100)) {
-    thisTeamStats.shots.on++;
-    player.stats.shots.on++;
+    if (typeof thisTeamStats.shots !== 'number') {
+      if (thisTeamStats.shots.on === undefined) {
+        thisTeamStats.shots.on = 0;
+      } else {
+        thisTeamStats.shots.on++;
+      }
+    }
+
+    if (typeof player.stats.shots !== 'number') {
+      if (player.stats.shots.on === undefined) {
+        player.stats.shots.on = 0;
+      } else {
+        player.stats.shots.on++;
+      }
+    }
     shotPosition[0] = common.getRandomNumber(
       pitchWidth / 2 - 50,
       pitchWidth / 2 + 50,
@@ -267,8 +380,21 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
       `Shot On Target at X Position ${shotPosition[0]}`,
     );
   } else {
-    thisTeamStats.shots.off++;
-    player.stats.shots.off++;
+    if (typeof thisTeamStats.shots !== 'number') {
+      if (thisTeamStats.shots.off === undefined) {
+        thisTeamStats.shots.off = 0;
+      } else {
+        thisTeamStats.shots.off++;
+      }
+    }
+
+    if (typeof player.stats.shots !== 'number') {
+      if (player.stats.shots.off === undefined) {
+        player.stats.shots.off = 0;
+      } else {
+        player.stats.shots.off++;
+      }
+    }
     const left = common.getRandomNumber(0, 10) > 5;
     const leftPos = common.getRandomNumber(0, pitchWidth / 2 - 55);
     const righttPos = common.getRandomNumber(pitchWidth / 2 + 55, pitchWidth);
@@ -302,6 +428,12 @@ function checkGoalScored(matchDetails: MatchDetails) {
   );
   const KOGoalie = kickOffTeam.players[0];
   const STGoalie = secondTeam.players[0];
+  if (KOGoalie.currentPOS[0] === 'NP') {
+    throw new Error('KOGoalie no position!');
+  }
+  if (STGoalie.currentPOS[0] === 'NP') {
+    throw new Error('STGoalie no position!');
+  }
   const ballProx = 8;
   const [ballX, ballY] = ball.position;
   const nearKOGoalieX = common.isBetween(
@@ -337,7 +469,11 @@ function checkGoalScored(matchDetails: MatchDetails) {
       matchDetails.iterationLog.push(
         `ball saved by ${KOGoalie.name} possesion to ${kickOffTeam.name}`,
       );
-      KOGoalie.stats.saves++;
+      if (KOGoalie.stats.saves === undefined) {
+        KOGoalie.stats.saves = 0;
+      } else {
+        KOGoalie.stats.saves++;
+      }
     }
   } else if (
     nearSTGoalieX &&
@@ -352,7 +488,11 @@ function checkGoalScored(matchDetails: MatchDetails) {
       matchDetails.iterationLog.push(
         `ball saved by ${STGoalie.name} possesion to ${secondTeam.name}`,
       );
-      STGoalie.stats.saves++;
+      if (STGoalie.stats.saves === undefined) {
+        STGoalie.stats.saves = 0;
+      } else {
+        STGoalie.stats.saves++;
+      }
     }
   } else if (goalX) {
     if (ball.position[1] < 1) {
@@ -415,10 +555,16 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
 }
 
 function getPlayersInDistance(team: Team, player: Player, pitchSize: any) {
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('Player no position!');
+  }
   const [pitchWidth, pitchHeight] = pitchSize;
   const playersInDistance = [];
   for (const teamPlayer of team.players) {
     if (teamPlayer.name !== player.name) {
+      if (teamPlayer.currentPOS[0] === 'NP') {
+        throw new Error('Team player no position!');
+      }
       const onPitchX = common.isBetween(
         teamPlayer.currentPOS[0],
         -1,
@@ -498,7 +644,7 @@ function resolveBallMovement(
   }
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(matchDetails, lastTeam, newPOS);
-  if (matchDetails.endIteration === true) return;
+  if (matchDetails.endIteration === true) return newPOS;
   const lastPOS = matchDetails.ballIntended || matchDetails.ball.position;
   delete matchDetails.ballIntended;
   return [common.round(lastPOS[0], 2), common.round(lastPOS[1], 2)];
@@ -506,12 +652,21 @@ function resolveBallMovement(
 
 function thisPlayerIsInProximity(
   matchDetails: MatchDetails,
-  thisPlayer: any,
+  thisPlayer: Player,
   thisPOS: any,
   thisPos: any,
   power: any,
-  thisTeam: any,
+  thisTeam: Team,
 ) {
+  if (thisPlayer === undefined) {
+    throw new Error('Player is undefined!');
+  }
+  if (
+    !Array.isArray(thisPlayer.currentPOS) ||
+    thisPlayer.currentPOS.length < 2
+  ) {
+    throw new Error(`Invalid player position: ${thisPlayer.currentPOS}`);
+  }
   const checkPos = [
     common.round(thisPos[0], 0),
     common.round(thisPos[1], 0),
@@ -615,7 +770,7 @@ function resolveDeflection(
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(
     matchDetails,
-    lastTeam.name,
+    `Team: ${lastTeam}`,
     tempPosition,
   );
   const intended = matchDetails.ballIntended;
@@ -842,6 +997,9 @@ function ballCrossed(
   team: Team,
   player: Player,
 ): [number, number] {
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('Player no position!');
+  }
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
@@ -878,7 +1036,7 @@ function calcBallMovementOverTime(
   strength: any,
   nextPosition: any,
   player: Player,
-): [number, number] {
+): [number, number] | MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;
   const power = common.calculatePower(strength);
