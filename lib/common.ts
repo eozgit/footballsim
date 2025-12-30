@@ -4,16 +4,15 @@ import { MatchDetails, Player, Team } from './types.js';
 //---------------
 //Maths Functions
 //---------------
-function getRandomNumber(min: any, max: any) {
+function getRandomNumber(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-function round(value: any, decimals: any) {
-  // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
-  return Number(`${Math.round(`${value}e${decimals}`)}e-${decimals}`);
+function round(value: number | string, decimals: number): number {
+  return Number(`${Math.round(Number(`${value}e${decimals}`))}e-${decimals}`);
 }
 
-function isBetween(num: any, low: any, high: any) {
+function isBetween(num: number, low: number, high: number): boolean {
   return num > low && num < high;
 }
 
@@ -22,32 +21,35 @@ function upToMax(num: number, max: number): number {
   return num;
 }
 
-function upToMin(num: any, min: any) {
+function upToMin(num: number, min: number): number {
   if (num < min) return min;
   return num;
 }
 
-function getBallTrajectory(thisPOS: any, newPOS: any, power: any) {
+function getBallTrajectory(
+  thisPOS: [number, number] | [number, number, number],
+  newPOS: [number, number],
+  power: number
+): [number, number, number][] {
   const xMovement = (thisPOS[0] - newPOS[0]) ** 2;
-  const yMovement = (parseInt(thisPOS[1], 10) - parseInt(newPOS[1], 10)) ** 2;
-  // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
-  const movementDistance = Math.round(Math.sqrt(xMovement + yMovement), 0);
+  const yMovement = (Math.floor(thisPOS[1]) - Math.floor(newPOS[1])) ** 2;
+  const movementDistance = Math.round(Math.sqrt(xMovement + yMovement));
 
   let arraySize = Math.round(thisPOS[1] - newPOS[1]);
 
+  let effectivePower = power;
   if (movementDistance >= power) {
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    power = parseInt(power, 10) + parseInt(movementDistance, 10);
+    effectivePower = Math.floor(power) + Math.floor(movementDistance);
   }
+
   const height = Math.sqrt(
-    Math.abs((movementDistance / 2) ** 2 - (power / 2) ** 2),
+    Math.abs((movementDistance / 2) ** 2 - (effectivePower / 2) ** 2),
   );
 
   if (arraySize < 1) arraySize = 1;
 
   const yPlaces = Array.from({ length: Math.abs(arraySize) }, (_, i) => i);
-
-  const trajectory = [[thisPOS[0], thisPOS[1], 0]];
+  const trajectory: [number, number, number][] = [[thisPOS[0], thisPOS[1], 0]];
 
   const changeInX = (newPOS[0] - thisPOS[0]) / Math.abs(thisPOS[1] - newPOS[1]);
   const changeInY = (thisPOS[1] - newPOS[1]) / (newPOS[1] - thisPOS[1]);
@@ -58,13 +60,16 @@ function getBallTrajectory(thisPOS: any, newPOS: any, power: any) {
     const lastX = trajectory[trajectory.length - 1][0];
     const lastY = trajectory[trajectory.length - 1][1];
     const lastH = trajectory[trajectory.length - 1][2];
+
     const xPos = round(lastX + changeInX, 5);
     let yPos = 0;
-    if (newPOS[1] > thisPOS[1])
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      yPos = parseInt(lastY, 10) - parseInt(changeInY, 10);
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    else yPos = parseInt(lastY, 10) + parseInt(changeInY, 10);
+
+    if (newPOS[1] > thisPOS[1]) {
+      yPos = Math.floor(lastY) - Math.floor(changeInY);
+    } else {
+      yPos = Math.floor(lastY) + Math.floor(changeInY);
+    }
+
     let hPos;
     if (elevation === 1) {
       hPos = round(lastH + changeInH, 5);
@@ -72,26 +77,29 @@ function getBallTrajectory(thisPOS: any, newPOS: any, power: any) {
         elevation = 0;
         hPos = height;
       }
-    } else hPos = round(lastH - changeInH, 5);
+    } else {
+      hPos = round(lastH - changeInH, 5);
+    }
     trajectory.push([xPos, yPos, hPos]);
   });
+
   return trajectory;
 }
 
-function calculatePower(strength: any) {
+function calculatePower(strength: number | string): number {
   const hit = getRandomNumber(1, 5);
-  return parseInt(strength, 10) * hit;
+  return Math.floor(Number(strength)) * hit;
 }
 
-function aTimesbDividedByC(a: any, b: any, c: any) {
+function aTimesbDividedByC(a: number, b: number, c: number): number {
   return a * (b / sumFrom1toX(c));
 }
 
-function sumFrom1toX(x: any) {
+function sumFrom1toX(x: number): number {
   return (x * (x + 1)) / 2;
 }
 
-function inTopPenalty(matchDetails: MatchDetails, item: any) {
+function inTopPenalty(matchDetails: MatchDetails, item: [number, number] | [number, number, number]): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -99,11 +107,10 @@ function inTopPenalty(matchDetails: MatchDetails, item: any) {
     matchWidth - matchWidth / 4 - 5,
   );
   const ballInTopPenalyBoxY = isBetween(item[1], -1, matchHeight / 6 + 7);
-  if (ballInPenalyBoxX && ballInTopPenalyBoxY) return true;
-  return false;
+  return ballInPenalyBoxX && ballInTopPenalyBoxY;
 }
 
-function inBottomPenalty(matchDetails: MatchDetails, item: any) {
+function inBottomPenalty(matchDetails: MatchDetails, item: [number, number] | [number, number, number]): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
     item[0],
@@ -115,8 +122,7 @@ function inBottomPenalty(matchDetails: MatchDetails, item: any) {
     matchHeight - matchHeight / 6 - 7,
     matchHeight + 1,
   );
-  if (ballInPenalyBoxX && ballInBottomPenalyBoxY) return true;
-  return false;
+  return ballInPenalyBoxX && ballInBottomPenalyBoxY;
 }
 
 function getRandomTopPenaltyPosition(
@@ -143,15 +149,15 @@ function getRandomBottomPenaltyPosition(
   ];
 }
 
-function isEven(n: any) {
+function isEven(n: number): boolean {
   return n % 2 === 0;
 }
 
-function isOdd(n: any) {
+function isOdd(n: number): boolean {
   return Math.abs(n % 2) === 1;
 }
 
-function removeBallFromAllPlayers(matchDetails: MatchDetails) {
+function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
   for (const player of matchDetails.kickOffTeam.players) {
     player.hasBall = false;
   }
@@ -160,7 +166,7 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails) {
   }
 }
 
-function debug(label: any, ...args: any[]) {
+function debug(label: string, ...args: any[]): void {
   if (process.env.DEBUG_ENGINE) {
     console.log(`[DEBUG:${label}]`, ...args);
   }
@@ -185,6 +191,7 @@ export {
   removeBallFromAllPlayers,
   debug,
 };
+
 export default {
   getRandomNumber,
   round,
