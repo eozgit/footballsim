@@ -479,15 +479,13 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails) {
     matchDetails.iterationLog.push(
       `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
     );
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
-    return setFreekicks.setBottomFreekick(matchDetails, ballPosition);
+    return setFreekicks.setBottomFreekick(matchDetails/*, ballPosition*/);
   }
   matchDetails.kickOffTeamStatistics.freekicks++;
   matchDetails.iterationLog.push(
     `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
   );
-  // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
-  return setFreekicks.setTopFreekick(matchDetails, ballPosition);
+  return setFreekicks.setTopFreekick(matchDetails/*, ballPosition*/);
 }
 
 function setSetpieceSecondTeam(matchDetails: MatchDetails) {
@@ -515,15 +513,13 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails) {
     matchDetails.iterationLog.push(
       `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
     );
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
-    return setFreekicks.setBottomFreekick(matchDetails, ballPosition);
+    return setFreekicks.setBottomFreekick(matchDetails/*, ballPosition*/);
   }
   matchDetails.secondTeamStatistics.freekicks++;
   matchDetails.iterationLog.push(
     `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
   );
-  // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
-  return setFreekicks.setTopFreekick(matchDetails, ballPosition);
+  return setFreekicks.setTopFreekick(matchDetails/*, ballPosition*/);
 }
 
 function setTopPenalty(matchDetails: MatchDetails) {
