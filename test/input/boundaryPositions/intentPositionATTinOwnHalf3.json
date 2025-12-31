@@ -633,7 +633,7 @@
   },
   "pitchSize": [680, 1050],
   "ball": {
-    "position": [600, 221],
+    "position": [600, 221, 0],
     "withPlayer": true,
     "Player": "78883930303030208",
     "withTeam": "78883930303030003",

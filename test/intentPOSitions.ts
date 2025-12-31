@@ -3,22 +3,24 @@ import { expect, it, describe } from 'vitest';
 import { readFile } from '../lib/fileReader.js';
 import common from '../lib/common.js';
 import setPos from '../lib/setPositions.js';
-import { readMatchDetails } from './lib/utils.ts';
+import { readMatchDetails, readPlayer } from './lib/utils.ts';
+import { Player } from 'lib/types.ts';
+import assert from 'assert';
 
 describe('intentPOSitionsDefence()', function () {
   it('kickoff team defensive players move towards ball on opposite side', async () => {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf2.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
+    assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
@@ -32,11 +34,16 @@ describe('intentPOSitionsDefence()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf3.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
+    expect(ballPosition).to.have.length(3);
+    assert(ballPosition.length === 3);
+    assert(ballPosition[2] === 0);
+    assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
+
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
@@ -49,7 +56,6 @@ describe('intentPOSitionsDefence()', function () {
       const diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
       const xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
       const yPosProx = common.isBetween(diffYPOSplayerandball, -40, 40);
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else if (xPosProx && yPosProx)
@@ -65,15 +71,15 @@ describe('intentPOSitionsDefence()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
+    assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
     if (ballPosition[2] >= 0) ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else
@@ -87,16 +93,16 @@ describe('intentPOSitionsDefence()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf2.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
     expect(matchDetails).to.be.an('object');
     const ballPosition = matchDetails.ball.position;
+    assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
     if (ballPosition[2] >= 0) ballPosition.pop();
     for (const playerNum of [0, 1, 2, 3, 4]) {
       const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (thisPlayer.playerID === closestPlayer.playerID)
         expect(thisPlayer.intentPOS).to.eql(ballPosition);
       else expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
@@ -110,7 +116,7 @@ describe('intentPOSitionsDefence()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinDEFHalf.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -118,7 +124,6 @@ describe('intentPOSitionsDefence()', function () {
     ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       if (player.playerID === closestPlayer.playerID)
         expect(player.intentPOS).to.eql(ballPosition);
       else expect(player.intentPOS).to.eql(player.originPOS);
@@ -130,7 +135,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -145,7 +150,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTfromOrigin.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -160,7 +165,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -175,7 +180,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTbehindOrigin2.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -190,7 +195,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTfromOrigin2.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -205,7 +210,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTaheadOfOrigin2.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -220,7 +225,7 @@ describe('intentPOSitionsAttacking()', function () {
     const matchDetails = await readMatchDetails(
       './test/input/boundaryPositions/intentPositionATTinOwnHalf4.json',
     );
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -239,7 +244,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/boundaryPositions/intentPositionATTdeep.json',
     );
     const [, pitchHeight] = matchDetails.pitchSize;
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -248,26 +253,22 @@ describe('intentPOSitionsAttacking()', function () {
       if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.15, 10),
+          Math.floor(pitchHeight * 0.15),
         ]);
       } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.25, 10),
+          Math.floor(pitchHeight * 0.25),
         ]);
       } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.75, 10),
+          Math.floor(pitchHeight * 0.75),
         ]);
       } else {
         expect(player.intentPOS).to.eql([player.originPOS[0], 985]);
@@ -279,7 +280,7 @@ describe('intentPOSitionsAttacking()', function () {
       './test/input/boundaryPositions/intentPositionATTdeep2.json',
     );
     const [, pitchHeight] = matchDetails.pitchSize;
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -288,26 +289,22 @@ describe('intentPOSitionsAttacking()', function () {
       if (player.position === 'GK') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.85, 10),
+          Math.floor(pitchHeight * 0.85),
         ]);
       } else if (player.position === 'CB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.75, 10),
+          Math.floor(pitchHeight * 0.75),
         ]);
       } else if (player.position === 'LB' || player.position === 'RB') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.33, 10),
+          Math.floor(pitchHeight * 0.33),
         ]);
       } else if (player.position === 'CM') {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.25, 10),
+          Math.floor(pitchHeight * 0.25),
         ]);
       } else {
         expect(player.intentPOS).to.eql([player.originPOS[0], 30]);
@@ -321,7 +318,7 @@ describe('intentPOSitionsLooseBall()', function () {
       './test/input/boundaryPositions/looseBall.json',
     );
     const { kickOffTeam } = matchDetails;
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -373,7 +370,7 @@ describe('intentPOSitionsLooseBall()', function () {
       './test/input/boundaryPositions/looseBall2.json',
     );
     const { secondTeam } = matchDetails;
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
@@ -425,7 +422,7 @@ describe('intentPOSitionsLooseBall()', function () {
       './test/input/boundaryPositions/looseBall3.json',
     );
     const { secondTeam } = matchDetails;
-    const closestPlayer = await readFile(
+    const closestPlayer = await readPlayer(
       './test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);

@@ -9,7 +9,7 @@ export interface MatchDetails {
   secondTeamStatistics: TeamStatistics;
   iterationLog: string[];
   endIteration?: boolean;
-  ballIntended?: number[];
+  ballIntended?: [number, number, number?];
 }
 
 export interface Ball {
