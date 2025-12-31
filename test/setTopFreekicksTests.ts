@@ -70,16 +70,14 @@ describe('testFreekicksTopOwnHalf()', function () {
     );
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     for (const num of [1, 2, 4]) {
       const thisPlayer = kickOffTeam.players[num];
       const thatPlayer = secondTeam.players[num];
       expect(thisPlayer.currentPOS).to.eql([
         thisPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
+        Math.floor(pitchHeight * 0.5),
       ]);
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
@@ -88,13 +86,11 @@ describe('testFreekicksTopOwnHalf()', function () {
       const thatPlayer = secondTeam.players[num];
       expect(thisPlayer.currentPOS).to.eql([
         thisPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
+        Math.floor(pitchHeight * 0.75),
       ]);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10) + 5,
+        Math.floor(pitchHeight * 0.75) + 5,
       ]);
     }
     for (const num of [9, 10]) {
@@ -103,8 +99,7 @@ describe('testFreekicksTopOwnHalf()', function () {
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 824]);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
+        Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
@@ -124,13 +119,11 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([400, 550]);
     expect(secondTeam.players[5].currentPOS).to.eql([
       80,
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.75, 10),
+      Math.floor(pitchHeight * 0.75),
     ]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -147,8 +140,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(699);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
+        Math.floor(pitchHeight * 0.75),
       ]);
     }
     for (const num of [9, 10]) {
@@ -158,8 +150,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(849);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
+        Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
@@ -177,13 +168,11 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([29, 550]);
     expect(secondTeam.players[5].currentPOS).to.eql([
       80,
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.75, 10),
+      Math.floor(pitchHeight * 0.75),
     ]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -200,8 +189,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(699);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
+        Math.floor(pitchHeight * 0.75),
       ]);
     }
     for (const num of [9, 10]) {
@@ -211,8 +199,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(849);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
+        Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
@@ -230,13 +217,11 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([655, 550]);
     expect(secondTeam.players[5].currentPOS).to.eql([
       80,
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.75, 10),
+      Math.floor(pitchHeight * 0.75),
     ]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -253,8 +238,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(699);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.75, 10),
+        Math.floor(pitchHeight * 0.75),
       ]);
     }
     for (const num of [9, 10]) {
@@ -264,8 +248,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.gt(849);
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-        parseInt(pitchHeight * 0.5, 10),
+        Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
@@ -284,18 +267,15 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(nextJSON.ball.direction).to.eql('south');
     expect(nextJSON.ball.position).to.eql([
       340,
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight - pitchHeight / 6 - 35, 10),
+      Math.floor(pitchHeight - pitchHeight / 6 - 35),
     ]);
     expect(kickOffTeam.players[5].currentPOS).to.eql([
       340,
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight - pitchHeight / 6 - 35, 10),
+      Math.floor(pitchHeight - pitchHeight / 6 - 35),
     ]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -316,14 +296,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -335,25 +313,20 @@ describe('testFreekicksTopLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [pitchHeight - pitchHeight / 6 - 5, pitchHeight + 1];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
+
+      // Guard against 'NP' for both teams
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} has no position ('NP')`);
+      }
 
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -372,8 +345,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([340, 869]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -394,14 +366,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -413,25 +383,22 @@ describe('testFreekicksTopLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
+
+      // Type Guard: Ensure coordinates are valid numbers before passing to isBetween
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Position data missing for player index ${num}`);
+      }
 
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        // KOT Boundary Checks
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        // ST Boundary Checks
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -450,8 +417,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([10, 850]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -472,14 +438,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -491,25 +455,21 @@ describe('testFreekicksTopLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // Safe Guard: Fail fast if any position is 'NP' (No Position)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Invalid position 'NP' for player at index ${num}`);
+      }
+
+      // At this point, TS knows xKOT, yKOT, xST, and yST are numbers
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -528,8 +488,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([600, 826]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -550,14 +509,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -569,25 +526,22 @@ describe('testFreekicksTopLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
+
+      // Type Guard: If position is 'NP', the test should fail with a clear message
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player index ${num} has invalid position 'NP'`);
+      }
 
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        // Assert KOT player is within boundaries
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        // Assert ST player is within boundaries
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -606,8 +560,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([10, pitchHeight - 1]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -622,14 +575,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -639,13 +590,25 @@ describe('testFreekicksTopLastQuarter()', function () {
       firstWallPosition -= 2;
     }
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const kotCurrentPOS = kickOffTeam.players[num].currentPOS;
-      const stCurrentPOS = secondTeam.players[num].currentPOS;
+      // 1. Destructure both elements immediately
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
+
+      // 2. Validate (Narrowing strings/undefined to numbers)
+      if (xKOT === 'NP' || yKOT === 'NP' || xST === 'NP' || yST === 'NP') {
+        throw new Error(`Player ${num} has invalid position data`);
+      }
+
+      // 3. Create new arrays from the validated destructured elements
+      // TypeScript now implicitly knows these are [number, number]
+      const kotCoords = [xKOT, yKOT];
+      const stCoords = [xST, yST];
 
       if (num !== 5) {
-        expect(true).to.eql(common.inBottomPenalty(nextJSON, kotCurrentPOS));
+        // Pass the new, guaranteed numeric array
+        expect(common.inBottomPenalty(nextJSON, kotCoords)).to.be.true;
       } else {
-        expect(true).to.eql(common.inBottomPenalty(nextJSON, stCurrentPOS));
+        expect(common.inBottomPenalty(nextJSON, stCoords)).to.be.true;
       }
     }
   });
@@ -664,8 +627,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(kickOffTeam.players[5].currentPOS).to.eql([600, 1049]);
     expect(KOTgoalie.currentPOS).to.eql([
       KOTgoalie.originPOS[0],
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      parseInt(pitchHeight * 0.25, 10),
+      Math.floor(pitchHeight * 0.25),
     ]);
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
@@ -680,14 +642,12 @@ describe('testFreekicksTopLastQuarter()', function () {
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.5, 10),
+          Math.floor(pitchHeight * 0.5),
         ]);
       } else if (thisPlayer.position === 'LB' || thisPlayer.position === 'RB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
-          // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-          parseInt(pitchHeight * 0.66, 10),
+          Math.floor(pitchHeight * 0.66),
         ]);
       }
       expect(thatPlayer.currentPOS).to.eql([
@@ -697,43 +657,30 @@ describe('testFreekicksTopLastQuarter()', function () {
       firstWallPosition -= 2;
     }
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
+
+      // Type Guard: Ensure coordinates are valid numbers
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} missing position ('NP')`);
+      }
+
       const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
       const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
 
+      // Primary Check
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
-      if ([6, 7].includes(num)) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
-      }
-      if ([8, 9, 10].includes(num)) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+
+      // Extra ST Checks for 6, 7, 8, 9, 10
+      if (num !== 5) {
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
