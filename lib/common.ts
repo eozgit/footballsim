@@ -115,7 +115,7 @@ function inTopPenalty(
 
 function inBottomPenalty(
   matchDetails: MatchDetails,
-  item: [number, number, number?],
+  item: [number, number],
 ): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(

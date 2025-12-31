@@ -595,14 +595,14 @@ describe('testFreekicksTopLastQuarter()', function () {
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // 2. Validate (Narrowing strings/undefined to numbers)
-      if (xKOT === 'NP' || yKOT === 'NP' || xST === 'NP' || yST === 'NP') {
+      if (xKOT === 'NP' || xST === 'NP') {
         throw new Error(`Player ${num} has invalid position data`);
       }
 
       // 3. Create new arrays from the validated destructured elements
       // TypeScript now implicitly knows these are [number, number]
-      const kotCoords = [xKOT, yKOT];
-      const stCoords = [xST, yST];
+      const kotCoords: [number, number] = [xKOT, yKOT];
+      const stCoords: [number, number] = [xST, yST];
 
       if (num !== 5) {
         // Pass the new, guaranteed numeric array
