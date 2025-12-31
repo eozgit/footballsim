@@ -66,6 +66,9 @@ function decideMovement(
         thisPlayer.currentPOS,
         move,
       );
+      if (thisPlayer.currentPOS[0] === 'NP') {
+        throw new Error('No player position!');
+      }
       const xPosition = common.isBetween(
         thisPlayer.currentPOS[0],
         position[0] - 3,
@@ -454,8 +457,12 @@ function getInterceptMovement(
   pitchSize: any,
 ): [number, number] {
   let move: [number, number] = [0, 0];
+  const [x, y] = player.currentPOS;
+  if (x == 'NP') {
+    throw new Error('No player position!');
+  }
   const intcptPos = getInterceptPosition(
-    player.currentPOS,
+    [x, y],
     opposition,
     ballPosition,
     pitchSize,
@@ -482,48 +489,44 @@ function getInterceptMovement(
 }
 
 function getInterceptPosition(
-  currentPOS: any,
+  currentPOS: [number, number, number?],
   opposition: Team,
-  ballPosition: any,
-  pitchSize: any,
-) {
+  ballPosition: [number, number, number?],
+  pitchSize: [number, number],
+): [number, number, number?] {
   const BallPlyTraj = getInterceptTrajectory(
     opposition,
     ballPosition,
     pitchSize,
   );
-  const intcptPos = getClosestTrajPosition(currentPOS, BallPlyTraj, false);
-  if (JSON.stringify(intcptPos) === JSON.stringify(currentPOS)) {
-    const index = getClosestTrajPosition(currentPOS, BallPlyTraj, true);
-    if (index > 0)
-      return BallPlyTraj[
-        getClosestTrajPosition(currentPOS, BallPlyTraj, true) - 1
-      ];
-  }
-  return intcptPos;
-}
 
-function getClosestTrajPosition(
-  playerPos: any,
-  BallPlyTraj: any,
-  getIndex: any,
-) {
-  let intcptPos = [];
-  let theDiff = 10000000;
-  let index = 0;
-  for (const thisPos of BallPlyTraj) {
-    const xDiff = Math.abs(playerPos[0] - thisPos[0]);
-    const yDiff = Math.abs(playerPos[1] - thisPos[1]);
+  let closestPos: [number, number, number?] = BallPlyTraj[0] || [0, 0];
+  let shortestDiff = Infinity;
+  let closestIndex = 0;
+
+  // Single loop to find both the closest position and its index
+  for (let i = 0; i < BallPlyTraj.length; i++) {
+    const thisPos = BallPlyTraj[i];
+    const xDiff = Math.abs((currentPOS[0] as number) - (thisPos[0] as number));
+    const yDiff = Math.abs((currentPOS[1] as number) - (thisPos[1] as number));
     const totalDiff = xDiff + yDiff;
-    if (totalDiff < theDiff) {
-      theDiff = totalDiff;
-      intcptPos = thisPos;
+
+    if (totalDiff < shortestDiff) {
+      shortestDiff = totalDiff;
+      closestPos = thisPos;
+      closestIndex = i;
     }
-    if (JSON.stringify(thisPos) === JSON.stringify(playerPos) && getIndex)
-      return index;
-    index++;
   }
-  return intcptPos;
+
+  // Exact same logic: if already at intercept, step back one in the trajectory
+  const isAtIntercept =
+    closestPos[0] === currentPOS[0] && closestPos[1] === currentPOS[1];
+
+  if (isAtIntercept && closestIndex > 0) {
+    return BallPlyTraj[closestIndex - 1];
+  }
+
+  return closestPos;
 }
 
 export const mockPlayer: Player = {
@@ -577,7 +580,7 @@ function getInterceptTrajectory(
   opposition: Team,
   ballPosition: any,
   pitchSize: any,
-) {
+): [number, number, number?][] {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playerInformation = setPositions.closestPlayerToPosition(
     mockPlayer,
@@ -597,13 +600,12 @@ function getInterceptTrajectory(
     Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
   const xDiff = moveX / highNum;
   const yDiff = moveY / highNum;
-  const POI = [];
-  POI.push(interceptPlayer.currentPOS);
+  const POI: [number, number, number?][] = [
+    [...interceptPlayer.currentPOS] as [number, number, number?],
+  ];
   for (const _ of new Array(Math.round(highNum))) {
     const lastArrayPOS = POI.length - 1;
-    // @ts-expect-error TS(7022): 'lastXPOS' implicitly has type 'any' because it do... Remove this comment to see the full error message
     const lastXPOS = POI[lastArrayPOS][0];
-    // @ts-expect-error TS(7022): 'lastYPOS' implicitly has type 'any' because it do... Remove this comment to see the full error message
     const lastYPOS = POI[lastArrayPOS][1];
     POI.push([
       common.round(lastXPOS + xDiff, 0),
@@ -642,10 +644,14 @@ function getRunMovement(
     else move[1] = movementRun[common.getRandomNumber(1, 1)];
     return move;
   }
-  const formationDirection = setPositions.formationCheck(
-    player.intentPOS,
-    player.currentPOS,
-  );
+  const [x, y] = player.currentPOS;
+  if (x === 'NP') {
+    throw new Error('No player position!');
+  }
+  const formationDirection = setPositions.formationCheck(player.intentPOS, [
+    x,
+    y,
+  ]);
   if (formationDirection[0] === 0)
     move[0] = movementRun[common.getRandomNumber(1, 1)];
   else if (formationDirection[0] < 0)
@@ -690,10 +696,14 @@ function getSprintMovement(
     else move[1] = movementSprint[common.getRandomNumber(2, 2)];
     return move;
   }
-  const formationDirection = setPositions.formationCheck(
-    player.intentPOS,
-    player.currentPOS,
-  );
+  const [x, y] = player.currentPOS;
+  if (x === 'NP') {
+    throw new Error('No player position!');
+  }
+  const formationDirection = setPositions.formationCheck(player.intentPOS, [
+    x,
+    y,
+  ]);
   if (formationDirection[0] === 0)
     move[0] = movementSprint[common.getRandomNumber(2, 2)];
   else if (formationDirection[0] < 0)
@@ -731,7 +741,9 @@ function closestPlayerToBall(
       closestPlayerDetails = thisPlayer;
     }
   }
-
+  if (closestPlayerDetails === undefined) {
+    throw new Error('Player undefined!');
+  }
   setPositions.setIntentPosition(matchDetails, closestPlayerDetails);
   if (closestPlayerDetails === undefined) {
     throw new Error('Closest player details not found');

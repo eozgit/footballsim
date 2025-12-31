@@ -20,8 +20,11 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
 function setGameVariables(team: Team) {
   team.players.forEach((player: Player) => {
     player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
-    player.originPOS = [Number(player.currentPOS[0]), player.currentPOS[1]];
-    player.intentPOS = [Number(player.currentPOS[0]), player.currentPOS[1]];
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('No player position!');
+    }
+    player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
+    player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
     player.action = `none`;
     player.offside = false;
     player.hasBall = false;

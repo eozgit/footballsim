@@ -2,7 +2,7 @@ export interface MatchDetails {
   matchID: number | string;
   kickOffTeam: Team;
   secondTeam: Team;
-  pitchSize: number[];
+  pitchSize: [number, number, number];
   ball: Ball;
   half: number;
   kickOffTeamStatistics: TeamStatistics;

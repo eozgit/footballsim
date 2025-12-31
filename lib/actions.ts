@@ -785,8 +785,10 @@ function setPostTackleBall(
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
-  const tempArray = player.currentPOS;
-  matchDetails.ball.position = tempArray.map((x: any) => x);
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+  matchDetails.ball.position = [player.currentPOS[0], player.currentPOS[1]];
   matchDetails.ball.Player = player.playerID;
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = team.teamID;

@@ -3,7 +3,7 @@ import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import setVariables from '../lib/setVariables.js';
 import setFreekicks from '../lib/setFreekicks.js';
-import { createPlayer } from './ballMovement.ts';
+import { createPlayer } from './ballMovement.js';
 
 function setGoalieHasBall(
   matchDetails: MatchDetails,
@@ -345,7 +345,7 @@ function defenceLeftThrowInPlayerPosition(
 }
 
 function attackRightThrowInPlayerPosition(
-  pitchSize: [number, number, number],
+  pitchSize: [number, number],
   attack: Team,
   place: number,
 ): void {
@@ -363,7 +363,7 @@ function attackRightThrowInPlayerPosition(
 }
 
 function defenceRightThrowInPlayerPosition(
-  pitchSize: [number, number, number],
+  pitchSize: [number, number],
   defence: Team,
   place: number,
 ): void {
@@ -473,7 +473,10 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
   const ballPosition = matchDetails.ball.position;
   const attackingTowardsTop =
     matchDetails.kickOffTeam.players[0].currentPOS[1] > pitchHeight / 2;
-  if (attackingTowardsTop && common.inTopPenalty(matchDetails, ballPosition)) {
+  if (
+    attackingTowardsTop &&
+    common.inTopPenalty(matchDetails, [ballPosition[0], ballPosition[1]])
+  ) {
     matchDetails.kickOffTeamStatistics.penalties++;
     matchDetails.iterationLog.push(
       `penalty to: ${matchDetails.kickOffTeam.name}`,
@@ -481,7 +484,7 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
     return setTopPenalty(matchDetails);
   } else if (
     attackingTowardsTop === false &&
-    common.inBottomPenalty(matchDetails, ballPosition)
+    common.inBottomPenalty(matchDetails, [ballPosition[0], ballPosition[1]])
   ) {
     matchDetails.kickOffTeamStatistics.penalties++;
     matchDetails.iterationLog.push(
@@ -507,7 +510,10 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
   const ballPosition = matchDetails.ball.position;
   const attackingTowardsTop =
     matchDetails.secondTeam.players[0].currentPOS[1] > pitchHeight / 2;
-  if (attackingTowardsTop && common.inTopPenalty(matchDetails, ballPosition)) {
+  if (
+    attackingTowardsTop &&
+    common.inTopPenalty(matchDetails, [ballPosition[0], ballPosition[1]])
+  ) {
     matchDetails.secondTeamStatistics.penalties++;
     matchDetails.iterationLog.push(
       `penalty to: ${matchDetails.secondTeam.name}`,
@@ -515,7 +521,7 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
     return setTopPenalty(matchDetails);
   } else if (
     attackingTowardsTop === false &&
-    common.inBottomPenalty(matchDetails, ballPosition)
+    common.inBottomPenalty(matchDetails, [ballPosition[0], ballPosition[1]])
   ) {
     matchDetails.secondTeamStatistics.penalties++;
     matchDetails.iterationLog.push(
@@ -891,7 +897,11 @@ function setLooseintentPOS(
   const side =
     thisTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
   for (const player of thisTeam.players) {
-    const diffXPOSplayerandball = ball.position[0] - player.currentPOS[0];
+    const x = player.currentPOS[0];
+    if (x === 'NP') {
+      throw new Error('No player position!');
+    }
+    const diffXPOSplayerandball = ball.position[0] - x;
     const diffYPOSplayerandball = ball.position[1] - player.currentPOS[1];
     if (player.playerID === closestPlayer.playerID)
       player.intentPOS = [ball.position[0], ball.position[1]];
@@ -954,7 +964,11 @@ function setDefenceRelativePos(
   const side =
     defendingTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
   for (const player of defendingTeam.players) {
-    const diffXPOSplayerandball = ball.position[0] - player.currentPOS[0];
+    const x = player.currentPOS[0];
+    if (x === 'NP') {
+      throw new Error('No player position!');
+    }
+    const diffXPOSplayerandball = ball.position[0] - x;
     const diffYPOSplayerandball = ball.position[1] - player.currentPOS[1];
     if (
       common.isBetween(diffXPOSplayerandball, -40, 40) &&
