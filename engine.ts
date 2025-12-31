@@ -5,6 +5,7 @@ import setVariables from './lib/setVariables.js';
 import playerMovement from './lib/playerMovement.js';
 import ballMovement from './lib/ballMovement.js';
 import validate from './lib/validate.js';
+import { MatchDetails } from 'lib/types.ts';
 
 //------------------------
 //    Functions
@@ -30,7 +31,9 @@ async function initiateGame(team1: any, team2: any, pitchDetails: any) {
   return matchDetails;
 }
 
-async function playIteration(matchDetails: any) {
+async function playIteration(
+  matchDetails: MatchDetails,
+): Promise<MatchDetails> {
   const closestPlayerA = {
     name: '',
     position: 100000,

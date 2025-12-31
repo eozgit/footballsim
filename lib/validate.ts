@@ -27,7 +27,7 @@ function validateTeamSecondHalf(team: Team) {
   }
 }
 
-function validateNumberOfPlayers(players: unknown) {
+function validateNumberOfPlayers(players: Player[]) {
   if (players.length !== 11) {
     throw new Error(`There must be 11 players in a team`);
   }

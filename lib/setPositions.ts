@@ -26,7 +26,7 @@ function setGoalieHasBall(
 
   const [x, y] = thisGoalie.currentPOS as [number, number];
   matchDetails.ball.position = [x, y, 0];
-  thisGoalie.currentPOS = [x, y, 0] as unknown;
+  thisGoalie.currentPOS = [x, y];
 
   matchDetails.ball.Player = thisGoalie.playerID;
   matchDetails.ball.withPlayer = true;

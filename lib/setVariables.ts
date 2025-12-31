@@ -18,7 +18,7 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
   }
 }
 
-function setGameVariables(team: Team) {
+function setGameVariables(team: Team): Team {
   team.players.forEach((player: Player) => {
     player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
     if (player.currentPOS[0] === 'NP') {
@@ -59,18 +59,20 @@ function setGameVariables(team: Team) {
   return team;
 }
 
-function koDecider(team1: unknown, matchDetails: MatchDetails) {
+function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   const playerWithBall = common.getRandomNumber(9, 10);
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.Player = team1.players[playerWithBall].playerID;
   matchDetails.ball.withTeam = team1.teamID;
   team1.intent = `attack`;
-  team1.players[playerWithBall].currentPOS = matchDetails.ball.position.map(
-    (x: unknown) => x,
-  );
-  team1.players[playerWithBall].intentPOS = matchDetails.ball.position.map(
-    (x: unknown) => x,
-  );
+  team1.players[playerWithBall].currentPOS = [
+    matchDetails.ball.position[0],
+    matchDetails.ball.position[1],
+  ];
+  team1.players[playerWithBall].intentPOS = [
+    matchDetails.ball.position[0],
+    matchDetails.ball.position[1],
+  ];
   team1.players[playerWithBall].currentPOS.pop();
   team1.players[playerWithBall].intentPOS.pop();
   team1.players[playerWithBall].hasBall = true;

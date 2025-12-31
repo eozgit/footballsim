@@ -1,12 +1,22 @@
 import * as fs from 'fs';
 
-export function readFile(filePath: unknown) {
+/**
+ * Reads a JSON file and parses its content.
+ * @template T - The expected shape of the JSON data.
+ */
+export function readFile<T>(filePath: string): Promise<T> {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
         reject(err);
       } else {
-        resolve(JSON.parse(data));
+        try {
+          // data is a string because of the 'utf8' encoding
+          const json: T = JSON.parse(data);
+          resolve(json);
+        } catch (parseError) {
+          reject(parseError);
+        }
       }
     });
   });

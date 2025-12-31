@@ -424,7 +424,7 @@ function ballMoved(
 function updateInformation(
   matchDetails: MatchDetails,
   newPosition: [number, number, number?],
-) {
+): void {
   if (matchDetails.endIteration === true) return;
 
   const [posX, posY] = newPosition;

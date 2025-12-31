@@ -6,6 +6,7 @@ import {
   playIteration as _playIteration,
   startSecondHalf,
 } from './../engine.js';
+import { MatchDetails } from 'lib/types.ts';
 
 let nextIteration;
 gameOfTenIterations()
@@ -51,13 +52,14 @@ async function initGame(t1: any, t2: any, p: any) {
   }
 }
 
-async function playIteration(inputIteration: any) {
+async function playIteration(
+  inputIteration: MatchDetails,
+): Promise<MatchDetails> {
   try {
     const outputIteration = await _playIteration(inputIteration);
     return outputIteration;
   } catch (error) {
-    // @ts-expect-error TS(2769): No overload matches this call.
-    throw new Error(error);
+    throw new Error(String(error));
   }
 }
 

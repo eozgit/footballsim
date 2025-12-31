@@ -230,11 +230,11 @@ function getBottomKickedPosition(
 }
 
 function newKickedPosition(
-  pos: unknown,
-  lowX: unknown,
-  highX: unknown,
-  lowY: unknown,
-  highY: unknown,
+  pos: [number, number],
+  lowX: number,
+  highX: number,
+  lowY: number,
+  highY: number,
 ): [number, number] {
   const newPosition: [number, number] = [0, 0];
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
@@ -948,13 +948,13 @@ function ballPassed(
 }
 
 function setTargetPlyPos(
-  tplyr: unknown,
-  lowX: unknown,
-  highX: unknown,
-  lowY: unknown,
-  highY: unknown,
-) {
-  const closePlyPos = [0, 0];
+  tplyr: [number, number],
+  lowX: number,
+  highX: number,
+  lowY: number,
+  highY: number,
+): [number, number] {
+  const closePlyPos: [number, number] = [0, 0];
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
   closePlyPos[0] = common.round(
     targetPlayerXPos + common.getRandomNumber(lowX, highX),

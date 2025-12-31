@@ -1,6 +1,8 @@
 import { readFile } from '../../lib/fileReader.js';
 import engine from '../../engine.js';
 import validate from '../../lib/validate.js';
+import { MatchDetails } from 'lib/types.ts';
+import { readMatchDetails } from './utils.ts';
 
 async function initGame(t1: any, t2: any, p: any) {
   const team1 = await readFile(t1);
@@ -10,10 +12,9 @@ async function initGame(t1: any, t2: any, p: any) {
   return matchSetup;
 }
 
-async function playIteration(inputIteration: any) {
-  const inputJson = await readFile(inputIteration);
-  const outputIteration = await engine.playIteration(inputJson);
-  return outputIteration;
+async function playIteration(inputIteration: string): Promise<MatchDetails> {
+  const inputMatchDetails = await readMatchDetails(inputIteration);
+  return await engine.playIteration(inputMatchDetails);
 }
 
 async function setupSecondHalf(inputIteration: any) {

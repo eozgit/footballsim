@@ -316,32 +316,28 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
 }
 
 function oppositionNearPlayer(
-  oppositionPlayer: unknown,
-  spaceX: unknown,
-  spaceY: unknown,
-) {
+  oppositionPlayer: { proxPOS: [number, number] },
+  spaceX: number,
+  spaceY: number,
+): boolean {
   const oppositionProximity = [
     Math.abs(oppositionPlayer.proxPOS[0]),
     Math.abs(oppositionPlayer.proxPOS[1]),
   ];
-  if (oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY)
-    return true;
-  return false;
+  return oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY;
 }
 
 function checkTeamMateSpaceClose(
-  tmateProximity: unknown,
-  lowX: unknown,
-  highX: unknown,
-  lowY: unknown,
-  highY: unknown,
-) {
-  if (
+  tmateProximity: [number, number],
+  lowX: number,
+  highX: number,
+  lowY: number,
+  highY: number,
+): boolean {
+  return (
     common.isBetween(tmateProximity[0], lowX, highX) &&
     common.isBetween(tmateProximity[1], lowY, highY)
-  )
-    return true;
-  return false;
+  );
 }
 
 function checkOppositionAhead(

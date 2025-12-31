@@ -564,7 +564,7 @@ describe('setGoalieHasBall()', function () {
     expect(goalieHasBallSetup.ball.withPlayer).to.eql(true);
     expect(goalieHasBallSetup.ball.withTeam).to.eql('78883930303030002');
     expect(goalieHasBallSetup.kickOffTeam.players[0].currentPOS).to.be.eql(
-      goalieHasBallSetup.ball.position,
+      goalieHasBallSetup.ball.position.slice(0, 2),
     );
   });
 });
