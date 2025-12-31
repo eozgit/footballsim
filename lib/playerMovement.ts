@@ -125,9 +125,9 @@ function decideMovement(
 
 function setClosePlayerTakesBall(
   matchDetails: MatchDetails,
-  thisPlayer: any,
+  thisPlayer: Player,
   team: Team,
-  opp: any,
+  opp: Team,
 ) {
   if (thisPlayer.offside) {
     matchDetails.iterationLog.push(`${thisPlayer.name} is offside`);
@@ -140,7 +140,11 @@ function setClosePlayerTakesBall(
     matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
     matchDetails.ball.lastTouch.teamID = team.teamID;
     matchDetails.ball.ballOverIterations = [];
-    matchDetails.ball.position = thisPlayer.currentPOS.map((x: any) => x);
+    const [posX, posY] = thisPlayer.currentPOS;
+    if (posX === 'NP') {
+      throw new Error('No player position!');
+    }
+    matchDetails.ball.position = [posX, posY];
     matchDetails.ball.Player = thisPlayer.playerID;
     matchDetails.ball.withPlayer = true;
     matchDetails.ball.withTeam = team.teamID;
@@ -318,9 +322,9 @@ function checkProvidedAction(
 
 function handleBallPlayerActions(
   matchDetails: MatchDetails,
-  thisPlayer: any,
+  thisPlayer: Player,
   team: Team,
-  opp: any,
+  opp: Team,
   action: any,
 ) {
   const ballActions = [
@@ -333,8 +337,13 @@ function handleBallPlayerActions(
     `penalty`,
   ];
   ballMovement.getBallDirection(matchDetails, thisPlayer.currentPOS);
-  const tempArray = thisPlayer.currentPOS;
-  matchDetails.ball.position = tempArray.map((x: any) => x);
+
+  const [posX, posY] = thisPlayer.currentPOS;
+  if (posX === 'NP') {
+    throw new Error('No player position!');
+  }
+  matchDetails.ball.position = [posX, posY];
+
   matchDetails.ball.position[2] = 0;
   if (ballActions.includes(action)) {
     ballMoved(matchDetails, thisPlayer, team, opp);
@@ -344,6 +353,9 @@ function handleBallPlayerActions(
         team,
         thisPlayer,
       );
+      if (!Array.isArray(newPosition)) {
+        throw new Error('No new position!');
+      }
       updateInformation(matchDetails, newPosition);
     } else if (action === `pass`) {
       const newPosition = ballMovement.ballPassed(
@@ -352,6 +364,9 @@ function handleBallPlayerActions(
         thisPlayer,
       );
       matchDetails.iterationLog.push(`passed to new position: ${newPosition}`);
+      if (!Array.isArray(newPosition)) {
+        throw new Error('No new position!');
+      }
       updateInformation(matchDetails, newPosition);
     } else if (action === `cross`) {
       const newPosition = ballMovement.ballCrossed(
@@ -367,9 +382,15 @@ function handleBallPlayerActions(
         team,
         thisPlayer,
       );
+      if (!Array.isArray(newPosition)) {
+        throw new Error('No new position!');
+      }
       updateInformation(matchDetails, newPosition);
     } else if (action === `shoot`) {
       const newPosition = ballMovement.shotMade(matchDetails, team, thisPlayer);
+      if (!Array.isArray(newPosition)) {
+        throw new Error('No new position!');
+      }
       updateInformation(matchDetails, newPosition);
     } else if (action === `penalty`) {
       const newPosition = ballMovement.penaltyTaken(
@@ -377,6 +398,9 @@ function handleBallPlayerActions(
         team,
         thisPlayer,
       );
+      if (!Array.isArray(newPosition)) {
+        throw new Error('No new position!');
+      }
       updateInformation(matchDetails, newPosition);
     }
   }
@@ -396,10 +420,15 @@ function ballMoved(
   matchDetails.ball.withTeam = ``;
 }
 
-function updateInformation(matchDetails: MatchDetails, newPosition: any) {
+function updateInformation(
+  matchDetails: MatchDetails,
+  newPosition: [number, number, number?],
+) {
   if (matchDetails.endIteration === true) return;
-  const tempPosition = newPosition.map((x: any) => x);
-  matchDetails.ball.position = tempPosition;
+
+  const [posX, posY] = newPosition;
+  matchDetails.ball.position = [posX, posY];
+
   matchDetails.ball.position[2] = 0;
 }
 

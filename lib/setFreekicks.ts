@@ -104,13 +104,11 @@ function setTopOneHundredYPos(
   ball.direction = 'south';
   for (const player of attack.players) {
     if (player.position === 'GK')
-      player.currentPOS = matchDetails.ball.position.map((x: any) => x);
-    if (player.position !== 'GK')
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...matchDetails.ball.position];
+    if (player.position !== 'GK') player.currentPOS = [...player.originPOS];
   }
   for (const player of defence.players) {
-    if (player.position === 'GK')
-      player.currentPOS = player.originPOS.map((x: any) => x);
+    if (player.position === 'GK') player.currentPOS = [...player.originPOS];
     if (player.position !== 'GK')
       player.currentPOS = [
         player.originPOS[0],
@@ -135,13 +133,11 @@ function setBottomOneHundredYPos(
   ball.direction = 'north';
   for (const player of attack.players) {
     if (player.position === 'GK')
-      player.currentPOS = matchDetails.ball.position.map((x: any) => x);
-    if (player.position !== 'GK')
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...matchDetails.ball.position];
+    if (player.position !== 'GK') player.currentPOS = [...player.originPOS];
   }
   for (const player of defence.players) {
-    if (player.position === 'GK')
-      player.currentPOS = player.originPOS.map((x: any) => x);
+    if (player.position === 'GK') player.currentPOS = [...player.originPOS];
     if (player.position !== 'GK') {
       player.currentPOS = [
         player.originPOS[0],
@@ -173,8 +169,7 @@ function setTopOneHundredToHalfwayYPos(
   ball.direction = 'south';
   for (const player of attack.players) {
     if (kickPlayer.position === 'GK') {
-      if (player.position === 'GK')
-        player.currentPOS = ball.position.map((x: any) => x);
+      if (player.position === 'GK') player.currentPOS = [...ball.position];
       if (player.name !== kickPlayer.name) {
         const newYPOS = common.upToMax(
           player.originPOS[1] + 300,
@@ -186,7 +181,7 @@ function setTopOneHundredToHalfwayYPos(
       const newYPOS =
         player.originPOS[1] + (ball.position[1] - player.originPOS[1]) + 300;
       if (player.name === kickPlayer.name)
-        player.currentPOS = ball.position.map((x: any) => x);
+        player.currentPOS = [...ball.position];
       else if (player.position === 'GK') {
         const maxYPOSCheck = Math.floor(
           common.upToMax(newYPOS, pitchHeight * 0.25),
@@ -212,8 +207,7 @@ function setTopOneHundredToHalfwayYPos(
   }
   for (const player of defence.players) {
     if (kickPlayer.position === 'GK') {
-      if (player.position === 'GK')
-        player.currentPOS = player.originPOS.map((x: any) => x);
+      if (player.position === 'GK') player.currentPOS = [...player.originPOS];
       if (player.position !== 'GK') {
         player.currentPOS = [
           player.originPOS[0],
@@ -221,7 +215,7 @@ function setTopOneHundredToHalfwayYPos(
         ];
       }
     } else if (['GK', 'CB', 'LB', 'RB'].includes(player.position))
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
     else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [
         player.originPOS[0],
@@ -269,7 +263,7 @@ function setBottomOneHundredToHalfwayYPos(
       const newYPOS =
         player.originPOS[1] + (ball.position[1] - player.originPOS[1]) - 300;
       if (player.name === kickPlayer.name)
-        player.currentPOS = ball.position.map((x: any) => x);
+        player.currentPOS = [...ball.position];
       else if (player.position === 'GK') {
         const maxYPOSCheck = Math.floor(
           common.upToMin(newYPOS, pitchHeight * 0.75),
@@ -340,7 +334,7 @@ function setTopHalfwayToBottomQtrYPos(
     : ballLeft
       ? 'southeast'
       : 'southwest';
-  kickPlayer.currentPOS = ball.position.map((x: any) => x);
+  kickPlayer.currentPOS = [...ball.position];
   for (const player of attack.players) {
     if (player.position === 'GK')
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
@@ -366,7 +360,7 @@ function setTopHalfwayToBottomQtrYPos(
   }
   for (const player of defence.players) {
     if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
-      player.currentPOS = player.originPOS.map((x: any) => x);
+      player.currentPOS = [...player.originPOS];
     } else if (['CM', 'LM', 'RM'].includes(player.position)) {
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
     } else {
@@ -460,7 +454,7 @@ function setTopBottomQtrCentreYPos(
     : ballLeft
       ? 'southeast'
       : 'southwest';
-  kickPlayer.currentPOS = ball.position.map((x: any) => x);
+  kickPlayer.currentPOS = [...ball.position];
   for (const player of attack.players) {
     if (player.position === 'GK')
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
@@ -531,7 +525,7 @@ function setBottomUpperQtrCentreYPos(
     : ballLeft
       ? 'northeast'
       : 'northwest';
-  kickPlayer.currentPOS = ball.position.map((x: any) => x);
+  kickPlayer.currentPOS = [...ball.position];
   for (const player of attack.players) {
     if (player.position === 'GK')
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
@@ -590,7 +584,7 @@ function setTopLowerFinalQtrBylinePos(
   ball.withTeam = attack.teamID;
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
   ball.direction = ballLeft ? 'east' : 'west';
-  kickPlayer.currentPOS = ball.position.map((x: any) => x);
+  kickPlayer.currentPOS = [...ball.position];
   for (const player of attack.players) {
     const { playerID, position, originPOS } = player;
     if (position === 'GK')
@@ -611,7 +605,7 @@ function setTopLowerFinalQtrBylinePos(
       (ball.position[0] - ballDistanceFromGoalX) / 2,
     );
     if (position === 'GK')
-      player.currentPOS = player.currentPOS = originPOS.map((x: any) => x);
+      player.currentPOS = player.currentPOS = [...originPOS];
     else if (['CB', 'LB', 'RB'].includes(position)) {
       player.currentPOS = [midWayFromBalltoGoalX, playerSpace];
       playerSpace -= 2;

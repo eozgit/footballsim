@@ -511,7 +511,7 @@ describe('setBallMovementMatchDetails()', function () {
       'test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.secondTeam.players[7];
-    const thisPos = [40, 100];
+    const thisPos: [number, number] = [40, 100];
     const thisTeam = matchDetails.secondTeam;
     bMovement.setBallMovementMatchDetails(
       matchDetails,

@@ -657,8 +657,8 @@ function resolveBallMovement(
 function thisPlayerIsInProximity(
   matchDetails: MatchDetails,
   thisPlayer: Player,
-  thisPOS: any,
-  thisPos: any,
+  thisPOS: [number, number],
+  thisPos: [number, number, number],
   power: any,
   thisTeam: Team,
 ) {
@@ -727,9 +727,9 @@ function thisPlayerIsInProximity(
 
 function setBallMovementMatchDetails(
   matchDetails: MatchDetails,
-  thisPlayer: any,
-  thisPos: any,
-  thisTeam: any,
+  thisPlayer: Player,
+  thisPos: [number, number, number?],
+  thisTeam: Team,
 ) {
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
@@ -738,9 +738,8 @@ function setBallMovementMatchDetails(
   matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
   matchDetails.ball.lastTouch.teamID = thisTeam.teamID;
   matchDetails.ball.withTeam = thisTeam.teamID;
-  const tempArray = thisPos;
-  matchDetails.ball.position = tempArray.map((x: any) => x);
-  thisPlayer.currentPOS = tempArray.map((x: any) => x);
+  matchDetails.ball.position = [...thisPos];
+  thisPlayer.currentPOS = [thisPos[0], thisPos[1]];
 }
 
 function resolveDeflection(
@@ -773,9 +772,7 @@ function resolveDeflection(
     tempPosition,
   );
   const intended = matchDetails.ballIntended;
-  const lastPOS = intended
-    ? intended.map((x: any) => x)
-    : matchDetails.ball.position.map((x: any) => x);
+  const lastPOS = intended ? [...intended] : [...matchDetails.ball.position];
   delete matchDetails.ballIntended;
   return lastPOS;
 }
@@ -841,8 +838,8 @@ function setDeflectionDirectionPos(
 
 function setDeflectionPlayerHasBall(
   matchDetails: MatchDetails,
-  defPlayer: any,
-  defTeam: any,
+  defPlayer: Player,
+  defTeam: Team,
 ) {
   defPlayer.hasBall = true;
   matchDetails.ball.lastTouch.playerName = defPlayer.name;
@@ -856,8 +853,11 @@ function setDeflectionPlayerHasBall(
   matchDetails.ball.Player = defPlayer.playerID;
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = defTeam.teamID;
-  const tempArray = defPlayer.currentPOS;
-  matchDetails.ball.position = tempArray.map((x: any) => x);
+  const [posX, posY] = defPlayer.currentPOS;
+  if (posX === 'NP') {
+    throw new Error('No player position!');
+  }
+  matchDetails.ball.position = [posX, posY];
 }
 
 function setDeflectionPlayerOffside(

@@ -409,7 +409,7 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/getMovement/matchDetails1.json',
     );
-    const newPosition = [12, 32];
+    const newPosition: [number, number] = [12, 32];
     pMovement.updateInformation(matchDetails, newPosition);
     expect(matchDetails.ball.position).to.eql([12, 32, 0]);
   });
