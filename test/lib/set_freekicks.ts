@@ -1,6 +1,6 @@
-import { MatchDetails } from 'lib/types.ts';
+import { MatchDetails } from 'lib/types.js';
 import setFreekick from '../../lib/setFreekicks.js';
-import { readMatchDetails } from './utils.ts';
+import { readMatchDetails } from './utils.js';
 
 async function setTopFreekick(
   iterationFile: string,

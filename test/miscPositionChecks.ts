@@ -1,7 +1,7 @@
 import { expect, it, describe, assert } from 'vitest';
 
 import setpieces from './lib/set_pieces.js';
-import { readMatchDetails } from './lib/utils.ts';
+import { readMatchDetails } from './lib/utils.js';
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async () => {

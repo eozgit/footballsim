@@ -1,7 +1,7 @@
 import { expect, it, describe } from 'vitest';
 
 import pMovement from '../lib/playerMovement.js';
-import { readMatchDetails } from './lib/utils.ts';
+import { readMatchDetails } from './lib/utils.js';
 
 describe('checkOffside()', function () {
   it('1 Bottom Player offside', async () => {

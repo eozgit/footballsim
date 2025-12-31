@@ -2,7 +2,8 @@
   "name": "footballsimulationengine",
   "version": "4.0.0",
   "description": "an engine for simulating football matches",
-  "main": "engine.js",
+  "main": "dist/engine.js",
+  "types": "dist/engine.d.ts",
   "scripts": {
     "start": "node engine.js",
     "format": "prettier --write .",

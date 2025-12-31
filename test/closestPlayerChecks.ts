@@ -2,7 +2,7 @@ import { expect, it, describe } from 'vitest';
 
 import { readFile } from '../lib/fileReader.js';
 import playerMovement from '../lib/playerMovement.js';
-import { MatchDetails } from 'lib/types.ts';
+import { MatchDetails } from 'lib/types.js';
 
 describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 1', async () => {

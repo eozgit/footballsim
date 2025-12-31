@@ -1,7 +1,7 @@
-import { MatchDetails } from 'lib/types.ts';
+import { MatchDetails } from 'lib/types.js';
 import common from '../../lib/common.js';
 import setPos from '../../lib/setPositions.js';
-import { readMatchDetails } from './utils.ts';
+import { readMatchDetails } from './utils.js';
 
 async function setupTopPenalty(iterationFile: any) {
   const matchDetails = await readMatchDetails(iterationFile);

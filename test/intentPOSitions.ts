@@ -2,7 +2,7 @@ import { expect, it, describe } from 'vitest';
 
 import common from '../lib/common.js';
 import setPos from '../lib/setPositions.js';
-import { readMatchDetails, readPlayer } from './lib/utils.ts';
+import { readMatchDetails, readPlayer } from './lib/utils.js';
 import assert from 'assert';
 
 describe('intentPOSitionsDefence()', function () {

@@ -6,7 +6,7 @@ import {
   playIteration as _playIteration,
   startSecondHalf,
 } from './../engine.js';
-import { MatchDetails } from 'lib/types.ts';
+import { MatchDetails } from 'lib/types.js';
 
 let nextIteration;
 gameOfTenIterations()
