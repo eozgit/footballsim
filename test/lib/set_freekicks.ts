@@ -4,11 +4,10 @@ import { readMatchDetails } from './utils.ts';
 
 async function setTopFreekick(
   iterationFile: string,
-  ballPosition: number[],
+  ballPosition: [number, number, number?],
 ): Promise<MatchDetails> {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  // No more @ts-expect-error needed here
   matchDetails.ball.position = [...ballPosition];
 
   return setFreekick.setTopFreekick(matchDetails);
@@ -16,7 +15,7 @@ async function setTopFreekick(
 
 async function setBottomFreekick(
   iterationFile: string,
-  ballPosition: number[],
+  ballPosition: [number, number, number?],
 ): Promise<MatchDetails> {
   const matchDetails = await readMatchDetails(iterationFile);
 

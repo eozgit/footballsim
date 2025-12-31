@@ -412,7 +412,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = false;
 
     const parameters = actions.playerDoesNotHaveBall(
@@ -429,7 +429,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
@@ -444,7 +444,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
@@ -459,7 +459,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = false;
     const parameters = actions.playerDoesNotHaveBall(
       player,
@@ -474,7 +474,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = true;
     const parameters = actions.playerDoesNotHaveBall(
       player,
@@ -489,7 +489,7 @@ describe('playerDoesNotHaveBall()', function () {
     const matchDetails = await readMatchDetails(
       'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
-    matchDetails.pitchSize = [680, 1050];
+    matchDetails.pitchSize = [680, 1050, 90];
     matchDetails.ball.withPlayer = true;
     const parameters = actions.playerDoesNotHaveBall(
       player,
