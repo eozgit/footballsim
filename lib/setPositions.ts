@@ -633,7 +633,6 @@ function setBallSpecificPenaltyValue(
   matchDetails.ball.lastTouch.teamID = attack.teamID;
 
   // Tests expect 2D array in certain assertions even though Ball is 3D
-  // @ts-expect-error Internal engine supports 3D, but tests may expect 2D
   matchDetails.ball.position = [shootArray[0], shootArray[1]];
 
   matchDetails.ball.ballOverIterations = [];

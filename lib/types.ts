@@ -13,7 +13,7 @@ export interface MatchDetails {
 }
 
 export interface Ball {
-  position: number[];
+  position: [number, number, number?];
   withPlayer: boolean;
   Player: number | string;
   withTeam: number | string;

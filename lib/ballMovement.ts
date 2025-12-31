@@ -125,7 +125,7 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
-  let newPos = [0, 0];
+  let newPos: [number, number] = [0, 0];
   const teamShootingToTop = [
     `wait`,
     `north`,
@@ -172,14 +172,12 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
   if (player.originPOS[1] > pitchHeight / 2) {
     direction =
       topTeamDirection[common.getRandomNumber(0, topTeamDirection.length - 1)];
-    // @ts-expect-error TS(2322): Type 'number[] | undefined' is not assignable to t... Remove this comment to see the full error message
     newPos = getTopKickedPosition(direction, position, power);
   } else {
     direction =
       bottomTeamDirection[
         common.getRandomNumber(0, bottomTeamDirection.length - 1)
       ];
-    // @ts-expect-error TS(2322): Type 'number[] | undefined' is not assignable to t... Remove this comment to see the full error message
     newPos = getBottomKickedPosition(direction, position, power);
   }
   return calcBallMovementOverTime(
@@ -190,7 +188,11 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
   );
 }
 
-function getTopKickedPosition(direction: any, position: any, power: any) {
+function getTopKickedPosition(
+  direction: string,
+  position: [number, number],
+  power: number,
+): [number, number] {
   if (direction === `wait`)
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
   else if (direction === `north`)
@@ -203,9 +205,14 @@ function getTopKickedPosition(direction: any, position: any, power: any) {
     return newKickedPosition(position, 0, power / 2, -power, -(power / 2));
   else if (direction === `northwest`)
     return newKickedPosition(position, -(power / 2), 0, -power, -(power / 2));
+  throw new Error('Unexpected direction');
 }
 
-function getBottomKickedPosition(direction: any, position: any, power: any) {
+function getBottomKickedPosition(
+  direction: any,
+  position: any,
+  power: any,
+): [number, number] {
   if (direction === `wait`)
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
   else if (direction === `south`)
@@ -218,6 +225,7 @@ function getBottomKickedPosition(direction: any, position: any, power: any) {
     return newKickedPosition(position, 0, power / 2, power / 2, power);
   else if (direction === `southwest`)
     return newKickedPosition(position, -(power / 2), 0, power / 2, power);
+  throw new Error('Unexpected direction');
 }
 
 function newKickedPosition(
@@ -226,8 +234,8 @@ function newKickedPosition(
   highX: any,
   lowY: any,
   highY: any,
-) {
-  const newPosition = [0, 0];
+): [number, number] {
+  const newPosition: [number, number] = [0, 0];
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
   newPosition[1] = pos[1] + common.getRandomNumber(lowY, highY);
   return newPosition;
