@@ -42,8 +42,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
     expect(nextJSON.ball.position).to.eql([340, 900]);
     expect(secondTeam.players[0].currentPOS).to.eql([340, 900]);
     for (const player of secondTeam.players) {
-      // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
-      if (!player.position === 'GK') {
+      if (player.position !== 'GK') {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] - 300,
@@ -304,13 +303,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      const midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
+      const midWayFromBalltoGoalY = Math.floor(nextJSON.ball.position[1] / 2);
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -375,13 +371,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      const midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
+      const midWayFromBalltoGoalY = Math.floor(nextJSON.ball.position[1] / 2);
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -446,13 +439,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      const midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
+      const midWayFromBalltoGoalY = Math.floor(nextJSON.ball.position[1] / 2);
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -517,13 +507,10 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-      const midWayFromBalltoGoalY = parseInt(nextJSON.ball.position[1] / 2, 10);
+      const midWayFromBalltoGoalY = Math.floor(nextJSON.ball.position[1] / 2);
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -585,10 +572,8 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
@@ -651,10 +636,8 @@ describe('testFreekicksBottomLastQuarter()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
-      const midWayFromBalltoGoalX = parseInt(
-        // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
-        10,
       );
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([

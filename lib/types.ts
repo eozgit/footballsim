@@ -38,7 +38,7 @@ export interface Team {
 
 export interface Player {
   name: string;
-  position: Position | string;
+  position: string;
   rating: string;
   skill: Skill;
   currentPOS: [number | 'NP', number];
