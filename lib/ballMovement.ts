@@ -190,7 +190,7 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
 
 function getTopKickedPosition(
   direction: string,
-  position: [number, number],
+  position: [number, number, number?],
   power: number,
 ): [number, number] {
   if (direction === `wait`)
@@ -677,26 +677,18 @@ function thisPlayerIsInProximity(
     thisPos[2],
   ];
   const isGoalie = thisPlayer.position === 'GK';
-  const xPosProx = common.isBetween(
-    thisPlayer.currentPOS[0],
-    thisPos[0] - 3,
-    thisPos[0] + 3,
-  );
-  const yPosProx = common.isBetween(
-    thisPlayer.currentPOS[1],
-    thisPos[1] - 3,
-    thisPos[1] + 3,
-  );
+  const [posX, posY] = thisPlayer.currentPOS;
+  if (posX === 'NP') {
+    throw new Error('Player no position!');
+  }
+  const xPosProx = common.isBetween(posX, thisPos[0] - 3, thisPos[0] + 3);
+  const yPosProx = common.isBetween(posY, thisPos[1] - 3, thisPos[1] + 3);
   const goaliexPosProx = common.isBetween(
-    thisPlayer.currentPOS[0],
+    posX,
     thisPos[0] - 11,
     thisPos[0] + 11,
   );
-  const goalieyPosProx = common.isBetween(
-    thisPlayer.currentPOS[1],
-    thisPos[1] - 2,
-    thisPos[1] + 2,
-  );
+  const goalieyPosProx = common.isBetween(posY, thisPos[1] - 2, thisPos[1] + 2);
   if (isGoalie && goaliexPosProx && goalieyPosProx) {
     if (common.isBetween(checkPos[2], -1, thisPlayer.skill.jumping + 1)) {
       const saving = thisPlayer.skill.saving || '';
@@ -763,7 +755,7 @@ function resolveDeflection(
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
   const movementDistance = Math.sqrt(xMovement + yMovement);
   const newPower = power - movementDistance;
-  let tempPosition = [];
+  let tempPosition: [number, number, number?] = [0, 0];
   const { direction } = matchDetails.ball;
   if (newPower < 75) {
     setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
@@ -792,8 +784,8 @@ function setDeflectionDirectionPos(
   direction: any,
   defPosition: any,
   newPower: any,
-) {
-  const tempPosition = [0, 0];
+): [number, number] {
+  const tempPosition: [number, number] = [0, 0];
   if (
     direction === `east` ||
     direction === `northeast` ||

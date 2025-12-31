@@ -453,8 +453,8 @@ function getTackleMovement(ballX: any, ballY: any): [number, number] {
 function getInterceptMovement(
   player: Player,
   opposition: Team,
-  ballPosition: any,
-  pitchSize: any,
+  ballPosition: [number, number, number?],
+  pitchSize: [number, number, number],
 ): [number, number] {
   let move: [number, number] = [0, 0];
   const [x, y] = player.currentPOS;
@@ -492,7 +492,7 @@ function getInterceptPosition(
   currentPOS: [number, number, number?],
   opposition: Team,
   ballPosition: [number, number, number?],
-  pitchSize: [number, number],
+  pitchSize: [number, number, number],
 ): [number, number, number?] {
   const BallPlyTraj = getInterceptTrajectory(
     opposition,
@@ -578,8 +578,8 @@ export const mockPlayer: Player = {
 };
 function getInterceptTrajectory(
   opposition: Team,
-  ballPosition: any,
-  pitchSize: any,
+  ballPosition: [number, number, number?],
+  pitchSize: [number, number, number],
 ): [number, number, number?][] {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playerInformation = setPositions.closestPlayerToPosition(

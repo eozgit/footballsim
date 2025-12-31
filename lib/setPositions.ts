@@ -200,7 +200,7 @@ function setBallSpecificCornerValue(
 
 function setLeftKickOffTeamThrowIn(
   matchDetails: MatchDetails,
-  ballIntended: [number, number, number],
+  ballIntended: [number, number, number?],
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -229,7 +229,7 @@ function setLeftKickOffTeamThrowIn(
 
 function setRightKickOffTeamThrowIn(
   matchDetails: MatchDetails,
-  ballIntended: [number, number, number],
+  ballIntended: [number, number, number?],
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -258,7 +258,7 @@ function setRightKickOffTeamThrowIn(
 
 function setLeftSecondTeamThrowIn(
   matchDetails: MatchDetails,
-  ballIntended: [number, number, number],
+  ballIntended: [number, number, number?],
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -287,7 +287,7 @@ function setLeftSecondTeamThrowIn(
 
 function setRightSecondTeamThrowIn(
   matchDetails: MatchDetails,
-  ballIntended: [number, number, number],
+  ballIntended: [number, number, number?],
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -345,7 +345,7 @@ function defenceLeftThrowInPlayerPosition(
 }
 
 function attackRightThrowInPlayerPosition(
-  pitchSize: [number, number],
+  pitchSize: [number, number, number],
   attack: Team,
   place: number,
 ): void {
@@ -363,7 +363,7 @@ function attackRightThrowInPlayerPosition(
 }
 
 function defenceRightThrowInPlayerPosition(
-  pitchSize: [number, number],
+  pitchSize: [number, number, number],
   defence: Team,
   place: number,
 ): void {
@@ -437,7 +437,7 @@ function setBallSpecificGoalKickValue(
 function closestPlayerToPosition(
   player: Player,
   team: Team,
-  position: [number, number],
+  position: [number, number, number?],
 ): { thePlayer: Player; proxPOS: [number, number]; proxToBall: number } {
   let currentDifference = 1000000;
   const playerInformation: {
@@ -733,7 +733,7 @@ function setBallSpecificGoalScoreValue(
 function keepInBoundaries(
   matchDetails: MatchDetails,
   kickteamID: string | number,
-  ballIntended: [number, number, number],
+  ballIntended: [number, number, number?],
 ): MatchDetails {
   const { kickOffTeam } = matchDetails;
   const KOTid = kickOffTeam.teamID;

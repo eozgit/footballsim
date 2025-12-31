@@ -101,7 +101,7 @@ function sumFrom1toX(x: number): number {
 
 function inTopPenalty(
   matchDetails: MatchDetails,
-  item: [number, number] | [number, number, number],
+  item: [number, number, number?],
 ): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
@@ -115,7 +115,7 @@ function inTopPenalty(
 
 function inBottomPenalty(
   matchDetails: MatchDetails,
-  item: [number, number] | [number, number, number],
+  item: [number, number, number?],
 ): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
   const ballInPenalyBoxX = isBetween(
