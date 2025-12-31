@@ -1,10 +1,8 @@
 import { expect, it, describe } from 'vitest';
 
-import { readFile } from '../lib/fileReader.js';
 import common from '../lib/common.js';
 import setPos from '../lib/setPositions.js';
 import { readMatchDetails, readPlayer } from './lib/utils.ts';
-import { Player } from 'lib/types.ts';
 import assert from 'assert';
 
 describe('intentPOSitionsDefence()', function () {

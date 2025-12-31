@@ -338,11 +338,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
 
       // 3. Perform boundary checks (ST for 6-10, KOT for 5)
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
@@ -406,11 +406,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
 
       // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
@@ -474,11 +474,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
 
       // 3. Logic: Assert ST boundaries for players 6-10, KOT for player 5
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
@@ -542,11 +542,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
 
       // 3. Logic: Check ST for [6-10], KOT for [5]
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
@@ -606,11 +606,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
 
       // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
@@ -671,11 +671,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Perform boundary checks using the narrowed numeric variables
       // Logic: Check ST for [6,7,8,9,10] and KOT for [5]
       if (num !== 5) {
-        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
-        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
-        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });

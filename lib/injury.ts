@@ -1,5 +1,5 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
+import { MatchDetails, Team } from './types.js';
 import common from './common.js';
 
 //---------------
