@@ -1,5 +1,5 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
+import { MatchDetails } from './types.js';
 
 //---------------
 //Maths Functions
@@ -172,7 +172,7 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
   }
 }
 
-function debug(label: string, ...args: any[]): void {
+function debug(label: string, ...args: unknown[]): void {
   if (process.env.DEBUG_ENGINE) {
     console.log(`[DEBUG:${label}]`, ...args);
   }

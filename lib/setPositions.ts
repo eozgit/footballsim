@@ -1,8 +1,9 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
 import setVariables from '../lib/setVariables.js';
 import setFreekicks from '../lib/setFreekicks.js';
+
+import { MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
 
 function setGoalieHasBall(
@@ -25,7 +26,7 @@ function setGoalieHasBall(
 
   const [x, y] = thisGoalie.currentPOS as [number, number];
   matchDetails.ball.position = [x, y, 0];
-  thisGoalie.currentPOS = [x, y, 0] as any;
+  thisGoalie.currentPOS = [x, y, 0] as unknown;
 
   matchDetails.ball.Player = thisGoalie.playerID;
   matchDetails.ball.withPlayer = true;

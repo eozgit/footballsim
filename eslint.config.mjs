@@ -1,11 +1,15 @@
 import js from '@eslint/js';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
+import tseslint from 'typescript-eslint';
 
-export default [
+export default tseslint.config(
   js.configs.recommended,
+  ...tseslint.configs.recommended, // This automatically sets up the parser
   {
-    plugins: { import: importPlugin },
+    plugins: {
+      import: importPlugin,
+    },
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -16,27 +20,32 @@ export default [
       },
     },
     rules: {
-      // --- INCREMENTAL ADDITIONS FOR AGENT/TS ---
+      // --- THE "GRIP" RULES ---
+      '@typescript-eslint/no-explicit-any': ['warn', { fixToUnknown: true }],
+      '@typescript-eslint/no-unused-vars': [
+        'error',
+        { argsIgnorePattern: '^_' },
+      ],
       'prefer-template': 'error',
-      'arrow-body-style': ['warn', 'as-needed'],
-      'no-array-constructor': 'error',
-      'import/order': ['warn', { 'newlines-between': 'always' }],
-
-      // --- YOUR EXISTING RULES ---
       'prefer-const': 'error',
       'no-var': 'error',
-      'object-shorthand': 'warn',
-      'quote-props': ['error', 'as-needed'],
       eqeqeq: ['error', 'always'],
-      'no-console': 'off',
+
+      // --- IMPORT DISCIPLINE ---
+      'import/order': ['warn', { 'newlines-between': 'always' }],
+      'import/no-commonjs': 'warn',
+
+      // --- CODE HYGIENE ---
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       complexity: ['warn', 10],
-      'no-unused-vars': [
-        'warn',
-        { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
-      ],
-      'no-undef': 'error',
-      'import/no-commonjs': 'warn',
     },
   },
-];
+  {
+    // Disable some rules for test files to keep them "human"
+    files: ['test/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      'max-lines-per-function': 'off',
+    },
+  },
+);

@@ -1,8 +1,9 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
+
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
-import { threadCpuUsage } from 'node:process';
+
+import { MatchDetails, Player, Team } from './types.js';
 
 function moveBall(matchDetails: MatchDetails) {
   if (
@@ -93,7 +94,7 @@ export function createPlayer(position: string): Player {
     },
   };
 }
-function setBPlayer(ballPos: any): Player {
+function setBPlayer(ballPos: unknown): Player {
   const player = createPlayer('LB');
   const patch = {
     name: `Ball`,
@@ -209,9 +210,9 @@ function getTopKickedPosition(
 }
 
 function getBottomKickedPosition(
-  direction: any,
-  position: any,
-  power: any,
+  direction: unknown,
+  position: unknown,
+  power: unknown,
 ): [number, number] {
   if (direction === `wait`)
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
@@ -229,11 +230,11 @@ function getBottomKickedPosition(
 }
 
 function newKickedPosition(
-  pos: any,
-  lowX: any,
-  highX: any,
-  lowY: any,
-  highY: any,
+  pos: unknown,
+  lowX: unknown,
+  highX: unknown,
+  lowY: unknown,
+  highY: unknown,
 ): [number, number] {
   const newPosition: [number, number] = [0, 0];
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
@@ -563,7 +564,7 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
   );
 }
 
-function getPlayersInDistance(team: Team, player: Player, pitchSize: any) {
+function getPlayersInDistance(team: Team, player: Player, pitchSize: unknown) {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('Player no position!');
   }
@@ -604,11 +605,11 @@ function getPlayersInDistance(team: Team, player: Player, pitchSize: any) {
 
 function resolveBallMovement(
   player: Player,
-  thisPOS: any,
-  newPOS: any,
-  power: any,
+  thisPOS: unknown,
+  newPOS: unknown,
+  power: unknown,
   team: Team,
-  opp: any,
+  opp: unknown,
   matchDetails: MatchDetails,
 ): [number, number] {
   common.removeBallFromAllPlayers(matchDetails);
@@ -659,7 +660,7 @@ function thisPlayerIsInProximity(
   thisPlayer: Player,
   thisPOS: [number, number],
   thisPos: [number, number, number],
-  power: any,
+  power: unknown,
   thisTeam: Team,
 ) {
   if (thisPlayer === undefined) {
@@ -743,11 +744,11 @@ function setBallMovementMatchDetails(
 }
 
 function resolveDeflection(
-  power: any,
-  thisPOS: any,
-  defPosition: any,
-  defPlayer: any,
-  defTeam: any,
+  power: unknown,
+  thisPOS: unknown,
+  defPosition: unknown,
+  defPlayer: unknown,
+  defTeam: unknown,
   matchDetails: MatchDetails,
 ) {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
@@ -778,9 +779,9 @@ function resolveDeflection(
 }
 
 function setDeflectionDirectionPos(
-  direction: any,
-  defPosition: any,
-  newPower: any,
+  direction: unknown,
+  defPosition: unknown,
+  newPower: unknown,
 ): [number, number] {
   const tempPosition: [number, number] = [0, 0];
   if (
@@ -862,8 +863,8 @@ function setDeflectionPlayerHasBall(
 
 function setDeflectionPlayerOffside(
   matchDetails: MatchDetails,
-  defTeam: any,
-  defPlayer: any,
+  defTeam: unknown,
+  defPlayer: unknown,
 ) {
   defPlayer.offside = false;
   defPlayer.hasBall = false;
@@ -878,7 +879,7 @@ function setDeflectionPlayerOffside(
   else matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
 }
 
-function getBallDirection(matchDetails: MatchDetails, nextPOS: any) {
+function getBallDirection(matchDetails: MatchDetails, nextPOS: unknown) {
   const thisPOS = matchDetails.ball.position;
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
@@ -947,11 +948,11 @@ function ballPassed(
 }
 
 function setTargetPlyPos(
-  tplyr: any,
-  lowX: any,
-  highX: any,
-  lowY: any,
-  highY: any,
+  tplyr: unknown,
+  lowX: unknown,
+  highX: unknown,
+  lowY: unknown,
+  highY: unknown,
 ) {
   const closePlyPos = [0, 0];
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
@@ -967,7 +968,7 @@ function setTargetPlyPos(
 }
 
 function getTargetPlayer(
-  playersArray: any[],
+  playersArray: unknown[],
   side: string,
   pitchHeight: number = 1050,
 ) {
@@ -1044,8 +1045,8 @@ function ballCrossed(
 
 function calcBallMovementOverTime(
   matchDetails: MatchDetails,
-  strength: any,
-  nextPosition: any,
+  strength: unknown,
+  nextPosition: unknown,
   player: Player,
 ): [number, number] | MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -1086,7 +1087,7 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(number: any, n: any) {
+function splitNumberIntoN(number: unknown, n: unknown) {
   const arrayN = Array.from(Array(n).keys());
   const splitNumber = [];
   for (const thisn of arrayN) {
@@ -1098,12 +1099,12 @@ function splitNumberIntoN(number: any, n: any) {
 }
 
 function mergeArrays(
-  arrayLength: any,
-  oldPos: any,
-  newPos: any,
-  array1: any,
-  array2: any,
-  array3: any,
+  arrayLength: unknown,
+  oldPos: unknown,
+  newPos: unknown,
+  array1: unknown,
+  array2: unknown,
+  array3: unknown,
 ) {
   let tempPos = [oldPos[0], oldPos[1]];
   const arrayN = Array.from(Array(arrayLength - 1).keys());

@@ -1,6 +1,7 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
+
+import { MatchDetails, Team } from './types.js';
 
 function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -93,8 +94,8 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
 
 function setTopOneHundredYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   attack.players[0].hasBall = true;
   const { ball } = matchDetails;
@@ -121,8 +122,8 @@ function setTopOneHundredYPos(
 
 function setBottomOneHundredYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   attack.players[0].hasBall = true;
   const { ball, pitchSize } = matchDetails;
@@ -151,8 +152,8 @@ function setBottomOneHundredYPos(
 
 function setTopOneHundredToHalfwayYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [, pitchHeight] = matchDetails.pitchSize;
@@ -231,7 +232,7 @@ function setTopOneHundredToHalfwayYPos(
 
 function setBottomOneHundredToHalfwayYPos(
   matchDetails: MatchDetails,
-  attack: any,
+  attack: unknown,
   defence: Team,
 ): MatchDetails {
   const { ball } = matchDetails;
@@ -313,8 +314,8 @@ function setBottomOneHundredToHalfwayYPos(
 
 function setTopHalfwayToBottomQtrYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -433,8 +434,8 @@ function setBottomHalfwayToTopQtrYPos(
 
 function setTopBottomQtrCentreYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -486,7 +487,7 @@ function setTopBottomQtrCentreYPos(
     );
     if (player.position === 'GK')
       player.currentPOS = player.currentPOS = player.originPOS.map(
-        (x: any) => x,
+        (x: unknown) => x,
       );
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = [
@@ -504,8 +505,8 @@ function setTopBottomQtrCentreYPos(
 
 function setBottomUpperQtrCentreYPos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -554,7 +555,7 @@ function setBottomUpperQtrCentreYPos(
     const midWayFromBalltoGoalY = Math.floor(ball.position[1] / 2);
     if (player.position === 'GK')
       player.currentPOS = player.currentPOS = player.originPOS.map(
-        (x: any) => x,
+        (x: unknown) => x,
       );
     else if (['CB', 'LB', 'RB'].includes(player.position)) {
       player.currentPOS = [
@@ -572,8 +573,8 @@ function setBottomUpperQtrCentreYPos(
 
 function setTopLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -618,8 +619,8 @@ function setTopLowerFinalQtrBylinePos(
 
 function setBottomLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
-  attack: any,
-  defence: any,
+  attack: unknown,
+  defence: unknown,
 ): MatchDetails {
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;

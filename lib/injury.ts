@@ -5,7 +5,7 @@ import common from './common.js';
 //---------------
 //Injury Functions
 //---------------
-function isInjured(x: any) {
+function isInjured(x: unknown) {
   if (x === 23) return true;
   return common.getRandomNumber(0, x) === 23;
 }

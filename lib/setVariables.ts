@@ -1,6 +1,7 @@
 'use strict';
-import { MatchDetails, Player, Team } from './types.js';
 import common from '../lib/common.js';
+
+import { MatchDetails, Player, Team } from './types.js';
 
 function resetPlayerPositions(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
@@ -58,17 +59,17 @@ function setGameVariables(team: Team) {
   return team;
 }
 
-function koDecider(team1: any, matchDetails: MatchDetails) {
+function koDecider(team1: unknown, matchDetails: MatchDetails) {
   const playerWithBall = common.getRandomNumber(9, 10);
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.Player = team1.players[playerWithBall].playerID;
   matchDetails.ball.withTeam = team1.teamID;
   team1.intent = `attack`;
   team1.players[playerWithBall].currentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
+    (x: unknown) => x,
   );
   team1.players[playerWithBall].intentPOS = matchDetails.ball.position.map(
-    (x: any) => x,
+    (x: unknown) => x,
   );
   team1.players[playerWithBall].currentPOS.pop();
   team1.players[playerWithBall].intentPOS.pop();
@@ -90,9 +91,9 @@ function koDecider(team1: any, matchDetails: MatchDetails) {
 }
 
 function populateMatchDetails(
-  team1: any,
-  team2: any,
-  pitchDetails: any,
+  team1: unknown,
+  team2: unknown,
+  pitchDetails: unknown,
 ): MatchDetails {
   return {
     matchID: common.getRandomNumber(1000000000000, 999999999999999),
