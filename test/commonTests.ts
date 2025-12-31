@@ -3,6 +3,7 @@ import { expect, it, describe } from 'vitest';
 import { readFile } from '../lib/fileReader.js';
 import common from '../lib/common.js';
 import injury from '../lib/injury.js';
+import assert from 'node:assert';
 
 describe('testCommonFunction()', function () {
   it('check random number', async () => {
@@ -80,9 +81,9 @@ describe('testCommonFunction()', function () {
       expect(pitch).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
+      assert(err instanceof Error);
       const errorText =
         "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       expect(err.toString()).to.have.string(errorText);
     }
   });

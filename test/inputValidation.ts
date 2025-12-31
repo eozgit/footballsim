@@ -4,6 +4,7 @@ import { readFile } from '../lib/fileReader.js';
 import common from '../lib/common.js';
 
 import validation from './lib/validate_tests.js';
+import { readMatchDetails } from './lib/utils.ts';
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
@@ -363,16 +364,15 @@ describe('testObjectIDsIteration()', function () {
   });
 });
 describe('otherValidationTests()', function () {
-  it('Not enough paramaters in validate arguments', async () => {
+  it('Not enough parameters in validate arguments', async () => {
     try {
-      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
-      validation.validateArguments('', '');
-    } catch (err) {
-      expect(err).to.be.an('Error');
+      // Cast the function to any to bypass the 3-argument requirement check
+      (validation.validateArguments as any)('', '');
+
+      assert.fail('Should have thrown an error for missing arguments');
+    } catch (err: unknown) {
       assert(err instanceof Error);
-      expect(err.toString()).to.have.string(
-        'Please provide two teams and a pitch',
-      );
+      expect(err.message).to.contain('Please provide two teams and a pitch');
     }
   });
   it('validate team even if not in JSON format', async () => {
@@ -380,23 +380,30 @@ describe('otherValidationTests()', function () {
     expect(validation.validateTeam(team)).to.not.be.an('Error');
   });
   it('validate team in second half even if not in JSON format', async () => {
-    const iteration = await readFile('./init_config/iteration.json');
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    const iteration = await readMatchDetails('./init_config/iteration.json');
     const team = JSON.stringify(iteration.kickOffTeam);
     expect(validation.validateTeamSecondHalf(team)).to.not.be.an('Error');
   });
   it('validate team in second half with no team name', async () => {
-    const iteration = await readFile('./init_config/iteration.json');
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    delete iteration.kickOffTeam.name;
+    const iteration = await readMatchDetails('./init_config/iteration.json');
+
+    // 1. Force the invalid state (bypassing TS required check)
+    (iteration.kickOffTeam as any).name = undefined;
+
+    // 2. Convert to string as required by the validation function
+    const teamJsonString = JSON.stringify(iteration.kickOffTeam);
+
     try {
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
-      const team = JSON.stringify(iteration.kickOffTeam);
-      expect(validation.validateTeamSecondHalf(team)).to.be.an('Error');
-    } catch (err) {
-      expect(err).to.be.an('Error');
+      validation.validateTeamSecondHalf(teamJsonString);
+
+      // 3. Fail the test if no error was thrown
+      assert.fail(
+        'Validation should have thrown an error for missing team name',
+      );
+    } catch (err: unknown) {
+      // 4. Standardize error check and type narrowing
       assert(err instanceof Error);
-      expect(err.toString()).to.have.string('No team name given');
+      expect(err.message).to.contain('No team name given');
     }
   });
 });

@@ -18,21 +18,28 @@ function findPossActions(
   player: Player,
   team: Team,
   opposition: Team,
-  ballX: any,
-  ballY: any,
+  ballX: number, // Changed from any
+  ballY: number, // Changed from any
   matchDetails: MatchDetails,
 ) {
   const possibleActions = populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
-  let params = [];
+  let params: any[] = [];
   const { hasBall, originPOS } = player;
-  if (hasBall === false)
+
+  if (hasBall === false) {
     params = playerDoesNotHaveBall(player, ballX, ballY, matchDetails);
-  else if (originPOS[1] > pitchHeight / 2)
+  } else if (originPOS[1] > pitchHeight / 2) {
     params = bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
-  else params = topTeamPlayerHasBall(matchDetails, player, team, opposition);
-  // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
-  return populatePossibleActions(possibleActions, ...params);
+  } else {
+    params = topTeamPlayerHasBall(matchDetails, player, team, opposition);
+  }
+
+  // Cast params to a tuple of 11 'any' elements to satisfy the spread requirement
+  return populatePossibleActions(
+    possibleActions,
+    ...(params as [any, any, any, any, any, any, any, any, any, any, any]),
+  );
 }
 
 function topTeamPlayerHasBall(

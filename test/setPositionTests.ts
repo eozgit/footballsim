@@ -6,8 +6,7 @@ describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {
     const itlocation = './init_config/iteration.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -29,8 +28,7 @@ describe('testBoundariesForTopGoal()', function () {
   it('expected Top Goal', async () => {
     const itlocation = './init_config/iteration.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -50,8 +48,7 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
   it('expected Bottom Goal', async () => {
     const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -73,8 +70,7 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
   it('expected Top Goal', async () => {
     const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
@@ -326,8 +322,7 @@ describe('testCorners()', function () {
     const itlocation = './init_config/iteration.json';
 
     const nextJSON = await setpieces.setupTopLeftCorner(itlocation);
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
     for (const player of nextJSON.secondTeam.players) {
@@ -347,8 +342,7 @@ describe('testCorners()', function () {
     const itlocation = './init_config/iteration.json';
 
     const nextJSON = await setpieces.setupBottomLeftCorner(itlocation);
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
     for (const player of nextJSON.kickOffTeam.players) {
@@ -370,8 +364,7 @@ describe('testCorners()', function () {
     const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupBottomRightCorner(itlocation);
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
     for (const player of nextJSON.secondTeam.players) {
@@ -393,8 +386,7 @@ describe('testCorners()', function () {
     const itlocation = './test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupTopRightCorner(itlocation);
-    // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
-    const insideHalf = parseInt(nextJSON.pitchSize[1] / 2, 10);
+    const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     expect(nextJSON).to.be.an('object');
     for (const player of nextJSON.kickOffTeam.players) {

@@ -1,8 +1,7 @@
-import { expect, it, describe } from 'vitest';
-
-import { readFile } from '../lib/fileReader.js';
+import { expect, it, describe, assert } from 'vitest';
 
 import setpieces from './lib/set_pieces.js';
+import { readMatchDetails } from './lib/utils.ts';
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async () => {
@@ -22,12 +21,10 @@ describe('removeBallFromAllPlayers()', function () {
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await readFile(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    const matchDetails = await readMatchDetails(itlocation);
     const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.kickOffTeam,
     );
 
@@ -39,12 +36,10 @@ describe('switchTeamSides()', function () {
   });
   it('check players sides are switched second team', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await readFile(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    const matchDetails = await readMatchDetails(itlocation);
     const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
     const nextJSON = await setpieces.switchSide(
       matchDetails,
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.secondTeam,
     );
 
@@ -56,33 +51,28 @@ describe('switchTeamSides()', function () {
   });
   it('no origin POS set', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await readFile(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
-    delete matchDetails.secondTeam.players[0].originPOS;
+    const matchDetails = await readMatchDetails(itlocation);
+
+    // Force the invalid state
+    (matchDetails.secondTeam.players[0] as any).originPOS = undefined;
 
     try {
-      const nextJSON = await setpieces.switchSide(
-        matchDetails,
-        // @ts-expect-error TS(2571): Object is of type 'unknown'.
-        matchDetails.secondTeam,
+      await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
+      // If we reach this line, the code didn't throw an error, so the test should fail
+      assert.fail('Should have thrown an error for missing originPOS');
+    } catch (err: unknown) {
+      assert(err instanceof Error);
+      expect(err.message).to.contain(
+        'Each player must have an origin position set',
       );
-      // @ts-expect-error TS(2345): Argument of type 'ObjectConstructor' is not assign... Remove this comment to see the full error message
-      expect(nextJSON).to.be.an(Object);
-    } catch (err) {
-      expect(err).to.be.an('Error');
-      const expectedOutput = 'Each player must have an origin position set';
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
-      expect(err.toString()).to.have.string(expectedOutput);
     }
   });
   it('low fitness level', async () => {
     const itlocation = './init_config/iteration.json';
-    const matchDetails = await readFile(itlocation);
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    const matchDetails = await readMatchDetails(itlocation);
     matchDetails.secondTeam.players[0].fitness = 10;
     const nextJSON = await setpieces.switchSide(
       matchDetails,
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       matchDetails.secondTeam,
     );
 
