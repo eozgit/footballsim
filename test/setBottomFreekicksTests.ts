@@ -331,25 +331,22 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 + 5, pitchWidth - pitchWidth / 4 - 5];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure coordinates for cleaner access
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Validate X (Type narrowing: Y is known to be a number)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} coordinate error: received 'NP'`);
+      }
+
+      // 3. Perform boundary checks (ST for 6-10, KOT for 5)
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -405,25 +402,22 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure coordinates
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Narrow types by guarding X (Y is guaranteed numeric)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} missing position data ('NP')`);
+      }
+
+      // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -479,25 +473,22 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure for readability
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Narrow type to number by guarding X ('NP' check)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Invalid position 'NP' for player at index ${num}`);
+      }
+
+      // 3. Logic: Assert ST boundaries for players 6-10, KOT for player 5
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -553,25 +544,22 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure coordinates
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Narrow types by checking X (Y is guaranteed numeric)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} has invalid position data ('NP')`);
+      }
+
+      // 3. Logic: Check ST for [6-10], KOT for [5]
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -622,25 +610,22 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure coordinates
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Validate only X (Y is known to be number)
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Player ${num} is missing X coordinate ('NP')`);
+      }
+
+      // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
@@ -691,25 +676,23 @@ describe('testFreekicksBottomLastQuarter()', function () {
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
     const boundaryY = [-1, pitchHeight / 6 + 7];
     for (const num of [5, 6, 7, 8, 9, 10]) {
-      const thisXPOSKOT = kickOffTeam.players[num].currentPOS[0];
-      const thisYPOSKOT = kickOffTeam.players[num].currentPOS[1];
-      const thisXPOSST = secondTeam.players[num].currentPOS[0];
-      const thisYPOSST = secondTeam.players[num].currentPOS[1];
+      // 1. Destructure coordinates immediately
+      const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+      const [xST, yST] = secondTeam.players[num].currentPOS;
 
+      // 2. Validate against 'NP' to narrow types to 'number'
+      if (xKOT === 'NP' || xST === 'NP') {
+        throw new Error(`Position data missing ('NP') for player index ${num}`);
+      }
+
+      // 3. Perform boundary checks using the narrowed numeric variables
+      // Logic: Check ST for [6,7,8,9,10] and KOT for [5]
       if (num !== 5) {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSST, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSST, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).to.be.true;
       } else {
-        expect(true).to.eql(
-          common.isBetween(thisXPOSKOT, boundaryX[0], boundaryX[1]),
-        );
-        expect(true).to.eql(
-          common.isBetween(thisYPOSKOT, boundaryY[0], boundaryY[1]),
-        );
+        expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).to.be.true;
+        expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).to.be.true;
       }
     }
   });
