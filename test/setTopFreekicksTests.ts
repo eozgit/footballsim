@@ -14,17 +14,20 @@ describe('testFreekicksTopOwnHalf()', function () {
     expect(nextJSON.ball.position).to.eql([340, 1]);
     expect(kickOffTeam.players[0].currentPOS).to.eql([340, 1]);
     for (const player of kickOffTeam.players) {
-      if (player.position !== 'GK')
+      if (player.position !== 'GK') {
         expect(player.currentPOS).to.eql(player.originPOS);
+      }
     }
     for (const player of secondTeam.players) {
-      if (player.position === 'GK')
+      if (player.position === 'GK') {
         expect(player.currentPOS).to.eql(player.originPOS);
-      if (player.position !== 'GK')
+      }
+      if (player.position !== 'GK') {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
           player.originPOS[1] - 100,
         ]);
+      }
     }
   });
   it('freekick in own half - top origin positions', async () => {

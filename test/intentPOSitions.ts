@@ -1,9 +1,11 @@
+import assert from 'assert';
+
 import { expect, it, describe } from 'vitest';
 
 import common from '../lib/common.js';
 import setPos from '../lib/setPositions.js';
+
 import { readMatchDetails, readPlayer } from './lib/utils.js';
-import assert from 'assert';
 
 describe('intentPOSitionsDefence()', function () {
   it('kickoff team defensive players move towards ball on opposite side', async () => {
@@ -16,16 +18,19 @@ describe('intentPOSitionsDefence()', function () {
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
-    if (ballPosition[2] >= 0) ballPosition.pop();
+    if (ballPosition[2] >= 0) {
+      ballPosition.pop();
+    }
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
-      if (player.playerID === closestPlayer.playerID)
+      if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition);
-      else
+      } else {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           player.currentPOS[1] - 20,
         ]);
+      }
     }
   });
   it('kickoff team defensive players move towards ball on opposite side with player near', async () => {
@@ -42,7 +47,9 @@ describe('intentPOSitionsDefence()', function () {
     assert(ballPosition[2] === 0);
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
 
-    if (ballPosition[2] >= 0) ballPosition.pop();
+    if (ballPosition[2] >= 0) {
+      ballPosition.pop();
+    }
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (player.currentPOS[0] === 'NP') {
@@ -54,15 +61,16 @@ describe('intentPOSitionsDefence()', function () {
       const diffYPOSplayerandball = ballPosition[1] - player.currentPOS[1];
       const xPosProx = common.isBetween(diffXPOSplayerandball, -40, 40);
       const yPosProx = common.isBetween(diffYPOSplayerandball, -40, 40);
-      if (player.playerID === closestPlayer.playerID)
+      if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition);
-      else if (xPosProx && yPosProx)
+      } else if (xPosProx && yPosProx) {
         expect(player.intentPOS).to.eql(ballPosition);
-      else
+      } else {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           player.currentPOS[1] - 20,
         ]);
+      }
     }
   });
   it('secondteam defensive players move towards ball on opposite side', async () => {
@@ -75,16 +83,19 @@ describe('intentPOSitionsDefence()', function () {
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
-    if (ballPosition[2] >= 0) ballPosition.pop();
+    if (ballPosition[2] >= 0) {
+      ballPosition.pop();
+    }
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
-      if (player.playerID === closestPlayer.playerID)
+      if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition);
-      else
+      } else {
         expect(player.intentPOS).to.eql([
           player.originPOS[0],
           player.currentPOS[1] - 20,
         ]);
+      }
     }
   });
   it('kickoff team defensive players ball in own half', async () => {
@@ -98,12 +109,16 @@ describe('intentPOSitionsDefence()', function () {
     expect(matchDetails).to.be.an('object');
     const ballPosition = matchDetails.ball.position;
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
-    if (ballPosition[2] >= 0) ballPosition.pop();
+    if (ballPosition[2] >= 0) {
+      ballPosition.pop();
+    }
     for (const playerNum of [0, 1, 2, 3, 4]) {
       const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
-      if (thisPlayer.playerID === closestPlayer.playerID)
+      if (thisPlayer.playerID === closestPlayer.playerID) {
         expect(thisPlayer.intentPOS).to.eql(ballPosition);
-      else expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
+      } else {
+        expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
+      }
     }
     for (const playerNum of [5, 6, 7, 8, 9, 10]) {
       const thisPlayer = matchDetails.kickOffTeam.players[playerNum];
@@ -122,9 +137,11 @@ describe('intentPOSitionsDefence()', function () {
     ballPosition.pop();
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
-      if (player.playerID === closestPlayer.playerID)
+      if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition);
-      else expect(player.intentPOS).to.eql(player.originPOS);
+      } else {
+        expect(player.intentPOS).to.eql(player.originPOS);
+      }
     }
   });
 });

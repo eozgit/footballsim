@@ -11,7 +11,9 @@ function selectAction(possibleActions: unknown) {
     const tempArray = Array(thisAction.points).fill(thisAction.name);
     goodActions = goodActions.concat(tempArray);
   }
-  if (goodActions[0] === null || goodActions[0] === undefined) return 'wait';
+  if (goodActions[0] === null || goodActions[0] === undefined) {
+    return 'wait';
+  }
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
 }
 
@@ -71,12 +73,13 @@ function topTeamPlayerHasBall(
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
-  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25))
+  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25)) {
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  else if (position === 'GK') return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
-  else if (onBottomCornerBoundary(currentPOS, pitchWidth, pitchHeight))
+  } else if (position === 'GK') {
+    return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
+  } else if (onBottomCornerBoundary(currentPOS, pitchWidth, pitchHeight)) {
     return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
-  else if (
+  } else if (
     checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)
   ) {
     return topTeamPlayerHasBallInBottomPenaltyBox(
@@ -92,8 +95,9 @@ function topTeamPlayerHasBall(
       pitchHeight - pitchHeight / 6 + 5,
     )
   ) {
-    if (oppositionNearContext(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10)) {
       return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
+    }
     return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
   } else if (
     common.isBetween(
@@ -102,18 +106,23 @@ function topTeamPlayerHasBall(
       pitchHeight - pitchHeight / 3,
     )
   ) {
-    if (oppositionNearContext(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10)) {
       return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
-    else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
-    else if (position === 'LM' || position === 'CM' || position === 'RM')
+    } else if (skill.shooting > 85) {
+      return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
+    } else if (position === 'LM' || position === 'CM' || position === 'RM') {
       return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-    else if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+    } else if (position === 'ST') {
+      return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+    }
     return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
-  } else if (oppositionNearContext(playerInformation, 10, 10))
+  } else if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  else if (position === 'LM' || position === 'CM' || position === 'RM')
+  } else if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  else if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  } else if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
   return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
 }
 
@@ -151,39 +160,45 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   ) {
     if (oppositionNearContext(playerInformation, 6, 6)) {
       if (checkOppositionBelow(closePlayerPosition, currentPOS)) {
-        if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10))
+        if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
           return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+        } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
           return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+        } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
           return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+        }
         return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
       } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-        if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+        if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
           return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+        } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
           return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+        }
         return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-      } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+      } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
         return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+      } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
         return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+      }
       return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
     } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-      if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+      if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
         return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+      } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
         return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+      }
       return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-    } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+    } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+    } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
+    }
     return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
-  } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+  } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  else if (oppositionNearContext(playerInformation, 6, 6))
+  } else if (oppositionNearContext(playerInformation, 6, 6)) {
     return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
+  }
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
@@ -204,12 +219,15 @@ function bottomTeamPlayerHasBall(
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
-  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25))
+  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25)) {
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  else if (position === 'GK') return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
-  else if (onTopCornerBoundary(currentPOS, pitchWidth))
+  } else if (position === 'GK') {
+    return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
+  } else if (onTopCornerBoundary(currentPOS, pitchWidth)) {
     return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
-  else if (checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
+  } else if (
+    checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)
+  ) {
     return bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -219,18 +237,21 @@ function bottomTeamPlayerHasBall(
   } else if (
     common.isBetween(currentPOS[1], pitchHeight / 6 - 5, pitchHeight / 3)
   ) {
-    if (oppositionNearContext(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10)) {
       return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
+    }
     return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
   } else if (
     common.isBetween(currentPOS[1], pitchHeight / 3, 2 * (pitchHeight / 3))
   ) {
     return bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill);
-  } else if (oppositionNearContext(playerInformation, 10, 10))
+  } else if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  else if (position === 'LM' || position === 'CM' || position === 'RM')
+  } else if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  else if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  } else if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
   return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
 }
 
@@ -238,17 +259,20 @@ function bottomTeamPlayerHasBallInMiddle(
   playerInformation: {
     proxPOS: number[];
     proxToBall?: number;
-    thePlayer?: any;
+    thePlayer?: unknown;
   },
   position: string,
-  skill: any,
+  skill: unknown,
 ) {
-  if (oppositionNearContext(playerInformation, 10, 10))
+  if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
-  else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0];
-  else if (position === 'LM' || position === 'CM' || position === 'RM')
+  } else if (skill.shooting > 85) {
+    return [10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0];
+  } else if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-  else if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  } else if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
   return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
 }
 
@@ -283,39 +307,45 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   if (checkPositionInTopPenaltyBoxClose(currentPOS, pitchWidth, pitchHeight)) {
     if (oppositionNearContext(playerInformation, 20, 20)) {
       if (checkOppositionAhead(closePlayerPosition, currentPOS)) {
-        if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10))
+        if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
           return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+        } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
           return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+        } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
           return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+        }
         return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
       } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-        if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+        if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
           return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-        else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+        } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
           return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+        }
         return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-      } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+      } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
         return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+      } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
         return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+      }
       return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
     } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-      if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+      if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
         return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+      } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
         return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+      }
       return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-    } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
+    }
     return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
-  } else if (common.isBetween(currentPOS[1], 0, skill.shooting))
+  } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  else if (checkOppositionAhead(closePlayerPosition, currentPOS))
+  } else if (checkOppositionAhead(closePlayerPosition, currentPOS)) {
     return [20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0];
+  }
   return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
 }
 
@@ -358,7 +388,7 @@ function checkOppositionAhead(
 ): boolean {
   const [closeX, closeY] = closePlayerPosition;
   const [currentX, currentY] = currentPOS;
-  if (closeX == 'NP' || currentX == 'NP') {
+  if (closeX === 'NP' || currentX === 'NP') {
     throw new Error('No player position!');
   }
   const closePlyX = common.isBetween(closeX, currentX - 4, currentX + 4);
@@ -374,7 +404,9 @@ function checkOppositionBelow(
     currentPOS[0] - 4,
     currentPOS[0] + 4,
   );
-  if (closePlyX && closePlayerPosition[1] > currentPOS[1]) return true;
+  if (closePlyX && closePlayerPosition[1] > currentPOS[1]) {
+    return true;
+  }
   return false;
 }
 
@@ -386,8 +418,9 @@ function playerDoesNotHaveBall(
 ) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, originPOS } = player;
-  if (position === 'GK') return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
-  else if (
+  if (position === 'GK') {
+    return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
+  } else if (
     common.isBetween(ballX, -20, 20) &&
     common.isBetween(ballY, -20, 20)
   ) {
@@ -413,8 +446,9 @@ function playerDoesNotHaveBall(
     common.isBetween(ballX, -80, 80) &&
     common.isBetween(ballY, -80, 80)
   ) {
-    if (matchDetails.ball.withPlayer === false)
+    if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
+    }
     return [0, 0, 0, 0, 0, 40, 0, 30, 30, 0, 0];
   }
   return [0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0];
@@ -436,11 +470,13 @@ function noBallNotGK4CloseBall(
     );
   }
   if (checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false)
+    if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+    }
     return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false)
+  } else if (matchDetails.ball.withPlayer === false) {
     return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+  }
   return [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0];
 }
 
@@ -451,11 +487,13 @@ function noBallNotGK4CloseBallBottomTeam(
   pitchHeight: unknown,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false)
+    if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+    }
     return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false)
+  } else if (matchDetails.ball.withPlayer === false) {
     return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+  }
   return [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0];
 }
 
@@ -475,11 +513,13 @@ function noBallNotGK2CloseBall(
     );
   }
   if (checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false)
+    if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+    }
     return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false)
+  } else if (matchDetails.ball.withPlayer === false) {
     return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+  }
   return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
 }
 
@@ -490,12 +530,14 @@ function noBallNotGK2CloseBallBottomTeam(
   pitchHeight: unknown,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false)
+    if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+    }
     return [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0];
   }
-  if (matchDetails.ball.withPlayer === false)
+  if (matchDetails.ball.withPlayer === false) {
     return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+  }
   return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
 }
 
@@ -514,7 +556,9 @@ function checkPositionInBottomPenaltyBox(
     pitchHeight - pitchHeight / 6 + 5,
     pitchHeight,
   );
-  if (yPos && xPos) return true;
+  if (yPos && xPos) {
+    return true;
+  }
   return false;
 }
 
@@ -533,7 +577,9 @@ function checkPositionInBottomPenaltyBoxClose(
     pitchHeight - pitchHeight / 12 + 5,
     pitchHeight,
   );
-  if (yPos && xPos) return true;
+  if (yPos && xPos) {
+    return true;
+  }
   return false;
 }
 
@@ -548,7 +594,9 @@ function checkPositionInTopPenaltyBox(
     pitchWidth - pitchWidth / 4 + 5,
   );
   const yPos = common.isBetween(position[1], 0, pitchHeight / 6 - 5);
-  if (yPos && xPos) return true;
+  if (yPos && xPos) {
+    return true;
+  }
   return false;
 }
 
@@ -563,7 +611,9 @@ function checkPositionInTopPenaltyBoxClose(
     pitchWidth - pitchWidth / 3 + 5,
   );
   const yPos = common.isBetween(position[1], 0, pitchHeight / 12 - 5);
-  if (yPos && xPos) return true;
+  if (yPos && xPos) {
+    return true;
+  }
   return false;
 }
 
@@ -575,8 +625,9 @@ function onBottomCornerBoundary(
   if (
     position[1] === pitchHeight &&
     (position[0] === 0 || position[0] === pitchWidth)
-  )
+  ) {
     return true;
+  }
   return false;
 }
 
@@ -584,8 +635,9 @@ function onTopCornerBoundary(
   position: [number, number, number?],
   pitchWidth: number,
 ) {
-  if (position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth))
+  if (position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth)) {
     return true;
+  }
   return false;
 }
 
@@ -684,8 +736,11 @@ function resolveTackle(
     return thisPlayer.playerID === matchDetails.ball.Player;
   });
   let thatPlayer;
-  if (index) thatPlayer = opposition.players[index];
-  else return false;
+  if (index) {
+    thatPlayer = opposition.players[index];
+  } else {
+    return false;
+  }
   player.stats.tackles.total++;
   if (wasFoul(10, 18)) {
     setFoul(matchDetails, team, player, thatPlayer);
@@ -725,8 +780,11 @@ function resolveSlide(
     return thisPlayer.playerID === matchDetails.ball.Player;
   });
   let thatPlayer;
-  if (index) thatPlayer = opposition.players[index];
-  else return false;
+  if (index) {
+    thatPlayer = opposition.players[index];
+  } else {
+    return false;
+  }
   player.stats.tackles.total++;
   if (wasFoul(11, 20)) {
     setFoul(matchDetails, team, player, thatPlayer);
@@ -901,14 +959,18 @@ function setFoul(
     player.stats.tackles.fouls = 0;
   }
   player.stats.tackles.fouls++;
-  if (team.teamID === matchDetails.kickOffTeam.teamID)
+  if (team.teamID === matchDetails.kickOffTeam.teamID) {
     matchDetails.kickOffTeamStatistics.fouls++;
-  else matchDetails.secondTeamStatistics.fouls++;
+  } else {
+    matchDetails.secondTeamStatistics.fouls++;
+  }
 }
 
 function wasFoul(x: unknown, y: unknown) {
   const foul = common.getRandomNumber(0, x);
-  if (common.isBetween(foul, 0, y / 2 - 1)) return true;
+  if (common.isBetween(foul, 0, y / 2 - 1)) {
+    return true;
+  }
   return false;
 }
 

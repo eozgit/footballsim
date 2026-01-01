@@ -1,7 +1,8 @@
 import { expect, it, describe } from 'vitest';
 
-import { readMatchDetails } from './lib/utils.js';
 import actions from '../lib/actions.js';
+
+import { readMatchDetails } from './lib/utils.js';
 
 describe('bottomTeamPlayerHasBallInMiddle()', function () {
   it('In middle of pitch, no opp. near, shooting over 85', async () => {

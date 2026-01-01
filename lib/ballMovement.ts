@@ -32,7 +32,9 @@ function moveBall(matchDetails: MatchDetails) {
     secondTeam,
     matchDetails,
   );
-  if (matchDetails.endIteration === true) return matchDetails;
+  if (matchDetails.endIteration === true) {
+    return matchDetails;
+  }
   matchDetails.ball.ballOverIterations.shift();
   matchDetails.iterationLog.push(
     `ball still moving from previous kick: ${endPos}`,
@@ -194,18 +196,19 @@ function getTopKickedPosition(
   position: [number, number, number?],
   power: number,
 ): [number, number] {
-  if (direction === `wait`)
+  if (direction === `wait`) {
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
-  else if (direction === `north`)
+  } else if (direction === `north`) {
     return newKickedPosition(position, -20, 20, -power, -(power / 2));
-  else if (direction === `east`)
+  } else if (direction === `east`) {
     return newKickedPosition(position, power / 2, power, -20, 20);
-  else if (direction === `west`)
+  } else if (direction === `west`) {
     return newKickedPosition(position, -power, -(power / 2), -20, 20);
-  else if (direction === `northeast`)
+  } else if (direction === `northeast`) {
     return newKickedPosition(position, 0, power / 2, -power, -(power / 2));
-  else if (direction === `northwest`)
+  } else if (direction === `northwest`) {
     return newKickedPosition(position, -(power / 2), 0, -power, -(power / 2));
+  }
   throw new Error('Unexpected direction');
 }
 
@@ -214,18 +217,19 @@ function getBottomKickedPosition(
   position: unknown,
   power: unknown,
 ): [number, number] {
-  if (direction === `wait`)
+  if (direction === `wait`) {
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
-  else if (direction === `south`)
+  } else if (direction === `south`) {
     return newKickedPosition(position, -20, 20, power / 2, power);
-  else if (direction === `east`)
+  } else if (direction === `east`) {
     return newKickedPosition(position, power / 2, power, -20, 20);
-  else if (direction === `west`)
+  } else if (direction === `west`) {
     return newKickedPosition(position, -power, -(power / 2), -20, 20);
-  else if (direction === `southeast`)
+  } else if (direction === `southeast`) {
     return newKickedPosition(position, 0, power / 2, power / 2, power);
-  else if (direction === `southwest`)
+  } else if (direction === `southwest`) {
     return newKickedPosition(position, -(power / 2), 0, power / 2, power);
+  }
   throw new Error('Unexpected direction');
 }
 
@@ -252,11 +256,13 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   const shotPower = common.calculatePower(player.skill.strength);
   const PlyPos = player.currentPOS;
   let thisTeamStats;
-  if (common.isEven(matchDetails.half))
+  if (common.isEven(matchDetails.half)) {
     thisTeamStats = matchDetails.kickOffTeamStatistics;
-  else if (common.isOdd(matchDetails.half))
+  } else if (common.isOdd(matchDetails.half)) {
     thisTeamStats = matchDetails.secondTeamStatistics;
-  else throw new Error(`You cannot supply 0 as a half`);
+  } else {
+    throw new Error(`You cannot supply 0 as a half`);
+  }
   common.debug('bm1', thisTeamStats.shots);
   common.debug('bm2', player.stats.shots);
   if (typeof thisTeamStats.shots === 'number') {
@@ -294,8 +300,11 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
     matchDetails.iterationLog.push(
       `Shot On Target at X Position ${shotPosition[0]}`,
     );
-    if (player.originPOS[1] > pitchHeight / 2) shotPosition[1] = -1;
-    else shotPosition[1] = pitchHeight + 1;
+    if (player.originPOS[1] > pitchHeight / 2) {
+      shotPosition[1] = -1;
+    } else {
+      shotPosition[1] = pitchHeight + 1;
+    }
   } else {
     if (typeof thisTeamStats.shots !== 'number') {
       if (thisTeamStats.shots.off === undefined) {
@@ -319,9 +328,11 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
     matchDetails.iterationLog.push(
       `Shot Off Target at X Position ${shotPosition[0]}`,
     );
-    if (player.originPOS[1] > pitchHeight / 2)
+    if (player.originPOS[1] > pitchHeight / 2) {
       shotPosition[1] = PlyPos[1] - shotPower;
-    else shotPosition[1] = PlyPos[1] + shotPower;
+    } else {
+      shotPosition[1] = PlyPos[1] + shotPower;
+    }
   }
   const endPos = calcBallMovementOverTime(
     matchDetails,
@@ -344,11 +355,13 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
   const shotPower = common.calculatePower(player.skill.strength);
   const PlyPos = player.currentPOS;
   let thisTeamStats;
-  if (common.isEven(matchDetails.half))
+  if (common.isEven(matchDetails.half)) {
     thisTeamStats = matchDetails.kickOffTeamStatistics;
-  else if (common.isOdd(matchDetails.half))
+  } else if (common.isOdd(matchDetails.half)) {
     thisTeamStats = matchDetails.secondTeamStatistics;
-  else throw new Error(`You cannot supply 0 as a half`);
+  } else {
+    throw new Error(`You cannot supply 0 as a half`);
+  }
   common.debug('bm3', thisTeamStats.shots);
   common.debug('bm4', player.stats.shots);
   if (typeof thisTeamStats.shots !== 'number') {
@@ -413,9 +426,11 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
       `Shot Off Target at X Position ${shotPosition[0]}`,
     );
   }
-  if (player.originPOS[1] > pitchHeight / 2)
+  if (player.originPOS[1] > pitchHeight / 2) {
     shotPosition[1] = PlyPos[1] - shotPower;
-  else shotPosition[1] = PlyPos[1] + shotPower;
+  } else {
+    shotPosition[1] = PlyPos[1] + shotPower;
+  }
   const endPos = calcBallMovementOverTime(
     matchDetails,
     player.skill.strength,
@@ -506,15 +521,21 @@ function checkGoalScored(matchDetails: MatchDetails) {
     }
   } else if (goalX) {
     if (ball.position[1] < 1) {
-      if (half === 0) throw new Error('cannot set half as 0');
-      else if (common.isOdd(half))
+      if (half === 0) {
+        throw new Error('cannot set half as 0');
+      } else if (common.isOdd(half)) {
         matchDetails = setPositions.setSecondTeamGoalScored(matchDetails);
-      else matchDetails = setPositions.setKickOffTeamGoalScored(matchDetails);
-    } else if (ball.position[1] >= pitchHeight) {
-      if (half === 0) throw new Error('cannot set half as 0');
-      else if (common.isOdd(half))
+      } else {
         matchDetails = setPositions.setKickOffTeamGoalScored(matchDetails);
-      else matchDetails = setPositions.setSecondTeamGoalScored(matchDetails);
+      }
+    } else if (ball.position[1] >= pitchHeight) {
+      if (half === 0) {
+        throw new Error('cannot set half as 0');
+      } else if (common.isOdd(half)) {
+        matchDetails = setPositions.setKickOffTeamGoalScored(matchDetails);
+      } else {
+        matchDetails = setPositions.setSecondTeamGoalScored(matchDetails);
+      }
     }
   }
 }
@@ -542,20 +563,26 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
     position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
   );
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
-    if (player.originPOS[1] > pitchHeight / 2)
+    if (player.originPOS[1] > pitchHeight / 2) {
       closePlyPos = setTargetPlyPos(tPlyr.position, 0, 0, -20, -10);
-    else closePlyPos = setTargetPlyPos(tPlyr.position, 0, 0, 10, 30);
+    } else {
+      closePlyPos = setTargetPlyPos(tPlyr.position, 0, 0, 10, 30);
+    }
   } else if (player.originPOS[1] > pitchHeight / 2) {
-    if (bottomThird)
+    if (bottomThird) {
       closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
-    else if (middleThird)
+    } else if (middleThird) {
       closePlyPos = setTargetPlyPos(tPlyr.position, -20, 20, -50, 50);
-    else closePlyPos = setTargetPlyPos(tPlyr.position, -30, 30, -100, 100);
-  } else if (bottomThird)
+    } else {
+      closePlyPos = setTargetPlyPos(tPlyr.position, -30, 30, -100, 100);
+    }
+  } else if (bottomThird) {
     closePlyPos = setTargetPlyPos(tPlyr.position, -30, 30, -100, 100);
-  else if (middleThird)
+  } else if (middleThird) {
     closePlyPos = setTargetPlyPos(tPlyr.position, -20, 20, -50, 50);
-  else closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+  } else {
+    closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+  }
   return calcBallMovementOverTime(
     matchDetails,
     player.skill.strength,
@@ -637,7 +664,7 @@ function resolveBallMovement(
         ? playerInfo1.thePlayer
         : playerInfo2.thePlayer;
     const thisTeam = thisPlayerProx === playerInfo1.proxToBall ? team : opp;
-    if (thisPlayer)
+    if (thisPlayer) {
       thisPlayerIsInProximity(
         matchDetails,
         thisPlayer,
@@ -646,10 +673,13 @@ function resolveBallMovement(
         power,
         thisTeam,
       );
+    }
   }
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(matchDetails, lastTeam, newPOS);
-  if (matchDetails.endIteration === true) return newPOS;
+  if (matchDetails.endIteration === true) {
+    return newPOS;
+  }
   const lastPOS = matchDetails.ballIntended || matchDetails.ball.position;
   delete matchDetails.ballIntended;
   return [common.round(lastPOS[0], 2), common.round(lastPOS[1], 2)];
@@ -789,22 +819,24 @@ function setDeflectionDirectionPos(
     direction === `northeast` ||
     direction === `southeast`
   ) {
-    if (direction === `east`)
+    if (direction === `east`) {
       tempPosition[1] = common.getRandomNumber(
         defPosition[1] - 3,
         defPosition[1] + 3,
       );
+    }
     tempPosition[0] = defPosition[0] - newPower / 2;
   } else if (
     direction === `west` ||
     direction === `northwest` ||
     direction === `southwest`
   ) {
-    if (direction === `west`)
+    if (direction === `west`) {
       tempPosition[1] = common.getRandomNumber(
         defPosition[1] - 3,
         defPosition[1] + 3,
       );
+    }
     tempPosition[0] = defPosition[0] + newPower / 2;
   }
   if (
@@ -812,22 +844,24 @@ function setDeflectionDirectionPos(
     direction === `northeast` ||
     direction === `northwest`
   ) {
-    if (direction === `north`)
+    if (direction === `north`) {
       tempPosition[0] = common.getRandomNumber(
         defPosition[0] - 3,
         defPosition[0] + 3,
       );
+    }
     tempPosition[1] = defPosition[1] + newPower / 2;
   } else if (
     direction === `south` ||
     direction === `southeast` ||
     direction === `southwest`
   ) {
-    if (direction === `south`)
+    if (direction === `south`) {
       tempPosition[0] = common.getRandomNumber(
         defPosition[0] - 3,
         defPosition[0] + 3,
       );
+    }
     tempPosition[1] = defPosition[1] - newPower / 2;
   }
   if (direction === `wait`) {
@@ -874,9 +908,11 @@ function setDeflectionPlayerOffside(
   matchDetails.iterationLog.push(
     `${defPlayer.name} is offside. Set piece given`,
   );
-  if (defTeam.name === matchDetails.kickOffTeam.name)
+  if (defTeam.name === matchDetails.kickOffTeam.name) {
     matchDetails = setPositions.setSetpieceSecondTeam(matchDetails);
-  else matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
+  } else {
+    matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
+  }
 }
 
 function getBallDirection(matchDetails: MatchDetails, nextPOS: unknown) {
@@ -884,20 +920,28 @@ function getBallDirection(matchDetails: MatchDetails, nextPOS: unknown) {
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
   if (movementX === 0) {
-    if (movementY === 0) matchDetails.ball.direction = `wait`;
-    else if (movementY < 0) matchDetails.ball.direction = `south`;
-    else if (movementY > 0) matchDetails.ball.direction = `north`;
+    if (movementY === 0) {
+      matchDetails.ball.direction = `wait`;
+    } else if (movementY < 0) {
+      matchDetails.ball.direction = `south`;
+    } else if (movementY > 0) {
+      matchDetails.ball.direction = `north`;
+    }
   } else if (movementY === 0) {
-    if (movementX < 0) matchDetails.ball.direction = `east`;
-    else if (movementX > 0) matchDetails.ball.direction = `west`;
-  } else if (movementX < 0 && movementY < 0)
+    if (movementX < 0) {
+      matchDetails.ball.direction = `east`;
+    } else if (movementX > 0) {
+      matchDetails.ball.direction = `west`;
+    }
+  } else if (movementX < 0 && movementY < 0) {
     matchDetails.ball.direction = `southeast`;
-  else if (movementX > 0 && movementY > 0)
+  } else if (movementX > 0 && movementY > 0) {
     matchDetails.ball.direction = `northwest`;
-  else if (movementX > 0 && movementY < 0)
+  } else if (movementX > 0 && movementY < 0) {
     matchDetails.ball.direction = `southwest`;
-  else if (movementX < 0 && movementY > 0)
+  } else if (movementX < 0 && movementY > 0) {
     matchDetails.ball.direction = `northeast`;
+  }
 }
 
 function ballPassed(
@@ -922,19 +966,23 @@ function ballPassed(
   const middleThird = !!(
     position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
   );
-  if (player.skill.passing > common.getRandomNumber(0, 100))
+  if (player.skill.passing > common.getRandomNumber(0, 100)) {
     closePlyPos = tPlyr.position;
-  else if (player.originPOS[1] > pitchHeight / 2) {
-    if (bottomThird)
+  } else if (player.originPOS[1] > pitchHeight / 2) {
+    if (bottomThird) {
       closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
-    else if (middleThird)
+    } else if (middleThird) {
       closePlyPos = setTargetPlyPos(tPlyr.position, -50, 50, -50, 50);
-    else closePlyPos = setTargetPlyPos(tPlyr.position, -100, 100, -100, 100);
-  } else if (bottomThird)
+    } else {
+      closePlyPos = setTargetPlyPos(tPlyr.position, -100, 100, -100, 100);
+    }
+  } else if (bottomThird) {
     closePlyPos = setTargetPlyPos(tPlyr.position, -100, 100, -100, 100);
-  else if (middleThird)
+  } else if (middleThird) {
     closePlyPos = setTargetPlyPos(tPlyr.position, -50, 50, -50, 50);
-  else closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+  } else {
+    closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+  }
   matchDetails.iterationLog.push(
     `ball passed by: ${player.name} to: ${tPlyr.name}`,
   );
@@ -974,12 +1022,18 @@ function getTargetPlayer(
 ) {
   let tempArray = [];
   for (const tempPlayer of playersArray) {
-    if (tempPlayer.proximity < pitchHeight / 2) tempArray.push(tempPlayer);
+    if (tempPlayer.proximity < pitchHeight / 2) {
+      tempArray.push(tempPlayer);
+    }
   }
-  if (tempArray.length === 0) tempArray = playersArray;
+  if (tempArray.length === 0) {
+    tempArray = playersArray;
+  }
   let thisRand = common.getRandomNumber(0, tempArray.length - 1);
   let thisPlayer = tempArray[thisRand];
-  if (thisRand > 5) thisRand = common.getRandomNumber(0, tempArray.length - 1);
+  if (thisRand > 5) {
+    thisRand = common.getRandomNumber(0, tempArray.length - 1);
+  }
   if (side === 'top' && tempArray[thisRand].proximity > thisPlayer.proximity) {
     thisPlayer = tempArray[thisRand];
   } else if (
@@ -988,7 +1042,9 @@ function getTargetPlayer(
   ) {
     thisPlayer = tempArray[thisRand];
   }
-  if (thisRand > 5) thisRand = common.getRandomNumber(0, tempArray.length - 1);
+  if (thisRand > 5) {
+    thisRand = common.getRandomNumber(0, tempArray.length - 1);
+  }
   if (side === 'top' && tempArray[thisRand].proximity > thisPlayer.proximity) {
     thisPlayer = tempArray[thisRand];
   } else if (
@@ -1015,19 +1071,21 @@ function ballCrossed(
   const ballIntended = [];
   if (player.originPOS[1] > pitchHeight / 2) {
     ballIntended[1] = common.getRandomNumber(0, pitchHeight / 5);
-    if (player.currentPOS[0] < pitchWidth / 2)
+    if (player.currentPOS[0] < pitchWidth / 2) {
       ballIntended[0] = common.getRandomNumber(pitchWidth / 3, pitchWidth);
-    else
+    } else {
       ballIntended[0] = common.getRandomNumber(0, pitchWidth - pitchWidth / 3);
+    }
   } else {
     ballIntended[1] = common.getRandomNumber(
       pitchHeight - pitchHeight / 5,
       pitchHeight,
     );
-    if (player.currentPOS[0] < pitchWidth / 2)
+    if (player.currentPOS[0] < pitchWidth / 2) {
       ballIntended[0] = common.getRandomNumber(pitchWidth / 3, pitchWidth);
-    else
+    } else {
       ballIntended[0] = common.getRandomNumber(0, pitchWidth - pitchWidth / 3);
+    }
   }
   matchDetails.iterationLog.push(`ball crossed by: ${player.name}`);
   player.stats.passes.total++;
@@ -1059,7 +1117,9 @@ function calcBallMovementOverTime(
     totalChange / common.getRandomNumber(2, 3),
     0,
   );
-  if (movementIterations < 1) movementIterations = 1;
+  if (movementIterations < 1) {
+    movementIterations = 1;
+  }
   const powerArray = splitNumberIntoN(power, movementIterations);
   const xArray = splitNumberIntoN(changeInX, movementIterations);
   const yArray = splitNumberIntoN(changeInY, movementIterations);
@@ -1081,7 +1141,9 @@ function calcBallMovementOverTime(
     secondTeam,
     matchDetails,
   );
-  if (matchDetails.endIteration === true) return matchDetails;
+  if (matchDetails.endIteration === true) {
+    return matchDetails;
+  }
   matchDetails.ball.ballOverIterations.shift();
   matchDetails.iterationLog.push(`resolving ball movement`);
   return endPos;
@@ -1092,8 +1154,11 @@ function splitNumberIntoN(number: unknown, n: unknown) {
   const splitNumber = [];
   for (const thisn of arrayN) {
     const nextNum = common.aTimesbDividedByC(n - thisn, number, n);
-    if (nextNum === 0) splitNumber.push(1);
-    else splitNumber.push(common.round(nextNum, 0));
+    if (nextNum === 0) {
+      splitNumber.push(1);
+    } else {
+      splitNumber.push(common.round(nextNum, 0));
+    }
   }
   return splitNumber;
 }

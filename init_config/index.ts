@@ -1,12 +1,13 @@
 //example implementation application
 import { readFile as _readFile } from 'fs';
 
+import { MatchDetails, PitchDetails, Team } from 'lib/types.js';
+
 import {
   initiateGame,
   playIteration as _playIteration,
   startSecondHalf,
 } from './../engine.js';
-import { MatchDetails, PitchDetails, Team } from 'lib/types.js';
 
 let nextIteration;
 gameOfTenIterations()

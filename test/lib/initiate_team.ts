@@ -1,4 +1,5 @@
 import { Team } from 'lib/types.js';
+
 import { readFile } from '../../lib/fileReader.js';
 import setVariables from '../../lib/setVariables.js';
 

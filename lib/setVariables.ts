@@ -52,7 +52,9 @@ function setGameVariables(team: Team): Team {
         fouls: 0,
       },
     };
-    if (player.position === 'GK') player.stats.saves = 0;
+    if (player.position === 'GK') {
+      player.stats.saves = 0;
+    }
   });
   team.intent = `none`;
   team.teamID = common.getRandomNumber(1000000000000, 999999999999999);

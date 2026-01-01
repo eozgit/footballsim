@@ -1,9 +1,10 @@
 import { expect, it, describe } from 'vitest';
+import { Player } from 'lib/types.ts';
+
+import actions from '../lib/actions.js';
+import { createPlayer } from '../lib/ballMovement.ts';
 
 import { readMatchDetails } from './lib/utils.js';
-import actions from '../lib/actions.js';
-import { Player } from 'lib/types.ts';
-import { createPlayer } from '../lib/ballMovement.ts';
 
 describe('testPositionInTopBox()', function () {
   it('Inside Top Box Test', async () => {

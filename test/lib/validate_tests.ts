@@ -1,7 +1,9 @@
+import { MatchDetails } from 'lib/types.js';
+
 import { readFile } from '../../lib/fileReader.js';
 import engine from '../../engine.js';
 import validate from '../../lib/validate.js';
-import { MatchDetails } from 'lib/types.js';
+
 import { readMatchDetails } from './utils.js';
 
 async function initGame(t1: any, t2: any, p: any) {

@@ -3,6 +3,7 @@ import { expect, it, describe } from 'vitest';
 import actions from '../lib/actions.js';
 import common from '../lib/common.js';
 import playerMovement from '../lib/playerMovement.js';
+
 import { readMatchDetails } from './lib/utils.js';
 
 describe('testFoulIntensity()', function () {
@@ -27,8 +28,11 @@ describe('testWasFoul()', function () {
     let timesFalse = 0;
     for (let i = 0; i < 1000; i++) {
       const foul = actions.wasFoul(10, 18);
-      if (foul === true) timesTrue++;
-      else timesFalse++;
+      if (foul === true) {
+        timesTrue++;
+      } else {
+        timesFalse++;
+      }
     }
     expect(timesTrue).to.be.gt(200);
     expect(timesFalse).to.be.gt(200);
@@ -38,8 +42,11 @@ describe('testWasFoul()', function () {
     let timesFalse = 0;
     for (let i = 0; i < 1000; i++) {
       const foul = actions.wasFoul(11, 20);
-      if (foul === true) timesTrue++;
-      else timesFalse++;
+      if (foul === true) {
+        timesTrue++;
+      } else {
+        timesFalse++;
+      }
     }
     expect(timesTrue).to.be.gt(400);
     expect(timesFalse).to.be.gt(300);
@@ -258,9 +265,15 @@ describe('testSlideTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     it(`resolve slide tackle opposite ${x}`, async () => {
       const matchDetails = await readMatchDetails(
@@ -285,9 +298,15 @@ describe('testSlideTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     it(`resolve slide tackle - failed ${x}`, async () => {
       const matchDetails = await readMatchDetails(
@@ -316,9 +335,15 @@ describe('testSlideTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     x++;
   }
@@ -347,9 +372,15 @@ describe('testTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     it(`resolve tackle opposite ${x}`, async () => {
       const matchDetails = await readMatchDetails(
@@ -374,9 +405,15 @@ describe('testTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     it(`resolve tackle - failed ${x}`, async () => {
       const matchDetails = await readMatchDetails(
@@ -405,9 +442,15 @@ describe('testTackle()', function () {
         `Foul against: Peter Johnson`,
       );
       expect(FTlog + STlog + FAlog).to.be.greaterThan(-1);
-      if (FTlog > -1) expect(testPlayer.stats.tackles.off).to.eql(1);
-      if (STlog > -1) expect(testPlayer.stats.tackles.on).to.eql(1);
-      if (FAlog > -1) expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      if (FTlog > -1) {
+        expect(testPlayer.stats.tackles.off).to.eql(1);
+      }
+      if (STlog > -1) {
+        expect(testPlayer.stats.tackles.on).to.eql(1);
+      }
+      if (FAlog > -1) {
+        expect(testPlayer.stats.tackles.fouls).to.eql(1);
+      }
     });
     x++;
   }

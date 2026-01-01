@@ -23,5 +23,6 @@
     "engine.ts", // Changed to .ts for post-rename
     "test/**/*",
     "init_config/**/*"
-  ]
+  ],
+  "exclude": ["node_modules", "**/node_modules/*", "dist", "coverage"]
 }

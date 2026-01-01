@@ -4,9 +4,12 @@ import common from '../lib/common.js';
 import { MatchDetails, PitchDetails, Player, Team } from './types.js';
 
 function validateTeam(team: Team) {
-  if (typeof team !== `object`) team = JSON.parse(team);
-  if (!team.name) throw new Error(`No team name given.`);
-  else {
+  if (typeof team !== `object`) {
+    team = JSON.parse(team);
+  }
+  if (!team.name) {
+    throw new Error(`No team name given.`);
+  } else {
     validateNumberOfPlayers(team.players);
     for (const player of team.players) {
       validatePlayerObjects(player);
@@ -15,11 +18,16 @@ function validateTeam(team: Team) {
 }
 
 function validateTeamSecondHalf(team: Team) {
-  if (typeof team !== `object`) team = JSON.parse(team);
-  if (!team.name) throw new Error(`No team name given.`);
-  else if (!team.intent) throw new Error(`No team intent given.`);
-  else if (!team.teamID) throw new Error(`No team ID given.`);
-  else {
+  if (typeof team !== `object`) {
+    team = JSON.parse(team);
+  }
+  if (!team.name) {
+    throw new Error(`No team name given.`);
+  } else if (!team.intent) {
+    throw new Error(`No team intent given.`);
+  } else if (!team.teamID) {
+    throw new Error(`No team ID given.`);
+  } else {
     validateNumberOfPlayers(team.players);
     for (const player of team.players) {
       validatePlayerObjectsIteration(player);
@@ -131,8 +139,9 @@ function validatePitch(pitchDetails: PitchDetails) {
 }
 
 function validateArguments(a: unknown, b: unknown, c: unknown) {
-  if (a === undefined || b === undefined || c === undefined)
+  if (a === undefined || b === undefined || c === undefined) {
     throw new Error(`Please provide two teams and a pitch`);
+  }
 }
 
 function validateMatchDetails(matchDetails: MatchDetails) {
@@ -157,8 +166,9 @@ function validateMatchDetails(matchDetails: MatchDetails) {
         badObjects++;
       }
     }
-    if (badObjects > 0)
+    if (badObjects > 0) {
       throw new Error(`Please provide valid match details JSON`);
+    }
   }
   validateBall(matchDetails.ball);
 }
@@ -179,10 +189,11 @@ function validateBall(ball: unknown) {
       badObjects++;
     }
   }
-  if (badObjects > 0)
+  if (badObjects > 0) {
     throw new Error(
       `Provide: position,withPlayer,Player,withTeam,direction,ballOverIterations`,
     );
+  }
 }
 
 function validatePlayerPositions(matchDetails: MatchDetails) {
@@ -200,14 +211,16 @@ function validatePlayerPositions(matchDetails: MatchDetails) {
         -1,
         pitchHeight + 1,
       );
-      if (onPitchX === false)
+      if (onPitchX === false) {
         throw new Error(
           `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
         );
-      if (onPitchY === false)
+      }
+      if (onPitchY === false) {
         throw new Error(
           `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
         );
+      }
     }
   }
   for (const player of secondTeam.players) {
@@ -222,14 +235,16 @@ function validatePlayerPositions(matchDetails: MatchDetails) {
         -1,
         pitchHeight + 1,
       );
-      if (onPitchX === false)
+      if (onPitchX === false) {
         throw new Error(
           `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
         );
-      if (onPitchY === false)
+      }
+      if (onPitchY === false) {
         throw new Error(
           `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
         );
+      }
     }
   }
 }

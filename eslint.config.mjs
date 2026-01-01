@@ -38,6 +38,7 @@ export default tseslint.config(
       // --- CODE HYGIENE ---
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       complexity: ['warn', 10],
+      curly: ['error', 'all'],
     },
   },
   {

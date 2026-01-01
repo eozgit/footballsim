@@ -1,10 +1,11 @@
 import { expect, it, describe } from 'vitest';
+import { Player } from 'lib/types.ts';
 
 import bMovement, { createPlayer } from '../lib/ballMovement.js';
 import common from '../lib/common.js';
-import { readMatchDetails } from './lib/utils.ts';
 import { readFile } from '../lib/fileReader.ts';
-import { Player } from 'lib/types.ts';
+
+import { readMatchDetails } from './lib/utils.ts';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {

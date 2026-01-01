@@ -25,12 +25,16 @@ function isContextBetween(
 }
 
 function upToMax(num: number, max: number): number {
-  if (num > max) return max;
+  if (num > max) {
+    return max;
+  }
   return num;
 }
 
 function upToMin(num: number, min: number): number {
-  if (num < min) return min;
+  if (num < min) {
+    return min;
+  }
   return num;
 }
 
@@ -54,7 +58,9 @@ function getBallTrajectory(
     Math.abs((movementDistance / 2) ** 2 - (effectivePower / 2) ** 2),
   );
 
-  if (arraySize < 1) arraySize = 1;
+  if (arraySize < 1) {
+    arraySize = 1;
+  }
 
   const yPlaces = Array.from({ length: Math.abs(arraySize) }, (_, i) => i);
   const trajectory: [number, number, number][] = [[thisPOS[0], thisPOS[1], 0]];
