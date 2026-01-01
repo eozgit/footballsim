@@ -247,7 +247,7 @@ function completeTackleWhenCloseNoBall(
 
 function completeMovement(
   matchDetails: MatchDetails,
-  currentPOS: unknown,
+  currentPOS: number[],
   move: unknown,
 ) {
   if (currentPOS[0] !== 'NP') {

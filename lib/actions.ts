@@ -5,8 +5,8 @@ import setPositions from '../lib/setPositions.js';
 
 import { MatchDetails, Player, Team } from './types.js';
 
-function selectAction(possibleActions: unknown) {
-  let goodActions: unknown = [];
+function selectAction(possibleActions: object[]) {
+  let goodActions: string[] = [];
   for (const thisAction of possibleActions) {
     const tempArray = Array(thisAction.points).fill(thisAction.name);
     goodActions = goodActions.concat(tempArray);
@@ -25,7 +25,7 @@ function findPossActions(
   ballY: number, // Changed from any
   matchDetails: MatchDetails,
 ) {
-  const possibleActions = populateActionsJSON();
+  const possibleActions: object[] = populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
   let params: unknown[] = [];
   const { hasBall, originPOS } = player;
@@ -459,7 +459,7 @@ function noBallNotGK4CloseBall(
   currentPOS: unknown,
   originPOS: number[],
   pitchWidth: unknown,
-  pitchHeight: unknown,
+  pitchHeight: number,
 ) {
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK4CloseBallBottomTeam(
@@ -484,7 +484,7 @@ function noBallNotGK4CloseBallBottomTeam(
   matchDetails: MatchDetails,
   currentPOS: unknown,
   pitchWidth: unknown,
-  pitchHeight: unknown,
+  pitchHeight: number,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
@@ -502,7 +502,7 @@ function noBallNotGK2CloseBall(
   currentPOS: unknown,
   originPOS: number[],
   pitchWidth: unknown,
-  pitchHeight: unknown,
+  pitchHeight: number,
 ) {
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK2CloseBallBottomTeam(
@@ -527,7 +527,7 @@ function noBallNotGK2CloseBallBottomTeam(
   matchDetails: MatchDetails,
   currentPOS: unknown,
   pitchWidth: unknown,
-  pitchHeight: unknown,
+  pitchHeight: number,
 ) {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
