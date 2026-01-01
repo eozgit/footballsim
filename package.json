@@ -11,10 +11,13 @@
     "test": "vitest run",
     "test:bail": "vitest run --bail 1",
     "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "test:coverage:open": "npm run test:coverage; xdg-open ./test/coverage/index.html",
+    "test:coverage": "vitest run --coverage --coverage.reportsDirectory ./coverage/test/",
+    "test:coverage:open": "npm run test:coverage; xdg-open ./coverage/test/index.html",
     "prepare": "husky",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "type-check:coverage": "typescript-coverage-report -o ./coverage/type/ --ignore-files 'coverage/**'",
+    "type-check:coverage:open": "npm run type-check:coverage && xdg-open coverage/type/index.html",
+    "coverage:all": "npm run test:coverage && npm run type-check:coverage"
   },
   "repository": {
     "type": "git",
@@ -51,9 +54,12 @@
     "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
+    "semantic-ui-react": "^2.1.5",
     "ts-migrate": "^0.1.35",
     "ts-morph": "^27.0.2",
+    "type-coverage": "^2.29.7",
     "typescript": "^5.9.3",
+    "typescript-coverage-report": "^1.1.1",
     "typescript-eslint": "^8.51.0",
     "vitest": "^4.0.16"
   },

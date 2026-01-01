@@ -63,7 +63,9 @@ async function playIteration(
   }
 }
 
-async function setupSecondHalf(inputIteration: any) {
+async function setupSecondHalf(
+  inputIteration: MatchDetails,
+): Promise<MatchDetails> {
   try {
     const outputJSON = await startSecondHalf(inputIteration);
     return outputJSON;

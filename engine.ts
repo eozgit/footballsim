@@ -84,7 +84,9 @@ async function playIteration(
   return matchDetails;
 }
 
-async function startSecondHalf(matchDetails: any) {
+async function startSecondHalf(
+  matchDetails: MatchDetails,
+): Promise<MatchDetails> {
   validate.validateMatchDetails(matchDetails);
   validate.validateTeamSecondHalf(matchDetails.kickOffTeam);
   validate.validateTeamSecondHalf(matchDetails.secondTeam);
