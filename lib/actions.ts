@@ -354,8 +354,8 @@ function checkOppositionAhead(
 }
 
 function checkOppositionBelow(
-  closePlayerPosition: unknown,
-  currentPOS: unknown,
+  closePlayerPosition: [number, number, number?],
+  currentPOS: [number, number, number?],
 ) {
   const closePlyX = common.isBetween(
     closePlayerPosition[0],
@@ -488,9 +488,9 @@ function noBallNotGK2CloseBallBottomTeam(
 }
 
 function checkPositionInBottomPenaltyBox(
-  position: unknown,
-  pitchWidth: unknown,
-  pitchHeight: unknown,
+  position: [number, number, number?],
+  pitchWidth: number,
+  pitchHeight: number,
 ) {
   const yPos = common.isBetween(
     position[0],
@@ -507,9 +507,9 @@ function checkPositionInBottomPenaltyBox(
 }
 
 function checkPositionInBottomPenaltyBoxClose(
-  position: unknown,
-  pitchWidth: unknown,
-  pitchHeight: unknown,
+  position: [number, number, number?],
+  pitchWidth: number,
+  pitchHeight: number,
 ) {
   const yPos = common.isBetween(
     position[0],
@@ -526,9 +526,9 @@ function checkPositionInBottomPenaltyBoxClose(
 }
 
 function checkPositionInTopPenaltyBox(
-  position: unknown,
-  pitchWidth: unknown,
-  pitchHeight: unknown,
+  position: [number, number, number?],
+  pitchWidth: number,
+  pitchHeight: number,
 ) {
   const xPos = common.isBetween(
     position[0],
@@ -541,9 +541,9 @@ function checkPositionInTopPenaltyBox(
 }
 
 function checkPositionInTopPenaltyBoxClose(
-  position: unknown,
-  pitchWidth: unknown,
-  pitchHeight: unknown,
+  position: [number, number, number?],
+  pitchWidth: number,
+  pitchHeight: number,
 ) {
   const xPos = common.isBetween(
     position[0],
@@ -556,9 +556,9 @@ function checkPositionInTopPenaltyBoxClose(
 }
 
 function onBottomCornerBoundary(
-  position: unknown,
-  pitchWidth: unknown,
-  pitchHeight: unknown,
+  position: [number, number, number?],
+  pitchWidth: number,
+  pitchHeight: number,
 ) {
   if (
     position[1] === pitchHeight &&
@@ -568,25 +568,28 @@ function onBottomCornerBoundary(
   return false;
 }
 
-function onTopCornerBoundary(position: unknown, pitchWidth: unknown) {
+function onTopCornerBoundary(
+  position: [number, number, number?],
+  pitchWidth: number,
+) {
   if (position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth))
     return true;
   return false;
 }
 
 function populatePossibleActions(
-  possibleActions: unknown,
-  a: unknown,
-  b: unknown,
-  c: unknown,
-  d: unknown,
-  e: unknown,
-  f: unknown,
-  g: unknown,
-  h: unknown,
-  i: unknown,
-  j: unknown,
-  k: unknown,
+  possibleActions: [number, number, number?],
+  a: number,
+  b: number,
+  c: number,
+  d: number,
+  e: number,
+  f: number,
+  g: number,
+  h: number,
+  i: number,
+  j: number,
+  k: number,
 ) {
   //a-shoot, b-throughBall, c-pass, d-cross, e-tackle, f-intercept
   //g-slide, h-run, i-sprint j-cleared k-boot

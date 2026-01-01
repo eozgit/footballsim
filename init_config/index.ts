@@ -73,7 +73,7 @@ async function setupSecondHalf(inputIteration: any) {
   }
 }
 
-function readFile(filePath: any) {
+function readFile(filePath: string) {
   return new Promise(function (resolve, reject) {
     _readFile(filePath, 'utf8', function (err, data) {
       if (err) {
