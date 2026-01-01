@@ -817,10 +817,10 @@ function getSprintMovement(
 }
 
 function closestPlayerToBall(
-  closestPlayer: unknown,
+  closestPlayer: { name: string; position: number },
   team: Team,
   matchDetails: MatchDetails,
-) {
+): void {
   let closestPlayerDetails;
   const { position } = matchDetails.ball;
   for (const thisPlayer of team.players) {
