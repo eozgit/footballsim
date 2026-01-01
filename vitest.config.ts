@@ -11,5 +11,11 @@ export default defineConfig({
     ],
     globals: true,
     testTimeout: 1000,
+    // Added coverage configuration
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      reportsDirectory: './test/coverage',
+    },
   },
 });
