@@ -465,8 +465,8 @@ function getMovement(
   player: Player,
   action: unknown,
   opposition: Team,
-  ballX: unknown,
-  ballY: unknown,
+  ballX: number,
+  ballY: number,
   matchDetails: MatchDetails,
 ): [number, number] {
   const { position } = matchDetails.ball;
@@ -498,7 +498,7 @@ function getMovement(
   throw new Error('No action');
 }
 
-function getTackleMovement(ballX: unknown, ballY: unknown): [number, number] {
+function getTackleMovement(ballX: number, ballY: number): [number, number] {
   const move: [number, number] = [0, 0];
   if (ballX > 0) {
     move[0] = -1;
@@ -697,8 +697,8 @@ function getInterceptTrajectory(
 function getRunMovement(
   matchDetails: MatchDetails,
   player: Player,
-  ballX: unknown,
-  ballY: unknown,
+  ballX: number,
+  ballY: number,
 ): [number, number] {
   const move: [number, number] = [0, 0];
   if (player.fitness > 20) {
@@ -758,8 +758,8 @@ function getRunMovement(
 function getSprintMovement(
   matchDetails: MatchDetails,
   player: Player,
-  ballX: unknown,
-  ballY: unknown,
+  ballX: number,
+  ballY: number,
 ): [number, number] {
   const move: [number, number] = [0, 0];
   if (player.fitness > 30) {

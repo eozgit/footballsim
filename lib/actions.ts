@@ -457,7 +457,7 @@ function playerDoesNotHaveBall(
 function noBallNotGK4CloseBall(
   matchDetails: MatchDetails,
   currentPOS: unknown,
-  originPOS: unknown,
+  originPOS: number[],
   pitchWidth: unknown,
   pitchHeight: unknown,
 ) {
@@ -500,7 +500,7 @@ function noBallNotGK4CloseBallBottomTeam(
 function noBallNotGK2CloseBall(
   matchDetails: MatchDetails,
   currentPOS: unknown,
-  originPOS: unknown,
+  originPOS: number[],
   pitchWidth: unknown,
   pitchHeight: unknown,
 ) {

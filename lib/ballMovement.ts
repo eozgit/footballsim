@@ -21,7 +21,7 @@ function moveBall(matchDetails: MatchDetails) {
     throw new Error('Invalid ball position!');
   }
   getBallDirection(matchDetails, ballPos);
-  const power = ballPos[2];
+  const power: number = ballPos[2];
   const bPlayer = setBPlayer([ballPos[0], ballPos[1]]);
   const endPos = resolveBallMovement(
     bPlayer,
@@ -171,7 +171,7 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
   const bottomTeamDirection = teamShootingToBottom.concat(
     teamShootingToBottom2,
   );
-  const power = common.calculatePower(player.skill.strength);
+  const power: number = common.calculatePower(player.skill.strength);
   if (player.originPOS[1] > pitchHeight / 2) {
     direction =
       topTeamDirection[common.getRandomNumber(0, topTeamDirection.length - 1)];
@@ -215,7 +215,7 @@ function getTopKickedPosition(
 function getBottomKickedPosition(
   direction: unknown,
   position: unknown,
-  power: unknown,
+  power: number,
 ): [number, number] {
   if (direction === `wait`) {
     return newKickedPosition(position, 0, power / 2, 0, power / 2);
@@ -634,7 +634,7 @@ function resolveBallMovement(
   player: Player,
   thisPOS: unknown,
   newPOS: unknown,
-  power: unknown,
+  power: number,
   team: Team,
   opp: unknown,
   matchDetails: MatchDetails,
@@ -690,7 +690,7 @@ function thisPlayerIsInProximity(
   thisPlayer: Player,
   thisPOS: [number, number],
   thisPos: [number, number, number],
-  power: unknown,
+  power: number,
   thisTeam: Team,
 ) {
   if (thisPlayer === undefined) {
@@ -774,7 +774,7 @@ function setBallMovementMatchDetails(
 }
 
 function resolveDeflection(
-  power: unknown,
+  power: number,
   thisPOS: unknown,
   defPosition: unknown,
   defPlayer: unknown,
@@ -915,7 +915,7 @@ function setDeflectionPlayerOffside(
   }
 }
 
-function getBallDirection(matchDetails: MatchDetails, nextPOS: unknown) {
+function getBallDirection(matchDetails: MatchDetails, nextPOS: number[]) {
   const thisPOS = matchDetails.ball.position;
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
@@ -1104,12 +1104,12 @@ function ballCrossed(
 function calcBallMovementOverTime(
   matchDetails: MatchDetails,
   strength: unknown,
-  nextPosition: unknown,
+  nextPosition: number[],
   player: Player,
 ): [number, number] | MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;
-  const power = common.calculatePower(strength);
+  const power: number = common.calculatePower(strength);
   const changeInX = nextPosition[0] - position[0];
   const changeInY = nextPosition[1] - position[1];
   const totalChange = Math.max(Math.abs(changeInX), Math.abs(changeInY));
@@ -1149,7 +1149,7 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(number: unknown, n: unknown) {
+function splitNumberIntoN(number: unknown, n: number) {
   const arrayN = Array.from(Array(n).keys());
   const splitNumber = [];
   for (const thisn of arrayN) {
@@ -1164,12 +1164,12 @@ function splitNumberIntoN(number: unknown, n: unknown) {
 }
 
 function mergeArrays(
-  arrayLength: unknown,
-  oldPos: unknown,
-  newPos: unknown,
-  array1: unknown,
-  array2: unknown,
-  array3: unknown,
+  arrayLength: number,
+  oldPos: number[],
+  newPos: number[],
+  array1: number[],
+  array2: number[],
+  array3: number[],
 ) {
   let tempPos = [oldPos[0], oldPos[1]];
   const arrayN = Array.from(Array(arrayLength - 1).keys());
