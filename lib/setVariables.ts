@@ -1,7 +1,7 @@
 'use strict';
 import common from '../lib/common.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { MatchDetails, PitchDetails, Player, Team } from './types.js';
 
 function resetPlayerPositions(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
@@ -93,9 +93,9 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
 }
 
 function populateMatchDetails(
-  team1: unknown,
-  team2: unknown,
-  pitchDetails: unknown,
+  team1: Team,
+  team2: Team,
+  pitchDetails: PitchDetails,
 ): MatchDetails {
   return {
     matchID: common.getRandomNumber(1000000000000, 999999999999999),

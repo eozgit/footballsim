@@ -105,3 +105,9 @@ export interface TeamStatistics {
   penalties: number;
   fouls: number;
 }
+
+export interface PitchDetails {
+  pitchWidth: number;
+  pitchHeight: number;
+  goalWidth: number;
+}

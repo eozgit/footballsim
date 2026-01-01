@@ -5,12 +5,16 @@ import setVariables from './lib/setVariables.js';
 import playerMovement from './lib/playerMovement.js';
 import ballMovement from './lib/ballMovement.js';
 import validate from './lib/validate.js';
-import { MatchDetails } from 'lib/types.js';
+import { MatchDetails, PitchDetails, Team } from 'lib/types.js';
 
 //------------------------
 //    Functions
 //------------------------
-async function initiateGame(team1: any, team2: any, pitchDetails: any) {
+async function initiateGame(
+  team1: Team,
+  team2: Team,
+  pitchDetails: PitchDetails,
+) {
   validate.validateArguments(team1, team2, pitchDetails);
   validate.validateTeam(team1);
   validate.validateTeam(team2);

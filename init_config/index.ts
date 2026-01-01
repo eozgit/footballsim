@@ -6,7 +6,7 @@ import {
   playIteration as _playIteration,
   startSecondHalf,
 } from './../engine.js';
-import { MatchDetails } from 'lib/types.js';
+import { MatchDetails, PitchDetails, Team } from 'lib/types.js';
 
 let nextIteration;
 gameOfTenIterations()
@@ -39,11 +39,11 @@ async function gameOfTenIterations() {
   }
 }
 
-async function initGame(t1: any, t2: any, p: any) {
+async function initGame(t1: string, t2: string, p: string) {
   try {
-    const team1 = await readFile(t1);
-    const team2 = await readFile(t2);
-    const pitch = await readFile(p);
+    const team1 = (await readFile(t1)) as Team;
+    const team2 = (await readFile(t2)) as Team;
+    const pitch = (await readFile(p)) as PitchDetails;
     const matchSetup = initiateGame(team1, team2, pitch);
     return matchSetup;
   } catch (error) {

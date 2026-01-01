@@ -1,7 +1,7 @@
 'use strict';
 import common from '../lib/common.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { MatchDetails, PitchDetails, Player, Team } from './types.js';
 
 function validateTeam(team: Team) {
   if (typeof team !== `object`) team = JSON.parse(team);
@@ -116,7 +116,7 @@ function validatePlayerSkills(skills: unknown) {
   }
 }
 
-function validatePitch(pitchDetails: unknown) {
+function validatePitch(pitchDetails: PitchDetails) {
   const pitchObjects = [`pitchWidth`, `pitchHeight`];
   let badObjects = 0;
   for (const obj of pitchObjects) {
