@@ -71,7 +71,7 @@ function topTeamPlayerHasBall(
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
-  if (position === 'GK' && oppositionNearPlayer(playerInformation, 10, 25))
+  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25))
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
   else if (position === 'GK') return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
   else if (onBottomCornerBoundary(currentPOS, pitchWidth, pitchHeight))
@@ -92,7 +92,7 @@ function topTeamPlayerHasBall(
       pitchHeight - pitchHeight / 6 + 5,
     )
   ) {
-    if (oppositionNearPlayer(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10))
       return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
     return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
   } else if (
@@ -102,14 +102,14 @@ function topTeamPlayerHasBall(
       pitchHeight - pitchHeight / 3,
     )
   ) {
-    if (oppositionNearPlayer(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10))
       return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
     else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
     else if (position === 'LM' || position === 'CM' || position === 'RM')
       return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
     else if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
     return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
-  } else if (oppositionNearPlayer(playerInformation, 10, 10))
+  } else if (oppositionNearContext(playerInformation, 10, 10))
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
   else if (position === 'LM' || position === 'CM' || position === 'RM')
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
@@ -149,7 +149,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   if (
     checkPositionInBottomPenaltyBoxClose(currentPOS, pitchWidth, pitchHeight)
   ) {
-    if (oppositionNearPlayer(playerInformation, 6, 6)) {
+    if (oppositionNearContext(playerInformation, 6, 6)) {
       if (checkOppositionBelow(closePlayerPosition, currentPOS)) {
         if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10))
           return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
@@ -182,7 +182,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
     return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
   } else if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  else if (oppositionNearPlayer(playerInformation, 6, 6))
+  else if (oppositionNearContext(playerInformation, 6, 6))
     return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
@@ -204,7 +204,7 @@ function bottomTeamPlayerHasBall(
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, skill } = player;
-  if (position === 'GK' && oppositionNearPlayer(playerInformation, 10, 25))
+  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25))
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
   else if (position === 'GK') return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
   else if (onTopCornerBoundary(currentPOS, pitchWidth))
@@ -219,14 +219,14 @@ function bottomTeamPlayerHasBall(
   } else if (
     common.isBetween(currentPOS[1], pitchHeight / 6 - 5, pitchHeight / 3)
   ) {
-    if (oppositionNearPlayer(playerInformation, 10, 10))
+    if (oppositionNearContext(playerInformation, 10, 10))
       return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
     return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
   } else if (
     common.isBetween(currentPOS[1], pitchHeight / 3, 2 * (pitchHeight / 3))
   ) {
     return bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill);
-  } else if (oppositionNearPlayer(playerInformation, 10, 10))
+  } else if (oppositionNearContext(playerInformation, 10, 10))
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
   else if (position === 'LM' || position === 'CM' || position === 'RM')
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
@@ -235,11 +235,15 @@ function bottomTeamPlayerHasBall(
 }
 
 function bottomTeamPlayerHasBallInMiddle(
-  playerInformation: unknown,
-  position: unknown,
-  skill: unknown,
+  playerInformation: {
+    proxPOS: number[];
+    proxToBall?: number;
+    thePlayer?: any;
+  },
+  position: string,
+  skill: any,
 ) {
-  if (oppositionNearPlayer(playerInformation, 10, 10))
+  if (oppositionNearContext(playerInformation, 10, 10))
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
   else if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0];
   else if (position === 'LM' || position === 'CM' || position === 'RM')
@@ -253,7 +257,7 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   player: Player,
   team: Team,
   opposition: Team,
-) {
+): number[] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -277,7 +281,7 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
   if (checkPositionInTopPenaltyBoxClose(currentPOS, pitchWidth, pitchHeight)) {
-    if (oppositionNearPlayer(playerInformation, 20, 20)) {
+    if (oppositionNearContext(playerInformation, 20, 20)) {
       if (checkOppositionAhead(closePlayerPosition, currentPOS)) {
         if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10))
           return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
@@ -326,7 +330,15 @@ function oppositionNearPlayer(
   ];
   return oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY;
 }
-
+function oppositionNearContext(
+  context: { proxPOS: number[] },
+  distX: number,
+  distY: number,
+) {
+  return (
+    Math.abs(context.proxPOS[0]) < distX && Math.abs(context.proxPOS[1]) < distY
+  );
+}
 function checkTeamMateSpaceClose(
   tmateProximity: [number, number],
   lowX: number,
@@ -341,16 +353,16 @@ function checkTeamMateSpaceClose(
 }
 
 function checkOppositionAhead(
-  closePlayerPosition: unknown,
-  currentPOS: unknown,
-) {
-  const closePlyX = common.isBetween(
-    closePlayerPosition[0],
-    currentPOS[0] - 4,
-    currentPOS[0] + 4,
-  );
-  if (closePlyX && closePlayerPosition[1] < currentPOS[1]) return true;
-  return false;
+  closePlayerPosition: [number | 'NP', number],
+  currentPOS: [number | 'NP', number],
+): boolean {
+  const [closeX, closeY] = closePlayerPosition;
+  const [currentX, currentY] = currentPOS;
+  if (closeX == 'NP' || currentX == 'NP') {
+    throw new Error('No player position!');
+  }
+  const closePlyX = common.isBetween(closeX, currentX - 4, currentX + 4);
+  return closePlyX && closeY < currentY;
 }
 
 function checkOppositionBelow(
@@ -368,8 +380,8 @@ function checkOppositionBelow(
 
 function playerDoesNotHaveBall(
   player: Player,
-  ballX: unknown,
-  ballY: unknown,
+  ballX: number,
+  ballY: number,
   matchDetails: MatchDetails,
 ) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
