@@ -872,7 +872,7 @@ function checkOffside(
 function getTopMostPlayer(team: Team, pitchHeight: unknown) {
   let player;
   for (const thisPlayer of team.players) {
-    let topMostPosition = pitchHeight;
+    let topMostPosition: number = pitchHeight;
     const [, plyrX] = thisPlayer.currentPOS;
     if (thisPlayer.currentPOS[1] < topMostPosition) {
       topMostPosition = plyrX;
