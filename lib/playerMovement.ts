@@ -32,7 +32,7 @@ function decideMovement(
   for (const thisPlayer of team.players) {
     //players closer than the closest player stand still near the ball???
     if (thisPlayer.currentPOS[0] !== 'NP') {
-      let ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
+      let ballToPlayerX: number = thisPlayer.currentPOS[0] - position[0];
       let ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
       const possibleActions = actions.findPossActions(
         thisPlayer,
@@ -59,7 +59,7 @@ function decideMovement(
         ballToPlayerX = closestPlayerActionBallX(ballToPlayerX);
         ballToPlayerY = closestPlayerActionBallY(ballToPlayerY);
       }
-      const move = getMovement(
+      const move: number[] = getMovement(
         thisPlayer,
         action,
         opp,
@@ -248,7 +248,7 @@ function completeTackleWhenCloseNoBall(
 function completeMovement(
   matchDetails: MatchDetails,
   currentPOS: number[],
-  move: unknown,
+  move: number[],
 ) {
   if (currentPOS[0] !== 'NP') {
     const intendedMovementX = currentPOS[0] + move[0];
@@ -269,7 +269,7 @@ function completeMovement(
   return currentPOS;
 }
 
-function closestPlayerActionBallX(ballToPlayerX: unknown) {
+function closestPlayerActionBallX(ballToPlayerX: number) {
   if (common.isBetween(ballToPlayerX, -30, 30) === false) {
     if (ballToPlayerX > 29) {
       return 29;
@@ -829,7 +829,9 @@ function closestPlayerToBall(
         `Player ${thisPlayer.name} (ID: ${thisPlayer.playerID}) is 'NP' at an active logic gate!`,
       );
     }
-    const ballToPlayerX = Math.abs(thisPlayer.currentPOS[0] - position[0]);
+    const ballToPlayerX: number = Math.abs(
+      thisPlayer.currentPOS[0] - position[0],
+    );
     const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
     const proximityToBall = ballToPlayerX + ballToPlayerY;
     if (proximityToBall < closestPlayer.position) {

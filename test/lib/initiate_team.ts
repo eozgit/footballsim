@@ -3,12 +3,11 @@ import { Team } from 'lib/types.js';
 import { readFile } from '../../lib/fileReader.js';
 import setVariables from '../../lib/setVariables.js';
 
-async function setTeam(teamLocation: any) {
+async function setTeam(teamLocation: string) {
   const team = await readFile(teamLocation).catch(function (err) {
     throw err.stack;
   });
-  const teamReady = setVariables.setGameVariables(team as Team);
-  return teamReady;
+  return setVariables.setGameVariables(team as Team);
 }
 
 export default {
