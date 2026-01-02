@@ -219,30 +219,42 @@ class RefactorEngine {
 
       dataset.forEach((data) => {
         const variants = Object.keys(data.variants);
-
-        // Multi-Variant Protection: Defensive check
-        // If we only have 1 hit, we might not have enough data to be certain.
         const totalHits = Object.values(data.variants).reduce(
           (a, b) => a + b,
           0,
         );
-        if (variants.length !== 1 || totalHits < 3) {
-          if (VERBOSE)
+
+        // --- IMPROVED BREADCRUMBS ---
+        if (VERBOSE) {
+          console.log(`\n[Audit] Symbol: '${data.symbol}' at ${data.location}`);
+          console.log(`  Hits: ${totalHits}`);
+          variants.forEach((v) => {
             console.log(
-              `  ! Skipping ${data.symbol}: Low confidence or multiple types.`,
+              `  -> Detected Type: ${v.substring(0, 80)}${v.length > 80 ? '...' : ''} (${data.variants[v]} occurrences)`,
             );
+          });
+        }
+
+        // Confidence Logic: Let's lower the threshold to 1 for "Solid" findings
+        // but keep the variant check strict.
+        if (variants.length !== 1) {
+          if (VERBOSE)
+            console.log(`  ! Rejected: Multi-type conflict (Ambiguous).`);
           return;
         }
 
         const inferredType = variants[0];
-        if (inferredType.includes('{')) return; // Hold back on objects for now
+        if (inferredType.includes('{')) {
+          if (VERBOSE)
+            console.log(`  ! Rejected: Complex object (Skipping for now).`);
+          return;
+        }
 
         visit(ast, {
           visitIdentifier(path) {
             const node = path.value;
             if (node.name === data.symbol) {
               // --- AGNOSTIC USAGE ANALYSIS ---
-              // Check if this identifier is used in a MemberExpression (e.g., symbol.prop)
               let isUsedAsObject = false;
               if (
                 n.MemberExpression.check(path.parentPath.value) &&
@@ -251,12 +263,12 @@ class RefactorEngine {
                 isUsedAsObject = true;
               }
 
-              // If used as an object, reject primitive inference (string, number, boolean)
               const primitives = ['string', 'number', 'boolean'];
               if (isUsedAsObject && primitives.includes(inferredType)) {
-                console.warn(
-                  `  [Ambiguous] Refusing to type '${data.symbol}' as '${inferredType}' because it is accessed as an object.`,
-                );
+                if (VERBOSE)
+                  console.log(
+                    `  ! Rejected: Symbol is used as object, but runtime saw primitive '${inferredType}'.`,
+                  );
                 return false;
               }
 
@@ -281,6 +293,8 @@ class RefactorEngine {
                   );
                   self.stats.patchesApplied++;
                   fileChanged = true;
+                  if (VERBOSE)
+                    console.log(`  + SUCCESS: Patched as ${inferredType}`);
                   return false;
                 }
               }
