@@ -196,39 +196,41 @@ function getTopKickedPosition(
   position: [number, number, number?],
   power: number,
 ): [number, number] {
+  const pos: [number, number] = [position[0], position[1]];
   if (direction === `wait`) {
-    return newKickedPosition(position, 0, power / 2, 0, power / 2);
+    return newKickedPosition(pos, 0, power / 2, 0, power / 2);
   } else if (direction === `north`) {
-    return newKickedPosition(position, -20, 20, -power, -(power / 2));
+    return newKickedPosition(pos, -20, 20, -power, -(power / 2));
   } else if (direction === `east`) {
-    return newKickedPosition(position, power / 2, power, -20, 20);
+    return newKickedPosition(pos, power / 2, power, -20, 20);
   } else if (direction === `west`) {
-    return newKickedPosition(position, -power, -(power / 2), -20, 20);
+    return newKickedPosition(pos, -power, -(power / 2), -20, 20);
   } else if (direction === `northeast`) {
-    return newKickedPosition(position, 0, power / 2, -power, -(power / 2));
+    return newKickedPosition(pos, 0, power / 2, -power, -(power / 2));
   } else if (direction === `northwest`) {
-    return newKickedPosition(position, -(power / 2), 0, -power, -(power / 2));
+    return newKickedPosition(pos, -(power / 2), 0, -power, -(power / 2));
   }
   throw new Error('Unexpected direction');
 }
 
 function getBottomKickedPosition(
-  direction: unknown,
-  position: unknown,
+  direction: string,
+  position: [number, number, number?],
   power: number,
 ): [number, number] {
+  const pos: [number, number] = [position[0], position[1]];
   if (direction === `wait`) {
-    return newKickedPosition(position, 0, power / 2, 0, power / 2);
+    return newKickedPosition(pos, 0, power / 2, 0, power / 2);
   } else if (direction === `south`) {
-    return newKickedPosition(position, -20, 20, power / 2, power);
+    return newKickedPosition(pos, -20, 20, power / 2, power);
   } else if (direction === `east`) {
-    return newKickedPosition(position, power / 2, power, -20, 20);
+    return newKickedPosition(pos, power / 2, power, -20, 20);
   } else if (direction === `west`) {
-    return newKickedPosition(position, -power, -(power / 2), -20, 20);
+    return newKickedPosition(pos, -power, -(power / 2), -20, 20);
   } else if (direction === `southeast`) {
-    return newKickedPosition(position, 0, power / 2, power / 2, power);
+    return newKickedPosition(pos, 0, power / 2, power / 2, power);
   } else if (direction === `southwest`) {
-    return newKickedPosition(position, -(power / 2), 0, power / 2, power);
+    return newKickedPosition(pos, -(power / 2), 0, power / 2, power);
   }
   throw new Error('Unexpected direction');
 }
@@ -263,8 +265,6 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   } else {
     throw new Error(`You cannot supply 0 as a half`);
   }
-  common.debug('bm1', thisTeamStats.shots);
-  common.debug('bm2', player.stats.shots);
   if (typeof thisTeamStats.shots === 'number') {
     thisTeamStats.shots++;
   } else {
@@ -562,26 +562,31 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
   const middleThird = !!(
     position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
   );
+  const [playerX, playerY] = tPlyr.position;
+  if (playerX === 'NP') {
+    throw new Error('No player position');
+  }
+  const pos: [number, number] = [playerX, playerY];
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
     if (player.originPOS[1] > pitchHeight / 2) {
-      closePlyPos = setTargetPlyPos(tPlyr.position, 0, 0, -20, -10);
+      closePlyPos = setTargetPlyPos(pos, 0, 0, -20, -10);
     } else {
-      closePlyPos = setTargetPlyPos(tPlyr.position, 0, 0, 10, 30);
+      closePlyPos = setTargetPlyPos(pos, 0, 0, 10, 30);
     }
   } else if (player.originPOS[1] > pitchHeight / 2) {
     if (bottomThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+      closePlyPos = setTargetPlyPos(pos, -10, 10, -10, 10);
     } else if (middleThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -20, 20, -50, 50);
+      closePlyPos = setTargetPlyPos(pos, -20, 20, -50, 50);
     } else {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -30, 30, -100, 100);
+      closePlyPos = setTargetPlyPos(pos, -30, 30, -100, 100);
     }
   } else if (bottomThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -30, 30, -100, 100);
+    closePlyPos = setTargetPlyPos(pos, -30, 30, -100, 100);
   } else if (middleThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -20, 20, -50, 50);
+    closePlyPos = setTargetPlyPos(pos, -20, 20, -50, 50);
   } else {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+    closePlyPos = setTargetPlyPos(pos, -10, 10, -10, 10);
   }
   return calcBallMovementOverTime(
     matchDetails,
@@ -636,7 +641,7 @@ function resolveBallMovement(
   newPOS: unknown,
   power: number,
   team: Team,
-  opp: unknown,
+  opp: Team,
   matchDetails: MatchDetails,
 ): [number, number] {
   common.removeBallFromAllPlayers(matchDetails);
@@ -777,8 +782,8 @@ function resolveDeflection(
   power: number,
   thisPOS: unknown,
   defPosition: unknown,
-  defPlayer: unknown,
-  defTeam: unknown,
+  defPlayer: Player,
+  defTeam: Team,
   matchDetails: MatchDetails,
 ) {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
@@ -897,9 +902,9 @@ function setDeflectionPlayerHasBall(
 
 function setDeflectionPlayerOffside(
   matchDetails: MatchDetails,
-  defTeam: unknown,
-  defPlayer: unknown,
-) {
+  defTeam: Team,
+  defPlayer: Player,
+): void {
   defPlayer.offside = false;
   defPlayer.hasBall = false;
   matchDetails.ball.Player = '';
@@ -1149,11 +1154,11 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(number: unknown, n: number) {
+function splitNumberIntoN(num: unknown, n: number) {
   const arrayN = Array.from(Array(n).keys());
   const splitNumber = [];
   for (const thisn of arrayN) {
-    const nextNum = common.aTimesbDividedByC(n - thisn, number, n);
+    const nextNum = common.aTimesbDividedByC(n - thisn, num, n);
     if (nextNum === 0) {
       splitNumber.push(1);
     } else {
