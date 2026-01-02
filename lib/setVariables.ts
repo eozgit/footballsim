@@ -75,8 +75,8 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
   ];
-  team1.players[playerWithBall].currentPOS.pop();
-  team1.players[playerWithBall].intentPOS.pop();
+  //team1.players[playerWithBall].currentPOS.pop();
+  //team1.players[playerWithBall].intentPOS.pop();
   team1.players[playerWithBall].hasBall = true;
   matchDetails.ball.lastTouch.playerName = team1.players[playerWithBall].name;
   matchDetails.ball.lastTouch.playerID = team1.players[playerWithBall].playerID;

@@ -15,8 +15,11 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
     //"noEmit": true
+    "declaration": true /* Generates the .d.ts files your client needs */,
+    "declarationMap": true /* Allows "Go to Definition" to jump to your TS source */,
+    "sourceMap": true /* Crucial for debugging */
   },
   "include": [
     "lib/**/*",

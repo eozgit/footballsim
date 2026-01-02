@@ -4,8 +4,17 @@
   "description": "an engine for simulating football matches",
   "main": "dist/engine.js",
   "types": "dist/engine.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/engine.d.ts",
+      "import": "./dist/engine.js"
+    }
+  },
   "scripts": {
     "start": "node engine.js",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "prepublishOnly": "npm run build",
     "format": "prettier --write .",
     "lint": "eslint .",
     "test": "vitest run",
