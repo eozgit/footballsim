@@ -11,3 +11,4 @@ type-check-report.txt
 type-runtime-stats.json
 structured-report.json
 analysis.json
+fn-type-stats.json
