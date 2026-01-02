@@ -860,14 +860,14 @@ function setSuccessTackle(
   );
 }
 
-function calcTackleScore(skill: unknown, diff: unknown) {
+function calcTackleScore(skill: unknown, diff: number) {
   return (
     (parseInt(skill.tackling, 10) + parseInt(skill.strength, 10)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
-function calcRetentionScore(skill: unknown, diff: unknown) {
+function calcRetentionScore(skill: unknown, diff: number) {
   return (
     (parseInt(skill.agility, 10) + parseInt(skill.strength, 10)) / 2 +
     common.getRandomNumber(-diff, diff)
@@ -899,7 +899,7 @@ function setPostTacklePosition(
   matchDetails: MatchDetails,
   winningPlyr: unknown,
   losePlayer: unknown,
-  increment: unknown,
+  increment: number,
 ) {
   const [, pitchHeight] = matchDetails.pitchSize;
   if (losePlayer.originPOS[1] > pitchHeight / 2) {
@@ -966,7 +966,7 @@ function setFoul(
   }
 }
 
-function wasFoul(x: unknown, y: unknown) {
+function wasFoul(x: unknown, y: number) {
   const foul = common.getRandomNumber(0, x);
   if (common.isBetween(foul, 0, y / 2 - 1)) {
     return true;

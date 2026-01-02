@@ -100,7 +100,6 @@ class RefactorEngine {
               }
 
               if (stmtPath && n.Statement.check(stmtPath.value)) {
-                // Construct the spy call
                 const spyCall = b.expressionStatement(
                   b.callExpression(b.identifier('__typeSpy'), [
                     b.stringLiteral(cleanSymbol),
@@ -109,7 +108,6 @@ class RefactorEngine {
                   ]),
                 );
 
-                // Wrap in a safety check to avoid "Variable not defined" crashes
                 const safeSpy = b.ifStatement(
                   b.binaryExpression(
                     '!==',
@@ -183,7 +181,7 @@ class RefactorEngine {
       3,
       'Simulation finished. Waiting 1.5s for final network packets...',
     );
-    await new Promise((r) => setTimeout(r, 1500)); // The Grace Period
+    await new Promise((r) => setTimeout(r, 1500));
 
     const count = Object.keys(this.runtimeStats).length;
     this.stats.capturedVariants = count;
@@ -195,7 +193,7 @@ class RefactorEngine {
     return new Promise((r) => this.server.close(r));
   }
 
-  // --- Step 4: Patching ---
+  // --- Step 4: Patching (Fixed Logic) ---
   traceAndPatch() {
     this.log(4, 'Reverting & Surgical Patching');
     const self = this;
@@ -221,15 +219,50 @@ class RefactorEngine {
 
       dataset.forEach((data) => {
         const variants = Object.keys(data.variants);
-        if (variants.length !== 1) return; // Only 100% certain types
+
+        // Multi-Variant Protection: Defensive check
+        // If we only have 1 hit, we might not have enough data to be certain.
+        const totalHits = Object.values(data.variants).reduce(
+          (a, b) => a + b,
+          0,
+        );
+        if (variants.length !== 1 || totalHits < 3) {
+          if (VERBOSE)
+            console.log(
+              `  ! Skipping ${data.symbol}: Low confidence or multiple types.`,
+            );
+          return;
+        }
 
         const inferredType = variants[0];
-        if (inferredType.includes('{')) return; // Skip complex objects for now
+        if (inferredType.includes('{')) return; // Hold back on objects for now
 
         visit(ast, {
           visitIdentifier(path) {
             const node = path.value;
             if (node.name === data.symbol) {
+              // --- AGNOSTIC USAGE ANALYSIS ---
+              // Check if this identifier is used in a MemberExpression (e.g., symbol.prop)
+              let isUsedAsObject = false;
+              if (
+                n.MemberExpression.check(path.parentPath.value) &&
+                path.parentPath.value.object === node
+              ) {
+                isUsedAsObject = true;
+              }
+
+              // If used as an object, reject primitive inference (string, number, boolean)
+              const primitives = ['string', 'number', 'boolean'];
+              if (isUsedAsObject && primitives.includes(inferredType)) {
+                console.warn(
+                  `  [Ambiguous] Refusing to type '${data.symbol}' as '${inferredType}' because it is accessed as an object.`,
+                );
+                return false;
+              }
+
+              if (n.AssignmentExpression.check(path.parentPath.value))
+                return false;
+
               const isParam =
                 n.FunctionDeclaration.check(path.parentPath.parentPath.value) ||
                 n.FunctionExpression.check(path.parentPath.parentPath.value) ||
@@ -274,16 +307,13 @@ class RefactorEngine {
   }
 }
 
-// --- Run Orchestration ---
 const engine = new RefactorEngine();
 
 (async () => {
   const errors = engine.runDiagnostics();
   engine.instrument(errors);
-
   engine.startCollector();
   engine.execute('npm test', 'Vitest Simulation');
-
   await engine.stopCollector();
   engine.traceAndPatch();
   engine.report();

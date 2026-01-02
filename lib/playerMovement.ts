@@ -871,7 +871,7 @@ function checkOffside(
   }
 }
 
-function getTopMostPlayer(team: Team, pitchHeight: unknown) {
+function getTopMostPlayer(team: Team, pitchHeight: number) {
   let player;
   for (const thisPlayer of team.players) {
     let topMostPosition: number = pitchHeight;
@@ -897,7 +897,7 @@ function getBottomMostPlayer(team: Team) {
   return player;
 }
 
-function team1atBottom(team1: unknown, team2: unknown, pitchHeight: unknown) {
+function team1atBottom(team1: unknown, team2: unknown, pitchHeight: number) {
   const offT1Ypos = offsideYPOS(team2, `top`, pitchHeight);
   const topPlayer = getTopMostPlayer(team1, pitchHeight);
   if (topPlayer === undefined) {
@@ -946,7 +946,7 @@ function team1atBottom(team1: unknown, team2: unknown, pitchHeight: unknown) {
   }
 }
 
-function team1atTop(team1: unknown, team2: unknown, pitchHeight: unknown) {
+function team1atTop(team1: unknown, team2: unknown, pitchHeight: number) {
   const offT1Ypos = offsideYPOS(team2, `bottom`, pitchHeight);
   const btmPlayer = getBottomMostPlayer(team1);
   if (btmPlayer === undefined) {
@@ -995,7 +995,7 @@ function team1atTop(team1: unknown, team2: unknown, pitchHeight: unknown) {
   }
 }
 
-function offsideYPOS(team: Team, side: unknown, pitchHeight: unknown) {
+function offsideYPOS(team: Team, side: unknown, pitchHeight: number) {
   const offsideYPOS = {
     pos1: 0,
     pos2: pitchHeight / 2,
