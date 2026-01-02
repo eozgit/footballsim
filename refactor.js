@@ -205,7 +205,7 @@ class RefactorEngine {
     );
 
     const fileGroups = {};
-    for (const [key, data] of Object.entries(runtimeData)) {
+    for (const [_, data] of Object.entries(runtimeData)) {
       const [file] = data.location.split(':');
       fileGroups[file] = fileGroups[file] || [];
       fileGroups[file].push(data);
