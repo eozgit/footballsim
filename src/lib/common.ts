@@ -208,24 +208,3 @@ export {
   removeBallFromAllPlayers,
   debug,
 };
-
-export default {
-  getRandomNumber,
-  round,
-  getBallTrajectory,
-  isBetween,
-  isContextBetween,
-  calculatePower,
-  isEven,
-  isOdd,
-  sumFrom1toX,
-  aTimesbDividedByC,
-  upToMax,
-  upToMin,
-  inTopPenalty,
-  inBottomPenalty,
-  getRandomTopPenaltyPosition,
-  getRandomBottomPenaltyPosition,
-  removeBallFromAllPlayers,
-  debug,
-};

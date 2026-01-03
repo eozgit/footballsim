@@ -1,4 +1,4 @@
-import common from './common.js';
+import * as common from './common.js';
 
 import { MatchDetails, PitchDetails, Player, Team } from './types.js';
 

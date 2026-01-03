@@ -3,7 +3,7 @@ import assert from 'node:assert';
 import { expect, it, describe } from 'vitest';
 
 import { readFile } from '../lib/fileReader.js';
-import common from '../lib/common.js';
+import * as common from '../lib/common.js';
 import injury from '../lib/injury.js';
 
 describe('testCommonFunction()', function () {

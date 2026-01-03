@@ -1,4 +1,4 @@
-import common from './common.js';
+import * as common from './common.js';
 import setPositions from './setPositions.js';
 
 import { BallPosition, MatchDetails, Player, Position, Team } from './types.js';

@@ -1,6 +1,6 @@
 import { MatchDetails } from '../../lib/types.js';
 
-import common from '../../lib/common.js';
+import * as common from '../../lib/common.js';
 import setPos from '../../lib/setPositions.js';
 
 import { readMatchDetails } from './utils.js';

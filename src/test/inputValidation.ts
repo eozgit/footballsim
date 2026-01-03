@@ -1,7 +1,7 @@
 import { expect, it, describe, assert } from 'vitest';
 
 import { readFile } from '../lib/fileReader.js';
-import common from '../lib/common.js';
+import * as common from '../lib/common.js';
 
 import validation from './lib/validate_tests.js';
 import { readMatchDetails } from './lib/utils.js';

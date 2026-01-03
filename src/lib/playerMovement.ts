@@ -1,4 +1,4 @@
-import common from './common.js';
+import * as common from './common.js';
 import ballMovement from './ballMovement.js';
 import setPositions from './setPositions.js';
 import actions from './actions.js';

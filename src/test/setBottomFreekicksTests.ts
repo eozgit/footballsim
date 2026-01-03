@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import common from '../lib/common.js';
+import * as common from '../lib/common.js';
 
 import setfreekicks from './lib/set_freekicks.js';
 
