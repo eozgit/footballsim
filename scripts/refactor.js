@@ -41,15 +41,15 @@ class RefactorEngine {
   runDiagnostics() {
     this.log(1, 'Diagnostic Generation');
     this.execute(
-      'npx tsc --noEmit --extendedDiagnostics > type-check-report.txt',
+      'npx tsc --noEmit --extendedDiagnostics > scripts/type-check-report.txt',
       'TSC Diagnostics',
     );
 
-    const content = fs.readFileSync('type-check-report.txt', 'utf8');
+    const content = fs.readFileSync('scripts/type-check-report.txt', 'utf8');
     const errors = content
       .split('\n')
       .map((line) => line.match(/^(.+)\((\d+),(\d+)\): error (TS\d+): (.*)$/))
-      .filter((m) => m && m[4] === 'TS18046' && m[1].startsWith('lib/'))
+      .filter((m) => m && m[4] === 'TS18046' && m[1].startsWith('src/lib/'))
       .map((m) => ({
         file: m[1],
         line: parseInt(m[2]),
@@ -139,7 +139,8 @@ class RefactorEngine {
 
       let output = print(ast).code;
       if (!hasSpyImport) {
-        output = `import { __typeSpy } from './typeSpy';\n` + output;
+        output =
+          `import { __typeSpy } from '../../scripts/typeSpy.js';\n` + output;
       }
       fs.writeFileSync(fullPath, output);
     }
@@ -187,7 +188,7 @@ class RefactorEngine {
     this.stats.capturedVariants = count;
 
     fs.writeFileSync(
-      'type-runtime-stats.json',
+      'scripts/type-runtime-stats.json',
       JSON.stringify(this.runtimeStats, null, 2),
     );
     return new Promise((r) => this.server.close(r));
@@ -197,7 +198,10 @@ class RefactorEngine {
   traceAndPatch() {
     this.log(4, 'Reverting & Surgical Patching');
     const self = this;
-    this.execute('git checkout lib/', 'Restoring Original Line Numbers');
+    this.execute(
+      'git checkout src/lib/ src/engine.ts',
+      'Restoring Original Line Numbers',
+    );
 
     if (!fs.existsSync('type-runtime-stats.json')) return;
     const runtimeData = JSON.parse(
