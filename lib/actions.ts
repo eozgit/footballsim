@@ -656,7 +656,7 @@ function onTopCornerBoundary(
 }
 
 function populatePossibleActions(
-  possibleActions: unknown,
+  possibleActions: object[11],
   a: number,
   b: number,
   c: number,
