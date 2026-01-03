@@ -1,7 +1,7 @@
 'use strict';
-import common from '../lib/common.js';
-import injury from '../lib/injury.js';
-import setPositions from '../lib/setPositions.js';
+import common from './common.js';
+import injury from './injury.js';
+import setPositions from './setPositions.js';
 
 import {
   BallPosition,

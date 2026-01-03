@@ -1,8 +1,8 @@
 'use strict';
-import common from '../lib/common.js';
-import ballMovement from '../lib/ballMovement.js';
-import setPositions from '../lib/setPositions.js';
-import actions from '../lib/actions.js';
+import common from './common.js';
+import ballMovement from './ballMovement.js';
+import setPositions from './setPositions.js';
+import actions from './actions.js';
 
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 

@@ -1,7 +1,7 @@
 'use strict';
-import common from '../lib/common.js';
-import setVariables from '../lib/setVariables.js';
-import setFreekicks from '../lib/setFreekicks.js';
+import common from './common.js';
+import setVariables from './setVariables.js';
+import setFreekicks from './setFreekicks.js';
 
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
