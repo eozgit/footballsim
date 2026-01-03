@@ -1,4 +1,3 @@
-'use strict';
 import common from './common.js';
 import ballMovement from './ballMovement.js';
 import setPositions from './setPositions.js';

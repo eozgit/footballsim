@@ -1,5 +1,5 @@
 //example implementation application
-import { readFile as _readFile } from 'fs';
+import { readFile } from 'fs';
 
 import { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 
@@ -38,9 +38,9 @@ async function gameOfTenIterations() {
 
 async function initGame(t1: string, t2: string, p: string) {
   try {
-    const team1 = (await readFile(t1)) as Team;
-    const team2 = (await readFile(t2)) as Team;
-    const pitch = (await readFile(p)) as PitchDetails;
+    const team1 = (await readDataFile(t1)) as Team;
+    const team2 = (await readDataFile(t2)) as Team;
+    const pitch = (await readDataFile(p)) as PitchDetails;
     const matchSetup = initiateGame(team1, team2, pitch);
     return matchSetup;
   } catch (error) {
@@ -67,9 +67,9 @@ async function setupSecondHalf(
   }
 }
 
-function readFile(filePath: string) {
+function readDataFile(filePath: string) {
   return new Promise(function (resolve, reject) {
-    _readFile(filePath, 'utf8', function (err, data) {
+    readFile(filePath, 'utf8', function (err, data) {
       if (err) {
         reject(err);
       } else {

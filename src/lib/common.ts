@@ -1,4 +1,3 @@
-'use strict';
 import { BallPosition, MatchDetails } from './types.js';
 
 //---------------

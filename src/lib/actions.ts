@@ -1,4 +1,3 @@
-'use strict';
 import common from './common.js';
 import injury from './injury.js';
 import setPositions from './setPositions.js';

@@ -1,4 +1,3 @@
-'use strict';
 import common from './common.js';
 
 import { MatchDetails, Team } from './types.js';

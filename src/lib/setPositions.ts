@@ -1,4 +1,3 @@
-'use strict';
 import common from './common.js';
 import setVariables from './setVariables.js';
 import setFreekicks from './setFreekicks.js';
