@@ -1,4 +1,4 @@
-import { MatchDetails } from 'lib/types.js';
+import { MatchDetails } from '../../lib/types.js';
 
 import setFreekick from '../../lib/setFreekicks.js';
 

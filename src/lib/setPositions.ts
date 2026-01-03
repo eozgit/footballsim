@@ -3,7 +3,7 @@ import common from '../lib/common.js';
 import setVariables from '../lib/setVariables.js';
 import setFreekicks from '../lib/setFreekicks.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
 
 function setGoalieHasBall(

@@ -4,7 +4,7 @@ import setpieces from './lib/set_pieces.js';
 
 describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
@@ -26,7 +26,7 @@ describe('testBoundariesForBottomGoal()', function () {
 });
 describe('testBoundariesForTopGoal()', function () {
   it('expected Top Goal', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
@@ -46,7 +46,8 @@ describe('testBoundariesForTopGoal()', function () {
 });
 describe('testBoundariesForBottomGoalSecondHalf()', function () {
   it('expected Bottom Goal', async () => {
-    const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
+    const itlocation =
+      './src/test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setBottomGoalKick(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
@@ -68,7 +69,8 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
 });
 describe('testBoundariesForTopGoalSecondHalf()', function () {
   it('expected Top Goal', async () => {
-    const itlocation = './test/input/boundaryPositions/secondHalfGoalKick.json';
+    const itlocation =
+      './src/test/input/boundaryPositions/secondHalfGoalKick.json';
     const nextJSON = await setpieces.setTopGoalKick(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
@@ -88,7 +90,7 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
 });
 describe('setKickOffTeamGoalScored()', function () {
   it('kickOff team in same position', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setKickOffTeamGoalScored(itlocation);
     expect(nextJSON.kickOffTeamStatistics.goals).to.eql(1);
     for (const player of nextJSON.kickOffTeam.players) {
@@ -115,7 +117,7 @@ describe('setKickOffTeamGoalScored()', function () {
 });
 describe('setSecondTeamGoalScored()', function () {
   it('second team in same position', async () => {
-    const itlocation = './init_config/iteration2.json';
+    const itlocation = './src/init_config/iteration2.json';
     const nextJSON = await setpieces.setSecondTeamGoalScored(itlocation);
     expect(nextJSON.secondTeamStatistics.goals).to.eql(1);
     for (const player of nextJSON.secondTeam.players) {
@@ -142,14 +144,14 @@ describe('setSecondTeamGoalScored()', function () {
 });
 describe('setFreekick()', function () {
   it('kickoff team assigned a freekick', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
     expect(nextJSON.kickOffTeamStatistics.freekicks).to.eql(1);
   });
   it('second team assigned a freekick', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
@@ -159,7 +161,7 @@ describe('setFreekick()', function () {
 describe('setPenalties()', function () {
   it('kickoff team assigned a bottom penalty', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+      './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
@@ -169,7 +171,7 @@ describe('setPenalties()', function () {
   });
   it('second team assigned a bottom penalty', async () => {
     const itlocation =
-      './test/input/boundaryPositions/secondteambottompenalty.json';
+      './src/test/input/boundaryPositions/secondteambottompenalty.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
@@ -179,7 +181,7 @@ describe('setPenalties()', function () {
   });
   it('kickoff team assigned a top penalty', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
@@ -189,7 +191,7 @@ describe('setPenalties()', function () {
   });
   it('second team assigned a top penalty', async () => {
     const itlocation =
-      './test/input/boundaryPositions/secondteamtoppenalty.json';
+      './src/test/input/boundaryPositions/secondteamtoppenalty.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
@@ -201,7 +203,7 @@ describe('setPenalties()', function () {
 describe('testPenalties()', function () {
   it('top penalty returns kick off team players in the positions', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.setupTopPenalty(itlocation);
     const pitchWidth = nextJSON.pitchSize[0];
 
@@ -230,7 +232,7 @@ describe('testPenalties()', function () {
   });
   it('bottom penalty returns kick off team players in the correct positions', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+      './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
     const nextJSON = await setpieces.setupBottomPenalty(itlocation);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
@@ -259,7 +261,7 @@ describe('testPenalties()', function () {
   });
   it('top penalty returns second team players in the correct positions', async () => {
     const itlocation =
-      './test/input/boundaryPositions/secondteamtoppenalty.json';
+      './src/test/input/boundaryPositions/secondteamtoppenalty.json';
     const nextJSON = await setpieces.setupTopPenalty(itlocation);
     const pitchWidth = nextJSON.pitchSize[0];
 
@@ -288,7 +290,7 @@ describe('testPenalties()', function () {
   });
   it('bottom penalty returns second team players in the correct positions', async () => {
     const itlocation =
-      './test/input/boundaryPositions/secondteambottompenalty.json';
+      './src/test/input/boundaryPositions/secondteambottompenalty.json';
     const nextJSON = await setpieces.setupBottomPenalty(itlocation);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
@@ -319,7 +321,7 @@ describe('testPenalties()', function () {
 
 describe('testCorners()', function () {
   it('attacking team players are in relevant halves top left corner', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
 
     const nextJSON = await setpieces.setupTopLeftCorner(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
@@ -339,7 +341,7 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves bottom Left corner', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
 
     const nextJSON = await setpieces.setupBottomLeftCorner(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
@@ -361,7 +363,7 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves bottom right corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupBottomRightCorner(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
@@ -383,7 +385,7 @@ describe('testCorners()', function () {
     }
   });
   it('attacking team players are in relevant halves top right corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
 
     const nextJSON = await setpieces.setupTopRightCorner(itlocation);
     const insideHalf = Math.floor(nextJSON.pitchSize[1] / 2);
@@ -405,7 +407,7 @@ describe('testCorners()', function () {
 });
 describe('testThrowIns()', function () {
   it('kick off team left throw in', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setLeftKickOffTeamThrowIn(
       itlocation,
       [-5, 120],
@@ -436,7 +438,7 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team left throw in', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setLeftSecondTeamThrowIn(
       itlocation,
       [-5, 120],
@@ -467,7 +469,7 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
   it('kick off team right throw in', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setRightKickOffTeamThrowIn(
       itlocation,
       [1200, 120],
@@ -498,7 +500,7 @@ describe('testThrowIns()', function () {
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
   it('second off team right throw in', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setRightSecondTeamThrowIn(
       itlocation,
       [1200, 120],
@@ -532,25 +534,25 @@ describe('testThrowIns()', function () {
 describe('setPenalties()', function () {
   it('in bottom penalty area', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+      './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
     const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
   it('in top penalty area', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
   it('not in bottom penalty area', async () => {
     const itlocation =
-      './test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
+      './src/test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
     const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(false);
   });
   it('not in top penalty area', async () => {
     const itlocation =
-      './test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
+      './src/test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
     const isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(false);
   });
@@ -558,7 +560,7 @@ describe('setPenalties()', function () {
 
 describe('setGoalieHasBall()', function () {
   it('checkGoalieHasBall', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const goalieHasBallSetup = await setpieces.goalieHasBall(itlocation);
     expect(goalieHasBallSetup.kickOffTeam.players[0].hasBall).to.eql(true);
     expect(goalieHasBallSetup.ball.withPlayer).to.eql(true);

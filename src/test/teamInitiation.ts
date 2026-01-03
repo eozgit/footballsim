@@ -4,7 +4,7 @@ import initteams from './lib/initiate_team.js';
 
 describe('testTeamSetup()', function () {
   it('check all players origin positions are the same as the start positions', async () => {
-    const t1location = './init_config/team1.json';
+    const t1location = './src/init_config/team1.json';
 
     const teamOutput = await initteams.setTeam(t1location);
 
@@ -44,7 +44,7 @@ describe('testTeamSetup()', function () {
     );
   });
   it('check all players relative positions are the same as the start positions', async () => {
-    const t1location = './init_config/team1.json';
+    const t1location = './src/init_config/team1.json';
 
     const teamOutput = await initteams.setTeam(t1location);
 

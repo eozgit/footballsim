@@ -7,7 +7,7 @@ import { readMatchDetails } from './lib/utils.js';
 describe('bottomTeamPlayerHasBallInMiddle()', function () {
   it('In middle of pitch, no opp. near, shooting over 85', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const playerInformation = { proxPOS: [218, -464] };
@@ -20,7 +20,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
   });
   it('In middle of pitch, no opp. near, shooting below 85, striker', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.skill.shooting = 30;
@@ -34,7 +34,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
   });
   it('In middle of pitch, no opp. near, shooting below 85, midfielder', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.skill.shooting = 30;
@@ -49,7 +49,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
   });
   it('In middle of pitch, no opp. near, shooting below 85, defender', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.skill.shooting = 30;
@@ -64,7 +64,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
   });
   it('In middle of pitch, opp. near, shooting over 85', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const playerInformation = { proxPOS: [5, -5] };
@@ -79,7 +79,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
 describe('bottomTeamPlayerHasBall()', function () {
   it('bottomTeamPlayerHasBallInMiddle', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInMiddle.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -94,7 +94,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('bottomTeamPlayerHasBallInTopPenaltyBox', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -109,7 +109,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('onTopCornerBoundary', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.currentPOS = [0, 0];
@@ -126,7 +126,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('bottomTeamPlayerHasBall, GK, opposition near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.position = 'GK';
@@ -143,7 +143,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('bottomTeamPlayerHasBall, GK, opposition not near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.position = 'GK';
@@ -159,7 +159,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Top Thrd, opposition not near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -174,7 +174,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Top Third, opposition near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -190,7 +190,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Bottom Third, opposition near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -206,7 +206,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Bottom Third, no opposition near, midfielder', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.position = 'LM';
@@ -222,7 +222,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Bottom Third, no opposition near, defender', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.position = 'LB';
@@ -238,7 +238,7 @@ describe('bottomTeamPlayerHasBall()', function () {
   });
   it('Bottom Third, no opposition near, striker', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.position = 'ST';
@@ -256,7 +256,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   it('Close, no opposition near, no team mate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -271,7 +271,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition near, no team mate close, half/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -287,7 +287,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition near, no team mate close, 0/half shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -303,7 +303,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Not Close, opposition near, within shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.currentPOS[1] = 875;
@@ -320,7 +320,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Not Close, opposition near, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.currentPOS[1] = 875;
@@ -337,7 +337,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Not Close, opposition near, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     player.currentPOS[1] = 910;
@@ -353,7 +353,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opp. near not ahead, no tmate close, half/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -372,7 +372,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opp. near not ahead, no tmate close, 0/half skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -390,7 +390,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opp. near not ahead, no tmate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -409,7 +409,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, tmate close, 0/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -427,7 +427,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, tmate close, half/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -444,7 +444,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, tmate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -462,7 +462,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, no tmate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -479,7 +479,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, no tmate close, half/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -495,7 +495,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, no opposition ahead, no tmate close, 0/half shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -512,7 +512,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opposition ahead, no tmate close, 0/half shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -529,7 +529,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opposition ahead, no tmate close, half/shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -545,7 +545,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opposition ahead, no tmate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -562,7 +562,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
   });
   it('Close, opposition ahead, tmate close, further than shooting skills', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -581,7 +581,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
 describe('topTeamPlayerHasBall()', function () {
   it('GK - opposition not near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -597,7 +597,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('GK - opposition near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -614,7 +614,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Not GK - bottom corner boundary', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -631,7 +631,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Not GK - In Bottom Penalty Box', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -646,7 +646,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Not GK - In Bottom Third - no opp near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -661,7 +661,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Not GK - In Bottom Third - opp near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInBottomThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInBottomThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -677,7 +677,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Middle Third - opp near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInMiddleThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -693,7 +693,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Middle Third - no opp near - shooting > 85', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInMiddleThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -708,7 +708,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Middle Third - no opp near - shooting < 85, LM', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInMiddleThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -725,7 +725,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Middle Third - no opp near - shooting < 85, Striker', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInMiddleThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -741,7 +741,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Middle Third - no opp near - shooting < 85, Defender', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInMiddleThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -758,7 +758,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Own Third - opp near', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInOwnThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -774,7 +774,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Own Third - no opp near - midfielder', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInOwnThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -790,7 +790,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Own Third - no opp near - striker', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInOwnThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -806,7 +806,7 @@ describe('topTeamPlayerHasBall()', function () {
   });
   it('Own Third - no opp near - defender', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInOwnThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -824,7 +824,7 @@ describe('topTeamPlayerHasBall()', function () {
 describe('findPossActions()', function () {
   it('From Bottom', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
@@ -853,7 +853,7 @@ describe('findPossActions()', function () {
   });
   it('From Bottom', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/actionInputs/topTeamHasBallInOwnThird.json',
+      './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;

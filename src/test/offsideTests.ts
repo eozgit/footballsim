@@ -7,7 +7,7 @@ import { readMatchDetails } from './lib/utils.js';
 describe('checkOffside()', function () {
   it('1 Bottom Player offside', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsidePosition1.json',
+      './src/test/input/offsideTests/offsidePosition1.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -19,7 +19,7 @@ describe('checkOffside()', function () {
   });
   it('1 Player top offside', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsideTopPosition1.json',
+      './src/test/input/offsideTests/offsideTopPosition1.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -32,7 +32,7 @@ describe('checkOffside()', function () {
   });
   it('1 Player top offside w/ ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsideTopPosition1withBall.json',
+      './src/test/input/offsideTests/offsideTopPosition1withBall.json',
     );
     const team = matchDetails.kickOffTeam;
     const opposition = matchDetails.secondTeam;
@@ -45,7 +45,7 @@ describe('checkOffside()', function () {
   });
   it('1 Player top offside w/ ball switched', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsideTopPosition1withBall.json',
+      './src/test/input/offsideTests/offsideTopPosition1withBall.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -58,7 +58,7 @@ describe('checkOffside()', function () {
   });
   it('1 Player btm offside w/ ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsideBtmPosition1withBall.json',
+      './src/test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
     const team = matchDetails.kickOffTeam;
     const opposition = matchDetails.secondTeam;
@@ -71,7 +71,7 @@ describe('checkOffside()', function () {
   });
   it('1 Player btm offside w/ ball switched', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsideBtmPosition1withBall.json',
+      './src/test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -84,7 +84,7 @@ describe('checkOffside()', function () {
   });
   it('2 Player offside', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsidePosition2.json',
+      './src/test/input/offsideTests/offsidePosition2.json',
     );
     const team = matchDetails.kickOffTeam;
     const opposition = matchDetails.secondTeam;
@@ -97,7 +97,7 @@ describe('checkOffside()', function () {
   });
   it('1 offside player, same team with ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/onsidePosition1.json',
+      './src/test/input/offsideTests/onsidePosition1.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -113,7 +113,7 @@ describe('checkOffside()', function () {
   });
   it('Team 1 at top, 1 player offside', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsidePosition3.json',
+      './src/test/input/offsideTests/offsidePosition3.json',
     );
     const team = matchDetails.kickOffTeam;
     const opposition = matchDetails.secondTeam;
@@ -126,7 +126,7 @@ describe('checkOffside()', function () {
   });
   it('Team 1 at bottom, 1 player offside', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/offsidePosition3.json',
+      './src/test/input/offsideTests/offsidePosition3.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -139,7 +139,7 @@ describe('checkOffside()', function () {
   });
   it('Goalkeeper has ball, no offside positions', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/onsideBottomPosition2GK.json',
+      './src/test/input/offsideTests/onsideBottomPosition2GK.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
@@ -152,7 +152,7 @@ describe('checkOffside()', function () {
   });
   it('Ball not with team', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/offsideTests/ballNotWithTeam.json',
+      './src/test/input/offsideTests/ballNotWithTeam.json',
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;

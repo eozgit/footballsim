@@ -4,7 +4,7 @@ import ballMovement from '../lib/ballMovement.js';
 import setPositions from '../lib/setPositions.js';
 import actions from '../lib/actions.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
   closestPlayer: unknown,

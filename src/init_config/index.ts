@@ -1,7 +1,7 @@
 //example implementation application
 import { readFile as _readFile } from 'fs';
 
-import { MatchDetails, PitchDetails, Team } from 'lib/types.js';
+import { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 
 import {
   initiateGame,

@@ -6,7 +6,7 @@ import setfreekicks from './lib/set_freekicks.js';
 
 describe('testFreekicksTopOwnHalf()', function () {
   it('freekick in own half - top boundary', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 1]);
     const { kickOffTeam, secondTeam } = nextJSON;
     expect(nextJSON).to.be.an('object');
@@ -31,7 +31,7 @@ describe('testFreekicksTopOwnHalf()', function () {
     }
   });
   it('freekick in own half - top origin positions', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 101]);
     const { kickOffTeam, secondTeam } = nextJSON;
     expect(nextJSON).to.be.an('object');
@@ -58,7 +58,7 @@ describe('testFreekicksTopOwnHalf()', function () {
     }
   });
   it('freekick in own half - halfway boundary', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 524]);
     const [, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -109,7 +109,7 @@ describe('testFreekicksTopOwnHalf()', function () {
 });
 describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
   it('freekick between halfway and last quarter - top center', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [400, 550]);
     const [, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -158,7 +158,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     }
   });
   it('freekick between halfway and last quarter - top left', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [29, 550]);
     const [, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -207,7 +207,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     }
   });
   it('freekick between halfway and last quarter - top right', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [655, 550]);
     const [, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -258,7 +258,7 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
 });
 describe('testFreekicksTopLastQuarter()', function () {
   it('freekick last quarter - top center', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 840]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -330,7 +330,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     }
   });
   it('freekick last quarter - top edge of penalty box', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 869]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -398,7 +398,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     }
   });
   it('freekick last quarter - top team bottom left', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [10, 850]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -465,7 +465,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     }
   });
   it('freekick and last quarter - top team bottom right', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [600, 826]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -533,7 +533,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     }
   });
   it('freekick last quarter - top team bottom left goal line', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [10, 1049]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;
@@ -598,7 +598,7 @@ describe('testFreekicksTopLastQuarter()', function () {
     }
   });
   it('freekick last quarter - top team bottom right goal line', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [600, 1049]);
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
     const { kickOffTeam, secondTeam } = nextJSON;

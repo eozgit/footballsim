@@ -70,7 +70,7 @@ describe('testCommonFunction()', function () {
     expect(number).to.eql(6);
   });
   it('read file', async () => {
-    let pitch = await readFile('./init_config/pitch.json');
+    let pitch = await readFile('./src/init_config/pitch.json');
     const testPitchData = {
       pitchWidth: 680,
       pitchHeight: 1050,
@@ -78,13 +78,13 @@ describe('testCommonFunction()', function () {
     };
     expect(pitch).to.eql(testPitchData);
     try {
-      pitch = await readFile('./init_config/patch.json');
+      pitch = await readFile('./src/init_config/patch.json');
       expect(pitch).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
       assert(err instanceof Error);
       const errorText =
-        "Error: ENOENT: no such file or directory, open './init_config/patch.json'";
+        "Error: ENOENT: no such file or directory, open './src/init_config/patch.json'";
       expect(err.toString()).to.have.string(errorText);
     }
   });

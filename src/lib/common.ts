@@ -1,5 +1,5 @@
 'use strict';
-import { MatchDetails } from './types.js';
+import { BallPosition, MatchDetails } from './types.js';
 
 //---------------
 //Maths Functions

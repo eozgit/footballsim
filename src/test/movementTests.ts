@@ -8,7 +8,7 @@ import { readMatchDetails } from './lib/utils.js';
 describe('getMovement()', function () {
   it('Has Ball - runs', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -25,7 +25,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - sprint', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -42,7 +42,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - shoot', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -58,7 +58,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - throughball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -74,7 +74,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - pass', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -90,7 +90,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - cross', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -106,7 +106,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - cleared', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -122,7 +122,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - boot', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -138,7 +138,7 @@ describe('getMovement()', function () {
   });
   it('Has Ball - penalty', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[9];
     const opposition = matchDetails.secondTeam;
@@ -154,7 +154,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - tackle +/+', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -170,7 +170,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - tackle 0/0', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -186,7 +186,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - tackle -/-', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -202,7 +202,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - tackle +/-', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -218,7 +218,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - slide', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -234,7 +234,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept +/0', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     player.currentPOS[1] += 2;
@@ -251,7 +251,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept -/-', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails2.json',
+      './src/test/input/getMovement/matchDetails2.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -267,7 +267,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept 0/-', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
@@ -284,7 +284,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept 0/0', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
@@ -302,7 +302,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept 0/+', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 337;
@@ -320,7 +320,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept +/+', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 537;
@@ -338,7 +338,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept +/-', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 537;
@@ -356,7 +356,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - intercept -/+', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
     player.currentPOS[0] = 1;
@@ -374,7 +374,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - run', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -390,7 +390,7 @@ describe('getMovement()', function () {
   });
   it('No Ball - sprint', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
     const opposition = matchDetails.kickOffTeam;
@@ -408,7 +408,7 @@ describe('getMovement()', function () {
 describe('misc()', function () {
   it('updateInformation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const newPosition: [number, number] = [12, 32];
     pMovement.updateInformation(matchDetails, newPosition);
@@ -416,7 +416,7 @@ describe('misc()', function () {
   });
   it('ballMoved', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.secondTeam.players[4];
     thisPlayer.hasBall = true;
@@ -432,7 +432,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - cleared', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -452,7 +452,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - boot', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -472,7 +472,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - pass', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -496,7 +496,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - cross', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -520,7 +520,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - throughball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -540,7 +540,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - shoot', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -560,7 +560,7 @@ describe('misc()', function () {
   });
   it('ballPlayerActions - penalty', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     const team = matchDetails.kickOffTeam;
@@ -580,7 +580,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - no ball, valid provided action', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.action = `tackle`;
@@ -590,7 +590,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - no ball, provided ball action', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
@@ -600,7 +600,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - has ball, provided none ball action', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
@@ -610,7 +610,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - has ball, provided none ball action intercept', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
@@ -620,7 +620,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - has ball, provided ball action', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     let action = `run`;
@@ -630,7 +630,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - none', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
@@ -640,7 +640,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - nothing', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
@@ -657,7 +657,7 @@ describe('misc()', function () {
   });
   it('checkProvidedAction - invalid action', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     let action = `run`;
@@ -676,7 +676,7 @@ describe('misc()', function () {
 describe('getSprintMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 20, 20);
@@ -688,7 +688,7 @@ describe('getSprintMovement()', function () {
   });
   it('Move SouthWest - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getSprintMovement(
@@ -705,7 +705,7 @@ describe('getSprintMovement()', function () {
   });
   it('Move Wait - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.fitness = 29;
@@ -718,7 +718,7 @@ describe('getSprintMovement()', function () {
   });
   it('Top player with ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 29;
@@ -731,7 +731,7 @@ describe('getSprintMovement()', function () {
   });
   it('Bottom player with ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 31;
@@ -745,7 +745,7 @@ describe('getSprintMovement()', function () {
   });
   it('Move SouthEast - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [10, 100];
@@ -758,7 +758,7 @@ describe('getSprintMovement()', function () {
   });
   it('Move NorthWest - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [600, 1000];
@@ -771,7 +771,7 @@ describe('getSprintMovement()', function () {
   });
   it('Wait - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [230, 290];
@@ -786,7 +786,7 @@ describe('getSprintMovement()', function () {
 describe('getRunMovement()', function () {
   it('Move NorthEast - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 20, 20);
@@ -798,7 +798,7 @@ describe('getRunMovement()', function () {
   });
   it('Move SouthWest - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, -20);
@@ -810,7 +810,7 @@ describe('getRunMovement()', function () {
   });
   it('Move Wait - close to ball ', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[7];
     thisPlayer.fitness = 29;
@@ -823,7 +823,7 @@ describe('getRunMovement()', function () {
   });
   it('Top player with ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 19;
@@ -836,7 +836,7 @@ describe('getRunMovement()', function () {
   });
   it('Bottom player with ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[9];
     thisPlayer.fitness = 31;
@@ -850,7 +850,7 @@ describe('getRunMovement()', function () {
   });
   it('Move SouthEast - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [10, 100];
@@ -863,7 +863,7 @@ describe('getRunMovement()', function () {
   });
   it('Move NorthWest - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [600, 1000];
@@ -876,7 +876,7 @@ describe('getRunMovement()', function () {
   });
   it('Wait - keep in formation', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails1.json',
+      './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
     thisPlayer.currentPOS = [230, 290];
@@ -891,7 +891,7 @@ describe('getRunMovement()', function () {
 describe('decideMovement()', function () {
   it('completeSlide and same position as ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].action = `slide`;
@@ -910,7 +910,7 @@ describe('decideMovement()', function () {
   });
   it('completeTackle and same position as ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].action = `tackle`;
@@ -929,7 +929,7 @@ describe('decideMovement()', function () {
   });
   it('completeSlide and wiithin 3 of ball', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].action = `slide`;
@@ -949,7 +949,7 @@ describe('decideMovement()', function () {
   });
   it('same position as ball not slide or tackle - setClosePlayerTakesBall', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.ball.withPlayer = false;
@@ -966,7 +966,7 @@ describe('decideMovement()', function () {
   });
   it('within 2 of ball not slide or tackle - setClosePlayerTakesBall', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
@@ -984,7 +984,7 @@ describe('decideMovement()', function () {
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
@@ -1003,7 +1003,7 @@ describe('decideMovement()', function () {
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
@@ -1025,7 +1025,7 @@ describe('decideMovement()', function () {
   });
   it('far from, not slide or tackle - setClosePlayerTakesBall and offside true', async () => {
     const matchDetails = await readMatchDetails(
-      'test/input/getMovement/matchDetails3.json',
+      './src/test/input/getMovement/matchDetails3.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[10];
     matchDetails.kickOffTeam.players[10].offside = true;

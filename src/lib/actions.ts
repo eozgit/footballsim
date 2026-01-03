@@ -3,7 +3,13 @@ import common from '../lib/common.js';
 import injury from '../lib/injury.js';
 import setPositions from '../lib/setPositions.js';
 
-import { MatchDetails, MatchEventWeights, Player, Team } from './types.js';
+import {
+  BallPosition,
+  MatchDetails,
+  MatchEventWeights,
+  Player,
+  Team,
+} from './types.js';
 
 function selectAction(possibleActions: object[]) {
   let goodActions: string[] = [];

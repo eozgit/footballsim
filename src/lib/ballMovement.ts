@@ -3,7 +3,7 @@
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function moveBall(matchDetails: MatchDetails) {
   if (

@@ -10,7 +10,7 @@ const project = new Project({
   tsConfigFilePath: 'tsconfig.json',
 });
 
-const sourceFiles = project.getSourceFiles('lib/**/*.ts');
+const sourceFiles = project.getSourceFiles('src/**/*.ts');
 const functionMap = new Map();
 
 console.log(

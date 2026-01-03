@@ -60,7 +60,9 @@ describe('testSelectActions()', function () {
 });
 describe('testSettingOfFoul()', function () {
   it('foul is set', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
     const testTackleTeam = matchDetails.secondTeam;
@@ -71,7 +73,9 @@ describe('testSettingOfFoul()', function () {
     expect(matchDetails.secondTeam.players[4].stats.tackles.fouls).to.eql(1);
   });
   it('foul is set', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.kickOffTeam.players[4];
     const thatPlayer = matchDetails.secondTeam.players[6];
     const testTackleTeam = matchDetails.kickOffTeam;
@@ -82,7 +86,9 @@ describe('testSettingOfFoul()', function () {
     expect(matchDetails.kickOffTeam.players[4].stats.tackles.fouls).to.eql(1);
   });
   it('injury test setting', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
     actions.setInjury(matchDetails, thatPlayer, testPlayer, 14000, 15000);
@@ -102,7 +108,9 @@ describe('testSettingOfFoul()', function () {
     }
   });
   it('injury is set when already injured', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
     actions.setInjury(matchDetails, thatPlayer, testPlayer, 23, 23);
@@ -122,7 +130,9 @@ describe('testSettingOfFoul()', function () {
     }
   });
   it('injury is set', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     matchDetails.secondTeam.players[4].injured = true;
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
@@ -145,7 +155,9 @@ describe('testSettingOfFoul()', function () {
 });
 describe('testSetPostTacklePosition()', function () {
   it('Set tackle position (3)', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
     actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 3);
@@ -153,7 +165,9 @@ describe('testSetPostTacklePosition()', function () {
     expect(matchDetails.kickOffTeam.players[6].currentPOS).to.eql([230, 273]);
   });
   it('Set tackle position (3) other half', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration2.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration2.json',
+    );
     const testPlayer = matchDetails.kickOffTeam.players[4];
     const thatPlayer = matchDetails.secondTeam.players[6];
     actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 3);
@@ -161,7 +175,9 @@ describe('testSetPostTacklePosition()', function () {
     expect(matchDetails.secondTeam.players[6].currentPOS).to.eql([230, 777]);
   });
   it('Set tackle position (1)', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const thatPlayer = matchDetails.kickOffTeam.players[6];
     actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 1);
@@ -169,7 +185,9 @@ describe('testSetPostTacklePosition()', function () {
     expect(matchDetails.kickOffTeam.players[6].currentPOS).to.eql([230, 271]);
   });
   it('Set tackle position (1) other half', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration2.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration2.json',
+    );
     const testPlayer = matchDetails.kickOffTeam.players[4];
     const thatPlayer = matchDetails.secondTeam.players[6];
     actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 1);
@@ -179,7 +197,9 @@ describe('testSetPostTacklePosition()', function () {
 });
 describe('testSetPostTackleBall()', function () {
   it('Set tackle position (3)', async () => {
-    const matchDetails = await readMatchDetails('init_config/iteration.json');
+    const matchDetails = await readMatchDetails(
+      'src/init_config/iteration.json',
+    );
     const testPlayer = matchDetails.secondTeam.players[4];
     const testTeam = matchDetails.secondTeam;
     const testOpposition = matchDetails.kickOffTeam;
@@ -245,7 +265,9 @@ describe('testSlideTackle()', function () {
   let x = 0;
   for (let i = 0; i < 10; i++) {
     it(`resolve slide tackle ${x}`, async () => {
-      const matchDetails = await readMatchDetails('init_config/iteration.json');
+      const matchDetails = await readMatchDetails(
+        'src/init_config/iteration.json',
+      );
       const testPlayer = matchDetails.secondTeam.players[4];
       const testTeam = matchDetails.secondTeam;
       const testOpposition = matchDetails.kickOffTeam;
@@ -277,7 +299,7 @@ describe('testSlideTackle()', function () {
     });
     it(`resolve slide tackle opposite ${x}`, async () => {
       const matchDetails = await readMatchDetails(
-        'test/input/opposite/iterationSwitch.json',
+        './src/test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
       const testTeam = matchDetails.secondTeam;
@@ -310,7 +332,7 @@ describe('testSlideTackle()', function () {
     });
     it(`resolve slide tackle - failed ${x}`, async () => {
       const matchDetails = await readMatchDetails(
-        'test/input/opposite/iterationSwitch.json',
+        './src/test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
       testPlayer.skill.tackling = 60;
@@ -352,7 +374,9 @@ describe('testTackle()', function () {
   let x = 0;
   for (let i = 0; i < 10; i++) {
     it(`resolve tackle ${x}`, async () => {
-      const matchDetails = await readMatchDetails('init_config/iteration.json');
+      const matchDetails = await readMatchDetails(
+        'src/init_config/iteration.json',
+      );
       const testPlayer = matchDetails.secondTeam.players[4];
       const testTeam = matchDetails.secondTeam;
       const testOpposition = matchDetails.kickOffTeam;
@@ -384,7 +408,7 @@ describe('testTackle()', function () {
     });
     it(`resolve tackle opposite ${x}`, async () => {
       const matchDetails = await readMatchDetails(
-        'test/input/opposite/iterationSwitch.json',
+        './src/test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
       const testTeam = matchDetails.secondTeam;
@@ -417,7 +441,7 @@ describe('testTackle()', function () {
     });
     it(`resolve tackle - failed ${x}`, async () => {
       const matchDetails = await readMatchDetails(
-        'test/input/opposite/iterationSwitch.json',
+        './src/test/input/opposite/iterationSwitch.json',
       );
       const testPlayer = matchDetails.secondTeam.players[4];
       testPlayer.skill.tackling = 60;
@@ -458,7 +482,7 @@ describe('testTackle()', function () {
 describe('checkCards()', function () {
   it('completeSlide - test 1', async () => {
     let matchDetails = await readMatchDetails(
-      'test/input/tackleTests/completeSlide.json',
+      './src/test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
     const opp = matchDetails.secondTeam;
@@ -478,7 +502,7 @@ describe('checkCards()', function () {
   });
   it('completeSlide - test 2', async () => {
     let matchDetails = await readMatchDetails(
-      'test/input/tackleTests/completeSlide.json',
+      './src/test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
     const opp = matchDetails.secondTeam;
@@ -498,7 +522,7 @@ describe('checkCards()', function () {
   });
   it('completeSlide - test 3', async () => {
     let matchDetails = await readMatchDetails(
-      'test/input/tackleTests/completeSlide.json',
+      './src/test/input/tackleTests/completeSlide.json',
     );
     const team = matchDetails.kickOffTeam;
     const opp = matchDetails.secondTeam;

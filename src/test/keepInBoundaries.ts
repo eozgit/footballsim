@@ -6,7 +6,7 @@ import setpieces from './lib/set_pieces.js';
 
 describe('testBoundariesForCorners1()', function () {
   it('expected Top Left Corner', async () => {
-    const itlocation = './test/input/keepInBoundaries/topLeftCorner.json';
+    const itlocation = './src/test/input/keepInBoundaries/topLeftCorner.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '53137486250364320',
@@ -22,7 +22,7 @@ describe('testBoundariesForCorners1()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Right Corner', async () => {
-    const itlocation = './test/input/keepInBoundaries/topRightCorner.json';
+    const itlocation = './src/test/input/keepInBoundaries/topRightCorner.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '53137486250364320',
@@ -38,7 +38,7 @@ describe('testBoundariesForCorners1()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Left Corner', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -54,7 +54,7 @@ describe('testBoundariesForCorners1()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Right Corner', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -72,7 +72,7 @@ describe('testBoundariesForCorners1()', function () {
 });
 describe('testBoundariesForCorners2()', function () {
   it('expected Top Left Corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -88,7 +88,7 @@ describe('testBoundariesForCorners2()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Top Right Corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -104,7 +104,7 @@ describe('testBoundariesForCorners2()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Left Corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -120,7 +120,7 @@ describe('testBoundariesForCorners2()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Right Corner', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -134,7 +134,7 @@ describe('testBoundariesForCorners2()', function () {
 });
 describe('set throw in()', function () {
   it('expected kick off team throw in left', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -146,7 +146,7 @@ describe('set throw in()', function () {
     expect(throwLog).to.be.greaterThan(-1);
   });
   it('expected kick off team throw in right', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -158,7 +158,7 @@ describe('set throw in()', function () {
     expect(throwLog).to.be.greaterThan(-1);
   });
   it('expected second team throw in left', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -170,7 +170,7 @@ describe('set throw in()', function () {
     expect(throwLog).to.be.greaterThan(-1);
   });
   it('expected second team throw in right', async () => {
-    const itlocation = './test/input/boundaryPositions/setCorners2.json';
+    const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -184,7 +184,7 @@ describe('set throw in()', function () {
 });
 describe('goalKicks()', function () {
   it('expected Top Goal Kick', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -196,7 +196,7 @@ describe('goalKicks()', function () {
     expect(cornerLog).to.be.greaterThan(-1);
   });
   it('expected Bottom Goal Kick', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -209,7 +209,7 @@ describe('goalKicks()', function () {
   });
   it('expected Top Goal Kick 2', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -222,7 +222,7 @@ describe('goalKicks()', function () {
   });
   it('expected Bottom Goal Kick 2', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -235,7 +235,7 @@ describe('goalKicks()', function () {
   });
   it('expected Top Goal Kick 3', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -248,7 +248,7 @@ describe('goalKicks()', function () {
   });
   it('expected Top Goal Kick 4', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+      './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -261,7 +261,7 @@ describe('goalKicks()', function () {
   });
   it('expected Bottom Goal Kick 5', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteambottompenalty.json';
+      './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -274,7 +274,7 @@ describe('goalKicks()', function () {
   });
   it('expected Top Goal Kick 6', async () => {
     const itlocation =
-      './test/input/boundaryPositions/secondteambottompenalty.json';
+      './src/test/input/boundaryPositions/secondteambottompenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -288,7 +288,7 @@ describe('goalKicks()', function () {
 });
 describe('goalScored()', function () {
   it('expected second team goal scored', async () => {
-    const itlocation = './init_config/iteration2.json';
+    const itlocation = './src/init_config/iteration2.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030002',
@@ -302,7 +302,7 @@ describe('goalScored()', function () {
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected kick off team goal scored', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -316,7 +316,7 @@ describe('goalScored()', function () {
     expect(goalLog).to.be.greaterThan(-1);
   });
   it('expected kick off team goal scored 2', async () => {
-    const itlocation = './init_config/iteration.json';
+    const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -331,7 +331,7 @@ describe('goalScored()', function () {
   });
   it('expected kick off team goal scored 3', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '78883930303030003',
@@ -346,7 +346,7 @@ describe('goalScored()', function () {
   });
   it('expected second team goal scored - own goal', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '53137486250364320',
@@ -363,7 +363,7 @@ describe('goalScored()', function () {
 describe('no boundary()', function () {
   it('returns unchanged matchDetails', async () => {
     const itlocation =
-      './test/input/boundaryPositions/kickoffteamtoppenalty.json';
+      './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const nextJSON = await setpieces.keepInBoundaries(
       itlocation,
       '53137486250364320',

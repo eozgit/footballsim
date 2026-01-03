@@ -2,12 +2,12 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
-    include: ['test/**/*.ts'],
+    include: ['src/test/**/*.ts'],
     exclude: [
-      'test/lib/**',
-      'test/input/**',
+      'src/test/lib/**',
+      'src/test/input/**',
       '**/node_modules/**',
-      'test/output/**',
+      'src/test/output/**',
     ],
     globals: true,
     testTimeout: 1000,
@@ -17,6 +17,6 @@ export default defineConfig({
       reporter: ['text', 'json', 'html'],
       reportsDirectory: './test/coverage',
     },
-    setupFiles: ['./vitest-setup.ts'],
+    setupFiles: ['./src/vitest-setup.ts'],
   },
 });

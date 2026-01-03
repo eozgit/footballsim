@@ -9,7 +9,8 @@
     "checkJs": false,
     "noImplicitAny": true,
     "strict": true,
-    "outDir": "./dist",
+    "rootDir": "src",
+    "outDir": "dist",
     "baseUrl": ".",
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -19,13 +20,18 @@
     //"noEmit": true
     "declaration": true /* Generates the .d.ts files your client needs */,
     "declarationMap": true /* Allows "Go to Definition" to jump to your TS source */,
-    "sourceMap": true /* Crucial for debugging */
+    "sourceMap": true /* Crucial for debugging */,
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": [
-    "lib/**/*",
-    "engine.ts", // Changed to .ts for post-rename
-    "test/**/*",
-    "init_config/**/*"
-  ],
-  "exclude": ["node_modules", "**/node_modules/*", "dist", "coverage"]
+  "include": ["src/**/*.ts", "init_config/**/*"],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    "dist",
+    "coverage",
+    "src/**/*.test.ts",
+    "src/test/**/*"
+  ]
 }
