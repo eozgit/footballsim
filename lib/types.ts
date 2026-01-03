@@ -111,3 +111,5 @@ export interface PitchDetails {
   pitchHeight: number;
   goalWidth: number;
 }
+
+export type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];

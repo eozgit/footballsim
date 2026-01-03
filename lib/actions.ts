@@ -3,7 +3,7 @@ import common from '../lib/common.js';
 import injury from '../lib/injury.js';
 import setPositions from '../lib/setPositions.js';
 
-import { MatchDetails, Player, Team } from './types.js';
+import { MatchDetails, MatchEventWeights, Player, Team } from './types.js';
 
 function selectAction(possibleActions: object[]) {
   let goodActions: string[] = [];
@@ -62,7 +62,7 @@ function topTeamPlayerHasBall(
   player: Player,
   team: Team,
   opposition: Team,
-): number[] {
+): MatchEventWeights {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -134,7 +134,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   player: Player,
   team: Team,
   opposition: Team,
-): number[] {
+): MatchEventWeights {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -153,7 +153,10 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
     Math.abs(ownPlayerInformation.proxPOS[0]),
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
-  const closePlayerPosition = playerInformation.thePlayer.currentPOS;
+  const [curX, curY] = playerInformation.thePlayer.currentPOS;
+  if (curX == 'NP') {
+    throw new Error('No player position!');
+  }
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
   const [playerX, playerY] = currentPOS;
@@ -165,7 +168,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   const shotRange = pitchHeight - skill.shooting;
   if (checkPositionInBottomPenaltyBoxClose(pos, pitchWidth, pitchHeight)) {
     if (oppositionNearContext(playerInformation, 6, 6)) {
-      if (checkOppositionBelow(closePlayerPosition, currentPOS)) {
+      if (checkOppositionBelow([curX, curY], pos)) {
         if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
           return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
         } else if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
@@ -213,7 +216,7 @@ function bottomTeamPlayerHasBall(
   player: Player,
   team: Team,
   opposition: Team,
-): number[] {
+): MatchEventWeights {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -272,7 +275,7 @@ function bottomTeamPlayerHasBallInMiddle(
   },
   position: string,
   skill: unknown,
-): number[] {
+): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
   } else if (skill.shooting > 85) {
@@ -290,7 +293,7 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   player: Player,
   team: Team,
   opposition: Team,
-): number[] {
+): MatchEventWeights {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
