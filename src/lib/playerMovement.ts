@@ -7,7 +7,7 @@ import actions from '../lib/actions.js';
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
-  closestPlayer: Player,
+  closestPlayer: Partial<Player>,
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,

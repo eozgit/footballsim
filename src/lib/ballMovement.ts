@@ -3,7 +3,7 @@
 import common from '../lib/common.js';
 import setPositions from '../lib/setPositions.js';
 
-import { BallPosition, MatchDetails, Player, Team } from './types.js';
+import { BallPosition, MatchDetails, Player, Position, Team } from './types.js';
 
 function moveBall(matchDetails: MatchDetails) {
   if (
@@ -363,8 +363,6 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
   } else {
     throw new Error(`You cannot supply 0 as a half`);
   }
-  common.debug('bm3', thisTeamStats.shots);
-  common.debug('bm4', player.stats.shots);
   if (typeof thisTeamStats.shots !== 'number') {
     if (thisTeamStats.shots.total === undefined) {
       thisTeamStats.shots.total = 0;
@@ -597,7 +595,11 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
   );
 }
 
-function getPlayersInDistance(team: Team, player: Player, pitchSize: unknown) {
+function getPlayersInDistance(
+  team: Team,
+  player: Player,
+  pitchSize: unknown,
+): { position: [number, number]; proximity: number; name: string }[] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('Player no position!');
   }
@@ -753,7 +755,7 @@ function thisPlayerIsInProximity(
         thisPOS,
         deflectPos,
         thisPlayer,
-        thisTeam.name,
+        thisTeam,
         matchDetails,
       );
       matchDetails.iterationLog.push(`Ball deflected`);
@@ -815,9 +817,9 @@ function resolveDeflection(
 }
 
 function setDeflectionDirectionPos(
-  direction: unknown,
-  defPosition: unknown,
-  newPower: unknown,
+  direction: string,
+  defPosition: [number, number],
+  newPower: number,
 ): [number, number] {
   const tempPosition: [number, number] = [0, 0];
   if (
@@ -921,7 +923,7 @@ function setDeflectionPlayerOffside(
   }
 }
 
-function getBallDirection(matchDetails: MatchDetails, nextPOS: number[]) {
+function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition) {
   const thisPOS = matchDetails.ball.position;
   const movementX = thisPOS[0] - nextPOS[0];
   const movementY = thisPOS[1] - nextPOS[1];
@@ -962,11 +964,11 @@ function ballPassed(
   const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
   const { position } = matchDetails.ball;
   let closePlyPos = [0, 0];
-  const playersInDistance = getPlayersInDistance(
-    team,
-    player,
-    matchDetails.pitchSize,
-  );
+  const playersInDistance: {
+    position: [number, number];
+    proximity: number;
+    name: string;
+  }[] = getPlayersInDistance(team, player, matchDetails.pitchSize);
   const tPlyr = getTargetPlayer(playersInDistance, side, pitchHeight);
   const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
   const middleThird = !!(
@@ -1022,10 +1024,14 @@ function setTargetPlyPos(
 }
 
 function getTargetPlayer(
-  playersArray: unknown[],
+  playersArray: {
+    position: [number, number];
+    proximity: number;
+    name: string;
+  }[],
   side: string,
   pitchHeight: number = 1050,
-) {
+): { position: [number, number]; proximity: number; name: string } {
   let tempArray = [];
   for (const tempPlayer of playersArray) {
     if (tempPlayer.proximity < pitchHeight / 2) {
