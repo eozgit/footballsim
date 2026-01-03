@@ -96,9 +96,11 @@ export function createPlayer(position: string): Player {
     },
   };
 }
-function setBPlayer(ballPos: unknown): Player {
+function setBPlayer(ballPos: [number, number, number?]): Player {
+  const [ballX, ballY] = ballPos;
+  const pos: [number, number] = [ballX, ballY];
   const player = createPlayer('LB');
-  const patch = {
+  const patch: Partial<Player> = {
     name: `Ball`,
     position: `LB`,
     rating: `100`,
@@ -112,12 +114,11 @@ function setBPlayer(ballPos: unknown): Player {
       penalty_taking: 100,
       jumping: 100,
     },
-    originPOS: ballPos,
-    currentPOS: ballPos,
+    originPOS: pos,
+    currentPOS: pos,
     injured: false,
   };
-  const result: Player = { ...player, ...patch };
-  return result;
+  return { ...player, ...patch };
 }
 
 function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {

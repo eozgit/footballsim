@@ -18,7 +18,7 @@ export interface Ball {
   Player: number | string;
   withTeam: number | string;
   direction: string;
-  ballOverIterations: Array<number[]>;
+  ballOverIterations: Array<[number, number, number?]>;
   lastTouch: LastTouch;
 }
 

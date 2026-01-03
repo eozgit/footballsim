@@ -62,7 +62,7 @@ function topTeamPlayerHasBall(
   player: Player,
   team: Team,
   opposition: Team,
-) {
+): number[] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -134,7 +134,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   player: Player,
   team: Team,
   opposition: Team,
-) {
+): number[] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -213,7 +213,7 @@ function bottomTeamPlayerHasBall(
   player: Player,
   team: Team,
   opposition: Team,
-) {
+): number[] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
@@ -272,7 +272,7 @@ function bottomTeamPlayerHasBallInMiddle(
   },
   position: string,
   skill: unknown,
-) {
+): number[] {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];
   } else if (skill.shooting > 85) {
