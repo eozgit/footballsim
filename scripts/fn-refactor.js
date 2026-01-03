@@ -19,7 +19,7 @@ class FnRefactorEngine {
     };
     this.runtimeStats = {};
     this.server = null;
-    this.libDir = path.join(process.cwd(), 'lib');
+    this.libDir = path.join(process.cwd(), 'src', 'lib');
   }
 
   log(step, description) {
@@ -71,7 +71,7 @@ class FnRefactorEngine {
         ast.program.body.unshift(
           b.importDeclaration(
             [b.importSpecifier(b.identifier('__typeSpy'))],
-            b.literal('./typeSpy.js'),
+            b.literal('../../scripts/typeSpy.js'),
           ),
         );
         fs.writeFileSync(fullPath, print(ast).code);
