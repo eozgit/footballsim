@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import actions from '../lib/actions.js';
+import * as actions from '../lib/actions.js';
 import * as common from '../lib/common.js';
 import playerMovement from '../lib/playerMovement.js';
 

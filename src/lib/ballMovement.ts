@@ -1196,7 +1196,7 @@ function mergeArrays(
   return newArray;
 }
 
-export default {
+export {
   ballKicked,
   shotMade,
   penaltyTaken,

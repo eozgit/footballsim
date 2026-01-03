@@ -1,7 +1,7 @@
 import * as common from './common.js';
-import ballMovement from './ballMovement.js';
+import * as ballMovement from './ballMovement.js';
 import setPositions from './setPositions.js';
-import actions from './actions.js';
+import * as actions from './actions.js';
 
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 

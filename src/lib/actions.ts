@@ -1000,7 +1000,7 @@ function foulIntensity() {
   return common.getRandomNumber(1, 99);
 }
 
-export default {
+export {
   selectAction,
   findPossActions,
   playerDoesNotHaveBall,

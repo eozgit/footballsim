@@ -1,7 +1,7 @@
 import { expect, it, describe } from 'vitest';
 import { Player } from '../lib/types.js';
 
-import bMovement, { createPlayer } from '../lib/ballMovement.js';
+import * as bMovement from '../lib/ballMovement.js';
 import * as common from '../lib/common.js';
 import { readFile } from '../lib/fileReader.js';
 
@@ -155,7 +155,7 @@ describe('targetPlayers()', function () {
     expect(output).to.eql([2, 2]);
   });
   it('set B Player', async () => {
-    const player = createPlayer('CM');
+    const player = bMovement.createPlayer('CM');
     const bPlayer = (await readFile(
       './src/test/input/ballMovements/bPlayer.json',
     )) as Player;

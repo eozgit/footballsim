@@ -5,7 +5,7 @@ import injury from './lib/injury.js';
 import setPositions from './lib/setPositions.js';
 import setVariables from './lib/setVariables.js';
 import playerMovement from './lib/playerMovement.js';
-import ballMovement from './lib/ballMovement.js';
+import * as ballMovement from './lib/ballMovement.js';
 import validate from './lib/validate.js';
 
 //------------------------

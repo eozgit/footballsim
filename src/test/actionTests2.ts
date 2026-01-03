@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import actions from '../lib/actions.js';
+import * as actions from '../lib/actions.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
