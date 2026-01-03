@@ -111,11 +111,6 @@ async function startSecondHalf(
 }
 
 export { initiateGame, playIteration, startSecondHalf };
-export default {
-  initiateGame,
-  playIteration,
-  startSecondHalf,
-};
 export {
   Ball,
   Cards,
