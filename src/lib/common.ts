@@ -15,14 +15,6 @@ function isBetween(num: number, low: number, high: number): boolean {
   return num > low && num < high;
 }
 
-function isContextBetween(
-  context: { proxPOS: number[] },
-  low: number,
-  high: number,
-) {
-  return context.proxPOS[0] > low && context.proxPOS[0] < high;
-}
-
 function upToMax(num: number, max: number): number {
   if (num > max) {
     return max;

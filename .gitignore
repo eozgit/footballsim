@@ -7,8 +7,10 @@ temp.js
 dist/
 
 # Refactor Engine Data
-type-check-report.txt
-type-runtime-stats.json
-structured-report.json
-analysis.json
-fn-type-stats.json
+scripts/type-check-report.txt
+scripts/type-runtime-stats.json
+scripts/structured-report.json
+scripts/analysis.json
+scripts/fn-type-stats.json
+scripts/fn-usage-report.json
+scripts/telemetry.log

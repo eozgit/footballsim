@@ -857,9 +857,10 @@ function setSuccessTackle(
   team: Team,
   opposition: Team,
   player: Player,
-  thatPlayer: unknown,
+  thatPlayer: Player,
   tackleDetails: unknown,
-) {
+): void {
+  throw new Error('Unused or not covered.');
   setPostTackleBall(matchDetails, team, opposition, player);
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
   if (player.stats.tackles.on === undefined) {
