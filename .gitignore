@@ -5,6 +5,7 @@ node_modules
 coverage
 temp.js
 dist/
+mise.toml
 
 # Refactor Engine Data
 scripts/type-check-report.txt
@@ -14,3 +15,6 @@ scripts/analysis.json
 scripts/fn-type-stats.json
 scripts/fn-usage-report.json
 scripts/telemetry.log
+scripts/duplication-report/
+scripts/jscpd-report.json
+
