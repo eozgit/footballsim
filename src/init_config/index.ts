@@ -6,11 +6,14 @@ import { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 
 let nextIteration;
-gameOfTenIterations()
-  .then(function () {})
-  .catch(function (error) {
-    throw new Error(error);
-  });
+
+function init() {
+  gameOfTenIterations()
+    .then(function () {})
+    .catch(function (error) {
+      throw new Error(error);
+    });
+}
 
 async function gameOfTenIterations() {
   try {

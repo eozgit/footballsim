@@ -1,4 +1,4 @@
-export interface MatchDetails {
+interface MatchDetails {
   matchID: number | string;
   kickOffTeam: Team;
   secondTeam: Team;
@@ -12,7 +12,7 @@ export interface MatchDetails {
   ballIntended?: BallPosition;
 }
 
-export interface Ball {
+interface Ball {
   position: BallPosition;
   withPlayer: boolean;
   Player: number | string;
@@ -22,13 +22,13 @@ export interface Ball {
   lastTouch: LastTouch;
 }
 
-export interface LastTouch {
+interface LastTouch {
   playerName: string;
   playerID: number;
   teamID: number;
 }
 
-export interface Team {
+interface Team {
   name: string;
   rating: number;
   players: Player[];
@@ -36,7 +36,7 @@ export interface Team {
   teamID: number;
 }
 
-export interface Player {
+interface Player {
   name: string;
   position: string;
   rating: string;
@@ -54,7 +54,7 @@ export interface Player {
 }
 
 // Keeping this Enum is actually good—it validates soccer positions
-export enum Position {
+enum Position {
   CM = 'CM',
   Cb = 'CB',
   Gk = 'GK',
@@ -65,7 +65,7 @@ export enum Position {
   St = 'ST',
 }
 
-export interface Skill {
+interface Skill {
   passing: number;
   shooting: number;
   tackling: number;
@@ -76,7 +76,7 @@ export interface Skill {
   jumping: number;
 }
 
-export interface Stats {
+interface Stats {
   goals: number;
   shots: Shots;
   cards: Cards;
@@ -85,19 +85,19 @@ export interface Stats {
   saves?: number;
 }
 
-export interface Cards {
+interface Cards {
   yellow: number;
   red: number;
 }
 
-export interface Shots {
+interface Shots {
   total: number;
   on?: number;
   off: number;
   fouls?: number;
 }
 
-export interface TeamStatistics {
+interface TeamStatistics {
   goals: number;
   shots: Shots | number;
   corners: number;
@@ -106,12 +106,29 @@ export interface TeamStatistics {
   fouls: number;
 }
 
-export interface PitchDetails {
+interface PitchDetails {
   pitchWidth: number;
   pitchHeight: number;
   goalWidth: number;
 }
 
-export type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
+type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
 
-export type BallPosition = [x: number, y: number, z?: number];
+type BallPosition = [x: number, y: number, z?: number];
+
+export {
+  MatchDetails,
+  Ball,
+  LastTouch,
+  Team,
+  Player,
+  Position,
+  Skill,
+  Stats,
+  Cards,
+  Shots,
+  TeamStatistics,
+  PitchDetails,
+  MatchEventWeights,
+  BallPosition,
+};
