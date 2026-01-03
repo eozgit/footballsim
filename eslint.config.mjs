@@ -2,13 +2,15 @@ import js from '@eslint/js';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
+import unusedImports from 'eslint-plugin-unused-imports'; // 1. Import the plugin
 
 export default tseslint.config(
   js.configs.recommended,
-  ...tseslint.configs.recommended, // This automatically sets up the parser
+  ...tseslint.configs.recommended,
   {
     plugins: {
       import: importPlugin,
+      'unused-imports': unusedImports, // 2. Register the plugin
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -22,10 +24,20 @@ export default tseslint.config(
     rules: {
       // --- THE "GRIP" RULES ---
       '@typescript-eslint/no-explicit-any': ['warn', { fixToUnknown: true }],
-      '@typescript-eslint/no-unused-vars': [
+
+      // 3. Disable standard unused-vars to let the plugin handle it
+      '@typescript-eslint/no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error', // Auto-fixable: removes unused imports
+      'unused-imports/no-unused-vars': [
         'error',
-        { argsIgnorePattern: '^_' },
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_'
+        },
       ],
+
       'prefer-template': 'error',
       'prefer-const': 'error',
       'no-var': 'error',
@@ -42,11 +54,12 @@ export default tseslint.config(
     },
   },
   {
-    // Disable some rules for test files to keep them "human"
     files: ['test/**/*.ts'],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       'max-lines-per-function': 'off',
+      // Optional: keep unused vars as warnings in tests
+      'unused-imports/no-unused-vars': 'warn',
     },
   },
 );
