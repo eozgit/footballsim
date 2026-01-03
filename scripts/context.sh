@@ -23,7 +23,7 @@ npx tree-node-cli -L 3 -I "node_modules|dist|.git|coverage-ts|temp_api"
 
 # 3. Architecture & Dependencies
 echo "---SECTION: DEPENDENCY_GRAPH_MERMAID---"
-npx depcruise lib --include-only "^lib" --output-type mermaid --no-config
+npx depcruise src --include-only "src" --output-type mermaid --no-config
 
 # 4. Git History
 echo "---SECTION: RECENT_GIT_COMMITS---"
