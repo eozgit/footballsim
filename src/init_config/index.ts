@@ -16,40 +16,29 @@ function init() {
 }
 
 async function gameOfTenIterations() {
-  try {
-    const t1location = './team1.json';
-    const t2location = './team2.json';
-    const plocation = './pitch.json';
-    const initJSON = await initGame(t1location, t2location, plocation);
-    nextIteration = await invokePlayIteration(initJSON);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    const halftimeIteration = await setupSecondHalf(nextIteration);
-    nextIteration = await invokePlayIteration(halftimeIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    nextIteration = await invokePlayIteration(nextIteration);
-    return nextIteration;
-  } catch (error) {
-    // @ts-expect-error TS(2769): No overload matches this call.
-    throw new Error(error);
-  }
+  const t1location = './team1.json';
+  const t2location = './team2.json';
+  const plocation = './pitch.json';
+  const initJSON = await initGame(t1location, t2location, plocation);
+  nextIteration = await invokePlayIteration(initJSON);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  const halftimeIteration = await setupSecondHalf(nextIteration);
+  nextIteration = await invokePlayIteration(halftimeIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = await invokePlayIteration(nextIteration);
+  return nextIteration;
 }
 
 async function initGame(t1: string, t2: string, p: string) {
-  try {
-    const team1 = (await readDataFile(t1)) as Team;
-    const team2 = (await readDataFile(t2)) as Team;
-    const pitch = (await readDataFile(p)) as PitchDetails;
-    const matchSetup = initiateGame(team1, team2, pitch);
-    return matchSetup;
-  } catch (error) {
-    // @ts-expect-error TS(2769): No overload matches this call.
-    throw new Error(error);
-  }
+  const team1 = (await readDataFile(t1)) as Team;
+  const team2 = (await readDataFile(t2)) as Team;
+  const pitch = (await readDataFile(p)) as PitchDetails;
+  return initiateGame(team1, team2, pitch);
 }
 
 async function invokePlayIteration(
@@ -61,13 +50,7 @@ async function invokePlayIteration(
 async function setupSecondHalf(
   inputIteration: MatchDetails,
 ): Promise<MatchDetails> {
-  try {
-    const outputJSON = await startSecondHalf(inputIteration);
-    return outputJSON;
-  } catch (error) {
-    // @ts-expect-error TS(2769): No overload matches this call.
-    throw new Error(error);
-  }
+  return await startSecondHalf(inputIteration);
 }
 
 function readDataFile(filePath: string) {

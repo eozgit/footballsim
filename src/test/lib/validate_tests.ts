@@ -13,7 +13,7 @@ async function initGame(t1: string, t2: string, p: string) {
   return engine.initiateGame(team1, team2, pitch);
 }
 
-async function playIteration(inputIteration: string): Promise<MatchDetails> {
+async function playIter(inputIteration: string): Promise<MatchDetails> {
   const inputMatchDetails = await readMatchDetails(inputIteration);
   return await engine.playIteration(inputMatchDetails);
 }
@@ -37,7 +37,7 @@ function validateTeamSecondHalf(team: any) {
 
 export default {
   initGame,
-  playIteration,
+  playIter,
   setupSecondHalf,
   validateArguments,
   validateTeam,

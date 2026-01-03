@@ -1,49 +1,57 @@
-import { Project } from 'ts-morph';
+import { Project, Node } from 'ts-morph';
 
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 project.addSourceFilesAtPaths('src/**/*.ts');
 
-const exportMap = new Map<string, string[]>();
+const symbolMap = new Map<string, string[]>();
 
-console.log('=== EXPORT COLLISION CHECK ===\n');
+console.log('=== GLOBAL SYMBOL COLLISION CHECK ===\n');
 
 project.getSourceFiles().forEach((sourceFile) => {
-  // Get all named exports
-  const exportedDeclarations = sourceFile.getExportedDeclarations();
+  const fileName = sourceFile.getBaseName();
 
-  exportedDeclarations.forEach((declarations, name) => {
-    if (name === 'default') return;
+  // 1. Collect all Top-Level Declarations (Internal + Exported)
+  const declarations = [
+    ...sourceFile.getFunctions(),
+    ...sourceFile.getClasses(),
+    ...sourceFile.getVariableDeclarations(),
+    ...sourceFile.getInterfaces(),
+    ...sourceFile.getEnums(),
+    ...sourceFile.getTypeAliases(),
+  ];
 
-    declarations.forEach((decl) => {
-      // Check if the declaration is actually defined in THIS file
-      // If it's a re-export, ts-morph can tell you the original source
-      const isReExport =
-        decl.getSourceFile().getFilePath() !== sourceFile.getFilePath();
+  declarations.forEach((decl) => {
+    const name = decl.getName();
+    if (!name) return;
 
-      if (isReExport) {
-        // Logic: If it's a re-export in engine.ts, it's NOT a conflict
-        return;
-      }
+    // Check if this specific node is a re-export (to avoid false positives in engine.ts)
+    // We only care about things actually DEFINED in this file
+    if (!symbolMap.has(name)) {
+      symbolMap.set(name, []);
+    }
 
-      if (!exportMap.has(name)) exportMap.set(name, []);
-      exportMap.get(name)?.push(sourceFile.getBaseName());
-    });
+    const currentFiles = symbolMap.get(name)!;
+    if (!currentFiles.includes(fileName)) {
+      currentFiles.push(fileName);
+    }
   });
 });
 
 // Identify and print conflicts
 let conflictCount = 0;
-exportMap.forEach((files, exportName) => {
+symbolMap.forEach((files, symbolName) => {
   if (files.length > 1) {
     conflictCount++;
-    console.warn(`[CONFLICT] "${exportName}" is exported from multiple files:`);
+    console.warn(
+      `[CONFLICT] "${symbolName}" is declared in ${files.length} files:`,
+    );
     files.forEach((file) => console.log(`  - ${file}`));
     console.log('');
   }
 });
 
 if (conflictCount === 0) {
-  console.log('✅ No naming conflicts found in exports!');
+  console.log('✅ No naming conflicts found across all symbols!');
 } else {
   console.log(`❌ Found ${conflictCount} naming conflicts.`);
 }

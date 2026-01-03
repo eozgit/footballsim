@@ -23,7 +23,7 @@ describe('testValidationOfInputData()', function () {
   it('playIteration returns an Object', async () => {
     const providedItJson = './src/init_config/iteration.json';
 
-    const outputIteration = await validation.playIteration(providedItJson);
+    const outputIteration = await validation.playIter(providedItJson);
 
     expect(outputIteration).to.be.an('object');
   });
@@ -173,7 +173,7 @@ describe('testValidationOfBadIterationInputData()', function () {
     const providedItJson =
       './src/test/input/badInput/noPlayerNameIteration.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -186,7 +186,7 @@ describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no half', async () => {
     const providedItJson = './src/test/input/badInput/noHalf.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -199,7 +199,7 @@ describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no ball with team', async () => {
     const providedItJson = './src/test/input/badInput/noBallWithTeam.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -212,7 +212,7 @@ describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no current pos', async () => {
     const providedItJson = './src/test/input/badInput/nocurrentPOS.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -225,7 +225,7 @@ describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no iteration log', async () => {
     const providedItJson = './src/test/input/badInput/noIterationLog.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -330,7 +330,7 @@ describe('testObjectIDsIteration()', function () {
   it('match id validation', async () => {
     const providedItJson = './src/test/input/badInput/noMatchID.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -343,7 +343,7 @@ describe('testObjectIDsIteration()', function () {
   it('team id validation', async () => {
     const providedItJson = './src/test/input/badInput/noTeamID.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
@@ -354,7 +354,7 @@ describe('testObjectIDsIteration()', function () {
   it('player id validation', async () => {
     const providedItJson = './src/test/input/badInput/noPlayerID.json';
     try {
-      const outputIteration = await validation.playIteration(providedItJson);
+      const outputIteration = await validation.playIter(providedItJson);
       expect(outputIteration).to.be.an('Error');
     } catch (err) {
       expect(err).to.be.an('Error');
