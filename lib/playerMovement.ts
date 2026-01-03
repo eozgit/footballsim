@@ -449,7 +449,7 @@ function ballMoved(
 
 function updateInformation(
   matchDetails: MatchDetails,
-  newPosition: [number, number, number?],
+  newPosition: BallPosition,
 ): void {
   if (matchDetails.endIteration === true) {
     return;
@@ -520,7 +520,7 @@ function getTackleMovement(ballX: number, ballY: number): [number, number] {
 function getInterceptMovement(
   player: Player,
   opposition: Team,
-  ballPosition: [number, number, number?],
+  ballPosition: BallPosition,
   pitchSize: [number, number, number],
 ): [number, number] {
   let move: [number, number] = [0, 0];
@@ -568,18 +568,18 @@ function getInterceptMovement(
 }
 
 function getInterceptPosition(
-  currentPOS: [number, number, number?],
+  currentPOS: BallPosition,
   opposition: Team,
-  ballPosition: [number, number, number?],
+  ballPosition: BallPosition,
   pitchSize: [number, number, number],
-): [number, number, number?] {
+): BallPosition {
   const BallPlyTraj = getInterceptTrajectory(
     opposition,
     ballPosition,
     pitchSize,
   );
 
-  let closestPos: [number, number, number?] = BallPlyTraj[0] || [0, 0];
+  let closestPos: BallPosition = BallPlyTraj[0] || [0, 0];
   let shortestDiff = Infinity;
   let closestIndex = 0;
 
@@ -657,9 +657,9 @@ export const mockPlayer: Player = {
 };
 function getInterceptTrajectory(
   opposition: Team,
-  ballPosition: [number, number, number?],
+  ballPosition: BallPosition,
   pitchSize: [number, number, number],
-): [number, number, number?][] {
+): BallPosition[] {
   const [pitchWidth, pitchHeight] = pitchSize;
   const playerInformation = setPositions.closestPlayerToPosition(
     mockPlayer,
@@ -679,7 +679,7 @@ function getInterceptTrajectory(
     Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
   const xDiff = moveX / highNum;
   const yDiff = moveY / highNum;
-  const POI: [number, number, number?][] = [
+  const POI: BallPosition[] = [
     [...interceptPlayer.currentPOS] as [number, number, number?],
   ];
   for (let i = 0; i < Math.round(highNum); i++) {

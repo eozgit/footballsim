@@ -413,8 +413,8 @@ function checkOppositionAhead(
 }
 
 function checkOppositionBelow(
-  closePlayerPosition: [number, number, number?],
-  currentPOS: [number, number, number?],
+  closePlayerPosition: BallPosition,
+  currentPOS: BallPosition,
 ) {
   const closePlyX = common.isBetween(
     closePlayerPosition[0],
@@ -559,7 +559,7 @@ function noBallNotGK2CloseBallBottomTeam(
 }
 
 function checkPositionInBottomPenaltyBox(
-  position: [number, number, number?],
+  position: BallPosition,
   pitchWidth: number,
   pitchHeight: number,
 ) {
@@ -580,7 +580,7 @@ function checkPositionInBottomPenaltyBox(
 }
 
 function checkPositionInBottomPenaltyBoxClose(
-  position: [number, number, number?],
+  position: BallPosition,
   pitchWidth: number,
   pitchHeight: number,
 ) {
@@ -601,7 +601,7 @@ function checkPositionInBottomPenaltyBoxClose(
 }
 
 function checkPositionInTopPenaltyBox(
-  position: [number, number, number?],
+  position: BallPosition,
   pitchWidth: number,
   pitchHeight: number,
 ) {
@@ -618,7 +618,7 @@ function checkPositionInTopPenaltyBox(
 }
 
 function checkPositionInTopPenaltyBoxClose(
-  position: [number, number, number?],
+  position: BallPosition,
   pitchWidth: number,
   pitchHeight: number,
 ) {
@@ -635,7 +635,7 @@ function checkPositionInTopPenaltyBoxClose(
 }
 
 function onBottomCornerBoundary(
-  position: [number, number, number?],
+  position: BallPosition,
   pitchWidth: number,
   pitchHeight: number,
 ) {
@@ -648,10 +648,7 @@ function onBottomCornerBoundary(
   return false;
 }
 
-function onTopCornerBoundary(
-  position: [number, number, number?],
-  pitchWidth: number,
-) {
+function onTopCornerBoundary(position: BallPosition, pitchWidth: number) {
   if (position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth)) {
     return true;
   }

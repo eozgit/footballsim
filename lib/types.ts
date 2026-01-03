@@ -9,11 +9,11 @@ export interface MatchDetails {
   secondTeamStatistics: TeamStatistics;
   iterationLog: string[];
   endIteration?: boolean;
-  ballIntended?: [number, number, number?];
+  ballIntended?: BallPosition;
 }
 
 export interface Ball {
-  position: [number, number, number?];
+  position: BallPosition;
   withPlayer: boolean;
   Player: number | string;
   withTeam: number | string;
@@ -113,3 +113,5 @@ export interface PitchDetails {
 }
 
 export type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
+
+export type BallPosition = [x: number, y: number, z?: number];

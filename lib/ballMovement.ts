@@ -96,7 +96,7 @@ export function createPlayer(position: string): Player {
     },
   };
 }
-function setBPlayer(ballPos: [number, number, number?]): Player {
+function setBPlayer(ballPos: BallPosition): Player {
   const [ballX, ballY] = ballPos;
   const pos: [number, number] = [ballX, ballY];
   const player = createPlayer('LB');
@@ -194,7 +194,7 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
 
 function getTopKickedPosition(
   direction: string,
-  position: [number, number, number?],
+  position: BallPosition,
   power: number,
 ): [number, number] {
   const pos: [number, number] = [position[0], position[1]];
@@ -216,7 +216,7 @@ function getTopKickedPosition(
 
 function getBottomKickedPosition(
   direction: string,
-  position: [number, number, number?],
+  position: BallPosition,
   power: number,
 ): [number, number] {
   const pos: [number, number] = [position[0], position[1]];
@@ -765,7 +765,7 @@ function thisPlayerIsInProximity(
 function setBallMovementMatchDetails(
   matchDetails: MatchDetails,
   thisPlayer: Player,
-  thisPos: [number, number, number?],
+  thisPos: BallPosition,
   thisTeam: Team,
 ) {
   matchDetails.ball.ballOverIterations = [];
@@ -791,7 +791,7 @@ function resolveDeflection(
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
   const movementDistance = Math.sqrt(xMovement + yMovement);
   const newPower = power - movementDistance;
-  let tempPosition: [number, number, number?] = [0, 0];
+  let tempPosition: BallPosition = [0, 0];
   const { direction } = matchDetails.ball;
   if (newPower < 75) {
     setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
