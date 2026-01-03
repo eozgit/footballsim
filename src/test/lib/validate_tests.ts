@@ -1,5 +1,4 @@
 import { MatchDetails, Team } from '../../lib/types.js';
-
 import { readFile } from '../../lib/fileReader.js';
 import { initiateGame, playIteration, startSecondHalf } from '../../engine.js';
 import * as validate from '../../lib/validate.js';
@@ -23,15 +22,15 @@ async function setupSecondHalf(inputIteration: string) {
   return await startSecondHalf(inputJson);
 }
 
-function validateArguments(a: any, b: any, c: any) {
+function validateArguments(a: unknown, b: unknown, c: unknown) {
   return validate.validateArguments(a, b, c);
 }
 
-function validateTeam(team: any) {
+function validateTeam(team: unknown) {
   validate.validateTeam(team);
 }
 
-function validateTeamSecondHalf(team: any) {
+function validateTeamSecondHalf(team: unknown) {
   validate.validateTeamSecondHalf(team);
 }
 

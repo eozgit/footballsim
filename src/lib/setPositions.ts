@@ -1,7 +1,6 @@
 import * as common from './common.js';
 import * as setVariables from './setVariables.js';
 import * as setFreekicks from './setFreekicks.js';
-
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
 

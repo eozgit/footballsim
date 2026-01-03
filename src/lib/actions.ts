@@ -1,7 +1,6 @@
 import * as common from './common.js';
 import { isInjured } from './injury.js';
 import * as setPositions from './setPositions.js';
-
 import {
   BallPosition,
   MatchDetails,

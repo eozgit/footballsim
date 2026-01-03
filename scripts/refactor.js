@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import http from 'node:http';
+
 import Table from 'cli-table3';
 import { parse, print, visit } from 'recast';
 import { builders as b, namedTypes as n } from 'ast-types';
@@ -30,7 +31,9 @@ class RefactorEngine {
 
   execute(cmd, desc) {
     try {
-      if (desc) console.log(`  > Executing: ${desc}...`);
+      if (desc) {
+        console.log(`  > Executing: ${desc}...`);
+      }
       return execSync(cmd, { stdio: SILENT_TEST ? 'pipe' : 'inherit' });
     } catch (e) {
       return e.stdout?.toString();
@@ -81,12 +84,16 @@ class RefactorEngine {
 
       visit(ast, {
         visitImportDeclaration(path) {
-          if (path.value.source.value === './typeSpy') hasSpyImport = true;
+          if (path.value.source.value === './typeSpy') {
+            hasSpyImport = true;
+          }
           this.traverse(path);
         },
         visitNode(path) {
           const node = path.value;
-          if (!node.loc) return this.traverse(path);
+          if (!node.loc) {
+            return this.traverse(path);
+          }
 
           const error = entries.find((e) => node.loc.start.line === e.line);
           if (error) {
@@ -139,8 +146,7 @@ class RefactorEngine {
 
       let output = print(ast).code;
       if (!hasSpyImport) {
-        output =
-          `import { __typeSpy } from '../../scripts/typeSpy.js';\n` + output;
+        output = `import { __typeSpy } from '../../scripts/typeSpy.js';\n${output}`;
       }
       fs.writeFileSync(fullPath, output);
     }
@@ -203,7 +209,9 @@ class RefactorEngine {
       'Restoring Original Line Numbers',
     );
 
-    if (!fs.existsSync('type-runtime-stats.json')) return;
+    if (!fs.existsSync('type-runtime-stats.json')) {
+      return;
+    }
     const runtimeData = JSON.parse(
       fs.readFileSync('type-runtime-stats.json', 'utf8'),
     );
@@ -242,15 +250,17 @@ class RefactorEngine {
         // Confidence Logic: Let's lower the threshold to 1 for "Solid" findings
         // but keep the variant check strict.
         if (variants.length !== 1) {
-          if (VERBOSE)
+          if (VERBOSE) {
             console.log(`  ! Rejected: Multi-type conflict (Ambiguous).`);
+          }
           return;
         }
 
         const inferredType = variants[0];
         if (inferredType.includes('{')) {
-          if (VERBOSE)
+          if (VERBOSE) {
             console.log(`  ! Rejected: Complex object (Skipping for now).`);
+          }
           return;
         }
 
@@ -269,15 +279,17 @@ class RefactorEngine {
 
               const primitives = ['string', 'number', 'boolean'];
               if (isUsedAsObject && primitives.includes(inferredType)) {
-                if (VERBOSE)
+                if (VERBOSE) {
                   console.log(
                     `  ! Rejected: Symbol is used as object, but runtime saw primitive '${inferredType}'.`,
                   );
+                }
                 return false;
               }
 
-              if (n.AssignmentExpression.check(path.parentPath.value))
+              if (n.AssignmentExpression.check(path.parentPath.value)) {
                 return false;
+              }
 
               const isParam =
                 n.FunctionDeclaration.check(path.parentPath.parentPath.value) ||
@@ -297,8 +309,9 @@ class RefactorEngine {
                   );
                   self.stats.patchesApplied++;
                   fileChanged = true;
-                  if (VERBOSE)
+                  if (VERBOSE) {
                     console.log(`  + SUCCESS: Patched as ${inferredType}`);
+                  }
                   return false;
                 }
               }
@@ -308,7 +321,9 @@ class RefactorEngine {
         });
       });
 
-      if (fileChanged) fs.writeFileSync(fullPath, print(ast).code);
+      if (fileChanged) {
+        fs.writeFileSync(fullPath, print(ast).code);
+      }
     }
   }
 

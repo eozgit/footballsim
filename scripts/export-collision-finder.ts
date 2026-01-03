@@ -1,4 +1,4 @@
-import { Project, Node } from 'ts-morph';
+import { Project } from 'ts-morph';
 
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 project.addSourceFilesAtPaths('src/**/*.ts');
@@ -22,7 +22,9 @@ project.getSourceFiles().forEach((sourceFile) => {
 
   declarations.forEach((decl) => {
     const name = decl.getName();
-    if (!name) return;
+    if (!name) {
+      return;
+    }
 
     // Check if this specific node is a re-export (to avoid false positives in engine.ts)
     // We only care about things actually DEFINED in this file

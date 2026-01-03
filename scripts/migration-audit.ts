@@ -13,7 +13,9 @@ project.getSourceFiles().forEach((sourceFile) => {
   const functions = sourceFile.getFunctions();
   functions.forEach((fn) => {
     const fnName = fn.getName();
-    if (!fnName) return;
+    if (!fnName) {
+      return;
+    }
     imports.forEach((imp) => {
       imp.getNamedImports().forEach((ni) => {
         if (ni.getName() === fnName) {

@@ -22,7 +22,9 @@ sourceFiles.forEach((sourceFile) => {
 
   sourceFile.getFunctions().forEach((fn) => {
     const fnName = fn.getName();
-    if (!fnName) return;
+    if (!fnName) {
+      return;
+    }
 
     const fullFnName = `${fileName}:${fnName}`;
     if (!functionMap.has(fullFnName)) {

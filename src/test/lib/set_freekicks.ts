@@ -1,5 +1,4 @@
 import { MatchDetails } from '../../lib/types.js';
-
 import * as setFreekick from '../../lib/setFreekicks.js';
 
 import { readMatchDetails } from './utils.js';

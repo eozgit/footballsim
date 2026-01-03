@@ -1,7 +1,6 @@
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
-
-import { BallPosition, MatchDetails, Player, Position, Team } from './types.js';
+import { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function moveBall(matchDetails: MatchDetails) {
   if (

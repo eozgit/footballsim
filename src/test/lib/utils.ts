@@ -8,7 +8,7 @@ async function readJson<T>(path: string): Promise<T> {
   try {
     const data = await readFile(path);
     return data as T;
-  } catch (err: any) {
+  } catch (err: unknown) {
     // Providing a cleaner error message including the path
     throw new Error(`Failed to read JSON at ${path}: ${err.message || err}`);
   }

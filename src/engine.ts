@@ -1,5 +1,4 @@
 import { MatchDetails, PitchDetails, Team } from './lib/types.js';
-
 import * as common from './lib/common.js';
 import { matchInjury } from './lib/injury.js';
 import * as setPositions from './lib/setPositions.js';

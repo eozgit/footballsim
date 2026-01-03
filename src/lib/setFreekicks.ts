@@ -1,5 +1,4 @@
 import * as common from './common.js';
-
 import { MatchDetails, Team } from './types.js';
 
 function setTopFreekick(matchDetails: MatchDetails): MatchDetails {

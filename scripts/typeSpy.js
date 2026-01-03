@@ -3,13 +3,17 @@ import http from 'node:http';
 const buffer = [];
 
 function getCanonicalType(v) {
-  if (v === null) return 'null';
+  if (v === null) {
+    return 'null';
+  }
   if (Array.isArray(v)) {
     const el = v.length > 0 ? (v[0] === null ? 'null' : typeof v[0]) : 'any';
     // Captures length: e.g., "number[2]" instead of "number[]"
     return `${el}[${v.length}]`;
   }
-  if (typeof v === 'object') return 'object';
+  if (typeof v === 'object') {
+    return 'object';
+  }
   return typeof v;
 }
 

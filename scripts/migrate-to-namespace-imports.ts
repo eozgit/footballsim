@@ -1,4 +1,4 @@
-import { Project, SyntaxKind, Node } from 'ts-morph';
+import { Project, Node } from 'ts-morph';
 
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 project.addSourceFilesAtPaths('src/**/*.ts');
@@ -7,10 +7,14 @@ const sourceFiles = project.getSourceFiles();
 
 for (const sourceFile of sourceFiles) {
   const defaultExportSymbol = sourceFile.getDefaultExportSymbol();
-  if (!defaultExportSymbol) continue;
+  if (!defaultExportSymbol) {
+    continue;
+  }
 
   const declaration = defaultExportSymbol.getDeclarations()[0];
-  if (!declaration || !Node.isExportAssignment(declaration)) continue;
+  if (!declaration || !Node.isExportAssignment(declaration)) {
+    continue;
+  }
 
   const expr = declaration.getExpression();
   if (Node.isObjectLiteralExpression(expr)) {

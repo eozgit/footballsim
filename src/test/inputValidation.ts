@@ -369,7 +369,7 @@ describe('otherValidationTests()', function () {
   it('Not enough parameters in validate arguments', async () => {
     try {
       // Cast the function to any to bypass the 3-argument requirement check
-      (validation.validateArguments as any)('', '');
+      (validation.validateArguments as unknown)('', '');
 
       assert.fail('Should have thrown an error for missing arguments');
     } catch (err: unknown) {
@@ -394,7 +394,7 @@ describe('otherValidationTests()', function () {
     );
 
     // 1. Force the invalid state (bypassing TS required check)
-    (iteration.kickOffTeam as any).name = undefined;
+    (iteration.kickOffTeam as unknown).name = undefined;
 
     // 2. Convert to string as required by the validation function
     const teamJsonString = JSON.stringify(iteration.kickOffTeam);

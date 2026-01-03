@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execSync } from 'node:child_process';
 import http from 'node:http';
+
 import Table from 'cli-table3';
 import { parse, print, visit } from 'recast';
 import { builders as b, namedTypes as n } from 'ast-types';
@@ -87,8 +88,9 @@ class FnRefactorEngine {
         req.on('end', () => {
           try {
             JSON.parse(body).forEach((e) => {
-              if (!this.runtimeStats[e.key])
+              if (!this.runtimeStats[e.key]) {
                 this.runtimeStats[e.key] = new Set();
+              }
               this.runtimeStats[e.key].add(e.shape);
               this.stats.capturedVariants++;
             });
@@ -136,11 +138,13 @@ class FnRefactorEngine {
 
   // ACT 4: Patch (Refactor)
   getTSString(raw) {
-    if (Array.isArray(raw))
+    if (Array.isArray(raw)) {
       return raw.map((r) => this.getTSString(r)).join(' | ');
+    }
     const match = raw.match(/(\w+)\[(\d+)\]/);
-    if (match)
+    if (match) {
       return `[${new Array(Number(match[2])).fill(match[1] === 'object' ? 'any' : match[1]).join(', ')}]`;
+    }
     return raw === 'function' ? '(...args: any[]) => any' : raw;
   }
 
@@ -176,7 +180,9 @@ class FnRefactorEngine {
           this.traverse(path);
         },
       });
-      if (changed) fs.writeFileSync(fullPath, print(ast).code);
+      if (changed) {
+        fs.writeFileSync(fullPath, print(ast).code);
+      }
     }
   }
 

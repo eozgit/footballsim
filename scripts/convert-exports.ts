@@ -16,10 +16,14 @@ const defaultExportMap = new Map<
 
 for (const sourceFile of sourceFiles) {
   const defaultExportSymbol = sourceFile.getDefaultExportSymbol();
-  if (!defaultExportSymbol) continue;
+  if (!defaultExportSymbol) {
+    continue;
+  }
 
   const declaration = defaultExportSymbol.getDeclarations()[0];
-  if (!declaration || !Node.isExportAssignment(declaration)) continue;
+  if (!declaration || !Node.isExportAssignment(declaration)) {
+    continue;
+  }
 
   const expr = declaration.getExpression();
   if (Node.isObjectLiteralExpression(expr)) {
@@ -41,7 +45,9 @@ for (const sourceFile of sourceFiles) {
 
   for (const importDecl of importDeclarations) {
     const moduleSource = importDecl.getModuleSpecifierSourceFile();
-    if (!moduleSource) continue;
+    if (!moduleSource) {
+      continue;
+    }
 
     const exportData = defaultExportMap.get(moduleSource.getFilePath());
     const importClause = importDecl.getImportClause();
