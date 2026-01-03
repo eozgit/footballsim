@@ -1,6 +1,6 @@
 import * as common from './common.js';
-import injury from './injury.js';
-import setPositions from './setPositions.js';
+import { isInjured } from './injury.js';
+import * as setPositions from './setPositions.js';
 
 import {
   BallPosition,
@@ -960,11 +960,11 @@ function setInjury(
   tackledInjury: unknown,
   tacklerInjury: unknown,
 ) {
-  if (injury.isInjured(tackledInjury)) {
+  if (isInjured(tackledInjury)) {
     thatPlayer.injured = true;
     matchDetails.iterationLog.push(`Player Injured - ${thatPlayer.name}`);
   }
-  if (injury.isInjured(tacklerInjury)) {
+  if (isInjured(tacklerInjury)) {
     player.injured = true;
     matchDetails.iterationLog.push(`Player Injured - ${player.name}`);
   }

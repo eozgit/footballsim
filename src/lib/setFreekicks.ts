@@ -710,7 +710,4 @@ function setBottomLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export default {
-  setTopFreekick,
-  setBottomFreekick,
-};
+export { setTopFreekick, setBottomFreekick };

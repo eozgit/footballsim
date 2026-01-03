@@ -1,12 +1,12 @@
 import { MatchDetails, PitchDetails, Team } from './lib/types.js';
 
 import * as common from './lib/common.js';
-import injury from './lib/injury.js';
-import setPositions from './lib/setPositions.js';
+import { matchInjury } from './lib/injury.js';
+import * as setPositions from './lib/setPositions.js';
 import setVariables from './lib/setVariables.js';
 import playerMovement from './lib/playerMovement.js';
 import * as ballMovement from './lib/ballMovement.js';
-import validate from './lib/validate.js';
+import * as validate from './lib/validate.js';
 
 //------------------------
 //    Functions
@@ -53,8 +53,8 @@ async function playIteration(
   validate.validatePlayerPositions(matchDetails);
   matchDetails.iterationLog = [];
   let { kickOffTeam, secondTeam } = matchDetails;
-  injury.matchInjury(matchDetails, kickOffTeam);
-  injury.matchInjury(matchDetails, secondTeam);
+  matchInjury(matchDetails, kickOffTeam);
+  matchInjury(matchDetails, secondTeam);
   matchDetails = ballMovement.moveBall(matchDetails);
   if (matchDetails.endIteration === true) {
     delete matchDetails.endIteration;

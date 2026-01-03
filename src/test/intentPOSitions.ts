@@ -3,7 +3,7 @@ import assert from 'assert';
 import { expect, it, describe } from 'vitest';
 
 import * as common from '../lib/common.js';
-import setPos from '../lib/setPositions.js';
+import * as setPos from '../lib/setPositions.js';
 
 import { readMatchDetails, readPlayer } from './lib/utils.js';
 

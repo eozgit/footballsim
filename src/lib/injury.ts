@@ -20,7 +20,4 @@ function matchInjury(matchDetails: MatchDetails, team: Team) {
   }
 }
 
-export default {
-  isInjured,
-  matchInjury,
-};
+export { isInjured, matchInjury };

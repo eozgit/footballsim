@@ -248,7 +248,7 @@ function validatePlayerPositions(matchDetails: MatchDetails) {
   }
 }
 
-export default {
+export {
   validateTeam,
   validateTeamSecondHalf,
   validatePlayerObjectsIteration,

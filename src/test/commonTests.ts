@@ -4,7 +4,7 @@ import { expect, it, describe } from 'vitest';
 
 import { readFile } from '../lib/fileReader.js';
 import * as common from '../lib/common.js';
-import injury from '../lib/injury.js';
+import { isInjured } from '../lib/injury.js';
 
 describe('testCommonFunction()', function () {
   it('check random number', async () => {
@@ -89,7 +89,7 @@ describe('testCommonFunction()', function () {
     }
   });
   it('is injured', async () => {
-    const number = injury.isInjured(1);
+    const number = isInjured(1);
     expect(number).to.eql(false);
   });
   it('is even', async () => {

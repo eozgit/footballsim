@@ -1,6 +1,6 @@
 import * as common from './common.js';
 import setVariables from './setVariables.js';
-import setFreekicks from './setFreekicks.js';
+import * as setFreekicks from './setFreekicks.js';
 
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
@@ -1106,7 +1106,7 @@ function setNewRelativeBottomYPOS(
   return common.upToMin(player.currentPOS[1] + diff, 0);
 }
 
-export default {
+export {
   setGoalieHasBall,
   setTopRightCornerPositions,
   setTopLeftCornerPositions,
