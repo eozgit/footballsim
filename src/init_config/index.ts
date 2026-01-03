@@ -3,11 +3,7 @@ import { readFile as _readFile } from 'fs';
 
 import { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 
-import {
-  initiateGame,
-  playIteration as _playIteration,
-  startSecondHalf,
-} from './../engine.js';
+import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 
 let nextIteration;
 gameOfTenIterations()
@@ -22,17 +18,17 @@ async function gameOfTenIterations() {
     const t2location = './team2.json';
     const plocation = './pitch.json';
     const initJSON = await initGame(t1location, t2location, plocation);
-    nextIteration = await playIteration(initJSON);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
+    nextIteration = await invokePlayIteration(initJSON);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
     const halftimeIteration = await setupSecondHalf(nextIteration);
-    nextIteration = await playIteration(halftimeIteration);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
-    nextIteration = await playIteration(nextIteration);
+    nextIteration = await invokePlayIteration(halftimeIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
+    nextIteration = await invokePlayIteration(nextIteration);
     return nextIteration;
   } catch (error) {
     // @ts-expect-error TS(2769): No overload matches this call.
@@ -53,15 +49,10 @@ async function initGame(t1: string, t2: string, p: string) {
   }
 }
 
-async function playIteration(
+async function invokePlayIteration(
   inputIteration: MatchDetails,
 ): Promise<MatchDetails> {
-  try {
-    const outputIteration = await _playIteration(inputIteration);
-    return outputIteration;
-  } catch (error) {
-    throw new Error(String(error));
-  }
+  return await playIteration(inputIteration);
 }
 
 async function setupSecondHalf(
