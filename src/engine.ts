@@ -1,17 +1,4 @@
-import {
-  Ball,
-  Cards,
-  LastTouch,
-  MatchDetails,
-  PitchDetails,
-  Player,
-  Position,
-  Shots,
-  Skill,
-  Stats,
-  Team,
-  TeamStatistics,
-} from './lib/types.js';
+import { MatchDetails, PitchDetails, Team } from './lib/types.js';
 
 import common from './lib/common.js';
 import injury from './lib/injury.js';
@@ -123,25 +110,23 @@ async function startSecondHalf(
   return matchDetails;
 }
 
-export {
-  initiateGame,
-  playIteration,
-  startSecondHalf,
-  MatchDetails,
-  Ball,
-  LastTouch,
-  Team,
-  Player,
-  Position,
-  Skill,
-  Stats,
-  Cards,
-  Shots,
-  TeamStatistics,
-  PitchDetails,
-};
+export { initiateGame, playIteration, startSecondHalf };
 export default {
   initiateGame,
   playIteration,
   startSecondHalf,
 };
+export {
+  Ball,
+  Cards,
+  LastTouch,
+  MatchDetails,
+  PitchDetails,
+  Player,
+  Position,
+  Shots,
+  Skill,
+  Stats,
+  Team,
+  TeamStatistics,
+} from './lib/types.js';
