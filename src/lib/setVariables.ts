@@ -149,7 +149,7 @@ function populateMatchDetails(
   };
 }
 
-export default {
+export {
   resetPlayerPositions,
   setGameVariables,
   koDecider,

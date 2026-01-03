@@ -2,7 +2,7 @@ import { expect, it, describe } from 'vitest';
 
 import * as actions from '../lib/actions.js';
 import * as common from '../lib/common.js';
-import playerMovement from '../lib/playerMovement.js';
+import * as playerMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
 

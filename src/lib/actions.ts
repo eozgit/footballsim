@@ -1023,7 +1023,6 @@ export {
   onTopCornerBoundary,
   checkPositionInBottomPenaltyBox,
   checkPositionInBottomPenaltyBoxClose,
-  populatePossibleActions,
   resolveTackle,
   resolveSlide,
   calcTackleScore,

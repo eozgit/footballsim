@@ -612,7 +612,7 @@ function getInterceptPosition(
   return closestPos;
 }
 
-export const mockPlayer: Player = {
+const mockPlayer: Player = {
   name: 'George Johnson',
   position: 'ST', // or "ST"
   rating: '85',
@@ -1028,26 +1028,6 @@ export {
   closestPlayerActionBallX,
   closestPlayerActionBallY,
   setClosePlayerTakesBall,
-  team1atBottom,
-  team1atTop,
-  handleBallPlayerActions,
-  updateInformation,
-  ballMoved,
-  getSprintMovement,
-  getRunMovement,
-  checkProvidedAction,
-  checkOffside,
-  completeSlide,
-};
-export default {
-  decideMovement,
-  getMovement,
-  closestPlayerToBall,
-  closestPlayerActionBallX,
-  closestPlayerActionBallY,
-  setClosePlayerTakesBall,
-  team1atBottom,
-  team1atTop,
   handleBallPlayerActions,
   updateInformation,
   ballMoved,

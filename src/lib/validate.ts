@@ -251,7 +251,6 @@ function validatePlayerPositions(matchDetails: MatchDetails) {
 export {
   validateTeam,
   validateTeamSecondHalf,
-  validatePlayerObjectsIteration,
   validatePitch,
   validateArguments,
   validateMatchDetails,

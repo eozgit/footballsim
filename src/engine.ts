@@ -3,8 +3,8 @@ import { MatchDetails, PitchDetails, Team } from './lib/types.js';
 import * as common from './lib/common.js';
 import { matchInjury } from './lib/injury.js';
 import * as setPositions from './lib/setPositions.js';
-import setVariables from './lib/setVariables.js';
-import playerMovement from './lib/playerMovement.js';
+import * as setVariables from './lib/setVariables.js';
+import * as playerMovement from './lib/playerMovement.js';
 import * as ballMovement from './lib/ballMovement.js';
 import * as validate from './lib/validate.js';
 

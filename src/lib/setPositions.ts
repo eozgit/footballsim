@@ -1,5 +1,5 @@
 import * as common from './common.js';
-import setVariables from './setVariables.js';
+import * as setVariables from './setVariables.js';
 import * as setFreekicks from './setFreekicks.js';
 
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -1112,7 +1112,6 @@ export {
   setTopLeftCornerPositions,
   setBottomLeftCornerPositions,
   setBottomRightCornerPositions,
-  setPlayerPositions,
   keepInBoundaries,
   setTopGoalKick,
   setBottomGoalKick,

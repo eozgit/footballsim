@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import pMovement from '../lib/playerMovement.js';
+import * as pMovement from '../lib/playerMovement.js';
 import * as common from '../lib/common.js';
 
 import { readMatchDetails } from './lib/utils.js';

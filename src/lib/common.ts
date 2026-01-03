@@ -193,7 +193,6 @@ export {
   round,
   getBallTrajectory,
   isBetween,
-  isContextBetween,
   calculatePower,
   isEven,
   isOdd,
