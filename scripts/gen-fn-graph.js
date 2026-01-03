@@ -7,7 +7,7 @@ const CONFIG = {
 };
 
 const project = new Project({
-  tsConfigFilePath: 'tsconfig.json',
+  tsConfigFilePath: '../tsconfig.json',
 });
 
 const sourceFiles = project.getSourceFiles('src/**/*.ts');

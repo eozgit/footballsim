@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { globSync } from 'glob'; // You may need to npm install glob
 
-const files = globSync('src/**/*.ts');
+const files = globSync('../src/**/*.ts');
 
 // Matches [number, number, number?] with flexible whitespace
 const targetRegex = /:\s*\[\s*number\s*,\s*number\s*,\s*number\?\s*\]/g;
