@@ -1,4 +1,4 @@
-import { MatchDetails } from '../../lib/types.js';
+import { MatchDetails, Team } from '../../lib/types.js';
 
 import { readFile } from '../../lib/fileReader.js';
 import engine from '../../engine.js';
@@ -6,12 +6,11 @@ import validate from '../../lib/validate.js';
 
 import { readMatchDetails } from './utils.js';
 
-async function initGame(t1: any, t2: any, p: any) {
-  const team1 = await readFile(t1);
-  const team2 = await readFile(t2);
+async function initGame(t1: string, t2: string, p: string) {
+  const team1 = (await readFile(t1)) as Team;
+  const team2 = (await readFile(t2)) as Team;
   const pitch = await readFile(p);
-  const matchSetup = engine.initiateGame(team1, team2, pitch);
-  return matchSetup;
+  return engine.initiateGame(team1, team2, pitch);
 }
 
 async function playIteration(inputIteration: string): Promise<MatchDetails> {
@@ -19,10 +18,9 @@ async function playIteration(inputIteration: string): Promise<MatchDetails> {
   return await engine.playIteration(inputMatchDetails);
 }
 
-async function setupSecondHalf(inputIteration: any) {
-  const inputJson = await readFile(inputIteration);
-  const outputJSON = await engine.startSecondHalf(inputJson);
-  return outputJSON;
+async function setupSecondHalf(inputIteration: string) {
+  const inputJson = (await readFile(inputIteration)) as MatchDetails;
+  return await engine.startSecondHalf(inputJson);
 }
 
 function validateArguments(a: any, b: any, c: any) {
