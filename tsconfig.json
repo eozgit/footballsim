@@ -26,12 +26,5 @@
     }
   },
   "include": ["src/**/*.ts", "init_config/**/*"],
-  "exclude": [
-    "node_modules",
-    "**/node_modules/*",
-    "dist",
-    "coverage",
-    "src/**/*.test.ts",
-    "src/test/**/*"
-  ]
+  "exclude": ["node_modules", "**/node_modules/*", "dist", "coverage"]
 }

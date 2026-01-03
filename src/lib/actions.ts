@@ -11,7 +11,9 @@ import {
   Team,
 } from './types.js';
 
-function selectAction(possibleActions: object[]) {
+function selectAction(
+  possibleActions: { name: string; points: number }[],
+): string {
   let goodActions: string[] = [];
   for (const thisAction of possibleActions) {
     const tempArray = Array(thisAction.points).fill(thisAction.name);
