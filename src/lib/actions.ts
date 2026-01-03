@@ -8,6 +8,7 @@ import {
   MatchDetails,
   MatchEventWeights,
   Player,
+  Skill,
   Team,
 } from './types.js';
 
@@ -282,7 +283,7 @@ function bottomTeamPlayerHasBallInMiddle(
     thePlayer?: unknown;
   },
   position: string,
-  skill: unknown,
+  skill: Skill,
 ): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10];

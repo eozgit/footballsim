@@ -7,15 +7,15 @@ const CONFIG = {
 };
 
 const project = new Project({
-  tsConfigFilePath: '../tsconfig.json',
+  tsConfigFilePath: 'tsconfig.json',
 });
-
+project.addSourceFilesAtPaths('src/**/*.ts');
 const sourceFiles = project.getSourceFiles('src/**/*.ts');
 const functionMap = new Map();
 
-console.log(
+/*console.log(
   `Analyzing internal dependencies (Sanitization: ${CONFIG.sanitizeIds ? 'ON' : 'OFF'})...`,
-);
+);*/
 
 sourceFiles.forEach((sourceFile) => {
   const fileName = sourceFile.getBaseName();
