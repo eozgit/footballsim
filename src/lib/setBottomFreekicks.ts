@@ -1,5 +1,5 @@
 import * as common from './common.js';
-import { MatchDetails, Team } from './types.js';
+import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as setFreekicks from './setFreekicks.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
@@ -159,20 +159,17 @@ function setBottomUpperQtrCentreYPos(
   return matchDetails;
 }
 
-function setBottomLowerFinalQtrBylinePos(
-  matchDetails: MatchDetails,
-  attack: Team,
-  defence: Team,
-): MatchDetails {
-  const side = 'bottom';
-  const isTop = side === 'top';
-  const { ball } = matchDetails;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const kickPlayer = attack.players[5];
+function setDeepFreekickBallAndKicker(
+  ball: Ball,
+  kickPlayer: Player,
+  teamID: number,
+  pitchWidth: number,
+  isTop: boolean,
+) {
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
+  ball.withTeam = teamID;
   const ballInCentre = common.isBetween(
     ball.position[0],
     pitchWidth / 4 + 5,
@@ -190,6 +187,26 @@ function setBottomLowerFinalQtrBylinePos(
       : 'west';
   const [ballX, ballY] = ball.position;
   kickPlayer.currentPOS = [ballX, ballY];
+}
+
+function setBottomLowerFinalQtrBylinePos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const {
+    ball,
+    pitchSize: [pitchWidth, pitchHeight],
+  } = matchDetails;
+  const kickPlayer = attack.players[5];
+
+  setDeepFreekickBallAndKicker(
+    ball,
+    kickPlayer,
+    attack.teamID,
+    pitchWidth,
+    false,
+  );
 
   for (const player of attack.players) {
     const { playerID, position, originPOS } = player;
@@ -230,4 +247,4 @@ function setBottomLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export { setBottomFreekick };
+export { setBottomFreekick, setDeepFreekickBallAndKicker };
