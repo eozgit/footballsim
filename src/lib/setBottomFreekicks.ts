@@ -140,21 +140,40 @@ function setBottomUpperQtrCentreYPos(
       (ball.position[0] - ballDistanceFromGoalX) / 2,
     );
     const midWayFromBalltoGoalY = Math.floor(ball.position[1] / 2);
-    if (player.position === 'GK') {
-      const [origX, origY] = player.originPOS;
-      player.currentPOS = [origX, origY];
-    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-      player.currentPOS = [
-        midWayFromBalltoGoalX + playerSpace,
-        midWayFromBalltoGoalY,
-      ];
-      playerSpace += 2;
-    } else {
-      player.currentPOS = common.getRandomTopPenaltyPosition(matchDetails);
-    }
+    playerSpace = setDefenderSetPiecePosition(
+      player,
+      midWayFromBalltoGoalX,
+      playerSpace,
+      midWayFromBalltoGoalY,
+      matchDetails,
+      common.getRandomTopPenaltyPosition,
+    );
   }
   matchDetails.endIteration = true;
   return matchDetails;
+}
+
+function setDefenderSetPiecePosition(
+  player: Player,
+  midWayFromBalltoGoalX: number,
+  playerSpace: number,
+  midWayFromBalltoGoalY: number,
+  matchDetails: MatchDetails,
+  getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
+) {
+  if (player.position === 'GK') {
+    const [origX, origY] = player.originPOS;
+    player.currentPOS = [origX, origY];
+  } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+    player.currentPOS = [
+      midWayFromBalltoGoalX + playerSpace,
+      midWayFromBalltoGoalY,
+    ];
+    playerSpace += 2;
+  } else {
+    player.currentPOS = getRandomPenaltyPosition(matchDetails);
+  }
+  return playerSpace;
 }
 
 function setDeepFreekickBallAndKicker(
@@ -245,4 +264,8 @@ function setBottomLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export { setBottomFreekick, setDeepFreekickBallAndKicker };
+export {
+  setBottomFreekick,
+  setDeepFreekickBallAndKicker,
+  setDefenderSetPiecePosition,
+};
