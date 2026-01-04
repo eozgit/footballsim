@@ -107,23 +107,6 @@ function setTopBottomQtrCentreYPos(
     true,
   );
 
-  const ballInCentre = common.isBetween(
-    ball.position[0],
-    pitchWidth / 4 + 5,
-    pitchWidth - pitchWidth / 4 - 5,
-  );
-  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
-  ball.direction = isTop
-    ? ballInCentre
-      ? 'south'
-      : ballLeft
-        ? 'southeast'
-        : 'southwest'
-    : ballLeft
-      ? 'east'
-      : 'west';
-  const [ballX, ballY] = ball.position;
-  kickPlayer.currentPOS = [ballX, ballY];
   for (const player of attack.players) {
     if (player.position === 'GK') {
       player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
