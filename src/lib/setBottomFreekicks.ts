@@ -83,60 +83,12 @@ function setBottomHalfwayToTopQtrYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball } = matchDetails;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const kickPlayer = attack.players[5];
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
-  const ballInCentre = common.isBetween(
-    ball.position[0],
-    pitchWidth / 4 + 5,
-    pitchWidth - pitchWidth / 4 - 5,
+  return setFreekicks.setHalfwayToOppositeQtrYPos(
+    matchDetails,
+    attack,
+    defence,
+    'bottom',
   );
-  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
-  ball.direction = ballInCentre
-    ? 'north'
-    : ballLeft
-      ? 'northeast'
-      : 'northwest';
-  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
-  for (const player of attack.players) {
-    if (player.position === 'GK') {
-      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
-    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-      const maxYPOSCheck = Math.floor(
-        common.upToMin(ball.position[1] + 100, pitchHeight * 0.5),
-      );
-      player.currentPOS = [player.originPOS[0], maxYPOSCheck];
-    } else if (['CM', 'LM', 'RM'].includes(player.position)) {
-      const maxYPOSCheck = common.upToMin(
-        ball.position[1] - common.getRandomNumber(150, 300),
-        pitchHeight * 0.25,
-      );
-      if (player.name !== kickPlayer.name) {
-        player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
-      }
-    } else {
-      const maxYPOSCheck = common.upToMin(
-        ball.position[1] - common.getRandomNumber(300, 400),
-        pitchHeight * 0.1,
-      );
-      player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
-    }
-  }
-  for (const player of defence.players) {
-    if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
-      player.currentPOS = [...player.originPOS];
-    } else if (['CM', 'LM', 'RM'].includes(player.position)) {
-      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
-    } else {
-      player.currentPOS = [player.originPOS[0], pitchHeight * 0.5];
-    }
-  }
-  matchDetails.endIteration = true;
-  return matchDetails;
 }
 
 function setBottomUpperQtrCentreYPos(

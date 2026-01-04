@@ -145,4 +145,101 @@ function setOneHundredToHalfwayYPos(
   return matchDetails;
 }
 
-export { setOneHundredYPos, setOneHundredToHalfwayYPos };
+/**
+ * Unified logic for freekicks from the halfway line to the opposite quarter.
+ */
+function setHalfwayToOppositeQtrYPos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+  side: 'top' | 'bottom',
+): MatchDetails {
+  const isTop = side === 'top';
+  const { ball } = matchDetails;
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const kickPlayer = attack.players[5];
+
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+
+  // Direction logic (Preserved)
+  const ballInCentre = common.isBetween(
+    ball.position[0],
+    pitchWidth / 4 + 5,
+    pitchWidth - pitchWidth / 4 - 5,
+  );
+  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+  if (isTop) {
+    ball.direction = ballInCentre
+      ? 'south'
+      : ballLeft
+        ? 'southeast'
+        : 'southwest';
+  } else {
+    ball.direction = ballInCentre
+      ? 'north'
+      : ballLeft
+        ? 'northeast'
+        : 'northwest';
+  }
+
+  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
+
+  for (const player of attack.players) {
+    if (player.position === 'GK') {
+      const gkY = isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
+      player.currentPOS = [player.originPOS[0], Math.floor(gkY)];
+    } else if (player.name !== kickPlayer.name) {
+      let finalY: number;
+      if (['CB', 'LB', 'RB'].includes(player.position)) {
+        // Defenders move forward slightly but stay behind the play
+        finalY = isTop
+          ? common.upToMax(ball.position[1] - 100, pitchHeight * 0.5)
+          : common.upToMin(ball.position[1] + 100, pitchHeight * 0.5);
+      } else if (['CM', 'LM', 'RM'].includes(player.position)) {
+        // Midfielders push into the attacking third
+        const push = isTop
+          ? common.getRandomNumber(150, 300)
+          : -common.getRandomNumber(150, 300);
+        finalY = isTop
+          ? common.upToMax(ball.position[1] + push, pitchHeight * 0.75)
+          : common.upToMin(ball.position[1] + push, pitchHeight * 0.25);
+      } else {
+        // Attackers push toward the box
+        const push = isTop
+          ? common.getRandomNumber(300, 400)
+          : -common.getRandomNumber(300, 400);
+        finalY = isTop
+          ? common.upToMax(ball.position[1] + push, pitchHeight * 0.9)
+          : common.upToMin(ball.position[1] + push, pitchHeight * 0.1);
+      }
+      player.currentPOS = [player.originPOS[0], Math.floor(finalY)];
+    }
+  }
+
+  for (const player of defence.players) {
+    if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
+      player.currentPOS = [player.originPOS[0], player.originPOS[1]];
+    } else {
+      const wallY = isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
+      const targetY =
+        player.position === 'CM' ||
+        player.position === 'LM' ||
+        player.position === 'RM'
+          ? wallY
+          : pitchHeight * 0.5;
+      player.currentPOS = [player.originPOS[0], Math.floor(targetY)];
+    }
+  }
+
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+export {
+  setOneHundredYPos,
+  setOneHundredToHalfwayYPos,
+  setHalfwayToOppositeQtrYPos,
+};
