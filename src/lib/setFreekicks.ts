@@ -1,5 +1,6 @@
 import { MatchDetails, Team } from './types.js';
 import * as common from './common.js';
+import { initializeKickerAndBall } from './setTopFreekicks.js';
 
 /**
  * Unified logic for deep-third freekicks (e.g., Goal Kicks)
@@ -155,14 +156,10 @@ function setHalfwayToOppositeQtrYPos(
   side: 'top' | 'bottom',
 ): MatchDetails {
   const isTop = side === 'top';
-  const { ball } = matchDetails;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const kickPlayer = attack.players[5];
-
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
+  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
+    matchDetails,
+    attack,
+  );
 
   // Direction logic (Preserved)
   const ballInCentre = common.isBetween(
