@@ -5,7 +5,7 @@ import * as actions from './actions.js';
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
-  closestPlayer: Partial<Player>,
+  closestPlayer: { name: string; position: number },
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,

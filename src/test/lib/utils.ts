@@ -5,13 +5,7 @@ import { MatchDetails, Player } from '../../lib/types.js';
  * Helper to handle the boilerplate of reading and casting JSON files
  */
 async function readJson<T>(path: string): Promise<T> {
-  try {
-    const data = await readFile(path);
-    return data as T;
-  } catch (err: unknown) {
-    // Providing a cleaner error message including the path
-    throw new Error(`Failed to read JSON at ${path}: ${err.message || err}`);
-  }
+  return (await readFile(path)) as T;
 }
 
 export async function readMatchDetails(path: string): Promise<MatchDetails> {

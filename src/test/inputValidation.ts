@@ -5,6 +5,7 @@ import * as common from '../lib/common.js';
 
 import validation from './lib/validate_tests.js';
 import { readMatchDetails } from './lib/utils.js';
+import { Team } from '@/engine.js';
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
@@ -378,15 +379,16 @@ describe('otherValidationTests()', function () {
     }
   });
   it('validate team even if not in JSON format', async () => {
-    const team = await readFile('./src/init_config/team1.json');
+    const team = (await readFile('./src/init_config/team1.json')) as Team;
     expect(validation.validateTeam(team)).to.not.be.an('Error');
   });
   it('validate team in second half even if not in JSON format', async () => {
     const iteration = await readMatchDetails(
       './src/init_config/iteration.json',
     );
-    const team = JSON.stringify(iteration.kickOffTeam);
-    expect(validation.validateTeamSecondHalf(team)).to.not.be.an('Error');
+    expect(
+      validation.validateTeamSecondHalf(iteration.kickOffTeam),
+    ).to.not.be.an('Error');
   });
   it('validate team in second half with no team name', async () => {
     const iteration = await readMatchDetails(
@@ -397,10 +399,9 @@ describe('otherValidationTests()', function () {
     (iteration.kickOffTeam as unknown).name = undefined;
 
     // 2. Convert to string as required by the validation function
-    const teamJsonString = JSON.stringify(iteration.kickOffTeam);
 
     try {
-      validation.validateTeamSecondHalf(teamJsonString);
+      validation.validateTeamSecondHalf(iteration.kickOffTeam);
 
       // 3. Fail the test if no error was thrown
       assert.fail(

@@ -114,7 +114,13 @@ describe('targetPlayers()', function () {
     it(`target Players top ${i}`, async () => {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
-      )) as { thisArray: Player[] };
+      )) as {
+        thisArray: {
+          position: [number, number];
+          proximity: number;
+          name: string;
+        }[];
+      };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `top`,
@@ -133,7 +139,13 @@ describe('targetPlayers()', function () {
     it(`target Players bottom ${i}`, async () => {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
-      )) as { thisArray: Player[] };
+      )) as {
+        thisArray: {
+          position: [number, number];
+          proximity: number;
+          name: string;
+        }[];
+      };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `bottom`,

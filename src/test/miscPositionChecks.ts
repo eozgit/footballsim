@@ -54,7 +54,7 @@ describe('switchTeamSides()', function () {
     const matchDetails = await readMatchDetails(itlocation);
 
     // Force the invalid state
-    (matchDetails.secondTeam.players[0] as unknown).originPOS = undefined;
+    (matchDetails.secondTeam.players[0].originPOS as unknown) = undefined;
 
     try {
       await setpieces.switchSide(matchDetails, matchDetails.secondTeam);

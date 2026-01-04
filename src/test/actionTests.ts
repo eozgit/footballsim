@@ -593,27 +593,37 @@ describe('checkTeamMateProximity()', function () {
 });
 describe('checkPlayerIsDistanceFromPosition()', function () {
   it('Player Within Space X&Y', async () => {
-    const playerInformation = { proxPOS: [7, 9] };
+    const playerInformation: { proxPOS: [number, number] } = {
+      proxPOS: [7, 9],
+    };
     const close = actions.oppositionNearPlayer(playerInformation, 10, 10);
     expect(close).to.be.eql(true);
   });
   it('Player Within Space X&Y - decimals', async () => {
-    const playerInformation = { proxPOS: [7.8984, 9.666666667] };
+    const playerInformation: { proxPOS: [number, number] } = {
+      proxPOS: [7.8984, 9.666666667],
+    };
     const close = actions.oppositionNearPlayer(playerInformation, 10, 10);
     expect(close).to.be.eql(true);
   });
   it('Player Within Space X, notY', async () => {
-    const playerInformation = { proxPOS: [7, 12] };
+    const playerInformation: { proxPOS: [number, number] } = {
+      proxPOS: [7, 12],
+    };
     const close = actions.oppositionNearPlayer(playerInformation, 10, 10);
     expect(close).to.be.eql(false);
   });
   it('Player not within Space X, is for Y', async () => {
-    const playerInformation = { proxPOS: [13.11, 4] };
+    const playerInformation: { proxPOS: [number, number] } = {
+      proxPOS: [13.11, 4],
+    };
     const close = actions.oppositionNearPlayer(playerInformation, 10, 10);
     expect(close).to.be.eql(false);
   });
   it('Player not within Space XY', async () => {
-    const playerInformation = { proxPOS: [30.23, 30.23] };
+    const playerInformation: { proxPOS: [number, number] } = {
+      proxPOS: [30.23, 30.23],
+    };
     const close = actions.oppositionNearPlayer(playerInformation, 30, 30);
     expect(close).to.be.eql(false);
   });
