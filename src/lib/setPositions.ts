@@ -1,6 +1,7 @@
 import * as common from './common.js';
 import * as setVariables from './setVariables.js';
-import * as setFreekicks from './setFreekicks.js';
+import * as setTopFreekicks from './setTopFreekicks.js';
+import * as setBottomFreekicks from './setBottomFreekicks.js';
 import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
 
@@ -495,13 +496,13 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
     matchDetails.iterationLog.push(
       `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
     );
-    return setFreekicks.setBottomFreekick(matchDetails);
+    return setBottomFreekicks.setBottomFreekick(matchDetails);
   }
   matchDetails.kickOffTeamStatistics.freekicks++;
   matchDetails.iterationLog.push(
     `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
   );
-  return setFreekicks.setTopFreekick(matchDetails);
+  return setTopFreekicks.setTopFreekick(matchDetails);
 }
 
 function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
@@ -532,13 +533,13 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
     matchDetails.iterationLog.push(
       `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
     );
-    return setFreekicks.setBottomFreekick(matchDetails);
+    return setBottomFreekicks.setBottomFreekick(matchDetails);
   }
   matchDetails.secondTeamStatistics.freekicks++;
   matchDetails.iterationLog.push(
     `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
   );
-  return setFreekicks.setTopFreekick(matchDetails);
+  return setTopFreekicks.setTopFreekick(matchDetails);
 }
 
 function setTopPenalty(matchDetails: MatchDetails): MatchDetails {

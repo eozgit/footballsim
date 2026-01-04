@@ -1,5 +1,6 @@
 import { MatchDetails } from '../../lib/types.js';
-import * as setFreekick from '../../lib/setFreekicks.js';
+import * as setTopFreekicks from '../../lib/setTopFreekicks.js';
+import * as setBottomFreekicks from '../../lib/setBottomFreekicks.js';
 
 import { readMatchDetails } from './utils.js';
 
@@ -11,7 +12,7 @@ async function setTopFreekick(
 
   matchDetails.ball.position = [...ballPosition];
 
-  return setFreekick.setTopFreekick(matchDetails);
+  return setTopFreekicks.setTopFreekick(matchDetails);
 }
 
 async function setBottomFreekick(
@@ -22,7 +23,7 @@ async function setBottomFreekick(
 
   matchDetails.ball.position = [...ballPosition];
 
-  return setFreekick.setBottomFreekick(matchDetails);
+  return setBottomFreekicks.setBottomFreekick(matchDetails);
 }
 
 export default {

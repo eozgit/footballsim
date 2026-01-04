@@ -34,7 +34,7 @@ export default tseslint.config(
           vars: 'all',
           varsIgnorePattern: '^_',
           args: 'after-used',
-          argsIgnorePattern: '^_'
+          argsIgnorePattern: '^_',
         },
       ],
 

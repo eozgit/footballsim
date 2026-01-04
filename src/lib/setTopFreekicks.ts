@@ -1,0 +1,358 @@
+import * as common from './common.js';
+import { MatchDetails, Team } from './types.js';
+
+function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
+  common.removeBallFromAllPlayers(matchDetails);
+  const { kickOffTeam, secondTeam } = matchDetails;
+  const [, pitchHeight] = matchDetails.pitchSize;
+  const [, ballY] = matchDetails.ball.position;
+  const attack =
+    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
+      ? kickOffTeam
+      : secondTeam;
+  const defence =
+    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
+      ? secondTeam
+      : kickOffTeam;
+  const hundredToHalfway = common.isBetween(ballY, 100, pitchHeight / 2 + 1);
+  const halfwayToLastQtr = common.isBetween(
+    ballY,
+    pitchHeight / 2,
+    pitchHeight - pitchHeight / 4,
+  );
+  const upperFinalQtr = common.isBetween(
+    ballY,
+    pitchHeight - pitchHeight / 4,
+    pitchHeight - pitchHeight / 6 - 5,
+  );
+  const lowerFinalQtr = common.isBetween(
+    ballY,
+    pitchHeight - pitchHeight / 6 - 5,
+    pitchHeight,
+  );
+
+  if (ballY < 101) {
+    return setTopOneHundredYPos(matchDetails, attack, defence);
+  }
+  if (hundredToHalfway) {
+    return setTopOneHundredToHalfwayYPos(matchDetails, attack, defence);
+  }
+  if (halfwayToLastQtr) {
+    return setTopHalfwayToBottomQtrYPos(matchDetails, attack, defence);
+  }
+  if (upperFinalQtr) {
+    return setTopBottomQtrCentreYPos(matchDetails, attack, defence);
+  }
+  if (lowerFinalQtr) {
+    return setTopLowerFinalQtrBylinePos(matchDetails, attack, defence);
+  }
+  throw new Error(
+    `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
+  );
+}
+
+function setTopOneHundredYPos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  attack.players[0].hasBall = true;
+  const { ball } = matchDetails;
+  ball.lastTouch.playerName = attack.players[0].name;
+  ball.Player = attack.players[0].playerID;
+  ball.withTeam = attack.teamID;
+  ball.direction = 'south';
+  for (const player of attack.players) {
+    if (player.position === 'GK') {
+      const [ballX, ballY] = matchDetails.ball.position;
+      player.currentPOS = [ballX, ballY];
+    }
+    if (player.position !== 'GK') {
+      player.currentPOS = [...player.originPOS];
+    }
+  }
+  for (const player of defence.players) {
+    if (player.position === 'GK') {
+      player.currentPOS = [...player.originPOS];
+    }
+    if (player.position !== 'GK') {
+      player.currentPOS = [
+        player.originPOS[0],
+        common.upToMin(player.originPOS[1] - 100, 0),
+      ];
+    }
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+function setTopOneHundredToHalfwayYPos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const { ball } = matchDetails;
+  const [, pitchHeight] = matchDetails.pitchSize;
+  const goalieToKick = common.isBetween(
+    ball.position[1],
+    0,
+    pitchHeight * 0.25 + 1,
+  );
+  const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+  ball.direction = 'south';
+  for (const player of attack.players) {
+    if (kickPlayer.position === 'GK') {
+      if (player.position === 'GK') {
+        const [ballX, ballY] = ball.position;
+        player.currentPOS = [ballX, ballY];
+      }
+      if (player.name !== kickPlayer.name) {
+        const newYPOS = common.upToMax(
+          player.originPOS[1] + 300,
+          pitchHeight * 0.9,
+        );
+        player.currentPOS = [player.originPOS[0], newYPOS];
+      }
+    } else {
+      const newYPOS =
+        player.originPOS[1] + (ball.position[1] - player.originPOS[1]) + 300;
+      if (player.name === kickPlayer.name) {
+        const [ballX, ballY] = ball.position;
+        player.currentPOS = [ballX, ballY];
+      } else if (player.position === 'GK') {
+        const maxYPOSCheck = Math.floor(
+          common.upToMax(newYPOS, pitchHeight * 0.25),
+        );
+        player.currentPOS = [player.originPOS[0], maxYPOSCheck];
+      } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+        const maxYPOSCheck = Math.floor(
+          common.upToMax(newYPOS, pitchHeight * 0.5),
+        );
+        player.currentPOS = [player.originPOS[0], maxYPOSCheck];
+      } else if (['CM', 'LM', 'RM'].includes(player.position)) {
+        const maxYPOSCheck = Math.floor(
+          common.upToMax(newYPOS, pitchHeight * 0.75),
+        );
+        player.currentPOS = [player.originPOS[0], maxYPOSCheck];
+      } else {
+        const maxYPOSCheck = Math.floor(
+          common.upToMax(newYPOS, pitchHeight * 0.9),
+        );
+        player.currentPOS = [player.originPOS[0], maxYPOSCheck];
+      }
+    }
+  }
+  for (const player of defence.players) {
+    if (kickPlayer.position === 'GK') {
+      if (player.position === 'GK') {
+        player.currentPOS = [...player.originPOS];
+      }
+      if (player.position !== 'GK') {
+        player.currentPOS = [
+          player.originPOS[0],
+          common.upToMin(player.originPOS[1] - 100, 0),
+        ];
+      }
+    } else if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
+      player.currentPOS = [...player.originPOS];
+    } else if (['CM', 'LM', 'RM'].includes(player.position)) {
+      player.currentPOS = [
+        player.originPOS[0],
+        Math.floor(pitchHeight * 0.75 + 5),
+      ];
+    } else {
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.5)];
+    }
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+function setTopHalfwayToBottomQtrYPos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const { ball } = matchDetails;
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const kickPlayer = attack.players[5];
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+  const ballInCentre = common.isBetween(
+    ball.position[0],
+    pitchWidth / 4 + 5,
+    pitchWidth - pitchWidth / 4 - 5,
+  );
+  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+  ball.direction = ballInCentre
+    ? 'south'
+    : ballLeft
+      ? 'southeast'
+      : 'southwest';
+  const [ballX, ballY] = ball.position;
+  kickPlayer.currentPOS = [ballX, ballY];
+  for (const player of attack.players) {
+    if (player.position === 'GK') {
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
+    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+      const maxYPOSCheck = Math.floor(
+        common.upToMax(ball.position[1] - 100, pitchHeight * 0.5),
+      );
+      player.currentPOS = [player.originPOS[0], maxYPOSCheck];
+    } else if (['CM', 'LM', 'RM'].includes(player.position)) {
+      const maxYPOSCheck = common.upToMax(
+        ball.position[1] + common.getRandomNumber(150, 300),
+        pitchHeight * 0.75,
+      );
+      if (player.name !== kickPlayer.name) {
+        player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
+      }
+    } else {
+      const maxYPOSCheck = common.upToMax(
+        ball.position[1] + common.getRandomNumber(300, 400),
+        pitchHeight * 0.9,
+      );
+      player.currentPOS = [player.originPOS[0], Math.floor(maxYPOSCheck)];
+    }
+  }
+  for (const player of defence.players) {
+    if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
+      player.currentPOS = [...player.originPOS];
+    } else if (['CM', 'LM', 'RM'].includes(player.position)) {
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.75)];
+    } else {
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.5)];
+    }
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+function setTopBottomQtrCentreYPos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const { ball } = matchDetails;
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const kickPlayer = attack.players[5];
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+  const ballInCentre = common.isBetween(
+    ball.position[0],
+    pitchWidth / 4 + 5,
+    pitchWidth - pitchWidth / 4 - 5,
+  );
+  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+  ball.direction = ballInCentre
+    ? 'south'
+    : ballLeft
+      ? 'southeast'
+      : 'southwest';
+  const [ballX, ballY] = ball.position;
+  kickPlayer.currentPOS = [ballX, ballY];
+  for (const player of attack.players) {
+    if (player.position === 'GK') {
+      player.currentPOS = [player.originPOS[0], Math.floor(pitchHeight * 0.25)];
+    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+      if (player.position === 'CB') {
+        player.currentPOS = [
+          player.originPOS[0],
+          Math.floor(pitchHeight * 0.5),
+        ];
+      } else if (player.position === 'LB' || player.position === 'RB') {
+        player.currentPOS = [
+          player.originPOS[0],
+          Math.floor(pitchHeight * 0.66),
+        ];
+      }
+    } else if (player.name !== kickPlayer.name) {
+      player.currentPOS = common.getRandomBottomPenaltyPosition(matchDetails);
+    }
+  }
+  let playerSpace = -3;
+  for (const player of defence.players) {
+    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
+    const midWayFromBalltoGoalX = Math.floor(
+      (ball.position[0] - ballDistanceFromGoalX) / 2,
+    );
+    const ballDistanceFromGoalY = pitchHeight - ball.position[1];
+    const midWayFromBalltoGoalY = Math.floor(
+      (ball.position[1] - ballDistanceFromGoalY) / 2,
+    );
+    if (player.position === 'GK') {
+      const [origX, origY] = player.originPOS;
+      player.currentPOS = [origX, origY];
+    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+      player.currentPOS = [
+        midWayFromBalltoGoalX + playerSpace,
+        midWayFromBalltoGoalY,
+      ];
+      playerSpace += 2;
+    } else {
+      player.currentPOS = common.getRandomBottomPenaltyPosition(matchDetails);
+    }
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+function setTopLowerFinalQtrBylinePos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const { ball } = matchDetails;
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const kickPlayer = attack.players[5];
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+  ball.direction = ballLeft ? 'east' : 'west';
+  const [ballX, ballY] = ball.position;
+  kickPlayer.currentPOS = [ballX, ballY];
+  for (const player of attack.players) {
+    const { playerID, position, originPOS } = player;
+    if (position === 'GK') {
+      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.25)];
+    } else if (['CB', 'LB', 'RB'].includes(position)) {
+      if (position === 'CB') {
+        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.5)];
+      } else if (['LB', 'RB'].includes(position)) {
+        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.66)];
+      }
+    } else if (playerID !== kickPlayer.playerID) {
+      player.currentPOS = common.getRandomBottomPenaltyPosition(matchDetails);
+    }
+  }
+  let playerSpace = common.upToMax(ball.position[1] + 3, pitchHeight);
+  for (const player of defence.players) {
+    const { position, originPOS } = player;
+    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
+    const midWayFromBalltoGoalX = Math.floor(
+      (ball.position[0] - ballDistanceFromGoalX) / 2,
+    );
+    if (position === 'GK') {
+      player.currentPOS = player.currentPOS = [...originPOS];
+    } else if (['CB', 'LB', 'RB'].includes(position)) {
+      player.currentPOS = [midWayFromBalltoGoalX, playerSpace];
+      playerSpace -= 2;
+    } else {
+      player.currentPOS = common.getRandomBottomPenaltyPosition(matchDetails);
+    }
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+export { setTopFreekick };

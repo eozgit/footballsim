@@ -25,6 +25,11 @@ npx tree-node-cli -L 3 -I "node_modules|dist|.git|coverage-ts|temp_api"
 echo "---SECTION: DEPENDENCY_GRAPH_MERMAID---"
 npx depcruise src --include-only "src" --output-type mermaid --no-config
 
+# NEW: Function-level Dependency Graph
+echo "---SECTION: INTERNAL_FUNCTION_GRAPH---"
+# We use npx ts-node to run the TypeScript script directly
+npx ts-node scripts/gen-fn-graph.js
+
 # 4. Git History
 echo "---SECTION: RECENT_GIT_COMMITS---"
 git --no-pager log -n 10 --oneline
