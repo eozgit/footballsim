@@ -1,5 +1,5 @@
 import * as common from './common.js';
-import { MatchDetails, Team } from './types.js';
+import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as setFreekicks from './setFreekicks.js';
 import { setDeepFreekickBallAndKicker } from './setBottomFreekicks.js';
 
@@ -175,11 +175,10 @@ function setTopBottomQtrCentreYPos(
   return matchDetails;
 }
 
-function setTopLowerFinalQtrBylinePos(
+function initializeKickerAndBall(
   matchDetails: MatchDetails,
   attack: Team,
-  defence: Team,
-): MatchDetails {
+): { ball: Ball; pitchWidth: number; pitchHeight: number; kickPlayer: Player } {
   const { ball, pitchSize } = matchDetails;
   const [pitchWidth, pitchHeight] = pitchSize;
   const kickPlayer = attack.players[5];
@@ -187,6 +186,18 @@ function setTopLowerFinalQtrBylinePos(
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
+  return { ball, pitchWidth, pitchHeight, kickPlayer };
+}
+
+function setTopLowerFinalQtrBylinePos(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+): MatchDetails {
+  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
+    matchDetails,
+    attack,
+  );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
   ball.direction = ballLeft ? 'east' : 'west';
   const [ballX, ballY] = ball.position;
@@ -225,4 +236,4 @@ function setTopLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export { setTopFreekick };
+export { setTopFreekick, initializeKickerAndBall };
