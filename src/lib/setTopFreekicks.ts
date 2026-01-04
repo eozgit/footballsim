@@ -177,11 +177,15 @@ function initializeKickerAndBall(
   const { ball, pitchSize } = matchDetails;
   const [pitchWidth, pitchHeight] = pitchSize;
   const kickPlayer = attack.players[5];
+  setBallPossession(kickPlayer, ball, attack);
+  return { ball, pitchWidth, pitchHeight, kickPlayer };
+}
+
+function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
-  return { ball, pitchWidth, pitchHeight, kickPlayer };
 }
 
 function setTopLowerFinalQtrBylinePos(
@@ -231,4 +235,4 @@ function setTopLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export { setTopFreekick, initializeKickerAndBall };
+export { setTopFreekick, initializeKickerAndBall, setBallPossession };

@@ -1,6 +1,9 @@
 import { MatchDetails, Team } from './types.js';
 import * as common from './common.js';
-import { initializeKickerAndBall } from './setTopFreekicks.js';
+import {
+  initializeKickerAndBall,
+  setBallPossession,
+} from './setTopFreekicks.js';
 
 /**
  * Unified logic for deep-third freekicks (e.g., Goal Kicks)
@@ -70,10 +73,7 @@ function setOneHundredToHalfwayYPos(
 
   const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
 
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
+  setBallPossession(kickPlayer, ball, attack);
   ball.direction = isTop ? 'south' : 'north';
 
   for (const player of attack.players) {
