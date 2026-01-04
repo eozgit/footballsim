@@ -97,6 +97,18 @@ function populateMatchDetails(
   team2: Team,
   pitchDetails: PitchDetails,
 ): MatchDetails {
+  const teamStats = {
+    goals: 0,
+    shots: {
+      total: 0,
+      on: 0,
+      off: 0,
+    },
+    corners: 0,
+    freekicks: 0,
+    penalties: 0,
+    fouls: 0,
+  };
   return {
     matchID: common.getRandomNumber(1000000000000, 999999999999999),
     kickOffTeam: team1,
@@ -120,30 +132,8 @@ function populateMatchDetails(
       },
     },
     half: 1,
-    kickOffTeamStatistics: {
-      goals: 0,
-      shots: {
-        total: 0,
-        on: 0,
-        off: 0,
-      },
-      corners: 0,
-      freekicks: 0,
-      penalties: 0,
-      fouls: 0,
-    },
-    secondTeamStatistics: {
-      goals: 0,
-      shots: {
-        total: 0,
-        on: 0,
-        off: 0,
-      },
-      corners: 0,
-      freekicks: 0,
-      penalties: 0,
-      fouls: 0,
-    },
+    kickOffTeamStatistics: structuredClone(teamStats),
+    secondTeamStatistics: structuredClone(teamStats),
     iterationLog: [],
   };
 }
