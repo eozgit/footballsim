@@ -1,5 +1,6 @@
 import * as common from './common.js';
 import { MatchDetails, Team } from './types.js';
+import * as setFreekicks from './setFreekicks.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -56,35 +57,12 @@ function setBottomOneHundredYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  attack.players[0].hasBall = true;
-  const { ball, pitchSize } = matchDetails;
-  const [, pitchHeight] = pitchSize;
-  ball.lastTouch.playerName = attack.players[0].name;
-  ball.Player = attack.players[0].playerID;
-  ball.withTeam = attack.teamID;
-  ball.direction = 'north';
-  for (const player of attack.players) {
-    if (player.position === 'GK') {
-      const [ballX, ballY] = matchDetails.ball.position;
-      player.currentPOS = [ballX, ballY];
-    }
-    if (player.position !== 'GK') {
-      player.currentPOS = [...player.originPOS];
-    }
-  }
-  for (const player of defence.players) {
-    if (player.position === 'GK') {
-      player.currentPOS = [...player.originPOS];
-    }
-    if (player.position !== 'GK') {
-      player.currentPOS = [
-        player.originPOS[0],
-        common.upToMax(player.originPOS[1] + 100, pitchHeight),
-      ];
-    }
-  }
-  matchDetails.endIteration = true;
-  return matchDetails;
+  return setFreekicks.setOneHundredYPos(
+    matchDetails,
+    attack,
+    defence,
+    'bottom',
+  );
 }
 
 function setBottomOneHundredToHalfwayYPos(
