@@ -194,56 +194,39 @@ function validateBall(ball: unknown) {
   }
 }
 
+function isPlayerInBounds(
+  player: Player,
+  pitchWidth: number,
+  pitchHeight: number,
+): void {
+  if (player.currentPOS[0] !== 'NP') {
+    const onPitchX = common.isBetween(player.currentPOS[0], -1, pitchWidth + 1);
+    const onPitchY = common.isBetween(
+      player.currentPOS[1],
+      -1,
+      pitchHeight + 1,
+    );
+    if (onPitchX === false) {
+      throw new Error(
+        `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
+      );
+    }
+    if (onPitchY === false) {
+      throw new Error(
+        `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
+      );
+    }
+  }
+}
+
 function validatePlayerPositions(matchDetails: MatchDetails) {
   const { kickOffTeam, secondTeam } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   for (const player of kickOffTeam.players) {
-    if (player.currentPOS[0] !== 'NP') {
-      const onPitchX = common.isBetween(
-        player.currentPOS[0],
-        -1,
-        pitchWidth + 1,
-      );
-      const onPitchY = common.isBetween(
-        player.currentPOS[1],
-        -1,
-        pitchHeight + 1,
-      );
-      if (onPitchX === false) {
-        throw new Error(
-          `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
-        );
-      }
-      if (onPitchY === false) {
-        throw new Error(
-          `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
-        );
-      }
-    }
+    isPlayerInBounds(player, pitchWidth, pitchHeight);
   }
   for (const player of secondTeam.players) {
-    if (player.currentPOS[0] !== 'NP') {
-      const onPitchX = common.isBetween(
-        player.currentPOS[0],
-        -1,
-        pitchWidth + 1,
-      );
-      const onPitchY = common.isBetween(
-        player.currentPOS[1],
-        -1,
-        pitchHeight + 1,
-      );
-      if (onPitchX === false) {
-        throw new Error(
-          `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
-        );
-      }
-      if (onPitchY === false) {
-        throw new Error(
-          `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
-        );
-      }
-    }
+    isPlayerInBounds(player, pitchWidth, pitchHeight);
   }
 }
 
