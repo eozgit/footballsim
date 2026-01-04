@@ -164,6 +164,8 @@ function setBottomLowerFinalQtrBylinePos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
+  const side = 'bottom';
+  const isTop = side === 'top';
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -171,10 +173,23 @@ function setBottomLowerFinalQtrBylinePos(
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
+  const ballInCentre = common.isBetween(
+    ball.position[0],
+    pitchWidth / 4 + 5,
+    pitchWidth - pitchWidth / 4 - 5,
+  );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
-  ball.direction = ballLeft ? 'east' : 'west';
+  ball.direction = isTop
+    ? ballInCentre
+      ? 'south'
+      : ballLeft
+        ? 'southeast'
+        : 'southwest'
+    : ballLeft
+      ? 'east'
+      : 'west';
   const [ballX, ballY] = ball.position;
-  kickPlayer.currentPOS = [ballX, ballY]; // Improved cloning
+  kickPlayer.currentPOS = [ballX, ballY];
 
   for (const player of attack.players) {
     const { playerID, position, originPOS } = player;

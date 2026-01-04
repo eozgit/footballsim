@@ -91,6 +91,8 @@ function setTopBottomQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
+  const side = 'top';
+  const isTop = side === 'top';
   const { ball } = matchDetails;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const kickPlayer = attack.players[5];
@@ -104,11 +106,15 @@ function setTopBottomQtrCentreYPos(
     pitchWidth - pitchWidth / 4 - 5,
   );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
-  ball.direction = ballInCentre
-    ? 'south'
+  ball.direction = isTop
+    ? ballInCentre
+      ? 'south'
+      : ballLeft
+        ? 'southeast'
+        : 'southwest'
     : ballLeft
-      ? 'southeast'
-      : 'southwest';
+      ? 'east'
+      : 'west';
   const [ballX, ballY] = ball.position;
   kickPlayer.currentPOS = [ballX, ballY];
   for (const player of attack.players) {
