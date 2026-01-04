@@ -180,8 +180,8 @@ function setTopLowerFinalQtrBylinePos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball } = matchDetails;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const { ball, pitchSize } = matchDetails;
+  const [pitchWidth, pitchHeight] = pitchSize;
   const kickPlayer = attack.players[5];
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;

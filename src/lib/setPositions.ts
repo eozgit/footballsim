@@ -37,32 +37,8 @@ function setGoalieHasBall(
 }
 
 function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
-  common.removeBallFromAllPlayers(matchDetails);
+  const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
   const [pitchWidth] = matchDetails.pitchSize;
-  const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
-  const halfPitchSize = matchDetails.pitchSize[1] / 2;
-  const attack =
-    kickOffTeamKeepYPos > halfPitchSize
-      ? matchDetails.kickOffTeam
-      : matchDetails.secondTeam;
-  const defence =
-    kickOffTeamKeepYPos > halfPitchSize
-      ? matchDetails.secondTeam
-      : matchDetails.kickOffTeam;
-  for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = [
-      ...attack.players[playerNum].originPOS,
-    ];
-    defence.players[playerNum].currentPOS = [
-      ...defence.players[playerNum].originPOS,
-    ];
-  }
-  for (const playerNum of [5, 6, 7, 8, 9, 10]) {
-    attack.players[playerNum].currentPOS =
-      common.getRandomTopPenaltyPosition(matchDetails);
-    defence.players[playerNum].currentPOS =
-      common.getRandomTopPenaltyPosition(matchDetails);
-  }
   attack.players[1].currentPOS = [pitchWidth, 0];
   attack.players[4].currentPOS = [pitchWidth - 10, 20];
   defence.players[4].currentPOS = [pitchWidth - 12, 10];
@@ -72,7 +48,7 @@ function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   return matchDetails;
 }
 
-function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
+function assignTeamsAndResetPositions(matchDetails: MatchDetails) {
   common.removeBallFromAllPlayers(matchDetails);
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
@@ -98,6 +74,11 @@ function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
     defence.players[playerNum].currentPOS =
       common.getRandomTopPenaltyPosition(matchDetails);
   }
+  return { attack, defence };
+}
+
+function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
+  const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
   attack.players[1].currentPOS = [0, 0];
   attack.players[4].currentPOS = [10, 20];
   defence.players[1].currentPOS = [12, 10];
