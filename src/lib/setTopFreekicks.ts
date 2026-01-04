@@ -94,11 +94,10 @@ function setTopBottomQtrCentreYPos(
 ): MatchDetails {
   const isTop = true;
 
-  const {
-    ball,
-    pitchSize: [pitchWidth, pitchHeight],
-  } = matchDetails;
-  const kickPlayer = attack.players[5];
+  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
+    matchDetails,
+    attack,
+  );
 
   setDeepFreekickBallAndKicker(
     ball,
@@ -108,10 +107,6 @@ function setTopBottomQtrCentreYPos(
     true,
   );
 
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
   const ballInCentre = common.isBetween(
     ball.position[0],
     pitchWidth / 4 + 5,
