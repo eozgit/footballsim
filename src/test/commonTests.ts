@@ -2,8 +2,8 @@ import assert from 'node:assert';
 
 import { expect, it, describe } from 'vitest';
 
-import { readFile } from '../lib/fileReader.js';
 import * as common from '../lib/common.js';
+import { readFile } from '../lib/fileReader.js';
 import { isInjured } from '../lib/injury.js';
 
 describe('testCommonFunction()', function () {

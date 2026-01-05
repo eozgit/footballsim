@@ -1,9 +1,9 @@
-import * as common from './common.js';
-import * as setVariables from './setVariables.js';
-import * as setTopFreekicks from './setTopFreekicks.js';
-import * as setBottomFreekicks from './setBottomFreekicks.js';
-import { BallPosition, MatchDetails, Player, Team } from './types.js';
 import { createPlayer } from './ballMovement.js';
+import * as common from './common.js';
+import * as setBottomFreekicks from './setBottomFreekicks.js';
+import * as setTopFreekicks from './setTopFreekicks.js';
+import * as setVariables from './setVariables.js';
+import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function setGoalieHasBall(
   matchDetails: MatchDetails,

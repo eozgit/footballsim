@@ -1,6 +1,6 @@
-import { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 import * as common from '../../lib/common.js';
 import * as setPos from '../../lib/setPositions.js';
+import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 

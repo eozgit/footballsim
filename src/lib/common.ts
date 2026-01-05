@@ -1,4 +1,4 @@
-import { BallPosition, MatchDetails } from './types.js';
+import type { BallPosition, MatchDetails } from './types.js';
 
 //---------------
 //Maths Functions

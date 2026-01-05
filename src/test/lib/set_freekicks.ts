@@ -1,6 +1,6 @@
-import { MatchDetails } from '../../lib/types.js';
-import * as setTopFreekicks from '../../lib/setTopFreekicks.js';
 import * as setBottomFreekicks from '../../lib/setBottomFreekicks.js';
+import * as setTopFreekicks from '../../lib/setTopFreekicks.js';
+import type { MatchDetails } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 

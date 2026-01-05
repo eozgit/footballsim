@@ -1,5 +1,5 @@
-import { MatchDetails, Team } from './types.js';
 import * as common from './common.js';
+import type { MatchDetails, Team } from './types.js';
 
 //---------------
 //Injury Functions

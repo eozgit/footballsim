@@ -1,7 +1,7 @@
 //example implementation application
 import { readFile } from 'fs';
 
-import { MatchDetails, PitchDetails, Team } from '../lib/types.js';
+import type { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 
 import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 

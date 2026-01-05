@@ -1,5 +1,4 @@
 import * as common from './common.js';
-import { MatchDetails, Team } from './types.js';
 import {
   alignPlayersForPenalty,
   setDeepFreekickBallAndKicker,
@@ -8,6 +7,7 @@ import {
   setOneHundredYPos,
   setSetPiecePositions,
 } from './setFreekicks.js';
+import type { MatchDetails, Team } from './types.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);

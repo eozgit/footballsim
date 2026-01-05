@@ -1,11 +1,12 @@
 import { expect, it, describe, assert } from 'vitest';
 
-import { readFile } from '../lib/fileReader.js';
 import * as common from '../lib/common.js';
+import { readFile } from '../lib/fileReader.js';
 
-import validation from './lib/validate_tests.js';
 import { readMatchDetails } from './lib/utils.js';
-import { Team } from '@/engine.js';
+import validation from './lib/validate_tests.js';
+
+import type { Team } from '@/engine.js';
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {

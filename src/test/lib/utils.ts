@@ -1,5 +1,5 @@
 import { readFile } from '../../lib/fileReader.js';
-import { MatchDetails, Player } from '../../lib/types.js';
+import type { MatchDetails, Player } from '../../lib/types.js';
 
 /**
  * Helper to handle the boilerplate of reading and casting JSON files

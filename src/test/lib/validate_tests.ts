@@ -1,6 +1,6 @@
-import { MatchDetails, PitchDetails, Team } from '../../lib/types.js';
-import { readFile } from '../../lib/fileReader.js';
 import { initiateGame, playIteration, startSecondHalf } from '../../engine.js';
+import { readFile } from '../../lib/fileReader.js';
+import type { MatchDetails, PitchDetails, Team } from '../../lib/types.js';
 import * as validate from '../../lib/validate.js';
 
 import { readMatchDetails } from './utils.js';

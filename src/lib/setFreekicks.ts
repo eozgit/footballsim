@@ -1,5 +1,5 @@
-import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as common from './common.js';
+import type { Ball, MatchDetails, Player, Team } from './types.js';
 
 /**
  * Unified logic for deep-third freekicks (e.g., Goal Kicks)

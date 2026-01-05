@@ -1,8 +1,8 @@
-import * as common from './common.js';
-import * as ballMovement from './ballMovement.js';
-import * as setPositions from './setPositions.js';
 import * as actions from './actions.js';
-import { BallPosition, MatchDetails, Player, Team } from './types.js';
+import * as ballMovement from './ballMovement.js';
+import * as common from './common.js';
+import * as setPositions from './setPositions.js';
+import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
   closestPlayer: { name: string; position: number },

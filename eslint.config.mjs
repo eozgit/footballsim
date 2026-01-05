@@ -2,15 +2,21 @@ import js from '@eslint/js';
 import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
-import unusedImports from 'eslint-plugin-unused-imports'; // 1. Import the plugin
+import unusedImports from 'eslint-plugin-unused-imports';
 
 export default tseslint.config(
+  {
+    // Global ignores MUST be in their own object at the top level
+    ignores: ['coverage/**', 'scripts/**', 'dist/**', 'prism.js'],
+  },
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
+    // Apply core discipline to all source files
+    files: ['src/**/*.ts', 'src/**/*.js'],
     plugins: {
       import: importPlugin,
-      'unused-imports': unusedImports, // 2. Register the plugin
+      'unused-imports': unusedImports,
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -18,16 +24,19 @@ export default tseslint.config(
       globals: {
         ...globals.node,
         ...globals.browser,
-        ...globals.vitest,
       },
     },
     rules: {
-      // --- THE "GRIP" RULES ---
-      '@typescript-eslint/no-explicit-any': ['warn', { fixToUnknown: true }],
+      // --- AUTO-FIXABLE DISCIPLINE (ENFORCED AS ERRORS) ---
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'prefer-template': 'error',
+      eqeqeq: ['error', 'always'],
+      curly: ['error', 'all'],
 
-      // 3. Disable standard unused-vars to let the plugin handle it
+      // --- AGENT-OPTIMIZED UNUSED CODE REMOVAL ---
       '@typescript-eslint/no-unused-vars': 'off',
-      'unused-imports/no-unused-imports': 'error', // Auto-fixable: removes unused imports
+      'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'error',
         {
@@ -38,28 +47,41 @@ export default tseslint.config(
         },
       ],
 
-      'prefer-template': 'error',
-      'prefer-const': 'error',
-      'no-var': 'error',
-      eqeqeq: ['error', 'always'],
+      // --- STRICT TYPE SAFETY ---
+      '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        { prefer: 'type-imports' },
+      ],
 
       // --- IMPORT DISCIPLINE ---
-      'import/order': ['warn', { 'newlines-between': 'always' }],
-      'import/no-commonjs': 'warn',
+      'import/order': [
+        'error',
+        {
+          'newlines-between': 'always',
+          alphabetize: { order: 'asc', caseInsensitive: true },
+        },
+      ],
+      'import/no-commonjs': 'error',
 
-      // --- CODE HYGIENE ---
+      // --- COMPLEXITY THRESHOLDS (WARNINGS FOR AGENTS TO REFACTOR) ---
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       complexity: ['warn', 10],
-      curly: ['error', 'all'],
     },
   },
   {
-    files: ['test/**/*.ts'],
+    // Test specific overrides
+    files: ['src/test/**/*.ts'],
+    languageOptions: {
+      globals: {
+        ...globals.vitest,
+      },
+    },
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       'max-lines-per-function': 'off',
-      // Optional: keep unused vars as warnings in tests
       'unused-imports/no-unused-vars': 'warn',
+      'import/no-commonjs': 'off', // Allow commonjs in tests if necessary
     },
   },
 );

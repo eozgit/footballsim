@@ -1,5 +1,5 @@
 import * as common from './common.js';
-import { MatchDetails, PitchDetails, Player, Team } from './types.js';
+import type { MatchDetails, PitchDetails, Player, Team } from './types.js';
 
 function validateTeam(team: Team) {
   if (typeof team !== `object`) {
