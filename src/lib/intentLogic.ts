@@ -26,7 +26,9 @@ function getAttackingIntentWeights(
   opposition: Team,
 ): MatchEventWeights {
   const [theX] = player.currentPOS;
-  if (theX === 'NP') throw new Error('No player position!');
+  if (theX === 'NP') {
+    throw new Error('No player position!');
+  }
   const curPOS = player.currentPOS as [number, number];
 
   const playerInformation = setPositions.closestPlayerToPosition(
@@ -46,12 +48,16 @@ function getAttackingIntentWeights(
   ];
 
   const [curX, curY] = playerInformation.thePlayer.currentPOS;
-  if (curX === 'NP') throw new Error('No player position!');
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
   const [playerX, playerY] = currentPOS;
-  if (playerX === 'NP') throw new Error('No player position!');
+  if (playerX === 'NP') {
+    throw new Error('No player position!');
+  }
 
   const pos: [number, number] = [playerX, playerY];
   const halfRange = pitchHeight - skill.shooting / 2;
@@ -105,17 +111,21 @@ function handleInPenaltyBox(
   }
 
   if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+    }
+    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
-  if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+  if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
     return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+  }
+  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
+  }
   return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
 }
 
@@ -129,27 +139,34 @@ function handleUnderPressureInBox(
   pitchHeight: number,
 ): MatchEventWeights {
   if (checkOppositionBelow(oppCurPos, pos)) {
-    if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10))
+    if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+    }
+    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+    }
+    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
   if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+    }
+    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
-  if (common.isBetween(currentPOS[1], halfRange, pitchHeight))
+  if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
     return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+  }
+  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+  }
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
 
@@ -163,10 +180,12 @@ function handleOutsidePenaltyBox(
   shotRange: number,
   pitchHeight: number,
 ): MatchEventWeights {
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight))
+  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  if (oppositionNearContext(playerInformation, 6, 6))
+  }
+  if (oppositionNearContext(playerInformation, 6, 6)) {
     return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
+  }
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 function getPlayerActionWeights(
@@ -175,7 +194,9 @@ function getPlayerActionWeights(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
 
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -187,7 +208,9 @@ function getPlayerActionWeights(
   const { position, currentPOS, skill } = player;
   const [playerX, playerY] = currentPOS;
 
-  if (playerX === 'NP') throw new Error('No player position!');
+  if (playerX === 'NP') {
+    throw new Error('No player position!');
+  }
   const pos: [number, number] = [playerX, playerY];
 
   // 1. Specialized Position / Boundary Logic
@@ -245,7 +268,7 @@ function handleAttackingThirdIntent(
     proxPOS: [number, number] | number[];
     proxToBall?: number;
   },
-  currentPOS: [number | 'NP', number],
+  _: [number | 'NP', number],
 ): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
@@ -303,7 +326,9 @@ function getAttackingThreatWeights(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
   const curPOS = player.currentPOS as [number, number];
 
   const playerInformation = setPositions.closestPlayerToPosition(
@@ -325,7 +350,9 @@ function getAttackingThreatWeights(
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { currentPOS, skill } = player;
 
-  if (currentPOS[0] === 'NP') throw new Error('No player position!');
+  if (currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
   const pos = currentPOS as [number, number];
   const closeOppPOS = playerInformation.thePlayer.currentPOS;
 
@@ -353,10 +380,14 @@ function getAttackingThreatWeights(
   return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
 }
 function handleDeepBoxThreat(
-  oppInfo: any,
+  oppInfo: {
+    thePlayer?: Player;
+    proxPOS: [number, number] | number[];
+    proxToBall?: number;
+  },
   tmateProx: [number, number],
-  currentPOS: any,
-  closeOppPOS: any,
+  currentPOS: [number | 'NP', number],
+  closeOppPOS: [number | 'NP', number],
   skill: Skill,
 ): MatchEventWeights {
   // Scenario: Defender is closing in
@@ -371,65 +402,82 @@ function handleDeepBoxThreat(
 
   // Scenario: Space available
   if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    }
+    if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
   // Default Box Logic (No pressure, no immediate teammate)
-  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
     return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  if (common.isBetween(currentPOS[1], 0, skill.shooting))
+  }
+  if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
     return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
+  }
   return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
 }
 
 function handlePressuredBoxDecision(
   tmateProx: [number, number],
-  currentPOS: any,
-  closeOppPOS: any,
+  currentPOS: [number | 'NP', number],
+  closeOppPOS: [number | 'NP', number],
   skill: Skill,
 ): MatchEventWeights {
   if (checkOppositionAhead(closeOppPOS, currentPOS)) {
-    if (checkTeamMateSpaceClose(tmateProx, -10, 10, -10, 10))
+    if (checkTeamMateSpaceClose(tmateProx, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    }
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    }
+    if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
   if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    }
+    if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    }
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
   // Fallback pressured logic
-  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
     return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-  if (common.isBetween(currentPOS[1], 0, skill.shooting))
+  }
+  if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
     return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+  }
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
 
 // src/lib/intentLogic.ts
 
-function handleBottomGKIntent(playerInformation: any): MatchEventWeights {
+function handleBottomGKIntent(playerInformation: {
+  thePlayer?: Player;
+  proxPOS: [number, number];
+  proxToBall?: number;
+}): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 25)) {
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
   }
   return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
 }
 
-function handleBottomAttackingThirdIntent(
-  playerInformation: any,
-): MatchEventWeights {
+function handleBottomAttackingThirdIntent(playerInformation: {
+  thePlayer?: Player;
+  proxPOS: [number, number];
+  proxToBall?: number;
+}): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
   }
@@ -437,7 +485,11 @@ function handleBottomAttackingThirdIntent(
 }
 
 function handleBottomDefensiveThirdIntent(
-  playerInformation: any,
+  playerInformation: {
+    thePlayer?: Player;
+    proxPOS: [number, number];
+    proxToBall?: number;
+  },
   position: string,
 ): MatchEventWeights {
   if (oppositionNearContext(playerInformation, 10, 10)) {

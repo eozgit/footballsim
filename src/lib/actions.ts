@@ -101,7 +101,9 @@ function bottomTeamPlayerHasBall(
     currentPOS: [posX, posY],
     skill,
   } = player;
-  if (posX === 'NP') throw new Error('No player position!');
+  if (posX === 'NP') {
+    throw new Error('No player position!');
+  }
   const pos = [posX, posY] as [number, number];
 
   const playerInformation = setPositions.closestPlayerToPosition(
