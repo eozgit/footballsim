@@ -4,7 +4,13 @@ import * as common from './common.js';
 import * as setBottomFreekicks from './setBottomFreekicks.js';
 import * as setTopFreekicks from './setTopFreekicks.js';
 import * as setVariables from './setVariables.js';
-import type { BallPosition, MatchDetails, Player, Team } from './types.js';
+import type {
+  Ball,
+  BallPosition,
+  MatchDetails,
+  Player,
+  Team,
+} from './types.js';
 
 function setGoalieHasBall(
   matchDetails: MatchDetails,
@@ -802,7 +808,7 @@ function setIntentPosition(
   }
 }
 
-function setLooseintentPOS(
+export function setLooseintentPOS(
   matchDetails: MatchDetails,
   thisTeam: Team,
   closestPlayer: Player,
@@ -811,56 +817,79 @@ function setLooseintentPOS(
   const { ball } = matchDetails;
   const side =
     thisTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
+
   for (const player of thisTeam.players) {
-    const x = player.currentPOS[0];
-    if (x === 'NP') {
-      throw new Error('No player position!');
+    if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+
+    // Logic 1: Immediate ball proximity or ball carrier status
+    if (shouldMoveDirectlyToBall(player, closestPlayer, ball)) {
+      player.intentPOS = [ball.position[0], ball.position[1]];
+      continue;
     }
-    const diffXPOSplayerandball = ball.position[0] - x;
-    const diffYPOSplayerandball = ball.position[1] - player.currentPOS[1];
-    if (player.playerID === closestPlayer.playerID) {
-      player.intentPOS = [ball.position[0], ball.position[1]];
-    } else if (
-      common.isBetween(diffXPOSplayerandball, -16, 16) &&
-      common.isBetween(diffYPOSplayerandball, -16, 16)
-    ) {
-      player.intentPOS = [ball.position[0], ball.position[1]];
-    } else {
-      const southwards = ['south', 'southwest', 'southeast'].includes(
-        ball.direction,
-      );
-      const northwards = ['north', 'northwest', 'northeast'].includes(
-        ball.direction,
-      );
-      let newYPOS;
-      if (side === 'top' && northwards) {
-        newYPOS = player.originPOS[1];
-      } else if (side === 'top' && southwards) {
-        newYPOS = setNewRelativeTopYPOS(pitchHeight, player, 20);
-      } else if (side === 'bottom' && northwards) {
-        newYPOS = setNewRelativeBottomYPOS(pitchHeight, player, -20);
-      } else if (side === 'bottom' && southwards) {
-        if (common.isBetween(diffYPOSplayerandball, -100, 100)) {
-          newYPOS = player.originPOS[1];
-        } else {
-          newYPOS = moveTowardsBall(player, pitchHeight, diffYPOSplayerandball);
-        }
-      } else if (ball.direction === 'wait') {
-        newYPOS = moveTowardsBall(player, pitchHeight, diffYPOSplayerandball);
-      }
-      if (newYPOS === undefined) {
-        newYPOS = player.originPOS[1];
-      }
-      player.intentPOS = [player.originPOS[0], newYPOS];
+
+    // Logic 2: Tactical positioning based on ball movement
+    const newYPOS = calculateTacticalYPOS(player, ball, side, pitchHeight);
+    player.intentPOS = [player.originPOS[0], newYPOS];
+  }
+}
+
+function shouldMoveDirectlyToBall(
+  player: Player,
+  closest: Player,
+  ball: Ball,
+): boolean {
+  if (player.playerID === closest.playerID) return true;
+
+  const diffX = ball.position[0] - (player.currentPOS[0] as number);
+  const diffY = ball.position[1] - (player.currentPOS[1] as number);
+
+  // Checks if player is within a 16x16 unit "action zone" around the ball
+  return common.isBetween(diffX, -16, 16) && common.isBetween(diffY, -16, 16);
+}
+
+function calculateTacticalYPOS(
+  player: Player,
+  ball: Ball,
+  side: 'top' | 'bottom',
+  pitchHeight: number,
+): number {
+  const diffY = ball.position[1] - player.currentPOS[1];
+  const southwards = ['south', 'southwest', 'southeast'].includes(
+    ball.direction,
+  );
+  const northwards = ['north', 'northwest', 'northeast'].includes(
+    ball.direction,
+  );
+
+  // Top Team Logic
+  if (side === 'top') {
+    if (northwards) return player.originPOS[1];
+    if (southwards) return setNewRelativeTopYPOS(pitchHeight, player, 20);
+  }
+
+  // Bottom Team Logic
+  if (side === 'bottom') {
+    if (northwards) return setNewRelativeBottomYPOS(pitchHeight, player, -20);
+    if (southwards) {
+      return common.isBetween(diffY, -100, 100)
+        ? player.originPOS[1]
+        : moveTowardsBall(player, pitchHeight, diffY);
     }
   }
+
+  // Neutral / Wait Logic
+  if (ball.direction === 'wait') {
+    return moveTowardsBall(player, pitchHeight, diffY);
+  }
+
+  return player.originPOS[1];
 }
 
 function moveTowardsBall(
   player: Player,
   pitchHeight: number,
   diffYPOSplayerandball: number,
-): number | undefined {
+): number {
   const side = player.originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
   if (side === 'top' && diffYPOSplayerandball > 0) {
     return setNewRelativeTopYPOS(pitchHeight, player, 20);
@@ -874,7 +903,7 @@ function moveTowardsBall(
   if (side === 'bottom' && diffYPOSplayerandball < 0) {
     return setNewRelativeBottomYPOS(pitchHeight, player, -20);
   }
-  return undefined;
+  throw new Error('Invalid direction!');
 }
 
 function setDefenceRelativePos(

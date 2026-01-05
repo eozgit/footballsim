@@ -65,3 +65,5 @@ function readDataFile(filePath: string) {
     });
   });
 }
+
+export { init };
