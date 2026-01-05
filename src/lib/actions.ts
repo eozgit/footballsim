@@ -161,7 +161,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
     Math.abs(ownPlayerInformation.proxPOS[1]),
   ];
   const [curX, curY] = playerInformation.thePlayer.currentPOS;
-  if (curX == 'NP') {
+  if (curX === 'NP') {
     throw new Error('No player position!');
   }
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;

@@ -1,4 +1,5 @@
 import { createPlayer } from './ballMovement.js';
+import { resolveBallLocation } from './boundaryHandler.js';
 import * as common from './common.js';
 import * as setBottomFreekicks from './setBottomFreekicks.js';
 import * as setTopFreekicks from './setTopFreekicks.js';
@@ -720,83 +721,7 @@ function keepInBoundaries(
   kickteamID: string | number,
   ballIntended: BallPosition,
 ): MatchDetails {
-  const { kickOffTeam } = matchDetails;
-  const KOTid = kickOffTeam.teamID;
-  const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
-  const halfMWidth = pitchWidth / 2;
-  const leftPost = halfMWidth - goalWidth / 2;
-  const rightPost = halfMWidth + goalWidth / 2;
-  const [bXPOS, bYPOS] = ballIntended;
-  const kickOffTeamSide =
-    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
-
-  const isKOT = String(kickteamID) === String(KOTid);
-  if (bXPOS < 0) {
-    return isKOT
-      ? setLeftSecondTeamThrowIn(matchDetails, ballIntended)
-      : setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
-  }
-  if (bXPOS > pitchWidth) {
-    return isKOT
-      ? setRightSecondTeamThrowIn(matchDetails, ballIntended)
-      : setRightKickOffTeamThrowIn(matchDetails, ballIntended);
-  }
-
-  if (bYPOS < 0) {
-    if (common.isBetween(bXPOS, leftPost, rightPost)) {
-      return kickOffTeamSide === 'top'
-        ? setSecondTeamGoalScored(matchDetails)
-        : setKickOffTeamGoalScored(matchDetails);
-    } else {
-      if (bXPOS < halfMWidth && isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setTopLeftCornerPositions(matchDetails)
-          : setTopGoalKick(matchDetails);
-      }
-      if (bXPOS > halfMWidth && isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setTopRightCornerPositions(matchDetails)
-          : setTopGoalKick(matchDetails);
-      }
-      if (bXPOS < halfMWidth && !isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setTopGoalKick(matchDetails)
-          : setTopLeftCornerPositions(matchDetails);
-      }
-      return kickOffTeamSide === 'top'
-        ? setTopGoalKick(matchDetails)
-        : setTopRightCornerPositions(matchDetails);
-    }
-  }
-
-  if (bYPOS > pitchHeight) {
-    if (common.isBetween(bXPOS, leftPost, rightPost)) {
-      return kickOffTeamSide === 'top'
-        ? setKickOffTeamGoalScored(matchDetails)
-        : setSecondTeamGoalScored(matchDetails);
-    } else {
-      if (bXPOS < halfMWidth && isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setBottomGoalKick(matchDetails)
-          : setBottomLeftCornerPositions(matchDetails);
-      }
-      if (bXPOS > halfMWidth && isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setBottomGoalKick(matchDetails)
-          : setBottomRightCornerPositions(matchDetails);
-      }
-      if (bXPOS < halfMWidth && !isKOT) {
-        return kickOffTeamSide === 'top'
-          ? setBottomLeftCornerPositions(matchDetails)
-          : setBottomGoalKick(matchDetails);
-      }
-      return kickOffTeamSide === 'top'
-        ? setBottomRightCornerPositions(matchDetails)
-        : setBottomGoalKick(matchDetails);
-    }
-  }
-  matchDetails.ballIntended = ballIntended;
-  return matchDetails;
+  return resolveBallLocation(matchDetails, kickteamID, ballIntended);
 }
 
 function setPlayerPositions(
