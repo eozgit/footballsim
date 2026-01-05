@@ -298,6 +298,70 @@ function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
 }
+function alignPlayersForPenalty(
+  isTop: boolean,
+  attack: Team,
+  pitchHeight: number,
+  kickPlayer: Player,
+  matchDetails: MatchDetails,
+  defence: Team,
+  ball: Ball,
+  pitchWidth: number,
+) {
+  const factorGK = isTop ? 0.25 : 0.75;
+  const factorWB = isTop ? 0.66 : 0.33;
+  const getRandomPenaltyPosition = isTop
+    ? common.getRandomBottomPenaltyPosition
+    : common.getRandomTopPenaltyPosition;
+  for (const player of attack.players) {
+    if (player.position === 'GK') {
+      player.currentPOS = [
+        player.originPOS[0],
+        Math.floor(pitchHeight * factorGK),
+      ];
+    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+      if (player.position === 'CB') {
+        player.currentPOS = [
+          player.originPOS[0],
+          Math.floor(pitchHeight * 0.5),
+        ];
+      } else if (player.position === 'LB' || player.position === 'RB') {
+        player.currentPOS = [
+          player.originPOS[0],
+          Math.floor(pitchHeight * factorWB),
+        ];
+      }
+    } else if (player.name !== kickPlayer.name) {
+      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+    }
+  }
+  let playerSpace = -3;
+  for (const player of defence.players) {
+    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
+    const midWayFromBalltoGoalX = Math.floor(
+      (ball.position[0] - ballDistanceFromGoalX) / 2,
+    );
+    let midWayFromBalltoGoalY;
+    if (isTop) {
+      const ballDistanceFromGoalY = pitchHeight - ball.position[1];
+      midWayFromBalltoGoalY = Math.floor(
+        (ball.position[1] - ballDistanceFromGoalY) / 2,
+      );
+    } else {
+      midWayFromBalltoGoalY = Math.floor(ball.position[1] / 2);
+    }
+    playerSpace = setDefenderSetPiecePosition(
+      player,
+      midWayFromBalltoGoalX,
+      playerSpace,
+      midWayFromBalltoGoalY,
+      matchDetails,
+      getRandomPenaltyPosition,
+    );
+  }
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
 export {
   setOneHundredYPos,
   setOneHundredToHalfwayYPos,
@@ -306,4 +370,5 @@ export {
   setDefenderSetPiecePosition,
   initializeKickerAndBall,
   setBallPossession,
+  alignPlayersForPenalty,
 };
