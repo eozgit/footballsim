@@ -1061,6 +1061,46 @@ function resolveGoalScored(
       : setSecondTeamGoalScored(matchDetails);
   }
 }
+
+function checkShotAccuracy(
+  player: Player,
+  pitchHeight: number,
+  power: number,
+): boolean {
+  const [playerX, playerY] = player.currentPOS as [number, number];
+  const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
+
+  const shotReachGoal = isTopTeam
+    ? playerY + power >= pitchHeight
+    : playerY - power <= 0;
+
+  return shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40);
+}
+function calculateShotTarget(
+  player: Player,
+  onTarget: boolean,
+  width: number,
+  height: number,
+  power: number,
+): [number, number] {
+  const isTopTeam = player.originPOS[1] < height / 2;
+  const playerY = player.currentPOS[1] as number;
+  let targetX: number;
+  let targetY: number;
+
+  if (onTarget) {
+    targetX = common.getRandomNumber(width / 2 - 50, width / 2 + 50);
+    targetY = isTopTeam ? height + 1 : -1;
+  } else {
+    const isLeft = common.getRandomNumber(0, 10) > 5;
+    targetX = isLeft
+      ? common.getRandomNumber(0, width / 2 - 55)
+      : common.getRandomNumber(width / 2 + 55, width);
+    targetY = isTopTeam ? playerY + power : playerY - power;
+  }
+
+  return [targetX, targetY];
+}
 export {
   setGoalieHasBall,
   setTopRightCornerPositions,
@@ -1086,4 +1126,6 @@ export {
   setRightKickOffTeamThrowIn,
   setRightSecondTeamThrowIn,
   resolveGoalScored,
+  checkShotAccuracy,
+  calculateShotTarget,
 };

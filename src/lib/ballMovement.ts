@@ -249,100 +249,82 @@ function newKickedPosition(
 
 function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
+  // 1. Setup & Physics
+  updateLastTouch(matchDetails, team, player);
+  const shotPower = common.calculatePower(player.skill.strength);
+
+  // 2. Logic Resolution
+  const isOnTarget = setPositions.checkShotAccuracy(
+    player,
+    pitchHeight,
+    shotPower,
+  );
+  recordShotStats(matchDetails, player, isOnTarget);
+
+  // 3. Coordinate Resolution
+  const targetCoord = setPositions.calculateShotTarget(
+    player,
+    isOnTarget,
+    pitchWidth,
+    pitchHeight,
+    shotPower,
+  );
+
+  // 4. Execution
+  const endPos = calcBallMovementOverTime(
+    matchDetails,
+    player.skill.strength,
+    targetCoord,
+    player,
+  );
+  checkGoalScored(matchDetails);
+
+  return endPos;
+}
+
+function recordShotStats(
+  matchDetails: MatchDetails,
+  player: Player,
+  isOnTarget: boolean,
+): void {
+  const { half } = matchDetails;
+  if (half === 0) throw new Error(`You cannot supply 0 as a half`);
+
+  const teamStats = common.isEven(half)
+    ? matchDetails.kickOffTeamStatistics
+    : matchDetails.secondTeamStatistics;
+
+  // 1. Increment Total Shots
+  if (typeof teamStats.shots === 'number') {
+    teamStats.shots++;
+  } else {
+    teamStats.shots.total++;
+  }
+  player.stats.shots.total++;
+
+  // 2. Increment On/Off Target
+  const status = isOnTarget ? 'on' : 'off';
+
+  if (typeof teamStats.shots !== 'number') {
+    teamStats.shots[status] = (teamStats.shots[status] || 0) + 1;
+  }
+
+  if (typeof player.stats.shots !== 'number') {
+    player.stats.shots[status] = (player.stats.shots[status] || 0) + 1;
+  }
+}
+
+function updateLastTouch(
+  matchDetails: MatchDetails,
+  team: Team,
+  player: Player,
+): void {
   matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
-  const shotPosition = [0, 0];
-  const shotPower = common.calculatePower(player.skill.strength);
-  const PlyPos = player.currentPOS;
-  let thisTeamStats;
-  if (common.isEven(matchDetails.half)) {
-    thisTeamStats = matchDetails.kickOffTeamStatistics;
-  } else if (common.isOdd(matchDetails.half)) {
-    thisTeamStats = matchDetails.secondTeamStatistics;
-  } else {
-    throw new Error(`You cannot supply 0 as a half`);
-  }
-  if (typeof thisTeamStats.shots === 'number') {
-    thisTeamStats.shots++;
-  } else {
-    thisTeamStats.shots.total++;
-  }
-  player.stats.shots.total++;
-  let shotReachGoal;
-  if (player.originPOS[1] > pitchHeight / 2) {
-    shotReachGoal = !(PlyPos[1] - shotPower > 0);
-  } else {
-    shotReachGoal = !(PlyPos[1] + shotPower < pitchHeight);
-  }
-  if (shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40)) {
-    if (typeof thisTeamStats.shots !== 'number') {
-      if (thisTeamStats.shots.on === undefined) {
-        thisTeamStats.shots.on = 0;
-      } else {
-        thisTeamStats.shots.on++;
-      }
-    }
-
-    if (typeof player.stats.shots !== 'number') {
-      if (player.stats.shots.on === undefined) {
-        player.stats.shots.on = 0;
-      } else {
-        player.stats.shots.on++;
-      }
-    }
-    shotPosition[0] = common.getRandomNumber(
-      pitchWidth / 2 - 50,
-      pitchWidth / 2 + 50,
-    );
-    matchDetails.iterationLog.push(
-      `Shot On Target at X Position ${shotPosition[0]}`,
-    );
-    if (player.originPOS[1] > pitchHeight / 2) {
-      shotPosition[1] = -1;
-    } else {
-      shotPosition[1] = pitchHeight + 1;
-    }
-  } else {
-    if (typeof thisTeamStats.shots !== 'number') {
-      if (thisTeamStats.shots.off === undefined) {
-        thisTeamStats.shots.off = 0;
-      } else {
-        thisTeamStats.shots.off++;
-      }
-    }
-
-    if (typeof player.stats.shots !== 'number') {
-      if (player.stats.shots.off === undefined) {
-        player.stats.shots.off = 0;
-      } else {
-        player.stats.shots.off++;
-      }
-    }
-    const left = common.getRandomNumber(0, 10) > 5;
-    const leftPos = common.getRandomNumber(0, pitchWidth / 2 - 55);
-    const righttPos = common.getRandomNumber(pitchWidth / 2 + 55, pitchWidth);
-    shotPosition[0] = left ? leftPos : righttPos;
-    matchDetails.iterationLog.push(
-      `Shot Off Target at X Position ${shotPosition[0]}`,
-    );
-    if (player.originPOS[1] > pitchHeight / 2) {
-      shotPosition[1] = PlyPos[1] - shotPower;
-    } else {
-      shotPosition[1] = PlyPos[1] + shotPower;
-    }
-  }
-  const endPos = calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    shotPosition,
-    player,
-  );
-  checkGoalScored(matchDetails);
-  return endPos;
 }
-
 function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   player.action = `none`;
