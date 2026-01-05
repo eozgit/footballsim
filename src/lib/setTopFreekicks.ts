@@ -92,10 +92,8 @@ function setTopBottomQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
-    matchDetails,
-    attack,
-  );
+  const { ball, pitchWidth, pitchHeight, kickPlayer } =
+    setFreekicks.initializeKickerAndBall(matchDetails, attack);
 
   setFreekicks.setDeepFreekickBallAndKicker(
     ball,
@@ -147,33 +145,13 @@ function setTopBottomQtrCentreYPos(
   return matchDetails;
 }
 
-function initializeKickerAndBall(
-  matchDetails: MatchDetails,
-  attack: Team,
-): { ball: Ball; pitchWidth: number; pitchHeight: number; kickPlayer: Player } {
-  const { ball, pitchSize } = matchDetails;
-  const [pitchWidth, pitchHeight] = pitchSize;
-  const kickPlayer = attack.players[5];
-  setBallPossession(kickPlayer, ball, attack);
-  return { ball, pitchWidth, pitchHeight, kickPlayer };
-}
-
-function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = attack.teamID;
-}
-
 function setTopLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
-    matchDetails,
-    attack,
-  );
+  const { ball, pitchWidth, pitchHeight, kickPlayer } =
+    setFreekicks.initializeKickerAndBall(matchDetails, attack);
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
   ball.direction = ballLeft ? 'east' : 'west';
   const [ballX, ballY] = ball.position;
@@ -212,4 +190,4 @@ function setTopLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export { setTopFreekick, initializeKickerAndBall, setBallPossession };
+export { setTopFreekick };

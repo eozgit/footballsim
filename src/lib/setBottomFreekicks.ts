@@ -1,7 +1,6 @@
 import * as common from './common.js';
 import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as setFreekicks from './setFreekicks.js';
-import { initializeKickerAndBall } from './setTopFreekicks.js';
 import {
   setDeepFreekickBallAndKicker,
   setDefenderSetPiecePosition,
@@ -101,10 +100,8 @@ function setBottomUpperQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
-    matchDetails,
-    attack,
-  );
+  const { ball, pitchWidth, pitchHeight, kickPlayer } =
+    setFreekicks.initializeKickerAndBall(matchDetails, attack);
   const ballInCentre = common.isBetween(
     ball.position[0],
     pitchWidth / 4 + 5,

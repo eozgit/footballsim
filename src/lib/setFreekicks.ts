@@ -1,9 +1,5 @@
 import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as common from './common.js';
-import {
-  initializeKickerAndBall,
-  setBallPossession,
-} from './setTopFreekicks.js';
 
 /**
  * Unified logic for deep-third freekicks (e.g., Goal Kicks)
@@ -286,11 +282,28 @@ function setDefenderSetPiecePosition(
   }
   return playerSpace;
 }
-
+function initializeKickerAndBall(
+  matchDetails: MatchDetails,
+  attack: Team,
+): { ball: Ball; pitchWidth: number; pitchHeight: number; kickPlayer: Player } {
+  const { ball, pitchSize } = matchDetails;
+  const [pitchWidth, pitchHeight] = pitchSize;
+  const kickPlayer = attack.players[5];
+  setBallPossession(kickPlayer, ball, attack);
+  return { ball, pitchWidth, pitchHeight, kickPlayer };
+}
+function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = attack.teamID;
+}
 export {
   setOneHundredYPos,
   setOneHundredToHalfwayYPos,
   setHalfwayToOppositeQtrYPos,
   setDeepFreekickBallAndKicker,
   setDefenderSetPiecePosition,
+  initializeKickerAndBall,
+  setBallPossession,
 };
