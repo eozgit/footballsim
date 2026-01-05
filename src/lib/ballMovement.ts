@@ -289,7 +289,9 @@ function recordShotStats(
   isOnTarget: boolean,
 ): void {
   const { half } = matchDetails;
-  if (half === 0) throw new Error(`You cannot supply 0 as a half`);
+  if (half === 0) {
+    throw new Error(`You cannot supply 0 as a half`);
+  }
 
   const teamStats = common.isEven(half)
     ? matchDetails.kickOffTeamStatistics
@@ -433,8 +435,12 @@ function checkGoalScored(matchDetails: MatchDetails) {
   }
 
   // 2. Phase 1: Goalkeeper Saves (Prevents Goal)
-  if (attemptGoalieSave(matchDetails, KOGoalie, kickOffTeam.name)) return;
-  if (attemptGoalieSave(matchDetails, STGoalie, secondTeam.name)) return;
+  if (attemptGoalieSave(matchDetails, KOGoalie, kickOffTeam.name)) {
+    return;
+  }
+  if (attemptGoalieSave(matchDetails, STGoalie, secondTeam.name)) {
+    return;
+  }
 
   // 3. Phase 2: Goal Line Detection
   const centreGoal = pitchWidth / 2;

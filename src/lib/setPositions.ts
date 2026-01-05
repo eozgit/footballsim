@@ -819,7 +819,9 @@ export function setLooseintentPOS(
     thisTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
 
   for (const player of thisTeam.players) {
-    if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('No player position!');
+    }
 
     // Logic 1: Immediate ball proximity or ball carrier status
     if (shouldMoveDirectlyToBall(player, closestPlayer, ball)) {
@@ -838,7 +840,9 @@ function shouldMoveDirectlyToBall(
   closest: Player,
   ball: Ball,
 ): boolean {
-  if (player.playerID === closest.playerID) return true;
+  if (player.playerID === closest.playerID) {
+    return true;
+  }
 
   const diffX = ball.position[0] - (player.currentPOS[0] as number);
   const diffY = ball.position[1] - (player.currentPOS[1] as number);
@@ -863,13 +867,19 @@ function calculateTacticalYPOS(
 
   // Top Team Logic
   if (side === 'top') {
-    if (northwards) return player.originPOS[1];
-    if (southwards) return setNewRelativeTopYPOS(pitchHeight, player, 20);
+    if (northwards) {
+      return player.originPOS[1];
+    }
+    if (southwards) {
+      return setNewRelativeTopYPOS(pitchHeight, player, 20);
+    }
   }
 
   // Bottom Team Logic
   if (side === 'bottom') {
-    if (northwards) return setNewRelativeBottomYPOS(pitchHeight, player, -20);
+    if (northwards) {
+      return setNewRelativeBottomYPOS(pitchHeight, player, -20);
+    }
     if (southwards) {
       return common.isBetween(diffY, -100, 100)
         ? player.originPOS[1]
@@ -1046,7 +1056,9 @@ function resolveGoalScored(
   isTopGoal: boolean,
 ): MatchDetails {
   const { half } = matchDetails;
-  if (half === 0) throw new Error('cannot set half as 0');
+  if (half === 0) {
+    throw new Error('cannot set half as 0');
+  }
 
   const isOddHalf = common.isOdd(half);
 
@@ -1067,7 +1079,7 @@ function checkShotAccuracy(
   pitchHeight: number,
   power: number,
 ): boolean {
-  const [playerX, playerY] = player.currentPOS as [number, number];
+  const [_, playerY] = player.currentPOS;
   const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
 
   const shotReachGoal = isTopTeam
