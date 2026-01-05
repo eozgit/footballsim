@@ -503,7 +503,37 @@ function handleBottomDefensiveThirdIntent(
   }
   return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
 }
+function attemptGoalieSave(
+  matchDetails: MatchDetails,
+  goalie: Player,
+  teamName: string,
+): boolean {
+  const [ballX, ballY] = matchDetails.ball.position;
+  const ballProx = 8;
+  const [goalieX, goalieY] = goalie.currentPOS;
+  if (goalieX === 'NP') {
+    throw new Error('No player position!');
+  }
+  const isNear =
+    common.isBetween(ballX, goalieX - ballProx, goalieX + ballProx) &&
+    common.isBetween(ballY, goalieY - ballProx, goalieY + ballProx);
 
+  if (isNear && goalie.skill.saving > common.getRandomNumber(0, 100)) {
+    setPositions.setGoalieHasBall(matchDetails, goalie);
+
+    if (
+      common.inTopPenalty(matchDetails, [ballX, ballY]) ||
+      common.inBottomPenalty(matchDetails, [ballX, ballY])
+    ) {
+      matchDetails.iterationLog.push(
+        `ball saved by ${goalie.name} possession to ${teamName}`,
+      );
+      goalie.stats.saves = (goalie.stats.saves || 0) + 1;
+    }
+    return true;
+  }
+  return false;
+}
 export {
   getAttackingIntentWeights,
   getPlayerActionWeights,
@@ -511,4 +541,5 @@ export {
   handleBottomGKIntent,
   handleBottomAttackingThirdIntent,
   handleBottomDefensiveThirdIntent,
+  attemptGoalieSave,
 };

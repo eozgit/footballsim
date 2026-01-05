@@ -1041,6 +1041,26 @@ function setNewRelativeBottomYPOS(
   return common.upToMin(player.currentPOS[1] + diff, 0);
 }
 
+function resolveGoalScored(
+  matchDetails: MatchDetails,
+  isTopGoal: boolean,
+): MatchDetails {
+  const { half } = matchDetails;
+  if (half === 0) throw new Error('cannot set half as 0');
+
+  const isOddHalf = common.isOdd(half);
+
+  // Logic: Top Goal (Y < 1) vs Bottom Goal (Y >= Height)
+  if (isTopGoal) {
+    return isOddHalf
+      ? setSecondTeamGoalScored(matchDetails)
+      : setKickOffTeamGoalScored(matchDetails);
+  } else {
+    return isOddHalf
+      ? setKickOffTeamGoalScored(matchDetails)
+      : setSecondTeamGoalScored(matchDetails);
+  }
+}
 export {
   setGoalieHasBall,
   setTopRightCornerPositions,
@@ -1065,4 +1085,5 @@ export {
   setLeftSecondTeamThrowIn,
   setRightKickOffTeamThrowIn,
   setRightSecondTeamThrowIn,
+  resolveGoalScored,
 };

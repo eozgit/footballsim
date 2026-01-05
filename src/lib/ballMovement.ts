@@ -1,4 +1,5 @@
 import * as common from './common.js';
+import { attemptGoalieSave } from './intentLogic.js';
 import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
@@ -438,100 +439,35 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
 }
 
 function checkGoalScored(matchDetails: MatchDetails) {
-  const { ball, half, kickOffTeam, secondTeam } = matchDetails;
+  const { ball, kickOffTeam, secondTeam } = matchDetails;
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
+  const [ballX, ballY] = ball.position;
+
+  // 1. Position Safety Checks
+  const KOGoalie = kickOffTeam.players[0];
+  const STGoalie = secondTeam.players[0];
+  if (KOGoalie.currentPOS[0] === 'NP' || STGoalie.currentPOS[0] === 'NP') {
+    throw new Error('Goalie position missing!');
+  }
+
+  // 2. Phase 1: Goalkeeper Saves (Prevents Goal)
+  if (attemptGoalieSave(matchDetails, KOGoalie, kickOffTeam.name)) return;
+  if (attemptGoalieSave(matchDetails, STGoalie, secondTeam.name)) return;
+
+  // 3. Phase 2: Goal Line Detection
   const centreGoal = pitchWidth / 2;
   const goalEdge = goalWidth / 2;
-  const goalX = common.isBetween(
-    ball.position[0],
+  const withinGoalX = common.isBetween(
+    ballX,
     centreGoal - goalEdge,
     centreGoal + goalEdge,
   );
-  const KOGoalie = kickOffTeam.players[0];
-  const STGoalie = secondTeam.players[0];
-  if (KOGoalie.currentPOS[0] === 'NP') {
-    throw new Error('KOGoalie no position!');
-  }
-  if (STGoalie.currentPOS[0] === 'NP') {
-    throw new Error('STGoalie no position!');
-  }
-  const ballProx = 8;
-  const [ballX, ballY] = ball.position;
-  const nearKOGoalieX = common.isBetween(
-    ballX,
-    KOGoalie.currentPOS[0] - ballProx,
-    KOGoalie.currentPOS[0] + ballProx,
-  );
-  const nearKOGoalieY = common.isBetween(
-    ballY,
-    KOGoalie.currentPOS[1] - ballProx,
-    KOGoalie.currentPOS[1] + ballProx,
-  );
-  const nearSTGoalieX = common.isBetween(
-    ballX,
-    STGoalie.currentPOS[0] - ballProx,
-    STGoalie.currentPOS[0] + ballProx,
-  );
-  const nearSTGoalieY = common.isBetween(
-    ballY,
-    STGoalie.currentPOS[1] - ballProx,
-    STGoalie.currentPOS[1] + ballProx,
-  );
-  if (
-    nearKOGoalieX &&
-    nearKOGoalieY &&
-    KOGoalie.skill.saving > common.getRandomNumber(0, 100)
-  ) {
-    matchDetails = setPositions.setGoalieHasBall(matchDetails, KOGoalie);
-    if (
-      common.inTopPenalty(matchDetails, ball.position) ||
-      common.inBottomPenalty(matchDetails, ball.position)
-    ) {
-      matchDetails.iterationLog.push(
-        `ball saved by ${KOGoalie.name} possesion to ${kickOffTeam.name}`,
-      );
-      if (KOGoalie.stats.saves === undefined) {
-        KOGoalie.stats.saves = 0;
-      } else {
-        KOGoalie.stats.saves++;
-      }
-    }
-  } else if (
-    nearSTGoalieX &&
-    nearSTGoalieY &&
-    STGoalie.skill.saving > common.getRandomNumber(0, 100)
-  ) {
-    matchDetails = setPositions.setGoalieHasBall(matchDetails, STGoalie);
-    if (
-      common.inTopPenalty(matchDetails, ball.position) ||
-      common.inBottomPenalty(matchDetails, ball.position)
-    ) {
-      matchDetails.iterationLog.push(
-        `ball saved by ${STGoalie.name} possesion to ${secondTeam.name}`,
-      );
-      if (STGoalie.stats.saves === undefined) {
-        STGoalie.stats.saves = 0;
-      } else {
-        STGoalie.stats.saves++;
-      }
-    }
-  } else if (goalX) {
-    if (ball.position[1] < 1) {
-      if (half === 0) {
-        throw new Error('cannot set half as 0');
-      } else if (common.isOdd(half)) {
-        matchDetails = setPositions.setSecondTeamGoalScored(matchDetails);
-      } else {
-        matchDetails = setPositions.setKickOffTeamGoalScored(matchDetails);
-      }
-    } else if (ball.position[1] >= pitchHeight) {
-      if (half === 0) {
-        throw new Error('cannot set half as 0');
-      } else if (common.isOdd(half)) {
-        matchDetails = setPositions.setKickOffTeamGoalScored(matchDetails);
-      } else {
-        matchDetails = setPositions.setSecondTeamGoalScored(matchDetails);
-      }
+
+  if (withinGoalX) {
+    if (ballY < 1) {
+      setPositions.resolveGoalScored(matchDetails, true);
+    } else if (ballY >= pitchHeight) {
+      setPositions.resolveGoalScored(matchDetails, false);
     }
   }
 }
