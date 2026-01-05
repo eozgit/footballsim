@@ -6,6 +6,7 @@ import {
   setHalfwayToOppositeQtrYPos,
   setOneHundredToHalfwayYPos,
   setOneHundredYPos,
+  setSetPiecePositions,
 } from './setFreekicks.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
@@ -145,43 +146,16 @@ function setBottomLowerFinalQtrBylinePos(
     false,
   );
 
-  for (const player of attack.players) {
-    const { playerID, position, originPOS } = player;
-    if (position === 'GK') {
-      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.75)];
-    } // Replaced parseInt
-    else if (['CB', 'LB', 'RB'].includes(position)) {
-      if (position === 'CB') {
-        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.5)];
-      } // Replaced parseInt
-      else if (['LB', 'RB'].includes(position)) {
-        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.33)];
-      } // Replaced parseInt
-    } else if (playerID !== kickPlayer.playerID) {
-      player.currentPOS = common.getRandomTopPenaltyPosition(matchDetails);
-    }
-  }
-
-  let playerSpace = common.upToMin(ball.position[1] - 3, 0);
-  for (const player of defence.players) {
-    const { position, originPOS } = player;
-    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
-    // Calculation optimized with Math.floor
-    const midWayFromBalltoGoalX = Math.floor(
-      (ball.position[0] - ballDistanceFromGoalX) / 2,
-    );
-
-    if (position === 'GK') {
-      player.currentPOS = [...originPOS];
-    } else if (['CB', 'LB', 'RB'].includes(position)) {
-      player.currentPOS = [midWayFromBalltoGoalX, playerSpace];
-      playerSpace += 2;
-    } else {
-      player.currentPOS = common.getRandomTopPenaltyPosition(matchDetails);
-    }
-  }
-  matchDetails.endIteration = true;
-  return matchDetails;
+  return setSetPiecePositions(
+    attack,
+    pitchHeight,
+    kickPlayer,
+    matchDetails,
+    ball,
+    defence,
+    pitchWidth,
+    false,
+  );
 }
 
 export { setBottomFreekick };
