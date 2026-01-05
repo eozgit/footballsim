@@ -1,7 +1,13 @@
 import * as common from './common.js';
-import { Ball, MatchDetails, Player, Team } from './types.js';
-import * as setFreekicks from './setFreekicks.js';
-import {} from './setBottomFreekicks.js';
+import { MatchDetails, Team } from './types.js';
+import {
+  setOneHundredYPos,
+  setOneHundredToHalfwayYPos,
+  initializeKickerAndBall,
+  setDeepFreekickBallAndKicker,
+  setDefenderSetPiecePosition,
+  setHalfwayToOppositeQtrYPos,
+} from './setFreekicks.js';
 
 function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -58,7 +64,7 @@ function setTopOneHundredYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setOneHundredYPos(matchDetails, attack, defence, 'top');
+  return setOneHundredYPos(matchDetails, attack, defence, 'top');
 }
 
 function setTopOneHundredToHalfwayYPos(
@@ -66,12 +72,7 @@ function setTopOneHundredToHalfwayYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setOneHundredToHalfwayYPos(
-    matchDetails,
-    attack,
-    defence,
-    'top',
-  );
+  return setOneHundredToHalfwayYPos(matchDetails, attack, defence, 'top');
 }
 
 function setTopHalfwayToBottomQtrYPos(
@@ -79,12 +80,7 @@ function setTopHalfwayToBottomQtrYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setHalfwayToOppositeQtrYPos(
-    matchDetails,
-    attack,
-    defence,
-    'top',
-  );
+  return setHalfwayToOppositeQtrYPos(matchDetails, attack, defence, 'top');
 }
 
 function setTopBottomQtrCentreYPos(
@@ -92,10 +88,12 @@ function setTopBottomQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } =
-    setFreekicks.initializeKickerAndBall(matchDetails, attack);
+  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
+    matchDetails,
+    attack,
+  );
 
-  setFreekicks.setDeepFreekickBallAndKicker(
+  setDeepFreekickBallAndKicker(
     ball,
     kickPlayer,
     attack.teamID,
@@ -132,7 +130,7 @@ function setTopBottomQtrCentreYPos(
     const midWayFromBalltoGoalY = Math.floor(
       (ball.position[1] - ballDistanceFromGoalY) / 2,
     );
-    playerSpace = setFreekicks.setDefenderSetPiecePosition(
+    playerSpace = setDefenderSetPiecePosition(
       player,
       midWayFromBalltoGoalX,
       playerSpace,
@@ -150,8 +148,10 @@ function setTopLowerFinalQtrBylinePos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } =
-    setFreekicks.initializeKickerAndBall(matchDetails, attack);
+  const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
+    matchDetails,
+    attack,
+  );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
   ball.direction = ballLeft ? 'east' : 'west';
   const [ballX, ballY] = ball.position;
