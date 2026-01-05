@@ -4,6 +4,9 @@ import {
   getAttackingIntentWeights,
   getAttackingThreatWeights,
   getPlayerActionWeights,
+  handleBottomAttackingThirdIntent,
+  handleBottomDefensiveThirdIntent,
+  handleBottomGKIntent,
 } from './intentLogic.js';
 import * as setPositions from './setPositions.js';
 import type {
@@ -93,54 +96,47 @@ function bottomTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-  const curPOS = player.currentPOS as [number, number];
+  const {
+    position,
+    currentPOS: [posX, posY],
+    skill,
+  } = player;
+  if (posX === 'NP') throw new Error('No player position!');
+  const pos = [posX, posY] as [number, number];
+
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    curPOS,
+    pos,
   );
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { position, currentPOS, skill } = player;
-  const [playerX, playerY] = currentPOS;
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
+
+  // 1. Specialized Position / Boundary Logic
+  if (position === 'GK') {
+    return handleBottomGKIntent(playerInformation);
   }
-  const pos: [number, number] = [playerX, playerY];
-  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25)) {
-    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  } else if (position === 'GK') {
-    return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
-  } else if (onTopCornerBoundary(pos, pitchWidth)) {
+
+  if (onTopCornerBoundary(pos, pitchWidth)) {
     return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
-  } else if (checkPositionInTopPenaltyBox(pos, pitchWidth, pitchHeight)) {
-    return bottomTeamPlayerHasBallInTopPenaltyBox(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
-  } else if (
-    common.isBetween(currentPOS[1], pitchHeight / 6 - 5, pitchHeight / 3)
-  ) {
-    if (oppositionNearContext(playerInformation, 10, 10)) {
-      return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
-    }
-    return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
-  } else if (
-    common.isBetween(currentPOS[1], pitchHeight / 3, 2 * (pitchHeight / 3))
-  ) {
-    return bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill);
-  } else if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  } else if (position === 'LM' || position === 'CM' || position === 'RM') {
-    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  } else if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
   }
-  return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
+
+  if (checkPositionInTopPenaltyBox(pos, pitchWidth, pitchHeight)) {
+    return getAttackingThreatWeights(matchDetails, player, team, opposition);
+  }
+
+  // 2. Zone-based Delegation (Bottom Team specific Y-coordinates)
+  // Attacking Third
+  if (common.isBetween(posY, pitchHeight / 6 - 5, pitchHeight / 3)) {
+    return handleBottomAttackingThirdIntent(playerInformation);
+  }
+
+  // Middle Third
+  if (common.isBetween(posY, pitchHeight / 3, 2 * (pitchHeight / 3))) {
+    return bottomTeamPlayerHasBallInMiddle(playerInformation, position, skill);
+  }
+
+  // 3. Defensive Third (Fallback)
+  return handleBottomDefensiveThirdIntent(playerInformation, position);
 }
 
 function bottomTeamPlayerHasBallInMiddle(

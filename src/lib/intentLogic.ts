@@ -417,8 +417,46 @@ function handlePressuredBoxDecision(
     return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
+
+// src/lib/intentLogic.ts
+
+function handleBottomGKIntent(playerInformation: any): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 25)) {
+    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
+  }
+  return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
+}
+
+function handleBottomAttackingThirdIntent(
+  playerInformation: any,
+): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 10)) {
+    return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
+  }
+  return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
+}
+
+function handleBottomDefensiveThirdIntent(
+  playerInformation: any,
+  position: string,
+): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 10)) {
+    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
+  }
+  if (position === 'LM' || position === 'CM' || position === 'RM') {
+    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
+  }
+  if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
+  return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
+}
+
 export {
   getAttackingIntentWeights,
   getPlayerActionWeights,
   getAttackingThreatWeights,
+  handleBottomGKIntent,
+  handleBottomAttackingThirdIntent,
+  handleBottomDefensiveThirdIntent,
 };
