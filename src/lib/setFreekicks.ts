@@ -150,7 +150,7 @@ function setHalfwayToOppositeQtrYPos(
   attack: Team,
   defence: Team,
   side: 'top' | 'bottom',
-): MatchDetails {
+): { matchDetails: MatchDetails; kickPlayer: Player } {
   const isTop = side === 'top';
   const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
     matchDetails,
@@ -228,7 +228,7 @@ function setHalfwayToOppositeQtrYPos(
   }
 
   matchDetails.endIteration = true;
-  return matchDetails;
+  return { matchDetails, kickPlayer };
 }
 function setDeepFreekickBallAndKicker(
   ball: Ball,

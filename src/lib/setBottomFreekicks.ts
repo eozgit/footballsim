@@ -1,10 +1,11 @@
 import * as common from './common.js';
-import { Ball, MatchDetails, Player, Team } from './types.js';
-import * as setFreekicks from './setFreekicks.js';
+import { MatchDetails, Team } from './types.js';
 import {
   alignPlayersForPenalty,
   setDeepFreekickBallAndKicker,
-  setDefenderSetPiecePosition,
+  setHalfwayToOppositeQtrYPos,
+  setOneHundredToHalfwayYPos,
+  setOneHundredYPos,
 } from './setFreekicks.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
@@ -62,12 +63,7 @@ function setBottomOneHundredYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setOneHundredYPos(
-    matchDetails,
-    attack,
-    defence,
-    'bottom',
-  );
+  return setOneHundredYPos(matchDetails, attack, defence, 'bottom');
 }
 
 function setBottomOneHundredToHalfwayYPos(
@@ -75,12 +71,7 @@ function setBottomOneHundredToHalfwayYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setOneHundredToHalfwayYPos(
-    matchDetails,
-    attack,
-    defence,
-    'bottom',
-  );
+  return setOneHundredToHalfwayYPos(matchDetails, attack, defence, 'bottom');
 }
 
 function setBottomHalfwayToTopQtrYPos(
@@ -88,12 +79,13 @@ function setBottomHalfwayToTopQtrYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setFreekicks.setHalfwayToOppositeQtrYPos(
+  const { matchDetails: details } = setHalfwayToOppositeQtrYPos(
     matchDetails,
     attack,
     defence,
     'bottom',
   );
+  return details;
 }
 
 function setBottomUpperQtrCentreYPos(
@@ -101,10 +93,15 @@ function setBottomUpperQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const { ball, pitchWidth, pitchHeight, kickPlayer } =
-    setFreekicks.initializeKickerAndBall(matchDetails, attack);
+  const { matchDetails: details, kickPlayer } = setHalfwayToOppositeQtrYPos(
+    matchDetails,
+    attack,
+    defence,
+    'bottom',
+  );
+  const { ball, pitchSize } = details;
+  const [pitchWidth, pitchHeight] = pitchSize;
 
-  // Keep the ball direction logic specific to this zone
   const ballInCentre = common.isBetween(
     ball.position[0],
     pitchWidth / 4 + 5,
@@ -117,15 +114,12 @@ function setBottomUpperQtrCentreYPos(
       ? 'northeast'
       : 'northwest';
 
-  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
-
-  // Use the helper to handle the complex player positioning
   return alignPlayersForPenalty(
     false,
     attack,
     pitchHeight,
     kickPlayer,
-    matchDetails,
+    details,
     defence,
     ball,
     pitchWidth,

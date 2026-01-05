@@ -80,7 +80,13 @@ function setTopHalfwayToBottomQtrYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  return setHalfwayToOppositeQtrYPos(matchDetails, attack, defence, 'top');
+  const { matchDetails: details } = setHalfwayToOppositeQtrYPos(
+    matchDetails,
+    attack,
+    defence,
+    'top',
+  );
+  return details;
 }
 
 function setTopBottomQtrCentreYPos(
