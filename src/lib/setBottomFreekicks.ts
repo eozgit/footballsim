@@ -103,6 +103,8 @@ function setBottomUpperQtrCentreYPos(
 ): MatchDetails {
   const { ball, pitchWidth, pitchHeight, kickPlayer } =
     setFreekicks.initializeKickerAndBall(matchDetails, attack);
+
+  // Keep the ball direction logic specific to this zone
   const ballInCentre = common.isBetween(
     ball.position[0],
     pitchWidth / 4 + 5,
@@ -114,8 +116,10 @@ function setBottomUpperQtrCentreYPos(
     : ballLeft
       ? 'northeast'
       : 'northwest';
-  const [ballX, ballY] = ball.position;
-  kickPlayer.currentPOS = [ballX, ballY];
+
+  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
+
+  // Use the helper to handle the complex player positioning
   return alignPlayersForPenalty(
     false,
     attack,
