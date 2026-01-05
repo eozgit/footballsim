@@ -2,6 +2,7 @@ import * as common from './common.js';
 import { isInjured } from './injury.js';
 import {
   getAttackingIntentWeights,
+  getAttackingThreatWeights,
   getPlayerActionWeights,
 } from './intentLogic.js';
 import * as setPositions from './setPositions.js';
@@ -169,76 +170,7 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-  const curPOS = player.currentPOS as [number, number];
-
-  const playerInformation = setPositions.closestPlayerToPosition(
-    player,
-    opposition,
-    curPOS,
-  );
-  const ownPlayerInformation = setPositions.closestPlayerToPosition(
-    player,
-    team,
-    curPOS,
-  );
-  const tmateProximity: [number, number] = [
-    Math.abs(ownPlayerInformation.proxPOS[0]),
-    Math.abs(ownPlayerInformation.proxPOS[1]),
-  ];
-  const closePlayerPosition = playerInformation.thePlayer.currentPOS;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { currentPOS, skill } = player;
-  const [playerX, playerY] = currentPOS;
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
-  }
-  const pos: [number, number] = [playerX, playerY];
-  if (checkPositionInTopPenaltyBoxClose(pos, pitchWidth, pitchHeight)) {
-    if (oppositionNearContext(playerInformation, 20, 20)) {
-      if (checkOppositionAhead(closePlayerPosition, currentPOS)) {
-        if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
-          return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-        } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
-          return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-        } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-          return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
-        }
-        return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
-      } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-        if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
-          return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-        } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-          return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-        }
-        return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-      } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
-        return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-        return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
-      }
-      return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
-    } else if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-      if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
-        return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-      } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-        return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-      }
-      return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-    } else if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
-      return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-      return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
-    }
-    return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
-  } else if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
-    return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  } else if (checkOppositionAhead(closePlayerPosition, currentPOS)) {
-    return [20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0];
-  }
-  return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
+  return getAttackingThreatWeights(matchDetails, player, team, opposition);
 }
 
 function oppositionNearPlayer(

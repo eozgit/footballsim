@@ -1,11 +1,12 @@
 import {
+  checkOppositionAhead,
   checkOppositionBelow,
   checkPositionInBottomPenaltyBox,
   checkPositionInBottomPenaltyBoxClose,
+  checkPositionInTopPenaltyBoxClose,
   checkTeamMateSpaceClose,
   onBottomCornerBoundary,
   oppositionNearContext,
-  topTeamPlayerHasBallInBottomPenaltyBox,
 } from './actions.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
@@ -295,4 +296,129 @@ function handleDefensiveThirdIntent(
   }
   return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
 }
-export { getAttackingIntentWeights, getPlayerActionWeights };
+
+function getAttackingThreatWeights(
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
+): MatchEventWeights {
+  if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+  const curPOS = player.currentPOS as [number, number];
+
+  const playerInformation = setPositions.closestPlayerToPosition(
+    player,
+    opposition,
+    curPOS,
+  );
+  const ownPlayerInfo = setPositions.closestPlayerToPosition(
+    player,
+    team,
+    curPOS,
+  );
+
+  const tmateProximity: [number, number] = [
+    Math.abs(ownPlayerInfo.proxPOS[0]),
+    Math.abs(ownPlayerInfo.proxPOS[1]),
+  ];
+
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const { currentPOS, skill } = player;
+
+  if (currentPOS[0] === 'NP') throw new Error('No player position!');
+  const pos = currentPOS as [number, number];
+  const closeOppPOS = playerInformation.thePlayer.currentPOS;
+
+  // Branch 1: Deep inside the penalty box
+  if (checkPositionInTopPenaltyBoxClose(pos, pitchWidth, pitchHeight)) {
+    return handleDeepBoxThreat(
+      playerInformation,
+      tmateProximity,
+      currentPOS,
+      closeOppPOS,
+      skill,
+    );
+  }
+
+  // Branch 2: Edge of the box / Long range
+  if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
+    return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+  }
+
+  // Branch 3: Position based logic outside the danger zone
+  if (checkOppositionAhead(closeOppPOS, currentPOS)) {
+    return [20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0];
+  }
+
+  return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
+}
+function handleDeepBoxThreat(
+  oppInfo: any,
+  tmateProx: [number, number],
+  currentPOS: any,
+  closeOppPOS: any,
+  skill: Skill,
+): MatchEventWeights {
+  // Scenario: Defender is closing in
+  if (oppositionNearContext(oppInfo, 20, 20)) {
+    return handlePressuredBoxDecision(
+      tmateProx,
+      currentPOS,
+      closeOppPOS,
+      skill,
+    );
+  }
+
+  // Scenario: Space available
+  if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+      return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+      return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
+  }
+
+  // Default Box Logic (No pressure, no immediate teammate)
+  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+  if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
+  return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
+}
+
+function handlePressuredBoxDecision(
+  tmateProx: [number, number],
+  currentPOS: any,
+  closeOppPOS: any,
+  skill: Skill,
+): MatchEventWeights {
+  if (checkOppositionAhead(closeOppPOS, currentPOS)) {
+    if (checkTeamMateSpaceClose(tmateProx, -10, 10, -10, 10))
+      return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+      return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+      return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+    return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
+  }
+
+  if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
+    if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+      return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
+    if (common.isBetween(currentPOS[1], 0, skill.shooting))
+      return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+    return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
+  }
+
+  // Fallback pressured logic
+  if (common.isBetween(currentPOS[1], 0, skill.shooting / 2))
+    return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
+  if (common.isBetween(currentPOS[1], 0, skill.shooting))
+    return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
+  return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
+}
+export {
+  getAttackingIntentWeights,
+  getPlayerActionWeights,
+  getAttackingThreatWeights,
+};
