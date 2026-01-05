@@ -1,8 +1,11 @@
 import {
-  checkPositionInBottomPenaltyBoxClose,
   checkOppositionBelow,
+  checkPositionInBottomPenaltyBox,
+  checkPositionInBottomPenaltyBoxClose,
   checkTeamMateSpaceClose,
+  onBottomCornerBoundary,
   oppositionNearContext,
+  topTeamPlayerHasBallInBottomPenaltyBox,
 } from './actions.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
@@ -11,6 +14,7 @@ import type {
   MatchDetails,
   MatchEventWeights,
   Player,
+  Skill,
   Team,
 } from './types.js';
 
@@ -164,5 +168,131 @@ function handleOutsidePenaltyBox(
     return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
+function getPlayerActionWeights(
+  matchDetails: MatchDetails,
+  player: Player,
+  team: Team,
+  opposition: Team,
+): MatchEventWeights {
+  if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
 
-export { getAttackingIntentWeights };
+  const playerInformation = setPositions.closestPlayerToPosition(
+    player,
+    opposition,
+    player.currentPOS as [number, number],
+  );
+
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const { position, currentPOS, skill } = player;
+  const [playerX, playerY] = currentPOS;
+
+  if (playerX === 'NP') throw new Error('No player position!');
+  const pos: [number, number] = [playerX, playerY];
+
+  // 1. Specialized Position / Boundary Logic
+  if (position === 'GK') {
+    return handleGKIntent(playerInformation);
+  }
+
+  if (onBottomCornerBoundary(pos, pitchWidth, pitchHeight)) {
+    return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
+  }
+
+  if (checkPositionInBottomPenaltyBox(pos, pitchWidth, pitchHeight)) {
+    return getAttackingIntentWeights(matchDetails, player, team, opposition);
+  }
+
+  // 2. Zone-based Delegation
+  if (
+    common.isBetween(
+      currentPOS[1],
+      pitchHeight - pitchHeight / 3,
+      pitchHeight - pitchHeight / 6 + 5,
+    )
+  ) {
+    return handleAttackingThirdIntent(playerInformation, currentPOS);
+  }
+
+  if (
+    common.isBetween(
+      currentPOS[1],
+      pitchHeight / 3,
+      pitchHeight - pitchHeight / 3,
+    )
+  ) {
+    return handleMiddleThirdIntent(playerInformation, position, skill);
+  }
+
+  // 3. Defensive Third (Fallback)
+  return handleDefensiveThirdIntent(playerInformation, position);
+}
+
+function handleGKIntent(playerInformation: {
+  thePlayer?: Player;
+  proxPOS: [number, number] | number[];
+  proxToBall?: number;
+}): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 25)) {
+    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
+  }
+  return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
+}
+
+function handleAttackingThirdIntent(
+  playerInformation: {
+    thePlayer?: Player;
+    proxPOS: [number, number] | number[];
+    proxToBall?: number;
+  },
+  currentPOS: [number | 'NP', number],
+): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 10)) {
+    return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
+  }
+  return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
+}
+
+function handleMiddleThirdIntent(
+  playerInformation: {
+    thePlayer?: Player;
+    proxPOS: [number, number] | number[];
+    proxToBall?: number;
+  },
+  position: string,
+  skill: Skill,
+): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 10)) {
+    return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
+  }
+  if (skill.shooting > 85) {
+    return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
+  }
+  if (position === 'LM' || position === 'CM' || position === 'RM') {
+    return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
+  }
+  if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
+  return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
+}
+
+function handleDefensiveThirdIntent(
+  playerInformation: {
+    thePlayer?: Player;
+    proxPOS: [number, number] | number[];
+    proxToBall?: number;
+  },
+  position: string,
+): MatchEventWeights {
+  if (oppositionNearContext(playerInformation, 10, 10)) {
+    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
+  }
+  if (position === 'LM' || position === 'CM' || position === 'RM') {
+    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
+  }
+  if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
+  return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
+}
+export { getAttackingIntentWeights, getPlayerActionWeights };

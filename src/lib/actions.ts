@@ -1,6 +1,9 @@
 import * as common from './common.js';
 import { isInjured } from './injury.js';
-import { getAttackingIntentWeights } from './intentLogic.js';
+import {
+  getAttackingIntentWeights,
+  getPlayerActionWeights,
+} from './intentLogic.js';
 import * as setPositions from './setPositions.js';
 import type {
   BallPosition,
@@ -71,70 +74,7 @@ function topTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-  const playerInformation = setPositions.closestPlayerToPosition(
-    player,
-    opposition,
-    player.currentPOS as [number, number],
-  );
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { position, currentPOS, skill } = player;
-  const [playerX, playerY] = currentPOS;
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
-  }
-  const pos: [number, number] = [playerX, playerY];
-  if (position === 'GK' && oppositionNearContext(playerInformation, 10, 25)) {
-    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  } else if (position === 'GK') {
-    return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
-  } else if (onBottomCornerBoundary(pos, pitchWidth, pitchHeight)) {
-    return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
-  } else if (checkPositionInBottomPenaltyBox(pos, pitchWidth, pitchHeight)) {
-    return topTeamPlayerHasBallInBottomPenaltyBox(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
-  } else if (
-    common.isBetween(
-      currentPOS[1],
-      pitchHeight - pitchHeight / 3,
-      pitchHeight - pitchHeight / 6 + 5,
-    )
-  ) {
-    if (oppositionNearContext(playerInformation, 10, 10)) {
-      return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
-    }
-    return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
-  } else if (
-    common.isBetween(
-      currentPOS[1],
-      pitchHeight / 3,
-      pitchHeight - pitchHeight / 3,
-    )
-  ) {
-    if (oppositionNearContext(playerInformation, 10, 10)) {
-      return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
-    } else if (skill.shooting > 85) {
-      return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
-    } else if (position === 'LM' || position === 'CM' || position === 'RM') {
-      return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-    } else if (position === 'ST') {
-      return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-    }
-    return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
-  } else if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  } else if (position === 'LM' || position === 'CM' || position === 'RM') {
-    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  } else if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-  }
-  return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
+  return getPlayerActionWeights(matchDetails, player, team, opposition);
 }
 
 function topTeamPlayerHasBallInBottomPenaltyBox(
