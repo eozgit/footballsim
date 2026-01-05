@@ -1,10 +1,7 @@
 import * as common from './common.js';
 import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as setFreekicks from './setFreekicks.js';
-import {
-  setDeepFreekickBallAndKicker,
-  setDefenderSetPiecePosition,
-} from './setBottomFreekicks.js';
+import {} from './setBottomFreekicks.js';
 
 function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -95,14 +92,12 @@ function setTopBottomQtrCentreYPos(
   attack: Team,
   defence: Team,
 ): MatchDetails {
-  const isTop = true;
-
   const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
     matchDetails,
     attack,
   );
 
-  setDeepFreekickBallAndKicker(
+  setFreekicks.setDeepFreekickBallAndKicker(
     ball,
     kickPlayer,
     attack.teamID,
@@ -139,7 +134,7 @@ function setTopBottomQtrCentreYPos(
     const midWayFromBalltoGoalY = Math.floor(
       (ball.position[1] - ballDistanceFromGoalY) / 2,
     );
-    playerSpace = setDefenderSetPiecePosition(
+    playerSpace = setFreekicks.setDefenderSetPiecePosition(
       player,
       midWayFromBalltoGoalX,
       playerSpace,

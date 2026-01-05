@@ -1,4 +1,4 @@
-import { MatchDetails, Team } from './types.js';
+import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as common from './common.js';
 import {
   initializeKickerAndBall,
@@ -234,9 +234,63 @@ function setHalfwayToOppositeQtrYPos(
   matchDetails.endIteration = true;
   return matchDetails;
 }
+function setDeepFreekickBallAndKicker(
+  ball: Ball,
+  kickPlayer: Player,
+  teamID: number,
+  pitchWidth: number,
+  isTop: boolean,
+) {
+  kickPlayer.hasBall = true;
+  ball.lastTouch.playerName = kickPlayer.name;
+  ball.Player = kickPlayer.playerID;
+  ball.withTeam = teamID;
+  const ballInCentre = common.isBetween(
+    ball.position[0],
+    pitchWidth / 4 + 5,
+    pitchWidth - pitchWidth / 4 - 5,
+  );
+  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+  ball.direction = isTop
+    ? ballInCentre
+      ? 'south'
+      : ballLeft
+        ? 'southeast'
+        : 'southwest'
+    : ballLeft
+      ? 'east'
+      : 'west';
+  const [ballX, ballY] = ball.position;
+  kickPlayer.currentPOS = [ballX, ballY];
+}
+
+function setDefenderSetPiecePosition(
+  player: Player,
+  midWayFromBalltoGoalX: number,
+  playerSpace: number,
+  midWayFromBalltoGoalY: number,
+  matchDetails: MatchDetails,
+  getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
+) {
+  if (player.position === 'GK') {
+    const [origX, origY] = player.originPOS;
+    player.currentPOS = [origX, origY];
+  } else if (['CB', 'LB', 'RB'].includes(player.position)) {
+    player.currentPOS = [
+      midWayFromBalltoGoalX + playerSpace,
+      midWayFromBalltoGoalY,
+    ];
+    playerSpace += 2;
+  } else {
+    player.currentPOS = getRandomPenaltyPosition(matchDetails);
+  }
+  return playerSpace;
+}
 
 export {
   setOneHundredYPos,
   setOneHundredToHalfwayYPos,
   setHalfwayToOppositeQtrYPos,
+  setDeepFreekickBallAndKicker,
+  setDefenderSetPiecePosition,
 };

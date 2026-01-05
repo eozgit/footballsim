@@ -2,6 +2,10 @@ import * as common from './common.js';
 import { Ball, MatchDetails, Player, Team } from './types.js';
 import * as setFreekicks from './setFreekicks.js';
 import { initializeKickerAndBall } from './setTopFreekicks.js';
+import {
+  setDeepFreekickBallAndKicker,
+  setDefenderSetPiecePosition,
+} from './setFreekicks.js';
 
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -153,59 +157,6 @@ function setBottomUpperQtrCentreYPos(
   return matchDetails;
 }
 
-function setDefenderSetPiecePosition(
-  player: Player,
-  midWayFromBalltoGoalX: number,
-  playerSpace: number,
-  midWayFromBalltoGoalY: number,
-  matchDetails: MatchDetails,
-  getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
-) {
-  if (player.position === 'GK') {
-    const [origX, origY] = player.originPOS;
-    player.currentPOS = [origX, origY];
-  } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-    player.currentPOS = [
-      midWayFromBalltoGoalX + playerSpace,
-      midWayFromBalltoGoalY,
-    ];
-    playerSpace += 2;
-  } else {
-    player.currentPOS = getRandomPenaltyPosition(matchDetails);
-  }
-  return playerSpace;
-}
-
-function setDeepFreekickBallAndKicker(
-  ball: Ball,
-  kickPlayer: Player,
-  teamID: number,
-  pitchWidth: number,
-  isTop: boolean,
-) {
-  kickPlayer.hasBall = true;
-  ball.lastTouch.playerName = kickPlayer.name;
-  ball.Player = kickPlayer.playerID;
-  ball.withTeam = teamID;
-  const ballInCentre = common.isBetween(
-    ball.position[0],
-    pitchWidth / 4 + 5,
-    pitchWidth - pitchWidth / 4 - 5,
-  );
-  const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
-  ball.direction = isTop
-    ? ballInCentre
-      ? 'south'
-      : ballLeft
-        ? 'southeast'
-        : 'southwest'
-    : ballLeft
-      ? 'east'
-      : 'west';
-  const [ballX, ballY] = ball.position;
-  kickPlayer.currentPOS = [ballX, ballY];
-}
-
 function setBottomLowerFinalQtrBylinePos(
   matchDetails: MatchDetails,
   attack: Team,
@@ -264,8 +215,4 @@ function setBottomLowerFinalQtrBylinePos(
   return matchDetails;
 }
 
-export {
-  setBottomFreekick,
-  setDeepFreekickBallAndKicker,
-  setDefenderSetPiecePosition,
-};
+export { setBottomFreekick };
