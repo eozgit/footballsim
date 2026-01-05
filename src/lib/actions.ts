@@ -278,11 +278,15 @@ function playerDoesNotHaveBall(
 
 function noBallNotGK4CloseBall(
   matchDetails: MatchDetails,
-  currentPOS: unknown,
+  currentPOS: [number | 'NP', number],
   originPOS: number[],
-  pitchWidth: unknown,
+  pitchWidth: number,
   pitchHeight: number,
 ) {
+  const [curX, curY] = currentPOS;
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK4CloseBallBottomTeam(
       matchDetails,
@@ -291,7 +295,7 @@ function noBallNotGK4CloseBall(
       pitchHeight,
     );
   }
-  if (checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
+  if (checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
     }
@@ -304,11 +308,15 @@ function noBallNotGK4CloseBall(
 
 function noBallNotGK4CloseBallBottomTeam(
   matchDetails: MatchDetails,
-  currentPOS: unknown,
-  pitchWidth: unknown,
+  currentPOS: [number | 'NP', number],
+  pitchWidth: number,
   pitchHeight: number,
 ) {
-  if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
+  const [curX, curY] = currentPOS;
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
+  if (checkPositionInBottomPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
     }
@@ -321,11 +329,15 @@ function noBallNotGK4CloseBallBottomTeam(
 
 function noBallNotGK2CloseBall(
   matchDetails: MatchDetails,
-  currentPOS: unknown,
+  currentPOS: [number | 'NP', number],
   originPOS: number[],
-  pitchWidth: unknown,
+  pitchWidth: number,
   pitchHeight: number,
 ) {
+  const [curX, curY] = currentPOS;
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK2CloseBallBottomTeam(
       matchDetails,
@@ -334,7 +346,7 @@ function noBallNotGK2CloseBall(
       pitchHeight,
     );
   }
-  if (checkPositionInTopPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
+  if (checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
     }
@@ -569,6 +581,7 @@ function resolveTackle(
     calcTackleScore(player.skill.tackling, 5) >
     calcRetentionScore(thatPlayer.skill.tackling, 5)
   ) {
+    throw new Error('Unused or not covered.');
     setSuccessTackle(
       matchDetails,
       team,
@@ -613,6 +626,7 @@ function resolveSlide(
     calcTackleScore(player.skill.tackling, 5) >
     calcRetentionScore(thatPlayer.skill.tackling, 5)
   ) {
+    throw new Error('Unused or not covered.');
     setSuccessTackle(
       matchDetails,
       team,
@@ -630,7 +644,7 @@ function resolveSlide(
 function setFailedTackle(
   matchDetails: MatchDetails,
   player: Player,
-  thatPlayer: unknown,
+  thatPlayer: Player,
   tackleDetails: unknown,
 ) {
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
@@ -682,14 +696,14 @@ function setSuccessTackle(
 
 function calcTackleScore(skill: unknown, diff: number) {
   return (
-    (parseInt(skill.tackling, 10) + parseInt(skill.strength, 10)) / 2 +
+    (Math.floor(skill.tackling) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
 function calcRetentionScore(skill: unknown, diff: number) {
   return (
-    (parseInt(skill.agility, 10) + parseInt(skill.strength, 10)) / 2 +
+    (Math.floor(skill.agility) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
@@ -753,7 +767,7 @@ function setPostTacklePosition(
 
 function setInjury(
   matchDetails: MatchDetails,
-  thatPlayer: unknown,
+  thatPlayer: Player,
   player: Player,
   tackledInjury: unknown,
   tacklerInjury: unknown,
@@ -772,7 +786,7 @@ function setFoul(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
-  thatPlayer: unknown,
+  thatPlayer: Player,
 ) {
   matchDetails.iterationLog.push(`Foul against: ${thatPlayer.name}`);
   if (player.stats.tackles.fouls === undefined) {
@@ -786,7 +800,7 @@ function setFoul(
   }
 }
 
-function wasFoul(x: unknown, y: number) {
+function wasFoul(x: number, y: number) {
   const foul = common.getRandomNumber(0, x);
   if (common.isBetween(foul, 0, y / 2 - 1)) {
     return true;

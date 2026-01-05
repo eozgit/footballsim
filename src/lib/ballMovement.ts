@@ -477,9 +477,6 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
     position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
   );
   const [playerX, playerY] = tPlyr.position;
-  if (playerX === 'NP') {
-    throw new Error('No player position');
-  }
   const pos: [number, number] = [playerX, playerY];
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
     if (player.originPOS[1] > pitchHeight / 2) {
@@ -513,34 +510,28 @@ function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
 function getPlayersInDistance(
   team: Team,
   player: Player,
-  pitchSize: unknown,
+  pitchSize: [number, number, number?],
 ): { position: [number, number]; proximity: number; name: string }[] {
-  if (player.currentPOS[0] === 'NP') {
+  const [curX, curY] = player.currentPOS;
+  if (curX === 'NP') {
     throw new Error('Player no position!');
   }
   const [pitchWidth, pitchHeight] = pitchSize;
   const playersInDistance = [];
   for (const teamPlayer of team.players) {
+    const [tpX, tpY] = teamPlayer.currentPOS;
     if (teamPlayer.name !== player.name) {
-      if (teamPlayer.currentPOS[0] === 'NP') {
+      if (tpX === 'NP') {
         throw new Error('Team player no position!');
       }
-      const onPitchX = common.isBetween(
-        teamPlayer.currentPOS[0],
-        -1,
-        pitchWidth + 1,
-      );
-      const onPitchY = common.isBetween(
-        teamPlayer.currentPOS[1],
-        -1,
-        pitchHeight + 1,
-      );
+      const onPitchX = common.isBetween(tpX, -1, pitchWidth + 1);
+      const onPitchY = common.isBetween(tpY, -1, pitchHeight + 1);
       if (onPitchX && onPitchY) {
-        const playerToPlayerX = player.currentPOS[0] - teamPlayer.currentPOS[0];
-        const playerToPlayerY = player.currentPOS[1] - teamPlayer.currentPOS[1];
+        const playerToPlayerX = curX - tpX;
+        const playerToPlayerY = curY - tpY;
         const proximityToBall = Math.abs(playerToPlayerX + playerToPlayerY);
         playersInDistance.push({
-          position: teamPlayer.currentPOS,
+          position: [tpX, tpY] as [number, number],
           proximity: proximityToBall,
           name: teamPlayer.name,
         });
