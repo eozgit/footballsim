@@ -1,4 +1,5 @@
 import * as common from './common.js';
+import { MatchDetails, BallPosition } from './types.js';
 
 type DeflectionHandler = (
   pos: [number, number],
@@ -50,5 +51,46 @@ function calculateDeflectionVector(
   // Return the calculated position if direction is found, otherwise default to [0, 0]
   return handler ? handler(defPosition, newPower) : [0, 0];
 }
+/**
+ * Updates the ball's cardinal direction based on movement vector.
+ * Refactored to use a lookup map to reduce complexity.
+ */
+function updateBallCardinalDirection(
+  matchDetails: MatchDetails,
+  nextPOS: BallPosition,
+) {
+  const [currX, currY] = matchDetails.ball.position;
+  const [nextX, nextY] = nextPOS;
 
-export { calculateDeflectionVector };
+  // Calculate delta (preserving the original logic: thisPOS - nextPOS)
+  const dx = currX - nextX;
+  const dy = currY - nextY;
+
+  // 1. Handle stationary state
+  if (dx === 0 && dy === 0) {
+    matchDetails.ball.direction = 'wait';
+    return;
+  }
+
+  // 2. Normalize deltas to -1, 0, or 1 to use as a lookup key
+  const sigX = Math.sign(dx); // -1 (East), 0, 1 (West)
+  const sigY = Math.sign(dy); // -1 (South), 0, 1 (North)
+
+  // 3. Map signs to cardinal strings
+  // Format: [dx_sign][dy_sign]
+  const directionMap: Record<string, string> = {
+    '0-1': 'south',
+    '01': 'north',
+    '-10': 'east',
+    '10': 'west',
+    '-1-1': 'southeast',
+    '11': 'northwest',
+    '1-1': 'southwest',
+    '-11': 'northeast',
+  };
+
+  const key = `${sigX}${sigY}`;
+  matchDetails.ball.direction =
+    directionMap[key] || matchDetails.ball.direction;
+}
+export { calculateDeflectionVector, updateBallCardinalDirection };

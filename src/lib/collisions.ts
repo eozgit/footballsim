@@ -11,14 +11,18 @@ function resolvePlayerBallInteraction(
   thisTeam: Team,
 ) {
   // 1. Validation
-  if (!thisPlayer) throw new Error('Player is undefined!');
+  if (!thisPlayer) {
+    throw new Error('Player is undefined!');
+  }
   if (
     !Array.isArray(thisPlayer.currentPOS) ||
     thisPlayer.currentPOS.length < 2
   ) {
     throw new Error(`Invalid player position: ${thisPlayer.currentPOS}`);
   }
-  if (thisPlayer.currentPOS[0] === 'NP') throw new Error('Player no position!');
+  if (thisPlayer.currentPOS[0] === 'NP') {
+    throw new Error('Player no position!');
+  }
 
   const checkPos: [number, number, number] = [
     common.round(thisPos[0], 0),

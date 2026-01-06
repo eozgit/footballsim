@@ -1,7 +1,10 @@
 import { resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
-import { calculateDeflectionVector } from './physics.js';
+import {
+  calculateDeflectionVector,
+  updateBallCardinalDirection,
+} from './physics.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -641,32 +644,7 @@ function setDeflectionPlayerOffside(
 }
 
 function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition) {
-  const thisPOS = matchDetails.ball.position;
-  const movementX = thisPOS[0] - nextPOS[0];
-  const movementY = thisPOS[1] - nextPOS[1];
-  if (movementX === 0) {
-    if (movementY === 0) {
-      matchDetails.ball.direction = `wait`;
-    } else if (movementY < 0) {
-      matchDetails.ball.direction = `south`;
-    } else if (movementY > 0) {
-      matchDetails.ball.direction = `north`;
-    }
-  } else if (movementY === 0) {
-    if (movementX < 0) {
-      matchDetails.ball.direction = `east`;
-    } else if (movementX > 0) {
-      matchDetails.ball.direction = `west`;
-    }
-  } else if (movementX < 0 && movementY < 0) {
-    matchDetails.ball.direction = `southeast`;
-  } else if (movementX > 0 && movementY > 0) {
-    matchDetails.ball.direction = `northwest`;
-  } else if (movementX > 0 && movementY < 0) {
-    matchDetails.ball.direction = `southwest`;
-  } else if (movementX < 0 && movementY > 0) {
-    matchDetails.ball.direction = `northeast`;
-  }
+  return updateBallCardinalDirection(matchDetails, nextPOS);
 }
 
 function ballPassed(
