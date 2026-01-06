@@ -15,24 +15,30 @@ import {
 } from './setPositions.js';
 import type { BallPosition, MatchDetails } from './types.js';
 
+/**
+ * Resolves the ball's location by checking against pitch boundaries.
+ * Refactored to comply with the 50-line limit by simplifying state evaluation.
+ */
 function resolveBallLocation(
   matchDetails: MatchDetails,
   kickteamID: string | number,
   ballIntended: BallPosition,
 ): MatchDetails {
-  const { kickOffTeam } = matchDetails;
-  const KOTid = kickOffTeam.teamID;
-  const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
+  const { pitchSize, kickOffTeam } = matchDetails;
+  const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
+  const [bXPOS, bYPOS] = ballIntended;
+
+  // 1. Pre-calculate environment constants
   const halfMWidth = pitchWidth / 2;
   const leftPost = halfMWidth - goalWidth / 2;
   const rightPost = halfMWidth + goalWidth / 2;
-  const [bXPOS, bYPOS] = ballIntended;
+
+  const isKOT = String(kickteamID) === String(kickOffTeam.teamID);
   const kickOffTeamSide =
     kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
-  const isKOT = String(kickteamID) === String(KOTid);
 
-  // 1. Touchline Logic
-  if (bXPOS < 0 || bXPOS > pitchWidth) {
+  // 2. Delegate to boundary handlers
+  if (isOutOfBoundsX(bXPOS, pitchWidth)) {
     return handleTouchline(
       matchDetails,
       ballIntended,
@@ -42,7 +48,6 @@ function resolveBallLocation(
     );
   }
 
-  // 2. Top Byline Logic
   if (bYPOS < 0) {
     return handleTopByline(
       matchDetails,
@@ -55,7 +60,6 @@ function resolveBallLocation(
     );
   }
 
-  // 3. Bottom Byline Logic
   if (bYPOS > pitchHeight) {
     return handleBottomByline(
       matchDetails,
@@ -68,8 +72,16 @@ function resolveBallLocation(
     );
   }
 
+  // 3. In-bounds: Finalize movement
   matchDetails.ballIntended = ballIntended;
   return matchDetails;
+}
+
+/**
+ * Simple helper to check horizontal boundaries.
+ */
+function isOutOfBoundsX(x: number, width: number): boolean {
+  return x < 0 || x > width;
 }
 
 // --- EXTRACTED HELPERS (Exact logic preserved) ---
