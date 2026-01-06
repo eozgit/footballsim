@@ -1,7 +1,9 @@
 import {
   calcBallMovementOverTime,
   getBottomKickedPosition,
+  getPlayersInDistance,
   getTopKickedPosition,
+  setTargetPlyPos,
 } from './ballMovement.js';
 import * as common from './common.js';
 import type { MatchDetails, Player, Team } from './types.js';
@@ -81,4 +83,87 @@ function executeKickAction(
     player,
   );
 }
-export { executeKickAction };
+
+/**
+ * Resolves the destination of a through ball and executes movement.
+ * Refactored to comply with the 50-line limit and use existing common utilities.
+ */
+function resolvePassDestination(
+  matchDetails: MatchDetails,
+  team: Team,
+  player: Player,
+) {
+  const { ball, pitchSize } = matchDetails;
+
+  // 1. Update Metadata & Stats
+  Object.assign(ball.lastTouch, {
+    playerName: player.name,
+    playerID: player.playerID,
+    teamID: team.teamID,
+  });
+
+  const playersInDistance = getPlayersInDistance(team, player, pitchSize);
+
+  // FIXED: Replaced non-existent common.sample with your actual random logic
+  const randIdx = common.getRandomNumber(0, playersInDistance.length - 1);
+  const tPlyr = playersInDistance[randIdx];
+
+  matchDetails.iterationLog.push(
+    `through ball passed by: ${player.name} to: ${tPlyr.name}`,
+  );
+  player.stats.passes.total++;
+
+  // 2. Calculate Target Position (Extracted)
+  const closePlyPos = calculateThroughBallTarget(player, tPlyr, matchDetails);
+
+  // 3. Execute Movement
+  return calcBallMovementOverTime(
+    matchDetails,
+    player.skill.strength,
+    closePlyPos,
+    player,
+  );
+}
+
+/**
+ * Helper to determine the target coordinate based on player skill and pitch position.
+ */
+function calculateThroughBallTarget(
+  player: Player,
+  targetPlayer: Player,
+  matchDetails: MatchDetails,
+): [number, number] {
+  const [, pitchHeight] = matchDetails.pitchSize;
+  const { position } = matchDetails.ball;
+  const pos: [number, number] = [
+    targetPlayer.position[0],
+    targetPlayer.position[1],
+  ];
+
+  const isAttackingTop = player.originPOS[1] > pitchHeight / 2;
+  const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
+  const middleThird =
+    position[1] > pitchHeight / 3 &&
+    position[1] < pitchHeight - pitchHeight / 3;
+
+  // Logic Branch 1: Successful skill check
+  if (player.skill.passing > common.getRandomNumber(0, 100)) {
+    return isAttackingTop
+      ? setTargetPlyPos(pos, 0, 0, -20, -10)
+      : setTargetPlyPos(pos, 0, 0, 10, 30);
+  }
+
+  // Logic Branch 2: Failed skill check
+  if (isAttackingTop) {
+    if (bottomThird) return setTargetPlyPos(pos, -10, 10, -10, 10);
+    if (middleThird) return setTargetPlyPos(pos, -20, 20, -50, 50);
+    return setTargetPlyPos(pos, -30, 30, -100, 100);
+  }
+
+  // Branch 3: Failed skill check (Bottom team)
+  if (bottomThird) return setTargetPlyPos(pos, -30, 30, -100, 100);
+  if (middleThird) return setTargetPlyPos(pos, -20, 20, -50, 50);
+  return setTargetPlyPos(pos, -10, 10, -10, 10);
+}
+
+export { executeKickAction, resolvePassDestination };

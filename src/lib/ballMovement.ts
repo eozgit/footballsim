@@ -2,7 +2,7 @@ import { processBallMomentum } from './ballState.js';
 import { resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
-import { executeKickAction } from './kickLogic.js';
+import { executeKickAction, resolvePassDestination } from './kickLogic.js';
 import {
   calculateDeflectionVector,
   updateBallCardinalDirection,
@@ -278,56 +278,7 @@ function checkGoalScored(matchDetails: MatchDetails) {
 }
 
 function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-  const [, pitchHeight] = matchDetails.pitchSize;
-  const { position } = matchDetails.ball;
-  let closePlyPos = [0, 0];
-  const playersInDistance = getPlayersInDistance(
-    team,
-    player,
-    matchDetails.pitchSize,
-  );
-  const tPlyr =
-    playersInDistance[common.getRandomNumber(0, playersInDistance.length - 1)];
-  matchDetails.iterationLog.push(
-    `through ball passed by: ${player.name} to: ${tPlyr.name}`,
-  );
-  player.stats.passes.total++;
-  const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
-  const middleThird = !!(
-    position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
-  );
-  const [playerX, playerY] = tPlyr.position;
-  const pos: [number, number] = [playerX, playerY];
-  if (player.skill.passing > common.getRandomNumber(0, 100)) {
-    if (player.originPOS[1] > pitchHeight / 2) {
-      closePlyPos = setTargetPlyPos(pos, 0, 0, -20, -10);
-    } else {
-      closePlyPos = setTargetPlyPos(pos, 0, 0, 10, 30);
-    }
-  } else if (player.originPOS[1] > pitchHeight / 2) {
-    if (bottomThird) {
-      closePlyPos = setTargetPlyPos(pos, -10, 10, -10, 10);
-    } else if (middleThird) {
-      closePlyPos = setTargetPlyPos(pos, -20, 20, -50, 50);
-    } else {
-      closePlyPos = setTargetPlyPos(pos, -30, 30, -100, 100);
-    }
-  } else if (bottomThird) {
-    closePlyPos = setTargetPlyPos(pos, -30, 30, -100, 100);
-  } else if (middleThird) {
-    closePlyPos = setTargetPlyPos(pos, -20, 20, -50, 50);
-  } else {
-    closePlyPos = setTargetPlyPos(pos, -10, 10, -10, 10);
-  }
-  return calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    closePlyPos,
-    player,
-  );
+  return resolvePassDestination(matchDetails, team, player);
 }
 
 function getPlayersInDistance(
@@ -785,4 +736,5 @@ export {
   splitNumberIntoN,
   throughBall,
   resolveBallMovement,
+  getPlayersInDistance,
 };
