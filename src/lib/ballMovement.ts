@@ -1,3 +1,4 @@
+import { processBallMomentum } from './ballState.js';
 import { resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
@@ -12,42 +13,7 @@ import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function moveBall(matchDetails: MatchDetails) {
-  if (
-    matchDetails.ball.ballOverIterations === undefined ||
-    matchDetails.ball.ballOverIterations.length === 0
-  ) {
-    matchDetails.ball.direction = `wait`;
-    return matchDetails;
-  }
-  const { ball } = matchDetails;
-  const bPosition = ball.position;
-  const { kickOffTeam, secondTeam } = matchDetails;
-  const ballPos = ball.ballOverIterations[0];
-  if (ballPos.length < 2) {
-    throw new Error('Invalid ball position!');
-  }
-  getBallDirection(matchDetails, ballPos);
-  const power: number = ballPos[2];
-  const bPlayer = setBPlayer([ballPos[0], ballPos[1]]);
-  const endPos = resolveBallMovement(
-    bPlayer,
-    bPosition,
-    ballPos,
-    power,
-    kickOffTeam,
-    secondTeam,
-    matchDetails,
-  );
-  if (matchDetails.endIteration === true) {
-    return matchDetails;
-  }
-  matchDetails.ball.ballOverIterations.shift();
-  matchDetails.iterationLog.push(
-    `ball still moving from previous kick: ${endPos}`,
-  );
-  matchDetails.ball.position = endPos;
-  checkGoalScored(matchDetails);
-  return matchDetails;
+  return processBallMomentum(matchDetails);
 }
 export function createPlayer(position: string): Player {
   return {
@@ -818,4 +784,5 @@ export {
   shotMade,
   splitNumberIntoN,
   throughBall,
+  resolveBallMovement,
 };
