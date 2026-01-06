@@ -8,6 +8,10 @@ import {
   onBottomCornerBoundary,
   oppositionNearContext,
 } from './actions.js';
+import {
+  resolveDeflection,
+  setBallMovementMatchDetails,
+} from './ballMovement.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
 import type {
@@ -534,6 +538,59 @@ function attemptGoalieSave(
   }
   return false;
 }
+function handleGoalieSave(
+  matchDetails: MatchDetails,
+  player: Player,
+  ballPos: [number, number, number],
+  power: number,
+  team: Team,
+): [number, number, number] | undefined {
+  const [posX, posY] = player.currentPOS;
+  const inGoalieProx =
+    common.isBetween(posX, ballPos[0] - 11, ballPos[0] + 11) &&
+    common.isBetween(posY, ballPos[1] - 2, ballPos[1] + 2);
+
+  if (
+    inGoalieProx &&
+    common.isBetween(ballPos[2], -1, player.skill.jumping + 1)
+  ) {
+    const savingSkill = player.skill.saving || 0;
+    if (savingSkill > common.getRandomNumber(0, power)) {
+      setBallMovementMatchDetails(matchDetails, player, ballPos, team);
+      matchDetails.iterationLog.push(`Ball saved`);
+      player.stats.saves = (player.stats.saves || 0) + 1;
+      return ballPos;
+    }
+  }
+  return undefined;
+}
+function handlePlayerDeflection(
+  matchDetails: MatchDetails,
+  player: Player,
+  thisPOS: [number, number],
+  ballPos: [number, number, number],
+  power: number,
+  team: Team,
+): [number, number] | undefined {
+  const [posX, posY] = player.currentPOS;
+  const inProx =
+    common.isBetween(posX, ballPos[0] - 3, ballPos[0] + 3) &&
+    common.isBetween(posY, ballPos[1] - 3, ballPos[1] + 3);
+
+  if (inProx && common.isBetween(ballPos[2], -1, player.skill.jumping + 1)) {
+    const newPOS = resolveDeflection(
+      power,
+      thisPOS,
+      player.currentPOS,
+      player,
+      team,
+      matchDetails,
+    );
+    matchDetails.iterationLog.push(`Ball deflected`);
+    return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
+  }
+  return undefined;
+}
 export {
   getAttackingIntentWeights,
   getPlayerActionWeights,
@@ -542,4 +599,6 @@ export {
   handleBottomAttackingThirdIntent,
   handleBottomDefensiveThirdIntent,
   attemptGoalieSave,
+  handleGoalieSave,
+  handlePlayerDeflection,
 };

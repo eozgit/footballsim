@@ -1,3 +1,4 @@
+import { resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { calculateDeflectionVector } from './physics.js';
@@ -525,67 +526,14 @@ function thisPlayerIsInProximity(
   power: number,
   thisTeam: Team,
 ) {
-  if (thisPlayer === undefined) {
-    throw new Error('Player is undefined!');
-  }
-  if (
-    !Array.isArray(thisPlayer.currentPOS) ||
-    thisPlayer.currentPOS.length < 2
-  ) {
-    throw new Error(`Invalid player position: ${thisPlayer.currentPOS}`);
-  }
-  const checkPos = [
-    common.round(thisPos[0], 0),
-    common.round(thisPos[1], 0),
-    thisPos[2],
-  ];
-  const isGoalie = thisPlayer.position === 'GK';
-  const [posX, posY] = thisPlayer.currentPOS;
-  if (posX === 'NP') {
-    throw new Error('Player no position!');
-  }
-  const xPosProx = common.isBetween(posX, thisPos[0] - 3, thisPos[0] + 3);
-  const yPosProx = common.isBetween(posY, thisPos[1] - 3, thisPos[1] + 3);
-  const goaliexPosProx = common.isBetween(
-    posX,
-    thisPos[0] - 11,
-    thisPos[0] + 11,
+  return resolvePlayerBallInteraction(
+    matchDetails,
+    thisPlayer,
+    thisPOS,
+    thisPos,
+    power,
+    thisTeam,
   );
-  const goalieyPosProx = common.isBetween(posY, thisPos[1] - 2, thisPos[1] + 2);
-  if (isGoalie && goaliexPosProx && goalieyPosProx) {
-    if (common.isBetween(checkPos[2], -1, thisPlayer.skill.jumping + 1)) {
-      const saving = thisPlayer.skill.saving || '';
-      if (saving && saving > common.getRandomNumber(0, power)) {
-        setBallMovementMatchDetails(
-          matchDetails,
-          thisPlayer,
-          thisPos,
-          thisTeam,
-        );
-        matchDetails.iterationLog.push(`Ball saved`);
-        if (thisPlayer.stats.saves === undefined) {
-          thisPlayer.stats.saves = 0;
-        } else {
-          thisPlayer.stats.saves++;
-        }
-        return thisPos;
-      }
-    }
-  } else if (xPosProx && yPosProx) {
-    if (common.isBetween(checkPos[2], -1, thisPlayer.skill.jumping + 1)) {
-      const deflectPos = thisPlayer.currentPOS;
-      const newPOS = resolveDeflection(
-        power,
-        thisPOS,
-        deflectPos,
-        thisPlayer,
-        thisTeam,
-        matchDetails,
-      );
-      matchDetails.iterationLog.push(`Ball deflected`);
-      return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
-    }
-  }
 }
 
 function setBallMovementMatchDetails(
