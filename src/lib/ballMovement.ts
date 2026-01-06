@@ -1,5 +1,6 @@
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
+import { calculateDeflectionVector } from './physics.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -644,62 +645,7 @@ function setDeflectionDirectionPos(
   defPosition: [number, number],
   newPower: number,
 ): [number, number] {
-  const tempPosition: [number, number] = [0, 0];
-  if (
-    direction === `east` ||
-    direction === `northeast` ||
-    direction === `southeast`
-  ) {
-    if (direction === `east`) {
-      tempPosition[1] = common.getRandomNumber(
-        defPosition[1] - 3,
-        defPosition[1] + 3,
-      );
-    }
-    tempPosition[0] = defPosition[0] - newPower / 2;
-  } else if (
-    direction === `west` ||
-    direction === `northwest` ||
-    direction === `southwest`
-  ) {
-    if (direction === `west`) {
-      tempPosition[1] = common.getRandomNumber(
-        defPosition[1] - 3,
-        defPosition[1] + 3,
-      );
-    }
-    tempPosition[0] = defPosition[0] + newPower / 2;
-  }
-  if (
-    direction === `north` ||
-    direction === `northeast` ||
-    direction === `northwest`
-  ) {
-    if (direction === `north`) {
-      tempPosition[0] = common.getRandomNumber(
-        defPosition[0] - 3,
-        defPosition[0] + 3,
-      );
-    }
-    tempPosition[1] = defPosition[1] + newPower / 2;
-  } else if (
-    direction === `south` ||
-    direction === `southeast` ||
-    direction === `southwest`
-  ) {
-    if (direction === `south`) {
-      tempPosition[0] = common.getRandomNumber(
-        defPosition[0] - 3,
-        defPosition[0] + 3,
-      );
-    }
-    tempPosition[1] = defPosition[1] - newPower / 2;
-  }
-  if (direction === `wait`) {
-    tempPosition[0] = common.getRandomNumber(-newPower / 2, newPower / 2);
-    tempPosition[1] = common.getRandomNumber(-newPower / 2, newPower / 2);
-  }
-  return tempPosition;
+  return calculateDeflectionVector(direction, defPosition, newPower);
 }
 
 function setDeflectionPlayerHasBall(
@@ -1022,26 +968,26 @@ function mergeArrays(
 }
 
 export {
-  ballKicked,
-  shotMade,
-  penaltyTaken,
-  throughBall,
-  resolveDeflection,
-  getBallDirection,
-  ballPassed,
   ballCrossed,
-  moveBall,
-  mergeArrays,
-  splitNumberIntoN,
+  ballKicked,
+  ballPassed,
   calcBallMovementOverTime,
-  setDeflectionDirectionPos,
-  setDeflectionPlayerOffside,
-  getTargetPlayer,
-  setDeflectionPlayerHasBall,
-  setBallMovementMatchDetails,
-  setTargetPlyPos,
-  setBPlayer,
   checkGoalScored,
-  getTopKickedPosition,
+  getBallDirection,
   getBottomKickedPosition,
+  getTargetPlayer,
+  getTopKickedPosition,
+  mergeArrays,
+  moveBall,
+  penaltyTaken,
+  resolveDeflection,
+  setBallMovementMatchDetails,
+  setBPlayer,
+  setDeflectionDirectionPos,
+  setDeflectionPlayerHasBall,
+  setDeflectionPlayerOffside,
+  setTargetPlyPos,
+  shotMade,
+  splitNumberIntoN,
+  throughBall,
 };

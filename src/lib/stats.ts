@@ -1,5 +1,5 @@
-import { MatchDetails, Team, Player } from './types.js';
 import * as common from './common.js';
+import type { MatchDetails, Team, Player } from './types.js';
 
 /**
  * Updates both team and player shot statistics
@@ -11,7 +11,9 @@ export function recordShotStats(
   isOnTarget: boolean,
 ) {
   const getStats = (half: number) => {
-    if (half === 0) throw new Error(`You cannot supply 0 as a half`);
+    if (half === 0) {
+      throw new Error(`You cannot supply 0 as a half`);
+    }
     return common.isEven(half)
       ? matchDetails.kickOffTeamStatistics
       : matchDetails.secondTeamStatistics;

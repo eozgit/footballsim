@@ -7,7 +7,7 @@ import unusedImports from 'eslint-plugin-unused-imports';
 export default tseslint.config(
   {
     // Global ignores MUST be in their own object at the top level
-    ignores: ['coverage/**', 'scripts/**', 'dist/**', 'prism.js'],
+    ignores: ['coverage/**', 'scripts/**', 'dist/**', '.dependency-cruiser.cjs'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
