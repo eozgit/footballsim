@@ -23,14 +23,16 @@ function processTeamTactics(
   opp: Team,
   matchDetails: MatchDetails,
 ): Team {
-  const { position: ballPos, withPlayer, withTeam } = matchDetails.ball;
+  const { position: ballPos } = matchDetails.ball;
 
   for (const player of team.players) {
-    if (player.currentPOS[0] === 'NP') continue;
+    if (player.currentPOS[0] === 'NP') {
+      continue;
+    }
 
     // 1. Determine Intent and Action
     const tacticalContext = getPlayerTacticalContext(player, ballPos);
-    let action = determinePlayerAction(
+    const action = determinePlayerAction(
       player,
       team,
       opp,
@@ -66,8 +68,8 @@ function determinePlayerAction(
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,
-  ctx: any,
-  closest: any,
+  ctx: { x: number; y: number },
+  closest: { name: string; position: number },
 ): string {
   const possibleActions = actions.findPossActions(
     player,
@@ -103,13 +105,15 @@ function executePlayerMovement(
   action: string,
   opp: Team,
   matchDetails: MatchDetails,
-  ctx: any,
-): number[] {
+  ctx: { x: number; y: number },
+): [number, number] {
   const move = getMovement(player, action, opp, ctx.x, ctx.y, matchDetails);
   const newPos = completeMovement(matchDetails, player.currentPOS, move);
-
-  if (newPos[0] === 'NP') throw new Error('No player position!');
-  return newPos;
+  const [newX, newY] = newPos;
+  if (newX === 'NP') {
+    throw new Error('No player position!');
+  }
+  return [newX, newY];
 }
 
 /**
@@ -123,24 +127,25 @@ function resolveBallInteractions(
   action: string,
 ) {
   const { position: ballPos, withPlayer, withTeam } = matchDetails.ball;
-  const isCloseX = common.isBetween(
-    player.currentPOS[0],
-    ballPos[0] - 3,
-    ballPos[0] + 3,
-  );
+  const [curX] = player.currentPOS;
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
+  const isCloseX = common.isBetween(curX, ballPos[0] - 3, ballPos[0] + 3);
   const isCloseY = common.isBetween(
     player.currentPOS[1],
     ballPos[1] - 3,
     ballPos[1] + 3,
   );
-  const isAtBall =
-    player.currentPOS[0] === ballPos[0] && player.currentPOS[1] === ballPos[1];
 
   if (isCloseX && isCloseY && withTeam !== team.teamID) {
     if (withPlayer && !player.hasBall) {
-      if (action === 'tackle')
+      if (action === 'tackle') {
         completeTackleWhenCloseNoBall(matchDetails, player, team, opp);
-      if (action === 'slide') completeSlide(matchDetails, player, team, opp);
+      }
+      if (action === 'slide') {
+        completeSlide(matchDetails, player, team, opp);
+      }
     } else {
       setClosePlayerTakesBall(matchDetails, player, team, opp);
     }
@@ -150,9 +155,13 @@ function resolveBallInteractions(
 }
 
 function getPlayerTacticalContext(player: Player, ballPos: number[]) {
+  const [curX, curY] = player.currentPOS;
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
   return {
-    x: player.currentPOS[0] - ballPos[0],
-    y: player.currentPOS[1] - ballPos[1],
+    x: curX - ballPos[0],
+    y: curY - ballPos[1],
   };
 }
 export { processTeamTactics };

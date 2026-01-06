@@ -24,7 +24,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run src/test --coverage --coverage.reportsDirectory ./coverage/test/",
     "test:coverage:open": "npm run test:coverage; xdg-open ./coverage/test/index.html",
-    "prepare": "husky",
+    "prepare": "[ -d .git ] && husky install || echo 'Skipping husky'",
     "type-check": "tsc --noEmit",
     "type-check:coverage": "typescript-coverage-report -o ./coverage/type/ --ignore-files 'coverage/**'",
     "type-check:coverage:open": "npm run type-check:coverage && xdg-open coverage/type/index.html",
