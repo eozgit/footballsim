@@ -5,6 +5,7 @@ import {
   calculateDeflectionVector,
   updateBallCardinalDirection,
 } from './physics.js';
+import { resolveBestPassOption } from './playerSelectors.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -727,40 +728,7 @@ function getTargetPlayer(
   side: string,
   pitchHeight: number = 1050,
 ): { position: [number, number]; proximity: number; name: string } {
-  let tempArray = [];
-  for (const tempPlayer of playersArray) {
-    if (tempPlayer.proximity < pitchHeight / 2) {
-      tempArray.push(tempPlayer);
-    }
-  }
-  if (tempArray.length === 0) {
-    tempArray = playersArray;
-  }
-  let thisRand = common.getRandomNumber(0, tempArray.length - 1);
-  let thisPlayer = tempArray[thisRand];
-  if (thisRand > 5) {
-    thisRand = common.getRandomNumber(0, tempArray.length - 1);
-  }
-  if (side === 'top' && tempArray[thisRand].proximity > thisPlayer.proximity) {
-    thisPlayer = tempArray[thisRand];
-  } else if (
-    side === 'bottom' &&
-    tempArray[thisRand].proximity < thisPlayer.proximity
-  ) {
-    thisPlayer = tempArray[thisRand];
-  }
-  if (thisRand > 5) {
-    thisRand = common.getRandomNumber(0, tempArray.length - 1);
-  }
-  if (side === 'top' && tempArray[thisRand].proximity > thisPlayer.proximity) {
-    thisPlayer = tempArray[thisRand];
-  } else if (
-    side === 'bottom' &&
-    tempArray[thisRand].proximity < thisPlayer.proximity
-  ) {
-    thisPlayer = tempArray[thisRand];
-  }
-  return thisPlayer;
+  return resolveBestPassOption(playersArray, side, pitchHeight);
 }
 
 function ballCrossed(
