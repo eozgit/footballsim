@@ -7,6 +7,7 @@ import {
   calculateDeflectionVector,
   updateBallCardinalDirection,
 } from './physics.js';
+import { initializePlayerObject } from './playerDefaults.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
@@ -16,57 +17,7 @@ function moveBall(matchDetails: MatchDetails) {
   return processBallMomentum(matchDetails);
 }
 export function createPlayer(position: string): Player {
-  return {
-    position,
-    currentPOS: [320, 15],
-    originPOS: [320, 5],
-
-    name: 'string',
-    rating: '99',
-    skill: {
-      passing: 80,
-      shooting: 80,
-      tackling: 80,
-      saving: 80,
-      agility: 80,
-      strength: 80,
-      penalty_taking: 80,
-      jumping: 90,
-    },
-    fitness: 50,
-    injured: false,
-    playerID: -99,
-    intentPOS: [0, 0],
-    action: '',
-    offside: false,
-    hasBall: false,
-    stats: {
-      goals: 0,
-      shots: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      cards: {
-        yellow: 0,
-        red: 0,
-      },
-      passes: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      tackles: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-      saves: 0,
-    },
-  };
+  return initializePlayerObject(position);
 }
 function setBPlayer(ballPos: BallPosition): Player {
   const [ballX, ballY] = ballPos;
