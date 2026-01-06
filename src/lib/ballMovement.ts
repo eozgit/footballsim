@@ -1,5 +1,6 @@
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
+import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
@@ -327,99 +328,9 @@ function updateLastTouch(
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
 }
+
 function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  player.action = `none`;
-  matchDetails.iterationLog.push(`Penalty Taken by: ${player.name}`);
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-  const shotPosition = [0, 0];
-  const shotPower = common.calculatePower(player.skill.strength);
-  const PlyPos = player.currentPOS;
-  let thisTeamStats;
-  if (common.isEven(matchDetails.half)) {
-    thisTeamStats = matchDetails.kickOffTeamStatistics;
-  } else if (common.isOdd(matchDetails.half)) {
-    thisTeamStats = matchDetails.secondTeamStatistics;
-  } else {
-    throw new Error(`You cannot supply 0 as a half`);
-  }
-  if (typeof thisTeamStats.shots !== 'number') {
-    if (thisTeamStats.shots.total === undefined) {
-      thisTeamStats.shots.total = 0;
-    } else {
-      thisTeamStats.shots.total++;
-    }
-  }
-
-  if (typeof player.stats.shots !== 'number') {
-    if (player.stats.shots.total === undefined) {
-      player.stats.shots.total = 0;
-    } else {
-      player.stats.shots.total++;
-    }
-  }
-  if (player.skill.penalty_taking > common.getRandomNumber(0, 100)) {
-    if (typeof thisTeamStats.shots !== 'number') {
-      if (thisTeamStats.shots.on === undefined) {
-        thisTeamStats.shots.on = 0;
-      } else {
-        thisTeamStats.shots.on++;
-      }
-    }
-
-    if (typeof player.stats.shots !== 'number') {
-      if (player.stats.shots.on === undefined) {
-        player.stats.shots.on = 0;
-      } else {
-        player.stats.shots.on++;
-      }
-    }
-    shotPosition[0] = common.getRandomNumber(
-      pitchWidth / 2 - 50,
-      pitchWidth / 2 + 50,
-    );
-    matchDetails.iterationLog.push(
-      `Shot On Target at X Position ${shotPosition[0]}`,
-    );
-  } else {
-    if (typeof thisTeamStats.shots !== 'number') {
-      if (thisTeamStats.shots.off === undefined) {
-        thisTeamStats.shots.off = 0;
-      } else {
-        thisTeamStats.shots.off++;
-      }
-    }
-
-    if (typeof player.stats.shots !== 'number') {
-      if (player.stats.shots.off === undefined) {
-        player.stats.shots.off = 0;
-      } else {
-        player.stats.shots.off++;
-      }
-    }
-    const left = common.getRandomNumber(0, 10) > 5;
-    const leftPos = common.getRandomNumber(0, pitchWidth / 2 - 55);
-    const righttPos = common.getRandomNumber(pitchWidth / 2 + 55, pitchWidth);
-    shotPosition[0] = left ? leftPos : righttPos;
-    matchDetails.iterationLog.push(
-      `Shot Off Target at X Position ${shotPosition[0]}`,
-    );
-  }
-  if (player.originPOS[1] > pitchHeight / 2) {
-    shotPosition[1] = PlyPos[1] - shotPower;
-  } else {
-    shotPosition[1] = PlyPos[1] + shotPower;
-  }
-  const endPos = calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    shotPosition,
-    player,
-  );
-  checkGoalScored(matchDetails);
-  return endPos;
+  return executePenaltyShot(matchDetails, team, player);
 }
 
 function checkGoalScored(matchDetails: MatchDetails) {
