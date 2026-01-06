@@ -1,5 +1,8 @@
 import { processBallMomentum } from './ballState.js';
-import { resolvePlayerBallInteraction } from './collisions.js';
+import {
+  checkInterceptionsOnTrajectory,
+  resolvePlayerBallInteraction,
+} from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { executeKickAction, resolvePassDestination } from './kickLogic.js';
@@ -268,7 +271,6 @@ function getPlayersInDistance(
   });
   return playersInDistance;
 }
-
 function resolveBallMovement(
   player: Player,
   thisPOS: unknown,
@@ -278,50 +280,15 @@ function resolveBallMovement(
   opp: Team,
   matchDetails: MatchDetails,
 ): [number, number] {
-  common.removeBallFromAllPlayers(matchDetails);
-  const lineToEndPosition = common.getBallTrajectory(thisPOS, newPOS, power);
-  for (const thisPos of lineToEndPosition) {
-    const checkPos = [
-      common.round(thisPos[0], 0),
-      common.round(thisPos[1], 0),
-      thisPos[2],
-    ];
-    const playerInfo1 = setPositions.closestPlayerToPosition(player, team, [
-      checkPos[0],
-      checkPos[1],
-    ]);
-    const playerInfo2 = setPositions.closestPlayerToPosition(player, opp, [
-      checkPos[0],
-      checkPos[1],
-    ]);
-    const thisPlayerProx = Math.max(
-      playerInfo1.proxToBall,
-      playerInfo2.proxToBall,
-    );
-    const thisPlayer =
-      thisPlayerProx === playerInfo1.proxToBall
-        ? playerInfo1.thePlayer
-        : playerInfo2.thePlayer;
-    const thisTeam = thisPlayerProx === playerInfo1.proxToBall ? team : opp;
-    if (thisPlayer) {
-      thisPlayerIsInProximity(
-        matchDetails,
-        thisPlayer,
-        thisPOS,
-        thisPos,
-        power,
-        thisTeam,
-      );
-    }
-  }
-  const lastTeam = matchDetails.ball.lastTouch.teamID;
-  matchDetails = setPositions.keepInBoundaries(matchDetails, lastTeam, newPOS);
-  if (matchDetails.endIteration === true) {
-    return newPOS;
-  }
-  const lastPOS = matchDetails.ballIntended || matchDetails.ball.position;
-  delete matchDetails.ballIntended;
-  return [common.round(lastPOS[0], 2), common.round(lastPOS[1], 2)];
+  return checkInterceptionsOnTrajectory(
+    player,
+    thisPOS,
+    newPOS,
+    power,
+    team,
+    opp,
+    matchDetails,
+  );
 }
 
 function thisPlayerIsInProximity(
@@ -688,4 +655,5 @@ export {
   throughBall,
   resolveBallMovement,
   getPlayersInDistance,
+  thisPlayerIsInProximity,
 };
