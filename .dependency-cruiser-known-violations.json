@@ -1,0 +1,262 @@
+[
+  {
+    "type": "dependency",
+    "from": "src/test/actionTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/actionTests2.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/ballMovementTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/closestPlayerChecks.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/commonTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/inputValidation.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/intentPOSitions.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/keepInBoundaries.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/miscPositionChecks.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/movementTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/offsideTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/setBottomFreekicksTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/setPositionTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/setTopFreekicksTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/tackleTests.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/test/teamInitiation.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "dependency",
+    "from": "src/vitest-setup.ts",
+    "to": "node_modules/vitest/dist/index.d.ts",
+    "rule": {
+      "severity": "error",
+      "name": "not-to-dev-dep"
+    }
+  },
+  {
+    "type": "cycle",
+    "from": "src/lib/actions.ts",
+    "to": "src/lib/intentLogic.ts",
+    "rule": {
+      "severity": "warn",
+      "name": "no-circular"
+    },
+    "cycle": [
+      {
+        "name": "src/lib/intentLogic.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/actions.ts",
+        "dependencyTypes": ["local", "import"]
+      }
+    ]
+  },
+  {
+    "type": "cycle",
+    "from": "src/lib/actions.ts",
+    "to": "src/lib/setPositions.ts",
+    "rule": {
+      "severity": "warn",
+      "name": "no-circular"
+    },
+    "cycle": [
+      {
+        "name": "src/lib/setPositions.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/ballMovement.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/intentLogic.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/actions.ts",
+        "dependencyTypes": ["local", "import"]
+      }
+    ]
+  },
+  {
+    "type": "cycle",
+    "from": "src/lib/ballMovement.ts",
+    "to": "src/lib/intentLogic.ts",
+    "rule": {
+      "severity": "warn",
+      "name": "no-circular"
+    },
+    "cycle": [
+      {
+        "name": "src/lib/intentLogic.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/setPositions.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/ballMovement.ts",
+        "dependencyTypes": ["local", "import"]
+      }
+    ]
+  },
+  {
+    "type": "cycle",
+    "from": "src/lib/ballMovement.ts",
+    "to": "src/lib/setPositions.ts",
+    "rule": {
+      "severity": "warn",
+      "name": "no-circular"
+    },
+    "cycle": [
+      {
+        "name": "src/lib/setPositions.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/ballMovement.ts",
+        "dependencyTypes": ["local", "import"]
+      }
+    ]
+  },
+  {
+    "type": "cycle",
+    "from": "src/lib/boundaryHandler.ts",
+    "to": "src/lib/setPositions.ts",
+    "rule": {
+      "severity": "warn",
+      "name": "no-circular"
+    },
+    "cycle": [
+      {
+        "name": "src/lib/setPositions.ts",
+        "dependencyTypes": ["local", "import"]
+      },
+      {
+        "name": "src/lib/boundaryHandler.ts",
+        "dependencyTypes": ["local", "import"]
+      }
+    ]
+  }
+]

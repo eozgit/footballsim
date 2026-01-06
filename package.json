@@ -17,6 +17,8 @@
     "prepublishOnly": "npm run build",
     "format": "prettier --write .",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "stats": "eslint . --format json --stats > lint-stats.json",
     "test": "vitest run src/test",
     "test:bail": "vitest run src/test --bail 1",
     "test:watch": "vitest",
@@ -26,7 +28,11 @@
     "type-check": "tsc --noEmit",
     "type-check:coverage": "typescript-coverage-report -o ./coverage/type/ --ignore-files 'coverage/**'",
     "type-check:coverage:open": "npm run type-check:coverage && xdg-open coverage/type/index.html",
-    "coverage:all": "npm run test:coverage && npm run type-check:coverage"
+    "coverage:all": "npm run test:coverage && npm run type-check:coverage",
+    "arch": "depcruise src --config .dependency-cruiser.cjs --output-type err",
+    "arch:graph": "depcruise src --output-type mermaid > architecture.mmd",
+    "arch:baseline": "depcruise src --output-type json | jq '.summary.violations' > .dependency-cruiser-known-violations.json",
+    "arch:check": "depcruise --ignore-known .dependency-cruiser-known-violations.json src"
   },
   "repository": {
     "type": "git",
