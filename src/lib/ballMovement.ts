@@ -1,6 +1,7 @@
 import { resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
+import { executeKickAction } from './kickLogic.js';
 import {
   calculateDeflectionVector,
   updateBallCardinalDirection,
@@ -127,74 +128,7 @@ function setBPlayer(ballPos: BallPosition): Player {
 }
 
 function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
-  const { position } = matchDetails.ball;
-  let { direction } = matchDetails.ball;
-  const [, pitchHeight] = matchDetails.pitchSize;
-  matchDetails.iterationLog.push(`ball kicked by: ${player.name}`);
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-  let newPos: [number, number] = [0, 0];
-  const teamShootingToTop = [
-    `wait`,
-    `north`,
-    `north`,
-    `north`,
-    `north`,
-    `east`,
-    `east`,
-    `west`,
-    `west`,
-  ];
-  const teamShootingToTop2 = [
-    `northeast`,
-    `northeast`,
-    `northeast`,
-    `northwest`,
-    `northwest`,
-    `northwest`,
-  ];
-  const topTeamDirection = teamShootingToTop.concat(teamShootingToTop2);
-  const teamShootingToBottom = [
-    `wait`,
-    `south`,
-    `south`,
-    `south`,
-    `south`,
-    `east`,
-    `east`,
-    `west`,
-    `west`,
-  ];
-  const teamShootingToBottom2 = [
-    `southeast`,
-    `southeast`,
-    `southeast`,
-    `southwest`,
-    `southwest`,
-    `southwest`,
-  ];
-  const bottomTeamDirection = teamShootingToBottom.concat(
-    teamShootingToBottom2,
-  );
-  const power: number = common.calculatePower(player.skill.strength);
-  if (player.originPOS[1] > pitchHeight / 2) {
-    direction =
-      topTeamDirection[common.getRandomNumber(0, topTeamDirection.length - 1)];
-    newPos = getTopKickedPosition(direction, position, power);
-  } else {
-    direction =
-      bottomTeamDirection[
-        common.getRandomNumber(0, bottomTeamDirection.length - 1)
-      ];
-    newPos = getBottomKickedPosition(direction, position, power);
-  }
-  return calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    newPos,
-    player,
-  );
+  return executeKickAction(matchDetails, team, player);
 }
 
 function getTopKickedPosition(
