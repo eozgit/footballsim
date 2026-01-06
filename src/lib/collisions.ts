@@ -1,8 +1,8 @@
+import { thisPlayerIsInProximity } from './ballMovement.js';
 import * as common from './common.js';
 import { handleGoalieSave, handlePlayerDeflection } from './intentLogic.js';
-import type { MatchDetails, Player, Team } from './types.js';
 import * as setPositions from './setPositions.js';
-import { thisPlayerIsInProximity } from './ballMovement.js';
+import type { MatchDetails, Player, Team } from './types.js';
 
 function resolvePlayerBallInteraction(
   matchDetails: MatchDetails,
@@ -83,7 +83,9 @@ function checkInterceptionsOnTrajectory(
   const lastTeam = matchDetails.ball.lastTouch.teamID;
   matchDetails = setPositions.keepInBoundaries(matchDetails, lastTeam, newPOS);
 
-  if (matchDetails.endIteration) return newPOS;
+  if (matchDetails.endIteration) {
+    return newPOS;
+  }
 
   // 3. Finalize Position
   const finalPos = matchDetails.ballIntended || matchDetails.ball.position;
@@ -96,12 +98,12 @@ function checkInterceptionsOnTrajectory(
  * Iterates through the ball's path to check if any player can intercept the ball.
  */
 function resolvePathInterceptions(
-  trajectory: any[],
+  trajectory: unknown[],
   originPlayer: Player,
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,
-  thisPOS: any,
+  thisPOS: unknown,
   power: number,
 ) {
   for (const step of trajectory) {

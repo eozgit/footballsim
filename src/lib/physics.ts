@@ -1,5 +1,5 @@
 import * as common from './common.js';
-import { MatchDetails, BallPosition } from './types.js';
+import type { MatchDetails, BallPosition } from './types.js';
 
 type DeflectionHandler = (
   pos: [number, number],

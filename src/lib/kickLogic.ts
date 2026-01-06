@@ -155,14 +155,22 @@ function calculateThroughBallTarget(
 
   // Logic Branch 2: Failed skill check
   if (isAttackingTop) {
-    if (bottomThird) return setTargetPlyPos(pos, -10, 10, -10, 10);
-    if (middleThird) return setTargetPlyPos(pos, -20, 20, -50, 50);
+    if (bottomThird) {
+      return setTargetPlyPos(pos, -10, 10, -10, 10);
+    }
+    if (middleThird) {
+      return setTargetPlyPos(pos, -20, 20, -50, 50);
+    }
     return setTargetPlyPos(pos, -30, 30, -100, 100);
   }
 
   // Branch 3: Failed skill check (Bottom team)
-  if (bottomThird) return setTargetPlyPos(pos, -30, 30, -100, 100);
-  if (middleThird) return setTargetPlyPos(pos, -20, 20, -50, 50);
+  if (bottomThird) {
+    return setTargetPlyPos(pos, -30, 30, -100, 100);
+  }
+  if (middleThird) {
+    return setTargetPlyPos(pos, -20, 20, -50, 50);
+  }
   return setTargetPlyPos(pos, -10, 10, -10, 10);
 }
 

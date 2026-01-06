@@ -20,7 +20,9 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   }
 
   const nextBallPos = ball.ballOverIterations[0];
-  if (nextBallPos.length < 2) throw new Error('Invalid ball position!');
+  if (nextBallPos.length < 2) {
+    throw new Error('Invalid ball position!');
+  }
 
   // 2. Resolve Physics and Movement
   getBallDirection(matchDetails, nextBallPos);
@@ -35,7 +37,9 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
     matchDetails,
   );
 
-  if (matchDetails.endIteration) return matchDetails;
+  if (matchDetails.endIteration) {
+    return matchDetails;
+  }
 
   // 3. Finalize State
   return finalizeMomentumStep(matchDetails, endPos);
