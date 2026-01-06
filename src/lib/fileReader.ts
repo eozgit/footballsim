@@ -4,7 +4,7 @@ import * as fs from 'fs';
  * Reads a JSON file and parses its content.
  * @template T - The expected shape of the JSON data.
  */
-export function readFile<T>(filePath: string): Promise<T> {
+function readFile<T>(filePath: string): Promise<T> {
   return new Promise((resolve, reject) => {
     fs.readFile(filePath, 'utf8', (err, data) => {
       if (err) {
@@ -21,3 +21,5 @@ export function readFile<T>(filePath: string): Promise<T> {
     });
   });
 }
+
+export { readFile };

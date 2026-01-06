@@ -4,7 +4,7 @@ import type { MatchDetails, Team, Player } from './types.js';
 /**
  * Updates both team and player shot statistics
  */
-export function recordShotStats(
+function recordShotStats(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
@@ -36,3 +36,5 @@ export function recordShotStats(
     }
   });
 }
+
+export { recordShotStats };

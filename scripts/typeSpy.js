@@ -17,7 +17,7 @@ function getCanonicalType(v) {
   return typeof v;
 }
 
-export function __typeSpy(symbol, value, location) {
+function __typeSpy(symbol, value, location) {
   const type = getCanonicalType(value);
   let shape = type;
 

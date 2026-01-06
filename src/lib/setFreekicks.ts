@@ -421,9 +421,7 @@ export {
   setOneHundredToHalfwayYPos,
   setHalfwayToOppositeQtrYPos,
   setDeepFreekickBallAndKicker,
-  setDefenderSetPiecePosition,
   initializeKickerAndBall,
-  setBallPossession,
   alignPlayersForPenalty,
   setSetPiecePositions,
 };

@@ -808,7 +808,7 @@ function setIntentPosition(
   }
 }
 
-export function setLooseintentPOS(
+function setLooseintentPOS(
   matchDetails: MatchDetails,
   thisTeam: Team,
   closestPlayer: Player,

@@ -19,7 +19,7 @@ import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 function moveBall(matchDetails: MatchDetails) {
   return processBallMomentum(matchDetails);
 }
-export function createPlayer(position: string): Player {
+function createPlayer(position: string): Player {
   return initializePlayerObject(position);
 }
 function setBPlayer(ballPos: BallPosition): Player {
@@ -656,4 +656,5 @@ export {
   resolveBallMovement,
   getPlayersInDistance,
   thisPlayerIsInProximity,
+  createPlayer,
 };
