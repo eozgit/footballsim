@@ -2,6 +2,7 @@ import * as actions from './actions.js';
 import * as ballMovement from './ballMovement.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
+import { processTeamTactics } from './teamAI.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
@@ -10,128 +11,7 @@ function decideMovement(
   opp: Team,
   matchDetails: MatchDetails,
 ) {
-  const allActions = [
-    `shoot`,
-    `throughBall`,
-    `pass`,
-    `cross`,
-    `tackle`,
-    `intercept`,
-    `slide`,
-  ];
-  Array.prototype.push.apply(allActions, [
-    `run`,
-    `sprint`,
-    `cleared`,
-    `boot`,
-    `penalty`,
-  ]);
-  const { position, withPlayer, withTeam } = matchDetails.ball;
-  for (const thisPlayer of team.players) {
-    //players closer than the closest player stand still near the ball???
-    if (thisPlayer.currentPOS[0] !== 'NP') {
-      let ballToPlayerX: number = thisPlayer.currentPOS[0] - position[0];
-      let ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
-      const possibleActions = actions.findPossActions(
-        thisPlayer,
-        team,
-        opp,
-        ballToPlayerX,
-        ballToPlayerY,
-        matchDetails,
-      );
-      let action = actions.selectAction(possibleActions);
-      action = checkProvidedAction(matchDetails, thisPlayer, action);
-      if (
-        withTeam &&
-        withTeam !== team.teamID &&
-        closestPlayer.name === thisPlayer.name
-      ) {
-        if (
-          action !== `tackle` &&
-          action !== `slide` &&
-          action !== `intercept`
-        ) {
-          action = `sprint`;
-        }
-        ballToPlayerX = closestPlayerActionBallX(ballToPlayerX);
-        ballToPlayerY = closestPlayerActionBallY(ballToPlayerY);
-      }
-      const move: number[] = getMovement(
-        thisPlayer,
-        action,
-        opp,
-        ballToPlayerX,
-        ballToPlayerY,
-        matchDetails,
-      );
-      thisPlayer.currentPOS = completeMovement(
-        matchDetails,
-        thisPlayer.currentPOS,
-        move,
-      );
-      if (thisPlayer.currentPOS[0] === 'NP') {
-        throw new Error('No player position!');
-      }
-      const xPosition = common.isBetween(
-        thisPlayer.currentPOS[0],
-        position[0] - 3,
-        position[0] + 3,
-      );
-      const yPosition = common.isBetween(
-        thisPlayer.currentPOS[1],
-        position[1] - 3,
-        position[1] + 3,
-      );
-      const samePositionAsBall =
-        thisPlayer.currentPOS[0] === position[0] &&
-        thisPlayer.currentPOS[1] === position[1];
-      const closeWithPlayer = !!(
-        xPosition &&
-        yPosition &&
-        withPlayer === false
-      );
-      if (xPosition && yPosition && withTeam !== team.teamID) {
-        if (samePositionAsBall) {
-          if (
-            withPlayer === true &&
-            thisPlayer.hasBall === false &&
-            withTeam !== team.teamID
-          ) {
-            if (action === `tackle`) {
-              matchDetails = completeTackleWhenCloseNoBall(
-                matchDetails,
-                thisPlayer,
-                team,
-                opp,
-              );
-            }
-            if (action === `slide`) {
-              matchDetails = completeSlide(matchDetails, thisPlayer, team, opp);
-            }
-          } else {
-            setClosePlayerTakesBall(matchDetails, thisPlayer, team, opp);
-          }
-        } else if (
-          withPlayer === true &&
-          thisPlayer.hasBall === false &&
-          withTeam !== team.teamID
-        ) {
-          if (action === `slide`) {
-            matchDetails = completeSlide(matchDetails, thisPlayer, team, opp);
-          }
-        } else {
-          setClosePlayerTakesBall(matchDetails, thisPlayer, team, opp);
-        }
-      } else if (closeWithPlayer) {
-        setClosePlayerTakesBall(matchDetails, thisPlayer, team, opp);
-      }
-      if (thisPlayer.hasBall === true) {
-        handleBallPlayerActions(matchDetails, thisPlayer, team, opp, action);
-      }
-    }
-  }
-  return team;
+  return processTeamTactics(closestPlayer, team, opp, matchDetails);
 }
 
 function setClosePlayerTakesBall(
@@ -1035,4 +915,6 @@ export {
   checkProvidedAction,
   checkOffside,
   completeSlide,
+  completeTackleWhenCloseNoBall,
+  completeMovement,
 };
