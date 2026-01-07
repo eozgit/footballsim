@@ -8,7 +8,6 @@ const JSON_PATH = path.join(__dirname, 'fn-graph.json');
 
 const PORT = 3001;
 const TOP_HUB_COUNT = 15;
-const VISUAL_DEPTH_LIMIT = 2;
 
 const graphData = JSON.parse(fs.readFileSync(JSON_PATH, 'utf-8'));
 
@@ -43,20 +42,38 @@ const fmtLabel = (id) => {
     : id;
 };
 
-function generateNeighborhood(rootId) {
+// --- MERMAID GENERATORS ---
+
+function generateNeighborhood(rootId, depthLimit = 2) {
   const edges = new Set();
-  const nodes = new Set([rootId]);
+  const nodesByFile = {}; // For subgraph grouping
 
   const walk = (currentId, currentDepth) => {
-    if (currentDepth >= VISUAL_DEPTH_LIMIT) return;
+    if (currentDepth >= depthLimit) return;
+
+    const data = graphData[currentId];
+    if (data) {
+      if (!nodesByFile[data.file]) nodesByFile[data.file] = new Set();
+      nodesByFile[data.file].add(currentId);
+    }
+
     network[currentId]?.out.forEach((nextId) => {
-      edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`);
-      nodes.add(nextId);
+      edges.add(`${sanitize(currentId)} -- "calls" --> ${sanitize(nextId)}`);
+      if (graphData[nextId]) {
+        if (!nodesByFile[graphData[nextId].file])
+          nodesByFile[graphData[nextId].file] = new Set();
+        nodesByFile[graphData[nextId].file].add(nextId);
+      }
       walk(nextId, currentDepth + 1);
     });
+
     network[currentId]?.in.forEach((prevId) => {
-      edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`);
-      nodes.add(prevId);
+      edges.add(`${sanitize(prevId)} -- "calls" --> ${sanitize(currentId)}`);
+      if (graphData[prevId]) {
+        if (!nodesByFile[graphData[prevId].file])
+          nodesByFile[graphData[prevId].file] = new Set();
+        nodesByFile[graphData[prevId].file].add(prevId);
+      }
       walk(prevId, currentDepth + 1);
     });
   };
@@ -64,22 +81,19 @@ function generateNeighborhood(rootId) {
   walk(rootId, 0);
 
   let mmd = 'graph LR\n';
-  nodes.forEach((id) => {
-    const style = id === rootId ? ':::rootNode' : '';
-    mmd += `  ${sanitize(id)}["${fmtLabel(id)}"]${style}\n`;
+
+  // Create Subgraphs for Module Grouping
+  Object.entries(nodesByFile).forEach(([file, nodeSet]) => {
+    mmd += `  subgraph ${sanitize(file)} ["📁 ${file}"]\n`;
+    nodeSet.forEach((id) => {
+      const style = id === rootId ? ':::rootNode' : '';
+      mmd += `    ${sanitize(id)}["${fmtLabel(id)}"]${style}\n`;
+    });
+    mmd += `  end\n`;
   });
+
   mmd += Array.from(edges).join('\n');
   mmd += '\n  classDef rootNode fill:#f96,stroke:#333,stroke-width:4px;';
-  return mmd;
-}
-
-function generateFullMap() {
-  let mmd = 'graph TD\n';
-  Object.entries(graphData).forEach(([id, data]) => {
-    data.calls.forEach((calleeId) => {
-      mmd += `  ${sanitize(id)}["${data.name}"] --> ${sanitize(calleeId)}["${graphData[calleeId]?.name || calleeId}"]\n`;
-    });
-  });
   return mmd;
 }
 
@@ -89,12 +103,12 @@ const app = express();
 app.get('/', (req, res) => {
   const hubs = getTopHubs();
   const activeId = req.query.id;
+  const depth = parseInt(req.query.d) || 2;
+
   let currentMmd =
-    activeId === 'full'
-      ? generateFullMap()
-      : activeId
-        ? generateNeighborhood(activeId)
-        : '';
+    activeId && activeId !== 'full'
+      ? generateNeighborhood(activeId, depth)
+      : '';
 
   res.send(`
     <!DOCTYPE html>
@@ -117,16 +131,8 @@ app.get('/', (req, res) => {
           const initPZ = () => {
             const svg = document.querySelector('.mermaid svg');
             if (svg) {
-              svg.style.width = '100%'; 
-              svg.style.height = '100%';
-              window.pz = svgPanZoom(svg, { 
-                zoomEnabled: true, 
-                controlIconsEnabled: false, 
-                fit: true, 
-                center: true,
-                minZoom: 0.1,
-                maxZoom: 10
-              });
+              svg.style.width = '100%'; svg.style.height = '100%';
+              window.pz = svgPanZoom(svg, { zoomEnabled: true, controlIconsEnabled: false, fit: true, center: true });
             }
           };
 
@@ -138,6 +144,12 @@ app.get('/', (req, res) => {
             }
           });
           observer.observe(document.body, { childList: true, subtree: true });
+
+          window.updateDepth = (val) => {
+             const url = new URL(window.location);
+             url.searchParams.set('d', val);
+             window.location.href = url.href;
+          };
         </script>
         <style>
           body { font-family: system-ui, sans-serif; display: flex; margin: 0; height: 100vh; overflow: hidden; background: #f4f7f6; }
@@ -145,24 +157,27 @@ app.get('/', (req, res) => {
           main { flex: 1; position: relative; background: white; display: flex; flex-direction: column; }
           .mermaid { flex: 1; width: 100%; height: 100%; cursor: grab; }
           .controls { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
+          .depth-control { background: #eee; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
           .btn { background: #333; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
           h3 { font-size: 11px; color: #888; text-transform: uppercase; margin: 25px 0 10px; border-bottom: 1px solid #eee; }
           .item { text-decoration: none; color: #2c3e50; padding: 10px; border-radius: 4px; font-size: 13px; margin-bottom: 2px; display: block; border-bottom: 1px solid #f0f0f0; }
           .item:hover { background: #edf2f7; }
           .active { background: #3182ce !important; color: white !important; }
-          .score { float: right; font-size: 9px; padding: 2px 6px; border-radius: 10px; background: #e2e8f0; color: #4a5568; }
-          .active .score { background: rgba(255,255,255,0.2); color: white; }
         </style>
       </head>
       <body>
         <nav>
-          <a href="/?id=full" class="item ${activeId === 'full' ? 'active' : ''}">🌐 Complete System Picture</a>
+          <div class="depth-control">
+            <label style="font-size: 12px; font-weight: bold;">Visualization Depth: ${depth}</label>
+            <input type="range" min="1" max="5" value="${depth}" style="width:100%" onchange="updateDepth(this.value)">
+          </div>
+
           <h3>🎯 Top ${TOP_HUB_COUNT} Centrality Hubs</h3>
           ${hubs
             .map(
               (h) => `
-            <a href="/?id=${h.id}" class="item ${activeId === h.id ? 'active' : ''}">
-              ${h.name} <span class="score">${h.score} connections</span>
+            <a href="/?id=${h.id}&d=${depth}" class="item ${activeId === h.id ? 'active' : ''}">
+              ${h.name} <span style="float:right; font-size:10px; opacity:0.6;">${h.score} conn</span>
             </a>
           `,
             )
@@ -174,7 +189,7 @@ app.get('/', (req, res) => {
             <button class="btn" onclick="doZoom('reset')">Reset</button>
             <button class="btn" onclick="doZoom('out')">−</button>
           </div>
-          <div class="mermaid">${currentMmd || '<div style="padding:50px"><h1>Centrality Engine</h1><p>Select a logic hub to analyze its local neighborhood.</p></div>'}</div>
+          <div class="mermaid">${currentMmd || '<div style="padding:50px"><h1>Centrality Engine</h1><p>Select a hub to begin.</p></div>'}</div>
         </main>
       </body>
     </html>
@@ -182,5 +197,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () =>
-  console.log(`Centrality Dashboard: http://localhost:${PORT}`),
+  console.log(`Explorer active: http://localhost:${PORT}`),
 );
