@@ -8,13 +8,8 @@ dist/
 mise.toml
 
 # Refactor Engine Data
-scripts/type-check-report.txt
-scripts/type-runtime-stats.json
-scripts/structured-report.json
-scripts/analysis.json
-scripts/fn-type-stats.json
-scripts/fn-usage-report.json
-scripts/telemetry.log
+scripts/*.txt
+scripts/*.json
+scripts/*.log
 scripts/duplication-report/
-scripts/jscpd-report.json
 
