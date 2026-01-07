@@ -2,6 +2,7 @@ import { createPlayer } from './ballMovement.js';
 import { resolveBallLocation } from './boundaryHandler.js';
 import * as common from './common.js';
 import * as setBottomFreekicks from './setBottomFreekicks.js';
+import { setBallPossession } from './setFreekicks.js';
 import * as setTopFreekicks from './setTopFreekicks.js';
 import * as setVariables from './setVariables.js';
 import type {
@@ -1145,32 +1146,135 @@ function calculatePenaltyTarget(
 
   return target;
 }
+/**
+ * Orchestrates team positioning for goal kicks and deep free kicks.
+ * Adjusts team shape based on whether a GK or Defender is taking the kick.
+ */
+function repositionForDeepSetPiece(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+  side: 'top' | 'bottom',
+): MatchDetails {
+  const isTop = side === 'top';
+  const { ball } = matchDetails;
+  const [, pitchHeight] = matchDetails.pitchSize;
+
+  // 1. Identify Kicker & Set Possession
+  const goalieAreaLimit = isTop
+    ? pitchHeight * 0.25 + 1
+    : pitchHeight * 0.75 - 1;
+  const goalieToKick = isTop
+    ? ball.position[1] <= goalieAreaLimit
+    : ball.position[1] >= goalieAreaLimit;
+
+  const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
+
+  setBallPossession(kickPlayer, ball, attack);
+  ball.direction = isTop ? 'south' : 'north';
+
+  // 2. Position Attacking Team
+  for (const player of attack.players) {
+    if (player.name === kickPlayer.name) {
+      player.currentPOS = [ball.position[0], ball.position[1]];
+      continue;
+    }
+
+    const offset = isTop ? 300 : -300;
+    const baseNewY =
+      kickPlayer.position === 'GK'
+        ? player.originPOS[1] + offset
+        : player.originPOS[1] +
+          (ball.position[1] - player.originPOS[1]) +
+          offset;
+
+    const limit = getAttackingLimit(player.position, isTop, pitchHeight);
+    const finalY = isTop
+      ? common.upToMax(baseNewY, limit)
+      : common.upToMin(baseNewY, limit);
+
+    player.currentPOS = [player.originPOS[0], Math.floor(finalY)];
+  }
+
+  // 3. Position Defensive Team
+  for (const player of defence.players) {
+    let targetY: number;
+
+    if (kickPlayer.position === 'GK') {
+      if (player.position === 'GK') {
+        targetY = player.originPOS[1];
+      } else {
+        targetY = isTop
+          ? common.upToMin(player.originPOS[1] - 100, 0)
+          : common.upToMax(player.originPOS[1] + 100, pitchHeight);
+      }
+    } else if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
+      targetY = player.originPOS[1];
+    } else {
+      targetY = getDefensiveTargetY(player.position, isTop, pitchHeight);
+    }
+
+    player.currentPOS = [player.originPOS[0], Math.floor(targetY)];
+  }
+
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+/**
+ * Helper: Defines the furthest forward a player can move during a set piece
+ */
+function getAttackingLimit(
+  pos: string,
+  isTop: boolean,
+  pitchHeight: number,
+): number {
+  if (pos === 'GK') return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
+  if (['CB', 'LB', 'RB'].includes(pos)) return pitchHeight * 0.5;
+  if (['CM', 'LM', 'RM'].includes(pos))
+    return isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
+  return isTop ? pitchHeight * 0.9 : pitchHeight * 0.1;
+}
+
+/**
+ * Helper: Defines target lines for the defending team
+ */
+function getDefensiveTargetY(
+  pos: string,
+  isTop: boolean,
+  pitchHeight: number,
+): number {
+  const isMid = ['CM', 'LM', 'RM'].includes(pos);
+  if (isMid) return isTop ? pitchHeight * 0.75 + 5 : pitchHeight * 0.25 - 5;
+  return pitchHeight * 0.5;
+}
 export {
-  setGoalieHasBall,
-  setTopRightCornerPositions,
-  setTopLeftCornerPositions,
-  setBottomLeftCornerPositions,
-  setBottomRightCornerPositions,
-  keepInBoundaries,
-  setTopGoalKick,
-  setBottomGoalKick,
+  calculatePenaltyTarget,
+  calculateShotTarget,
+  checkShotAccuracy,
   closestPlayerToPosition,
-  setSetpieceKickOffTeam,
-  setSetpieceSecondTeam,
-  setTopPenalty,
-  setBottomPenalty,
-  setKickOffTeamGoalScored,
-  setSecondTeamGoalScored,
-  setBallSpecificGoalScoreValue,
   formationCheck,
-  switchSide,
+  keepInBoundaries,
+  repositionForDeepSetPiece,
+  resolveGoalScored,
+  setBallSpecificGoalScoreValue,
+  setBottomGoalKick,
+  setBottomLeftCornerPositions,
+  setBottomPenalty,
+  setBottomRightCornerPositions,
+  setGoalieHasBall,
   setIntentPosition,
+  setKickOffTeamGoalScored,
   setLeftKickOffTeamThrowIn,
   setLeftSecondTeamThrowIn,
   setRightKickOffTeamThrowIn,
   setRightSecondTeamThrowIn,
-  resolveGoalScored,
-  checkShotAccuracy,
-  calculateShotTarget,
-  calculatePenaltyTarget,
+  setSecondTeamGoalScored,
+  setSetpieceKickOffTeam,
+  setSetpieceSecondTeam,
+  setTopGoalKick,
+  setTopLeftCornerPositions,
+  setTopPenalty,
+  setTopRightCornerPositions,
+  switchSide,
 };
