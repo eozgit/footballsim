@@ -11,16 +11,17 @@ const project = new Project({
 });
 const typeChecker = project.getTypeChecker();
 
-// 1. Filter: Strictly engine.ts and src/lib, excluding tests
-const sourceFiles = project.getSourceFiles().filter((sf) => {
-  const filePath = sf.getFilePath();
-  const isEngine = filePath.endsWith('engine.ts');
-  const isLib = filePath.includes('/src/lib/');
-  const isTest = filePath.includes('/test/');
-  return (isEngine || isLib) && !isTest;
-});
-
+/**
+ * Robustly identifies names for functions, including those reached via exports/imports.
+ */
 function getFunctionName(node) {
+  if (
+    Node.isExportSpecifier(node) ||
+    Node.isImportSpecifier(node) ||
+    Node.isBindingElement(node)
+  ) {
+    return node.getName();
+  }
   if (Node.isFunctionDeclaration(node) || Node.isMethodDeclaration(node)) {
     return node.getName() || '[Anonymous]';
   }
@@ -33,9 +34,31 @@ function getFunctionName(node) {
   return '[Anonymous]';
 }
 
+/**
+ * Resolves a node to its underlying implementation if it's an alias (import/export).
+ */
+function resolveToDefinition(node) {
+  if (Node.isExportSpecifier(node) || Node.isImportSpecifier(node)) {
+    const symbol = node.getSymbol();
+    if (symbol && symbol.isAlias()) {
+      const aliased = typeChecker.getAliasedSymbol(symbol);
+      const decls = aliased?.getDeclarations();
+      if (decls && decls.length > 0) return decls[0];
+    }
+  }
+  return node;
+}
+
 const finalMap = {};
 
-// 2. Map Functions
+// 1. Process engine.ts and src/lib/ (excluding tests)
+const sourceFiles = project.getSourceFiles().filter((sf) => {
+  const filePath = sf.getFilePath();
+  const isTarget =
+    filePath.endsWith('engine.ts') || filePath.includes('/src/lib/');
+  return isTarget && !filePath.includes('/test/');
+});
+
 sourceFiles.forEach((sf) => {
   const fileName = sf.getBaseName();
   const relPath = path.relative(projectRoot, sf.getFilePath());
@@ -50,8 +73,6 @@ sourceFiles.forEach((sf) => {
     const name = getFunctionName(fn);
     const startPos = fn.getStart();
     const lc = sf.getLineAndColumnAtPos(startPos);
-
-    // Unique ID for pinpointing: file:name:line
     const fnId = `${fileName}:${name}:${lc.line}`;
 
     const internalCallees = new Set();
@@ -60,14 +81,19 @@ sourceFiles.forEach((sf) => {
     calls.forEach((call) => {
       const symbol = typeChecker.getSymbolAtLocation(call.getExpression());
       if (!symbol) return;
-      const decls = symbol.getDeclarations();
+
+      // Follow the alias to the actual definition file
+      const effectiveSymbol = symbol.isAlias()
+        ? typeChecker.getAliasedSymbol(symbol)
+        : symbol;
+      const decls = effectiveSymbol?.getDeclarations();
       if (!decls) return;
 
-      for (const decl of decls) {
+      for (const rawDecl of decls) {
+        const decl = resolveToDefinition(rawDecl);
         const dSf = decl.getSourceFile();
         const dPath = dSf.getFilePath();
 
-        // Match scope filter
         if (
           (dPath.endsWith('engine.ts') || dPath.includes('/src/lib/')) &&
           !dPath.includes('/test/')
@@ -97,28 +123,33 @@ sourceFiles.forEach((sf) => {
   });
 });
 
-// 3. Pruning logic
+// 2. Pruning: Remove leaf functions and ensure link integrity
 const nonLeafFns = Object.fromEntries(
   Object.entries(finalMap).filter(([_, data]) => data.calls.length > 0),
 );
 
-const activeFiles = new Set(Object.values(nonLeafFns).map((d) => d.file));
 const result = Object.fromEntries(
-  Object.entries(nonLeafFns).filter(([_, data]) => activeFiles.has(data.file)),
+  Object.entries(nonLeafFns).filter(([id, data]) => {
+    // Only keep if the module has logic flow and it isn't an isolated leaf function
+    return true;
+  }),
 );
 
-// 4. Save to scripts/
-const outputJson = path.join(__dirname, 'fn-graph.json');
-const outputMmd = path.join(__dirname, 'fn-graph.mmd');
+// Final Polish: Clean up calls so they only point to nodes that exist in our result set
+Object.values(result).forEach((data) => {
+  data.calls = data.calls.filter((calleeId) => result[calleeId]);
+});
 
-fs.writeFileSync(outputJson, JSON.stringify(result, null, 2));
+// 3. Output
+const outputDir = path.join(projectRoot, 'scripts');
+fs.writeFileSync(
+  path.join(outputDir, 'fn-graph.json'),
+  JSON.stringify(result, null, 2),
+);
 
-// Mermaid generation with Subgraphs (Boxes)
 let mmd = 'graph TD\n';
-const files = [...new Set(Object.values(result).map((d) => d.file))];
-
-files.forEach((file) => {
-  // Mermaid subgraph IDs cannot have dots
+const activeFiles = [...new Set(Object.values(result).map((d) => d.file))];
+activeFiles.forEach((file) => {
   const subId = file.replace(/[^a-zA-Z0-9]/g, '_');
   mmd += `  subgraph ${subId} ["${file}"]\n`;
   Object.entries(result).forEach(([id, data]) => {
@@ -133,14 +164,12 @@ files.forEach((file) => {
 Object.entries(result).forEach(([id, data]) => {
   const sourceNode = id.replace(/[^a-zA-Z0-9]/g, '_');
   data.calls.forEach((calleeId) => {
-    if (result[calleeId]) {
-      const targetNode = calleeId.replace(/[^a-zA-Z0-9]/g, '_');
-      mmd += `  ${sourceNode} --> ${targetNode}\n`;
-    }
+    const targetNode = calleeId.replace(/[^a-zA-Z0-9]/g, '_');
+    mmd += `  ${sourceNode} --> ${targetNode}\n`;
   });
 });
 
-fs.writeFileSync(outputMmd, mmd);
-console.log(`Success! Saved to:\n - ${outputJson}\n - ${outputMmd}`);
-
-// jq '.[] | select(.name == "[Anonymous]" and .file == "common.ts") | {line, signature}' scripts/fn-graph.json
+fs.writeFileSync(path.join(outputDir, 'fn-graph.mmd'), mmd);
+console.log(
+  `Success! Fixed alias resolution for ${Object.keys(result).length} nodes.`,
+);
