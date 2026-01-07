@@ -46,7 +46,7 @@ const fmtLabel = (id) => {
 
 function generateNeighborhood(rootId, depthLimit = 2) {
   const edges = new Set();
-  const nodesByFile = {}; // For subgraph grouping
+  const nodesByFile = {};
 
   const walk = (currentId, currentDepth) => {
     if (currentDepth >= depthLimit) return;
@@ -58,7 +58,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     }
 
     network[currentId]?.out.forEach((nextId) => {
-      edges.add(`${sanitize(currentId)} -- "calls" --> ${sanitize(nextId)}`);
+      edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`); // Removed "calls" label
       if (graphData[nextId]) {
         if (!nodesByFile[graphData[nextId].file])
           nodesByFile[graphData[nextId].file] = new Set();
@@ -68,7 +68,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     });
 
     network[currentId]?.in.forEach((prevId) => {
-      edges.add(`${sanitize(prevId)} -- "calls" --> ${sanitize(currentId)}`);
+      edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`); // Removed "calls" label
       if (graphData[prevId]) {
         if (!nodesByFile[graphData[prevId].file])
           nodesByFile[graphData[prevId].file] = new Set();
@@ -81,8 +81,6 @@ function generateNeighborhood(rootId, depthLimit = 2) {
   walk(rootId, 0);
 
   let mmd = 'graph LR\n';
-
-  // Create Subgraphs for Module Grouping
   Object.entries(nodesByFile).forEach(([file, nodeSet]) => {
     mmd += `  subgraph ${sanitize(file)} ["📁 ${file}"]\n`;
     nodeSet.forEach((id) => {
@@ -91,9 +89,18 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     });
     mmd += `  end\n`;
   });
-
   mmd += Array.from(edges).join('\n');
   mmd += '\n  classDef rootNode fill:#f96,stroke:#333,stroke-width:4px;';
+  return mmd;
+}
+
+function generateFullMap() {
+  let mmd = 'graph TD\n';
+  Object.entries(graphData).forEach(([id, data]) => {
+    data.calls.forEach((calleeId) => {
+      mmd += `  ${sanitize(id)}["${data.name}"] --> ${sanitize(calleeId)}["${graphData[calleeId]?.name || calleeId}"]\n`;
+    });
+  });
   return mmd;
 }
 
@@ -105,10 +112,12 @@ app.get('/', (req, res) => {
   const activeId = req.query.id;
   const depth = parseInt(req.query.d) || 2;
 
-  let currentMmd =
-    activeId && activeId !== 'full'
-      ? generateNeighborhood(activeId, depth)
-      : '';
+  let currentMmd = '';
+  if (activeId === 'full') {
+    currentMmd = generateFullMap();
+  } else if (activeId) {
+    currentMmd = generateNeighborhood(activeId, depth);
+  }
 
   res.send(`
     <!DOCTYPE html>
@@ -119,7 +128,7 @@ app.get('/', (req, res) => {
           import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
           import svgPanZoom from 'https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/+esm';
           
-          mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'neutral' });
+          mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'neutral', maxTextSize: 90000 });
 
           window.doZoom = (action) => {
             if (!window.pz) return;
@@ -167,8 +176,10 @@ app.get('/', (req, res) => {
       </head>
       <body>
         <nav>
-          <div class="depth-control">
-            <label style="font-size: 12px; font-weight: bold;">Visualization Depth: ${depth}</label>
+          <a href="/?id=full" class="item ${activeId === 'full' ? 'active' : ''}">🌐 Complete System Picture</a>
+          
+          <div class="depth-control" style="margin-top:20px; display: ${activeId === 'full' || !activeId ? 'none' : 'block'}">
+            <label style="font-size: 12px; font-weight: bold;">Neighborhood Depth: ${depth}</label>
             <input type="range" min="1" max="5" value="${depth}" style="width:100%" onchange="updateDepth(this.value)">
           </div>
 
@@ -189,13 +200,11 @@ app.get('/', (req, res) => {
             <button class="btn" onclick="doZoom('reset')">Reset</button>
             <button class="btn" onclick="doZoom('out')">−</button>
           </div>
-          <div class="mermaid">${currentMmd || '<div style="padding:50px"><h1>Centrality Engine</h1><p>Select a hub to begin.</p></div>'}</div>
+          <div class="mermaid">${currentMmd || '<div style="padding:50px"><h1>Centrality Engine</h1><p>Select a hub to explore its module neighborhood.</p></div>'}</div>
         </main>
       </body>
     </html>
   `);
 });
 
-app.listen(PORT, () =>
-  console.log(`Explorer active: http://localhost:${PORT}`),
-);
+app.listen(PORT, () => console.log(`Explorer: http://localhost:${PORT}`));
