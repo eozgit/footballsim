@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const JSON_PATH = path.join(__dirname, 'fn-graph.json');
 
 const PORT = 3001;
-const TOP_HUB_COUNT = 15;
+const TOP_HUB_COUNT = 25;
 
 const graphData = JSON.parse(fs.readFileSync(JSON_PATH, 'utf-8'));
 
@@ -58,7 +58,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     }
 
     network[currentId]?.out.forEach((nextId) => {
-      edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`); // Removed "calls" label
+      edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`);
       if (graphData[nextId]) {
         if (!nodesByFile[graphData[nextId].file])
           nodesByFile[graphData[nextId].file] = new Set();
@@ -68,7 +68,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     });
 
     network[currentId]?.in.forEach((prevId) => {
-      edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`); // Removed "calls" label
+      edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`);
       if (graphData[prevId]) {
         if (!nodesByFile[graphData[prevId].file])
           nodesByFile[graphData[prevId].file] = new Set();
@@ -95,12 +95,28 @@ function generateNeighborhood(rootId, depthLimit = 2) {
 }
 
 function generateFullMap() {
-  let mmd = 'graph TD\n';
+  const nodesByFile = {};
+  let edges = '';
+
+  // Group all known nodes by their file
   Object.entries(graphData).forEach(([id, data]) => {
+    if (!nodesByFile[data.file]) nodesByFile[data.file] = new Set();
+    nodesByFile[data.file].add(id);
+
     data.calls.forEach((calleeId) => {
-      mmd += `  ${sanitize(id)}["${data.name}"] --> ${sanitize(calleeId)}["${graphData[calleeId]?.name || calleeId}"]\n`;
+      edges += `  ${sanitize(id)} --> ${sanitize(calleeId)}\n`;
     });
   });
+
+  let mmd = 'graph TD\n';
+  Object.entries(nodesByFile).forEach(([file, nodeSet]) => {
+    mmd += `  subgraph ${sanitize(file)} ["📁 ${file}"]\n`;
+    nodeSet.forEach((id) => {
+      mmd += `    ${sanitize(id)}["${graphData[id].name}"]\n`;
+    });
+    mmd += `  end\n`;
+  });
+  mmd += edges;
   return mmd;
 }
 
@@ -128,7 +144,8 @@ app.get('/', (req, res) => {
           import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
           import svgPanZoom from 'https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/+esm';
           
-          mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'neutral', maxTextSize: 90000 });
+          // securityLevel: 'loose' allows HTML labels (<b>, <i>)
+          mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'neutral', maxTextSize: 100000 });
 
           window.doZoom = (action) => {
             if (!window.pz) return;
