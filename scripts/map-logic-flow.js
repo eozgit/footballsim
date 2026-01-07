@@ -38,15 +38,26 @@ function getFunctionName(node) {
  * Resolves a node to its underlying implementation if it's an alias (import/export).
  */
 function resolveToDefinition(node) {
-  if (Node.isExportSpecifier(node) || Node.isImportSpecifier(node)) {
-    const symbol = node.getSymbol();
-    if (symbol && symbol.isAlias()) {
-      const aliased = typeChecker.getAliasedSymbol(symbol);
-      const decls = aliased?.getDeclarations();
-      if (decls && decls.length > 0) return decls[0];
-    }
+  // If it's an alias (import/export), find the original symbol
+  let symbol = node.getSymbol();
+  if (symbol && symbol.isAlias()) {
+    symbol = typeChecker.getAliasedSymbol(symbol);
   }
-  return node;
+
+  const decls = symbol?.getDeclarations() || [];
+
+  // 1. Prioritize actual code blocks (Function, Method, or Variable with Arrow)
+  const implementation = decls.find(
+    (d) =>
+      Node.isFunctionDeclaration(d) ||
+      Node.isMethodDeclaration(d) ||
+      Node.isVariableDeclaration(d),
+  );
+
+  if (implementation) return implementation;
+
+  // 2. Fallback to the first available declaration if no clear implementation found
+  return decls[0] || node;
 }
 
 const finalMap = {};

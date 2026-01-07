@@ -31,7 +31,7 @@ function resolveBestPassOption(
    * Re-rolls the random index if the previous roll was > 5,
    * then updates the best player if the new candidate is "better" based on side.
    */
-  const compareAndRefreshSelection = () => {
+  function compareAndRefreshSelection() {
     if (currentRand > 5) {
       currentRand = common.getRandomNumber(0, tempArray.length - 1);
       const challenger = tempArray[currentRand];
@@ -45,7 +45,7 @@ function resolveBestPassOption(
         bestPlayer = challenger;
       }
     }
-  };
+  }
 
   // The original logic performs this comparison sequence exactly twice
   compareAndRefreshSelection();
