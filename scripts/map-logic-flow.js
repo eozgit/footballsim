@@ -38,7 +38,6 @@ function getFunctionName(node) {
  * Resolves a node to its underlying implementation if it's an alias (import/export).
  */
 function resolveToDefinition(node) {
-  // If it's an alias (import/export), find the original symbol
   let symbol = node.getSymbol();
   if (symbol && symbol.isAlias()) {
     symbol = typeChecker.getAliasedSymbol(symbol);
@@ -46,7 +45,7 @@ function resolveToDefinition(node) {
 
   const decls = symbol?.getDeclarations() || [];
 
-  // 1. Prioritize actual code blocks (Function, Method, or Variable with Arrow)
+  // Prioritize actual code blocks
   const implementation = decls.find(
     (d) =>
       Node.isFunctionDeclaration(d) ||
@@ -56,7 +55,6 @@ function resolveToDefinition(node) {
 
   if (implementation) return implementation;
 
-  // 2. Fallback to the first available declaration if no clear implementation found
   return decls[0] || node;
 }
 
@@ -93,7 +91,6 @@ sourceFiles.forEach((sf) => {
       const symbol = typeChecker.getSymbolAtLocation(call.getExpression());
       if (!symbol) return;
 
-      // Follow the alias to the actual definition file
       const effectiveSymbol = symbol.isAlias()
         ? typeChecker.getAliasedSymbol(symbol)
         : symbol;
@@ -141,46 +138,21 @@ const nonLeafFns = Object.fromEntries(
 
 const result = Object.fromEntries(
   Object.entries(nonLeafFns).filter(([id, data]) => {
-    // Only keep if the module has logic flow and it isn't an isolated leaf function
     return true;
   }),
 );
 
-// Final Polish: Clean up calls so they only point to nodes that exist in our result set
 Object.values(result).forEach((data) => {
   data.calls = data.calls.filter((calleeId) => result[calleeId]);
 });
 
-// 3. Output
+// 3. Output - JSON Only
 const outputDir = path.join(projectRoot, 'scripts');
 fs.writeFileSync(
   path.join(outputDir, 'fn-graph.json'),
   JSON.stringify(result, null, 2),
 );
 
-let mmd = 'graph TD\n';
-const activeFiles = [...new Set(Object.values(result).map((d) => d.file))];
-activeFiles.forEach((file) => {
-  const subId = file.replace(/[^a-zA-Z0-9]/g, '_');
-  mmd += `  subgraph ${subId} ["${file}"]\n`;
-  Object.entries(result).forEach(([id, data]) => {
-    if (data.file === file) {
-      const nodeId = id.replace(/[^a-zA-Z0-9]/g, '_');
-      mmd += `    ${nodeId}["${data.name} (L${data.line})"]\n`;
-    }
-  });
-  mmd += `  end\n`;
-});
-
-Object.entries(result).forEach(([id, data]) => {
-  const sourceNode = id.replace(/[^a-zA-Z0-9]/g, '_');
-  data.calls.forEach((calleeId) => {
-    const targetNode = calleeId.replace(/[^a-zA-Z0-9]/g, '_');
-    mmd += `  ${sourceNode} --> ${targetNode}\n`;
-  });
-});
-
-fs.writeFileSync(path.join(outputDir, 'fn-graph.mmd'), mmd);
 console.log(
-  `Success! Fixed alias resolution for ${Object.keys(result).length} nodes.`,
+  `Success! Logic map generated with ${Object.keys(result).length} nodes.`,
 );
