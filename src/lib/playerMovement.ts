@@ -1,5 +1,5 @@
 import * as actions from './actions.js';
-import * as ballMovement from './ballMovement.js';
+import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
 import { processTeamTactics } from './teamAI.js';
@@ -233,87 +233,7 @@ function handleBallPlayerActions(
   opp: Team,
   action: string,
 ) {
-  const ballActions = [
-    `shoot`,
-    `throughBall`,
-    `pass`,
-    `cross`,
-    `cleared`,
-    `boot`,
-    `penalty`,
-  ];
-  const [curX, curY] = thisPlayer.currentPOS;
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
-  ballMovement.getBallDirection(matchDetails, [curX, curY]);
-
-  const [posX, posY] = thisPlayer.currentPOS;
-  if (posX === 'NP') {
-    throw new Error('No player position!');
-  }
-  matchDetails.ball.position = [posX, posY];
-
-  matchDetails.ball.position[2] = 0;
-  if (ballActions.includes(action)) {
-    ballMoved(matchDetails, thisPlayer, team, opp);
-    if (action === `cleared` || action === `boot`) {
-      const newPosition = ballMovement.ballKicked(
-        matchDetails,
-        team,
-        thisPlayer,
-      );
-      if (!Array.isArray(newPosition)) {
-        throw new Error('No new position!');
-      }
-      updateInformation(matchDetails, newPosition);
-    } else if (action === `pass`) {
-      const newPosition = ballMovement.ballPassed(
-        matchDetails,
-        team,
-        thisPlayer,
-      );
-      matchDetails.iterationLog.push(`passed to new position: ${newPosition}`);
-      if (!Array.isArray(newPosition)) {
-        throw new Error('No new position!');
-      }
-      updateInformation(matchDetails, newPosition);
-    } else if (action === `cross`) {
-      const newPosition = ballMovement.ballCrossed(
-        matchDetails,
-        team,
-        thisPlayer,
-      );
-      matchDetails.iterationLog.push(`crossed to new position: ${newPosition}`);
-      updateInformation(matchDetails, newPosition);
-    } else if (action === `throughBall`) {
-      const newPosition = ballMovement.throughBall(
-        matchDetails,
-        team,
-        thisPlayer,
-      );
-      if (!Array.isArray(newPosition)) {
-        throw new Error('No new position!');
-      }
-      updateInformation(matchDetails, newPosition);
-    } else if (action === `shoot`) {
-      const newPosition = ballMovement.shotMade(matchDetails, team, thisPlayer);
-      if (!Array.isArray(newPosition)) {
-        throw new Error('No new position!');
-      }
-      updateInformation(matchDetails, newPosition);
-    } else if (action === `penalty`) {
-      const newPosition = ballMovement.penaltyTaken(
-        matchDetails,
-        team,
-        thisPlayer,
-      );
-      if (!Array.isArray(newPosition)) {
-        throw new Error('No new position!');
-      }
-      updateInformation(matchDetails, newPosition);
-    }
-  }
+  return executeActiveBallAction(matchDetails, thisPlayer, team, opp, action);
 }
 
 function ballMoved(
@@ -901,20 +821,20 @@ function offsideYPOS(team: Team, side: unknown, pitchHeight: number) {
 }
 
 export {
-  decideMovement,
-  getMovement,
-  closestPlayerToBall,
+  ballMoved,
+  checkOffside,
+  checkProvidedAction,
   closestPlayerActionBallX,
   closestPlayerActionBallY,
-  setClosePlayerTakesBall,
-  handleBallPlayerActions,
-  updateInformation,
-  ballMoved,
-  getSprintMovement,
-  getRunMovement,
-  checkProvidedAction,
-  checkOffside,
+  closestPlayerToBall,
+  completeMovement,
   completeSlide,
   completeTackleWhenCloseNoBall,
-  completeMovement,
+  decideMovement,
+  getMovement,
+  getRunMovement,
+  getSprintMovement,
+  handleBallPlayerActions,
+  setClosePlayerTakesBall,
+  updateInformation,
 };
