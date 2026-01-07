@@ -7,18 +7,15 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const JSON_PATH = path.join(__dirname, 'fn-graph.json');
 
 const PORT = 3001;
-const TOP_HUB_COUNT = 15; // Your "N" constant
-const VISUAL_DEPTH_LIMIT = 2; // Your "D" constant
+const TOP_HUB_COUNT = 15;
+const VISUAL_DEPTH_LIMIT = 2;
 
 const graphData = JSON.parse(fs.readFileSync(JSON_PATH, 'utf-8'));
 
 // --- BIDIRECTIONAL ENGINE ---
-
-// Build a map that knows both directions: ID -> { callers: [], callees: [] }
 const network = {};
 Object.entries(graphData).forEach(([callerId, data]) => {
   if (!network[callerId]) network[callerId] = { in: new Set(), out: new Set() };
-
   data.calls.forEach((calleeId) => {
     network[callerId].out.add(calleeId);
     if (!network[calleeId])
@@ -27,7 +24,6 @@ Object.entries(graphData).forEach(([callerId, data]) => {
   });
 });
 
-// Identify "Hubs" (Nodes with most total connections)
 function getTopHubs() {
   return Object.entries(network)
     .map(([id, links]) => ({
@@ -47,22 +43,17 @@ const fmtLabel = (id) => {
     : id;
 };
 
-// Generate a neighborhood graph (Up and Down D levels)
 function generateNeighborhood(rootId) {
   const edges = new Set();
   const nodes = new Set([rootId]);
 
   const walk = (currentId, currentDepth) => {
     if (currentDepth >= VISUAL_DEPTH_LIMIT) return;
-
-    // Explore Downstream (Callees)
     network[currentId]?.out.forEach((nextId) => {
       edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`);
       nodes.add(nextId);
       walk(nextId, currentDepth + 1);
     });
-
-    // Explore Upstream (Callers)
     network[currentId]?.in.forEach((prevId) => {
       edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`);
       nodes.add(prevId);
@@ -72,7 +63,7 @@ function generateNeighborhood(rootId) {
 
   walk(rootId, 0);
 
-  let mmd = 'graph LR\n'; // Left-to-Right often looks better for neighborhoods
+  let mmd = 'graph LR\n';
   nodes.forEach((id) => {
     const style = id === rootId ? ':::rootNode' : '';
     mmd += `  ${sanitize(id)}["${fmtLabel(id)}"]${style}\n`;
@@ -92,8 +83,7 @@ function generateFullMap() {
   return mmd;
 }
 
-// --- SERVER (Inherited UI logic) ---
-
+// --- SERVER ---
 const app = express();
 
 app.get('/', (req, res) => {
@@ -110,55 +100,81 @@ app.get('/', (req, res) => {
     <!DOCTYPE html>
     <html>
       <head>
-        <title>Centrality Explorer</title>
+        <title>Logic Centrality Explorer</title>
         <script type="module">
           import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
           import svgPanZoom from 'https://cdn.jsdelivr.net/npm/svg-pan-zoom@3.6.1/+esm';
-          mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
           
-          // Re-using your zoom and observer logic from visualize-logic.js
+          mermaid.initialize({ startOnLoad: true, securityLevel: 'loose', theme: 'neutral' });
+
+          window.doZoom = (action) => {
+            if (!window.pz) return;
+            if (action === 'in') window.pz.zoomIn();
+            if (action === 'out') window.pz.zoomOut();
+            if (action === 'reset') { window.pz.resetZoom(); window.pz.center(); window.pz.fit(); }
+          };
+
           const initPZ = () => {
             const svg = document.querySelector('.mermaid svg');
             if (svg) {
-              window.pz = svgPanZoom(svg, { zoomEnabled: true, controlIconsEnabled: true, fit: true, center: true });
+              svg.style.width = '100%'; 
+              svg.style.height = '100%';
+              window.pz = svgPanZoom(svg, { 
+                zoomEnabled: true, 
+                controlIconsEnabled: false, 
+                fit: true, 
+                center: true,
+                minZoom: 0.1,
+                maxZoom: 10
+              });
             }
           };
+
           const observer = new MutationObserver(() => {
             const svg = document.querySelector('.mermaid svg');
             if (svg && !svg.hasAttribute('data-zoom-init')) {
               svg.setAttribute('data-zoom-init', 'true');
-              setTimeout(initPZ, 300);
+              setTimeout(initPZ, 200);
             }
           });
           observer.observe(document.body, { childList: true, subtree: true });
         </script>
         <style>
-          body { font-family: sans-serif; display: flex; margin: 0; height: 100vh; background: #f0f2f5; }
-          nav { width: 350px; background: white; border-right: 1px solid #ccc; padding: 20px; overflow-y: auto; }
-          main { flex: 1; position: relative; background: white; }
-          .mermaid { width: 100%; height: 100%; }
-          .item { display: block; padding: 10px; text-decoration: none; color: #333; border-bottom: 1px solid #eee; }
-          .item:hover { background: #eef; }
-          .active { background: #3182ce; color: white; }
-          .score { float: right; font-size: 10px; background: #edf2f7; color: #4a5568; padding: 2px 5px; border-radius: 4px; }
+          body { font-family: system-ui, sans-serif; display: flex; margin: 0; height: 100vh; overflow: hidden; background: #f4f7f6; }
+          nav { width: 380px; background: white; border-right: 1px solid #d1d9e6; padding: 20px; overflow-y: auto; flex-shrink: 0; }
+          main { flex: 1; position: relative; background: white; display: flex; flex-direction: column; }
+          .mermaid { flex: 1; width: 100%; height: 100%; cursor: grab; }
+          .controls { position: absolute; bottom: 20px; right: 20px; display: flex; gap: 10px; z-index: 100; }
+          .btn { background: #333; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+          h3 { font-size: 11px; color: #888; text-transform: uppercase; margin: 25px 0 10px; border-bottom: 1px solid #eee; }
+          .item { text-decoration: none; color: #2c3e50; padding: 10px; border-radius: 4px; font-size: 13px; margin-bottom: 2px; display: block; border-bottom: 1px solid #f0f0f0; }
+          .item:hover { background: #edf2f7; }
+          .active { background: #3182ce !important; color: white !important; }
+          .score { float: right; font-size: 9px; padding: 2px 6px; border-radius: 10px; background: #e2e8f0; color: #4a5568; }
+          .active .score { background: rgba(255,255,255,0.2); color: white; }
         </style>
       </head>
       <body>
         <nav>
           <a href="/?id=full" class="item ${activeId === 'full' ? 'active' : ''}">🌐 Complete System Picture</a>
-          <h3>🎯 Top ${TOP_HUB_COUNT} Logic Hubs</h3>
+          <h3>🎯 Top ${TOP_HUB_COUNT} Centrality Hubs</h3>
           ${hubs
             .map(
               (h) => `
             <a href="/?id=${h.id}" class="item ${activeId === h.id ? 'active' : ''}">
-              ${h.name} <span class="score">links: ${h.score}</span>
+              ${h.name} <span class="score">${h.score} connections</span>
             </a>
           `,
             )
             .join('')}
         </nav>
         <main>
-          <div class="mermaid">${currentMmd || '<div style="padding:40px">Select a hub to map its influence.</div>'}</div>
+          <div class="controls">
+            <button class="btn" onclick="doZoom('in')">+</button>
+            <button class="btn" onclick="doZoom('reset')">Reset</button>
+            <button class="btn" onclick="doZoom('out')">−</button>
+          </div>
+          <div class="mermaid">${currentMmd || '<div style="padding:50px"><h1>Centrality Engine</h1><p>Select a logic hub to analyze its local neighborhood.</p></div>'}</div>
         </main>
       </body>
     </html>
@@ -166,5 +182,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () =>
-  console.log(`Centrality Dashboard at http://localhost:${PORT}`),
+  console.log(`Centrality Dashboard: http://localhost:${PORT}`),
 );
