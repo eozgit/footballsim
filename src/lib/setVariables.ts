@@ -15,45 +15,45 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
     }
   }
 }
-
+function initializePlayerState(player: Player) {
+  player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+  player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
+  player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
+  player.action = `none`;
+  player.offside = false;
+  player.hasBall = false;
+  player.stats = {
+    goals: 0,
+    shots: {
+      total: 0,
+      on: 0,
+      off: 0,
+    },
+    cards: {
+      yellow: 0,
+      red: 0,
+    },
+    passes: {
+      total: 0,
+      on: 0,
+      off: 0,
+    },
+    tackles: {
+      total: 0,
+      on: 0,
+      off: 0,
+      fouls: 0,
+    },
+  };
+  if (player.position === 'GK') {
+    player.stats.saves = 0;
+  }
+}
 function setGameVariables(team: Team): Team {
-  team.players.forEach((player: Player) => {
-    player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
-    if (player.currentPOS[0] === 'NP') {
-      throw new Error('No player position!');
-    }
-    player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
-    player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
-    player.action = `none`;
-    player.offside = false;
-    player.hasBall = false;
-    player.stats = {
-      goals: 0,
-      shots: {
-        total: 0,
-        on: 0,
-        off: 0,
-      },
-      cards: {
-        yellow: 0,
-        red: 0,
-      },
-      passes: {
-        total: 0,
-        on: 0,
-        off: 0,
-      },
-      tackles: {
-        total: 0,
-        on: 0,
-        off: 0,
-        fouls: 0,
-      },
-    };
-    if (player.position === 'GK') {
-      player.stats.saves = 0;
-    }
-  });
+  team.players.forEach(initializePlayerState);
   team.intent = `none`;
   team.teamID = common.getRandomNumber(1000000000000, 999999999999999);
   return team;
