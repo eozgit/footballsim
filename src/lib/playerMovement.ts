@@ -503,59 +503,84 @@ function getRunMovement(
   ballX: number,
   ballY: number,
 ): [number, number] {
-  const move: [number, number] = [0, 0];
+  // 1. Fitness Decay (Preserved logic)
   if (player.fitness > 20) {
     player.fitness = common.round(player.fitness - 0.005, 6);
   }
+
+  // 2. Immediate random movement if player has ball
   const side =
-    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? `bottom` : `top`;
-  if (player.hasBall && side === `bottom`) {
-    return [common.getRandomNumber(0, 2), common.getRandomNumber(0, 2)];
+    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
+  if (player.hasBall) {
+    return side === 'bottom'
+      ? [common.getRandomNumber(0, 2), common.getRandomNumber(0, 2)]
+      : [common.getRandomNumber(-2, 0), common.getRandomNumber(-2, 0)];
   }
-  if (player.hasBall && side === `top`) {
-    return [common.getRandomNumber(-2, 0), common.getRandomNumber(-2, 0)];
-  }
+
+  // 3. Movement logic based on ball proximity or formation
   const movementRun = [-1, 0, 1];
+
   if (common.isBetween(ballX, -60, 60) && common.isBetween(ballY, -60, 60)) {
-    if (common.isBetween(ballX, -60, 0)) {
-      move[0] = movementRun[common.getRandomNumber(2, 2)];
-    } else if (common.isBetween(ballX, 0, 60)) {
-      move[0] = movementRun[common.getRandomNumber(0, 0)];
-    } else {
-      move[0] = movementRun[common.getRandomNumber(1, 1)];
-    }
-    if (common.isBetween(ballY, -60, 0)) {
-      move[1] = movementRun[common.getRandomNumber(2, 2)];
-    } else if (common.isBetween(ballY, 0, 60)) {
-      move[1] = movementRun[common.getRandomNumber(0, 0)];
-    } else {
-      move[1] = movementRun[common.getRandomNumber(1, 1)];
-    }
-    return move;
+    return calculateProximityMovement(ballX, ballY, movementRun);
   }
+
+  return calculateFormationMovement(player, movementRun);
+}
+
+// Helper: Handle movement when ball is very close
+function calculateProximityMovement(
+  ballX: number,
+  ballY: number,
+  runOptions: number[],
+): [number, number] {
+  const move: [number, number] = [0, 0];
+
+  // X-axis logic
+  if (common.isBetween(ballX, -60, 0)) {
+    move[0] = runOptions[2];
+  } else if (common.isBetween(ballX, 0, 60)) {
+    move[0] = runOptions[0];
+  } else {
+    move[0] = runOptions[1];
+  }
+
+  // Y-axis logic
+  if (common.isBetween(ballY, -60, 0)) {
+    move[1] = runOptions[2];
+  } else if (common.isBetween(ballY, 0, 60)) {
+    move[1] = runOptions[0];
+  } else {
+    move[1] = runOptions[1];
+  }
+
+  return move;
+}
+
+// Helper: Handle movement toward formation position
+function calculateFormationMovement(
+  player: Player,
+  runOptions: number[],
+): [number, number] {
   const [x, y] = player.currentPOS;
   if (x === 'NP') {
     throw new Error('No player position!');
   }
-  const formationDirection = setPositions.formationCheck(player.intentPOS, [
-    x,
-    y,
+
+  const direction = setPositions.formationCheck(player.intentPOS, [
+    Number(x),
+    Number(y),
   ]);
-  if (formationDirection[0] === 0) {
-    move[0] = movementRun[common.getRandomNumber(1, 1)];
-  } else if (formationDirection[0] < 0) {
-    move[0] = movementRun[common.getRandomNumber(0, 1)];
-  } else if (formationDirection[0] > 0) {
-    move[0] = movementRun[common.getRandomNumber(1, 2)];
-  }
-  if (formationDirection[1] === 0) {
-    move[1] = movementRun[common.getRandomNumber(1, 1)];
-  } else if (formationDirection[1] < 0) {
-    move[1] = movementRun[common.getRandomNumber(0, 1)];
-  } else if (formationDirection[1] > 0) {
-    move[1] = movementRun[common.getRandomNumber(1, 2)];
-  }
-  return move;
+
+  const getMove = (dir: number) => {
+    if (dir === 0) {
+      return runOptions[1];
+    }
+    return dir < 0
+      ? runOptions[common.getRandomNumber(0, 1)]
+      : runOptions[common.getRandomNumber(1, 2)];
+  };
+
+  return [getMove(direction[0]), getMove(direction[1])];
 }
 
 function getSprintMovement(
