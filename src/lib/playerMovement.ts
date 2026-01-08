@@ -589,59 +589,79 @@ function getSprintMovement(
   ballX: number,
   ballY: number,
 ): [number, number] {
-  const move: [number, number] = [0, 0];
+  // 1. Fitness Decay (Higher cost for sprinting)
   if (player.fitness > 30) {
     player.fitness = common.round(player.fitness - 0.01, 6);
   }
+
+  // 2. Ball Carrier Logic (Aggressive forward movement)
   const side =
-    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? `bottom` : `top`;
-  if (player.hasBall && side === `bottom`) {
-    return [common.getRandomNumber(-4, 4), common.getRandomNumber(-4, -2)];
+    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
+  if (player.hasBall) {
+    return side === 'bottom'
+      ? [common.getRandomNumber(-4, 4), common.getRandomNumber(-4, -2)]
+      : [common.getRandomNumber(-4, 4), common.getRandomNumber(2, 4)];
   }
-  if (player.hasBall && side === `top`) {
-    return [common.getRandomNumber(-4, 4), common.getRandomNumber(2, 4)];
-  }
+
   const movementSprint = [-2, -1, 0, 1, 2];
+
+  // 3. Proximity Logic (Closing in on ball)
   if (common.isBetween(ballX, -60, 60) && common.isBetween(ballY, -60, 60)) {
-    if (common.isBetween(ballX, -60, 0)) {
-      move[0] = movementSprint[common.getRandomNumber(3, 4)];
-    } else if (common.isBetween(ballX, 0, 60)) {
-      move[0] = movementSprint[common.getRandomNumber(0, 1)];
-    } else {
-      move[0] = movementSprint[common.getRandomNumber(2, 2)];
-    }
-    if (common.isBetween(ballY, -60, 0)) {
-      move[1] = movementSprint[common.getRandomNumber(3, 4)];
-    } else if (common.isBetween(ballY, 0, 60)) {
-      move[1] = movementSprint[common.getRandomNumber(0, 1)];
-    } else {
-      move[1] = movementSprint[common.getRandomNumber(2, 2)];
-    }
-    return move;
+    return calculateSprintProximity(ballX, ballY, movementSprint);
   }
+
+  // 4. Formation Logic (Sprinting back to position)
+  return calculateSprintFormation(player, movementSprint);
+}
+
+// Helper: Sprinting toward ball
+function calculateSprintProximity(
+  ballX: number,
+  ballY: number,
+  sprintOptions: number[],
+): [number, number] {
+  const move: [number, number] = [0, 0];
+
+  move[0] = common.isBetween(ballX, -60, 0)
+    ? sprintOptions[common.getRandomNumber(3, 4)]
+    : common.isBetween(ballX, 0, 60)
+      ? sprintOptions[common.getRandomNumber(0, 1)]
+      : sprintOptions[2];
+
+  move[1] = common.isBetween(ballY, -60, 0)
+    ? sprintOptions[common.getRandomNumber(3, 4)]
+    : common.isBetween(ballY, 0, 60)
+      ? sprintOptions[common.getRandomNumber(0, 1)]
+      : sprintOptions[2];
+
+  return move;
+}
+
+// Helper: Sprinting toward formation intent
+function calculateSprintFormation(
+  player: Player,
+  sprintOptions: number[],
+): [number, number] {
   const [x, y] = player.currentPOS;
   if (x === 'NP') {
     throw new Error('No player position!');
   }
-  const formationDirection = setPositions.formationCheck(player.intentPOS, [
-    x,
-    y,
+
+  const direction = setPositions.formationCheck(player.intentPOS, [
+    Number(x),
+    Number(y),
   ]);
-  if (formationDirection[0] === 0) {
-    move[0] = movementSprint[common.getRandomNumber(2, 2)];
-  } else if (formationDirection[0] < 0) {
-    move[0] = movementSprint[common.getRandomNumber(0, 2)];
-  } else if (formationDirection[0] > 0) {
-    move[0] = movementSprint[common.getRandomNumber(2, 4)];
-  }
-  if (formationDirection[1] === 0) {
-    move[1] = movementSprint[common.getRandomNumber(2, 2)];
-  } else if (formationDirection[1] < 0) {
-    move[1] = movementSprint[common.getRandomNumber(0, 2)];
-  } else if (formationDirection[1] > 0) {
-    move[1] = movementSprint[common.getRandomNumber(2, 4)];
-  }
-  return move;
+
+  const getMove = (dir: number) => {
+    if (dir === 0) {
+      return sprintOptions[2];
+    }
+    return dir < 0
+      ? sprintOptions[common.getRandomNumber(0, 2)]
+      : sprintOptions[common.getRandomNumber(2, 4)];
+  };
+
+  return [getMove(direction[0]), getMove(direction[1])];
 }
 
 function closestPlayerToBall(
