@@ -550,7 +550,7 @@ function calcBallMovementOverTime(
   strength: unknown,
   nextPosition: number[],
   player: Player,
-): [number, number] | MatchDetails {
+): [number, number] {
   const { kickOffTeam, secondTeam } = matchDetails;
   const { position } = matchDetails.ball;
   const power: number = common.calculatePower(strength);
@@ -569,7 +569,7 @@ function calcBallMovementOverTime(
   const yArray = splitNumberIntoN(changeInY, movementIterations);
   const BOIts = mergeArrays(
     powerArray.length,
-    position,
+    [matchDetails.ball.position[0], matchDetails.ball.position[1]],
     nextPosition,
     xArray,
     yArray,
@@ -586,7 +586,7 @@ function calcBallMovementOverTime(
     matchDetails,
   );
   if (matchDetails.endIteration === true) {
-    return matchDetails;
+    return [matchDetails.ball.position[0], matchDetails.ball.position[1]];
   }
   matchDetails.ball.ballOverIterations.shift();
   matchDetails.iterationLog.push(`resolving ball movement`);

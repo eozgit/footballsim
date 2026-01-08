@@ -914,7 +914,7 @@ function moveTowardsBall(
   if (side === 'bottom' && diffYPOSplayerandball < 0) {
     return setNewRelativeBottomYPOS(pitchHeight, player, -20);
   }
-  throw new Error('Invalid direction!');
+  return 0;
 }
 
 function setDefenceRelativePos(
