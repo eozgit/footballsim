@@ -1229,10 +1229,15 @@ function getAttackingLimit(
   isTop: boolean,
   pitchHeight: number,
 ): number {
-  if (pos === 'GK') return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
-  if (['CB', 'LB', 'RB'].includes(pos)) return pitchHeight * 0.5;
-  if (['CM', 'LM', 'RM'].includes(pos))
+  if (pos === 'GK') {
+    return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
+  }
+  if (['CB', 'LB', 'RB'].includes(pos)) {
+    return pitchHeight * 0.5;
+  }
+  if (['CM', 'LM', 'RM'].includes(pos)) {
     return isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
+  }
   return isTop ? pitchHeight * 0.9 : pitchHeight * 0.1;
 }
 
@@ -1245,7 +1250,9 @@ function getDefensiveTargetY(
   pitchHeight: number,
 ): number {
   const isMid = ['CM', 'LM', 'RM'].includes(pos);
-  if (isMid) return isTop ? pitchHeight * 0.75 + 5 : pitchHeight * 0.25 - 5;
+  if (isMid) {
+    return isTop ? pitchHeight * 0.75 + 5 : pitchHeight * 0.25 - 5;
+  }
   return pitchHeight * 0.5;
 }
 export {

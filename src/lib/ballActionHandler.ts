@@ -25,7 +25,7 @@ function executeActiveBallAction(
 
   // 2. Define Action Strategies
   // Each function returns the new position array or throws if failed
-  const actionExecutionMap: Record<string, () => any> = {
+  const actionExecutionMap: Record<string, () => unknown> = {
     cleared: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
     boot: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
     pass: () => {
