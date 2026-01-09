@@ -1193,7 +1193,8 @@ function repositionForDeepSetPiece(
       ? common.upToMax(baseNewY, limit)
       : common.upToMin(baseNewY, limit);
 
-    player.currentPOS = [player.originPOS[0], Math.floor(finalY)];
+    player.currentPOS[0] = player.originPOS[0];
+    player.currentPOS[1] = Math.floor(finalY);
   }
 
   // 3. Position Defensive Team
@@ -1214,7 +1215,8 @@ function repositionForDeepSetPiece(
       targetY = getDefensiveTargetY(player.position, isTop, pitchHeight);
     }
 
-    player.currentPOS = [player.originPOS[0], Math.floor(targetY)];
+    player.currentPOS[0] = player.originPOS[0];
+    player.currentPOS[1] = Math.floor(targetY);
   }
 
   matchDetails.endIteration = true;

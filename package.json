@@ -1,7 +1,8 @@
 {
-  "name": "footballsimulationengine",
-  "version": "4.0.0",
-  "description": "an engine for simulating football matches",
+  "name": "footballsim",
+  "version": "5.0.0",
+  "description": "A modernized, TypeScript-first engine for simulating football matches (Fork of footballSimulationEngine)",
+  "homepage": "https://github.com/GallagherAiden/footballSimulationEngine",
   "main": "./dist/engine.js",
   "types": "./dist/engine.d.ts",
   "exports": {
@@ -32,7 +33,11 @@
     "arch": "depcruise src --config .dependency-cruiser.cjs --output-type err",
     "arch:graph": "depcruise src --output-type mermaid > architecture.mmd",
     "arch:baseline": "depcruise src --output-type json | jq '.summary.violations' > .dependency-cruiser-known-violations.json",
-    "arch:check": "depcruise --ignore-known .dependency-cruiser-known-violations.json src"
+    "arch:check": "depcruise --ignore-known .dependency-cruiser-known-violations.json src",
+    "release": "standard-version",
+    "release:major": "standard-version --release-as major",
+    "release:minor": "standard-version --release-as minor",
+    "release:patch": "standard-version --release-as patch"
   },
   "repository": {
     "type": "git",
@@ -76,6 +81,7 @@
     "prettier": "^3.7.4",
     "recast": "^0.23.11",
     "semantic-ui-react": "^2.1.5",
+    "standard-version": "^9.5.0",
     "ts-migrate": "^0.1.35",
     "ts-morph": "^27.0.2",
     "type-coverage": "^2.29.7",
