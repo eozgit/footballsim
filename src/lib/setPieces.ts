@@ -333,4 +333,88 @@ function getDefensiveTargetY(
   }
   return pitchHeight * 0.5;
 }
-export { executePenaltyShot, setPenaltyPositions, executeDeepSetPieceSetup };
+/**
+ * Calculates the target X for the defensive wall.
+ */
+function calculateDefensiveWallX(ballX: number, pitchWidth: number): number {
+  const ballDistanceFromGoalX = ballX - pitchWidth / 2;
+  return Math.floor((ballX - ballDistanceFromGoalX) / 2);
+}
+
+/**
+ * Determines the Y coordinate for attackers based on their role.
+ */
+function getAttackerSetPieceY(
+  position: string,
+  pitchHeight: number,
+  isTop: boolean,
+): number | null {
+  if (position === 'GK') {
+    return Math.floor(pitchHeight * (isTop ? 0.25 : 0.75));
+  }
+  if (position === 'CB') {
+    return Math.floor(pitchHeight * 0.5);
+  }
+  if (position === 'LB' || position === 'RB') {
+    return Math.floor(pitchHeight * (isTop ? 0.66 : 0.33));
+  }
+  return null;
+}
+function repositionTeamsForSetPiece(
+  attack: Team,
+  pitchHeight: number,
+  kickPlayer: Player,
+  matchDetails: MatchDetails,
+  ball: Ball,
+  defence: Team,
+  pitchWidth: number,
+  isTop: boolean,
+): MatchDetails {
+  const getRandomPenaltyPosition = isTop
+    ? common.getRandomBottomPenaltyPosition
+    : common.getRandomTopPenaltyPosition;
+
+  const isBackLine = (pos: string) => ['CB', 'LB', 'RB'].includes(pos);
+
+  // 1. POSITION ATTACK
+  for (const player of attack.players) {
+    const { playerID, position, originPOS } = player;
+    const targetY = getAttackerSetPieceY(position, pitchHeight, isTop);
+
+    if (targetY !== null) {
+      player.currentPOS = [originPOS[0], targetY];
+    } else if (playerID !== kickPlayer.playerID) {
+      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+    }
+  }
+
+  // 2. POSITION DEFENCE
+  let playerSpace = isTop
+    ? common.upToMax(ball.position[1] + 3, pitchHeight)
+    : common.upToMin(ball.position[1] - 3, 0);
+
+  const wallX = calculateDefensiveWallX(ball.position[0], pitchWidth);
+
+  for (const player of defence.players) {
+    const { position, originPOS } = player;
+
+    if (position === 'GK') {
+      // Must use spread to match original's new array reference
+      player.currentPOS = [...originPOS];
+    } else if (isBackLine(position)) {
+      player.currentPOS = [wallX, playerSpace];
+      playerSpace = isTop ? playerSpace - 2 : playerSpace + 2;
+    } else {
+      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+    }
+  }
+
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+export {
+  executePenaltyShot,
+  setPenaltyPositions,
+  executeDeepSetPieceSetup,
+  repositionTeamsForSetPiece,
+};

@@ -1,5 +1,8 @@
 import * as common from './common.js';
-import { setPenaltyPositions } from './setPieces.js';
+import {
+  repositionTeamsForSetPiece,
+  setPenaltyPositions,
+} from './setPieces.js';
 import { repositionForDeepSetPiece } from './setPositions.js';
 import type { Ball, MatchDetails, Player, Team } from './types.js';
 
@@ -244,49 +247,16 @@ function setSetPiecePositions(
   pitchWidth: number,
   isTop: boolean,
 ) {
-  const factorGK = isTop ? 0.25 : 0.75;
-  const factorWB = isTop ? 0.66 : 0.33;
-  const getRandomPenaltyPosition = isTop
-    ? common.getRandomBottomPenaltyPosition
-    : common.getRandomTopPenaltyPosition;
-
-  for (const player of attack.players) {
-    const { playerID, position, originPOS } = player;
-    if (position === 'GK') {
-      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * factorGK)];
-    } else if (['CB', 'LB', 'RB'].includes(position)) {
-      if (position === 'CB') {
-        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.5)];
-      } else if (['LB', 'RB'].includes(position)) {
-        player.currentPOS = [originPOS[0], Math.floor(pitchHeight * factorWB)];
-      }
-    } else if (playerID !== kickPlayer.playerID) {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
-    }
-  }
-
-  let playerSpace = isTop
-    ? common.upToMax(ball.position[1] + 3, pitchHeight)
-    : common.upToMin(ball.position[1] - 3, 0);
-
-  for (const player of defence.players) {
-    const { position, originPOS } = player;
-    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
-    const midWayFromBalltoGoalX = Math.floor(
-      (ball.position[0] - ballDistanceFromGoalX) / 2,
-    );
-
-    if (position === 'GK') {
-      player.currentPOS = [...originPOS];
-    } else if (['CB', 'LB', 'RB'].includes(position)) {
-      player.currentPOS = [midWayFromBalltoGoalX, playerSpace];
-      playerSpace = isTop ? playerSpace - 2 : playerSpace + 2;
-    } else {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
-    }
-  }
-  matchDetails.endIteration = true;
-  return matchDetails;
+  return repositionTeamsForSetPiece(
+    attack,
+    pitchHeight,
+    kickPlayer,
+    matchDetails,
+    ball,
+    defence,
+    pitchWidth,
+    isTop,
+  );
 }
 export {
   alignPlayersForPenalty,
