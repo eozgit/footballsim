@@ -320,54 +320,45 @@ function getTackleMovement(ballX: number, ballY: number): [number, number] {
   return move;
 }
 
+/**
+ * Calculates a directional unit vector [-1|0|1, -1|0|1] to guide a player
+ * toward an optimal interception point.
+ */
 function getInterceptMovement(
   player: Player,
   opposition: Team,
   ballPosition: BallPosition,
   pitchSize: [number, number, number],
 ): [number, number] {
-  let move: [number, number] = [0, 0];
   const [x, y] = player.currentPOS;
+
+  // 1. Validation: Ensure player has a valid physical position on the pitch
   if (x === 'NP') {
-    throw new Error('No player position!');
+    throw new Error(
+      `Player ${player.name} (ID: ${player.playerID}) is 'NP' at an active logic gate!`,
+    );
   }
-  const intcptPos = getInterceptPosition(
+
+  // 2. Determine the target coordinates for interception
+  const [targetX, targetY] = getInterceptPosition(
     [x, y],
     opposition,
     ballPosition,
     pitchSize,
   );
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error(
-      `Player ${player.name} (ID: ${player.playerID}) is 'NP' at an active logic gate!`,
-    );
-  }
-  const intcptPosX = player.currentPOS[0] - intcptPos[0];
-  const intcptPosY = player.currentPOS[1] - intcptPos[1];
-  if (intcptPosX === 0) {
-    if (intcptPosY === 0) {
-      move = [0, 0];
-    } else if (intcptPosY < 0) {
-      move = [0, 1];
-    } else if (intcptPosY > 0) {
-      move = [0, -1];
-    }
-  } else if (intcptPosY === 0) {
-    if (intcptPosX < 0) {
-      move = [1, 0];
-    } else if (intcptPosX > 0) {
-      move = [-1, 0];
-    }
-  } else if (intcptPosX < 0 && intcptPosY < 0) {
-    move = [1, 1];
-  } else if (intcptPosX > 0 && intcptPosY > 0) {
-    move = [-1, -1];
-  } else if (intcptPosX > 0 && intcptPosY < 0) {
-    move = [-1, 1];
-  } else if (intcptPosX < 0 && intcptPosY > 0) {
-    move = [1, -1];
-  }
-  return move;
+
+  /**
+   * 3. Calculate movement direction
+   * Subtracting target from current gives the raw distance (delta).
+   * Math.sign reduces this to:
+   * 1  (if moving toward a larger coordinate)
+   * -1  (if moving toward a smaller coordinate)
+   * 0  (if already at the coordinate)
+   */
+  const deltaX = targetX - x;
+  const deltaY = targetY - y;
+
+  return [Math.sign(deltaX) as number, Math.sign(deltaY) as number];
 }
 
 function getInterceptPosition(
