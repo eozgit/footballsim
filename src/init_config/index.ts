@@ -1,8 +1,9 @@
 //example implementation application
 import { readFile } from 'fs';
 
-import type { MatchDetails, PitchDetails, Team } from '../lib/types.js';
 import * as common from '../lib/common.js';
+import type { MatchDetails, PitchDetails, Team } from '../lib/types.js';
+
 import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 
 let nextIteration;

@@ -1,5 +1,6 @@
 import { calcBallMovementOverTime, checkGoalScored } from './ballMovement.js';
 import * as common from './common.js';
+import { setBallPossession } from './setFreekicks.js';
 import { calculatePenaltyTarget } from './setPositions.js';
 import { recordShotStats } from './stats.js';
 import type { Ball, MatchDetails, Player, Team } from './types.js';
@@ -192,4 +193,144 @@ function setDefenderSetPiecePosition(
   }
   return playerSpace;
 }
-export { executePenaltyShot, setPenaltyPositions };
+/**
+ * Calculates the Y-coordinate for an attacking player during a deep set piece.
+ */
+export function calculateAttackingSetPieceY(
+  player: Player,
+  ballY: number,
+  isTop: boolean,
+  pitchHeight: number,
+  isGKExecuting: boolean,
+): number {
+  const offset = isTop ? 300 : -300;
+  const baseNewY = isGKExecuting
+    ? player.originPOS[1] + offset
+    : player.originPOS[1] + (ballY - player.originPOS[1]) + offset;
+
+  const limit = getAttackingLimit(player.position, isTop, pitchHeight);
+
+  return isTop
+    ? common.upToMax(baseNewY, limit)
+    : common.upToMin(baseNewY, limit);
+}
+
+/**
+ * Calculates the Y-coordinate for a defensive player during a deep set piece.
+ */
+export function calculateDefensiveSetPieceY(
+  player: Player,
+  isTop: boolean,
+  pitchHeight: number,
+  isGKExecuting: boolean,
+): number {
+  if (isGKExecuting) {
+    if (player.position === 'GK') {
+      return player.originPOS[1];
+    }
+
+    return isTop
+      ? common.upToMin(player.originPOS[1] - 100, 0)
+      : common.upToMax(player.originPOS[1] + 100, pitchHeight);
+  }
+
+  if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
+    return player.originPOS[1];
+  }
+
+  return getDefensiveTargetY(player.position, isTop, pitchHeight);
+}
+function executeDeepSetPieceSetup(
+  matchDetails: MatchDetails,
+  attack: Team,
+  defence: Team,
+  side: 'top' | 'bottom',
+): MatchDetails {
+  const isTop = side === 'top';
+  const { ball } = matchDetails;
+  const [, pitchHeight] = matchDetails.pitchSize;
+
+  // 1. Identify Kicker
+  // Goalies take kicks if ball is deep in their own quarter
+  const goalieAreaLimit = isTop
+    ? pitchHeight * 0.25 + 1
+    : pitchHeight * 0.75 - 1;
+  const goalieToKick = isTop
+    ? ball.position[1] <= goalieAreaLimit
+    : ball.position[1] >= goalieAreaLimit;
+
+  const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
+  const isGKExecuting = kickPlayer.position === 'GK';
+
+  // 2. Set Possession & Ball State
+  setBallPossession(kickPlayer, ball, attack);
+  ball.direction = isTop ? 'south' : 'north';
+
+  // 3. Position Attacking Team
+  for (const player of attack.players) {
+    if (player.name === kickPlayer.name) {
+      player.currentPOS = [ball.position[0], ball.position[1]];
+    } else {
+      const finalY = calculateAttackingSetPieceY(
+        player,
+        ball.position[1],
+        isTop,
+        pitchHeight,
+        isGKExecuting,
+      );
+      player.currentPOS[0] = player.originPOS[0];
+      player.currentPOS[1] = Math.floor(finalY);
+    }
+  }
+
+  // 4. Position Defensive Team
+  for (const player of defence.players) {
+    const targetY = calculateDefensiveSetPieceY(
+      player,
+      isTop,
+      pitchHeight,
+      isGKExecuting,
+    );
+    player.currentPOS[0] = player.originPOS[0];
+    player.currentPOS[1] = Math.floor(targetY);
+  }
+
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+/**
+ * Helper: Defines the furthest forward a player can move during a set piece
+ */
+function getAttackingLimit(
+  pos: string,
+  isTop: boolean,
+  pitchHeight: number,
+): number {
+  if (pos === 'GK') {
+    return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
+  }
+  if (['CB', 'LB', 'RB'].includes(pos)) {
+    return pitchHeight * 0.5;
+  }
+  if (['CM', 'LM', 'RM'].includes(pos)) {
+    return isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
+  }
+  return isTop ? pitchHeight * 0.9 : pitchHeight * 0.1;
+}
+
+/**
+ * Helper: Defines target lines for the defending team
+ */
+function getDefensiveTargetY(
+  pos: string,
+  isTop: boolean,
+  pitchHeight: number,
+): number {
+  const isMid = ['CM', 'LM', 'RM'].includes(pos);
+  if (isMid) {
+    return isTop ? pitchHeight * 0.75 + 5 : pitchHeight * 0.25 - 5;
+  }
+  return pitchHeight * 0.5;
+}
+export { executePenaltyShot, setPenaltyPositions, executeDeepSetPieceSetup };
