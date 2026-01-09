@@ -2,7 +2,7 @@
 import { readFile } from 'fs';
 
 import type { MatchDetails, PitchDetails, Team } from '../lib/types.js';
-
+import * as common from '../lib/common.js';
 import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 
 let nextIteration;
@@ -42,7 +42,10 @@ async function initGame(
   const team1 = (await readDataFile(t1)) as Team;
   const team2 = (await readDataFile(t2)) as Team;
   const pitch = (await readDataFile(p)) as PitchDetails;
-  return initiateGame(team1, team2, pitch);
+  const matchDetails = await initiateGame(team1, team2, pitch);
+  const numericSeed = parseInt(String(matchDetails.matchID).slice(-9), 10);
+  common.setMatchSeed(numericSeed);
+  return matchDetails;
 }
 
 async function invokePlayIteration(

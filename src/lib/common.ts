@@ -1,10 +1,32 @@
 import type { BallPosition, MatchDetails } from './types.js';
 
-//---------------
+//-------------------------
+// Seedable RNG (Mulberry32)
+//-------------------------
+
+// Default to Math.random until a seed is provided
+let matchRNG: () => number = Math.random;
+
+/**
+ * Initializes the match-wide random number generator with a specific seed.
+ * This ensures the entire match simulation is deterministic and repeatable.
+ */
+function setMatchSeed(seed: number): void {
+  matchRNG = function () {
+    let t = (seed += 0x6d2b79f5);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+//--------------
 //Maths Functions
-//---------------
+//--------------
+
 function getRandomNumber(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  // Now uses the seedable matchRNG instead of Math.random()
+  return Math.floor(matchRNG() * (max - min + 1)) + min;
 }
 
 function round(value: number | string, decimals: number): number {
@@ -195,6 +217,7 @@ export {
   isOdd,
   removeBallFromAllPlayers,
   round,
+  setMatchSeed,
   sumFrom1toX,
   upToMax,
   upToMin,
