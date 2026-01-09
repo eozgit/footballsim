@@ -1,4 +1,4 @@
-import { expect, it, describe, assert } from 'vitest';
+import { assert, describe, expect, it } from 'vitest';
 
 import setpieces from './lib/set_pieces.js';
 import { readMatchDetails } from './lib/utils.js';
