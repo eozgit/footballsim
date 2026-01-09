@@ -30,6 +30,10 @@ interface LastTouch {
 
 interface Team {
   name: string;
+  description: string;
+  primaryColour: string;
+  secondaryColour: string;
+  awayColour: string;
   rating: number;
   players: Player[];
   intent: string;
