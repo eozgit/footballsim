@@ -240,6 +240,10 @@ export function calculateDefensiveSetPieceY(
 
   return getDefensiveTargetY(player.position, isTop, pitchHeight);
 }
+/**
+ * Orchestrates the setup for a deep set piece.
+ * Refactored to meet max-length metrics by delegating team positioning.
+ */
 function executeDeepSetPieceSetup(
   matchDetails: MatchDetails,
   attack: Team,
@@ -251,7 +255,37 @@ function executeDeepSetPieceSetup(
   const [, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Identify Kicker
-  // Goalies take kicks if ball is deep in their own quarter
+  const kickPlayer = selectDeepSetPieceKicker(ball, attack, isTop, pitchHeight);
+  const isGKExecuting = kickPlayer.position === 'GK';
+
+  // 2. Set Possession & Ball State
+  setBallPossession(kickPlayer, ball, attack);
+  ball.direction = isTop ? 'south' : 'north';
+
+  // 3. Position Teams
+  repositionAttackers(
+    attack,
+    kickPlayer,
+    ball,
+    isTop,
+    pitchHeight,
+    isGKExecuting,
+  );
+  repositionDefenders(defence, isTop, pitchHeight, isGKExecuting);
+
+  matchDetails.endIteration = true;
+  return matchDetails;
+}
+
+/**
+ * Logic to determine if the GK or a defender takes the deep kick.
+ */
+function selectDeepSetPieceKicker(
+  ball: Ball,
+  attack: Team,
+  isTop: boolean,
+  pitchHeight: number,
+): Player {
   const goalieAreaLimit = isTop
     ? pitchHeight * 0.25 + 1
     : pitchHeight * 0.75 - 1;
@@ -259,14 +293,20 @@ function executeDeepSetPieceSetup(
     ? ball.position[1] <= goalieAreaLimit
     : ball.position[1] >= goalieAreaLimit;
 
-  const kickPlayer = goalieToKick ? attack.players[0] : attack.players[3];
-  const isGKExecuting = kickPlayer.position === 'GK';
+  return goalieToKick ? attack.players[0] : attack.players[3];
+}
 
-  // 2. Set Possession & Ball State
-  setBallPossession(kickPlayer, ball, attack);
-  ball.direction = isTop ? 'south' : 'north';
-
-  // 3. Position Attacking Team
+/**
+ * Iterates through attacking players to set coordinates.
+ */
+function repositionAttackers(
+  attack: Team,
+  kickPlayer: Player,
+  ball: Ball,
+  isTop: boolean,
+  pitchHeight: number,
+  isGKExecuting: boolean,
+): void {
   for (const player of attack.players) {
     if (player.name === kickPlayer.name) {
       player.currentPOS = [ball.position[0], ball.position[1]];
@@ -282,8 +322,17 @@ function executeDeepSetPieceSetup(
       player.currentPOS[1] = Math.floor(finalY);
     }
   }
+}
 
-  // 4. Position Defensive Team
+/**
+ * Iterates through defensive players to set coordinates.
+ */
+function repositionDefenders(
+  defence: Team,
+  isTop: boolean,
+  pitchHeight: number,
+  isGKExecuting: boolean,
+): void {
   for (const player of defence.players) {
     const targetY = calculateDefensiveSetPieceY(
       player,
@@ -294,9 +343,6 @@ function executeDeepSetPieceSetup(
     player.currentPOS[0] = player.originPOS[0];
     player.currentPOS[1] = Math.floor(targetY);
   }
-
-  matchDetails.endIteration = true;
-  return matchDetails;
 }
 
 /**
