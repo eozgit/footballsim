@@ -917,54 +917,104 @@ function moveTowardsBall(
   return 0;
 }
 
-function setDefenceRelativePos(
+/**
+ * Updates defensive players' intent positions based on ball location and team side.
+ * Refactored to separate proximity logic from tactical positioning.
+ */
+export function setDefenceRelativePos(
   matchDetails: MatchDetails,
   defendingTeam: Team,
   closestPlayer: Player,
 ): void {
   const [, pitchHeight] = matchDetails.pitchSize;
   const { ball } = matchDetails;
-  const side =
+
+  // Determine if team is defending the 'top' or 'bottom' goal
+  const teamSide =
     defendingTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
+
   for (const player of defendingTeam.players) {
-    const x = player.currentPOS[0];
-    if (x === 'NP') {
-      throw new Error('No player position!');
-    }
-    const diffXPOSplayerandball = ball.position[0] - x;
-    const diffYPOSplayerandball = ball.position[1] - player.currentPOS[1];
-    if (
-      common.isBetween(diffXPOSplayerandball, -40, 40) &&
-      common.isBetween(diffYPOSplayerandball, -40, 40)
-    ) {
+    if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+
+    // 1. Proximity Check: If close to ball, move to ball
+    if (isPlayerNearBall(player, [ball.position[0], ball.position[1]], 40)) {
       player.intentPOS = [ball.position[0], ball.position[1]];
+      continue;
+    }
+
+    // 2. Closest Player: Always pursues ball
+    if (player.playerID === closestPlayer.playerID) {
+      player.intentPOS = [ball.position[0], ball.position[1]];
+      continue;
+    }
+
+    // 3. Tactical Positioning: Return to origin or shift if ball is on opposite side
+    const ballOnOppositeSide = isBallOnOppositeHalf(
+      ball.position[1],
+      teamSide,
+      pitchHeight,
+    );
+
+    if (ballOnOppositeSide) {
+      player.intentPOS = calculateShiftedPosition(
+        player,
+        teamSide,
+        pitchHeight,
+      );
     } else {
-      let ballOnOppositeSide = false;
-      if (side === 'top' && ball.position[1] > pitchHeight / 2) {
-        ballOnOppositeSide = true;
-      }
-      if (side === 'bottom' && ball.position[1] < pitchHeight / 2) {
-        ballOnOppositeSide = true;
-      }
-      if (player.playerID === closestPlayer.playerID) {
-        player.intentPOS = [ball.position[0], ball.position[1]];
-      } else if (ballOnOppositeSide) {
-        let newYPOS;
-        if (side === 'top') {
-          newYPOS = setNewRelativeTopYPOS(pitchHeight, player, 20);
-        }
-        if (side === 'bottom') {
-          newYPOS = setNewRelativeBottomYPOS(pitchHeight, player, -20);
-        }
-        player.intentPOS = [
-          player.originPOS[0],
-          newYPOS ?? player.originPOS[1],
-        ];
-      } else {
-        player.intentPOS = [...player.originPOS];
-      }
+      player.intentPOS = [...player.originPOS];
     }
   }
+}
+
+/**
+ * Checks if a player is within a specific distance (delta) of the ball.
+ */
+function isPlayerNearBall(
+  player: Player,
+  ballPos: [number, number],
+  delta: number,
+): boolean {
+  const diffX = ballPos[0] - (player.currentPOS[0] as number);
+  const diffY = ballPos[1] - player.currentPOS[1];
+  return (
+    common.isBetween(diffX, -delta, delta) &&
+    common.isBetween(diffY, -delta, delta)
+  );
+}
+
+/**
+ * Determines if the ball has crossed the halfway line relative to the defending team.
+ */
+function isBallOnOppositeHalf(
+  ballY: number,
+  side: 'top' | 'bottom',
+  pitchHeight: number,
+): boolean {
+  const halfway = pitchHeight / 2;
+  return (
+    (side === 'top' && ballY > halfway) ||
+    (side === 'bottom' && ballY < halfway)
+  );
+}
+
+/**
+ * Calculates a tactical shift in Y-position when the ball is deep in the opponent's half.
+ */
+function calculateShiftedPosition(
+  player: Player,
+  side: 'top' | 'bottom',
+  pitchHeight: number,
+): [number, number] {
+  let newYPOS: number | undefined;
+
+  if (side === 'top') {
+    newYPOS = setNewRelativeTopYPOS(pitchHeight, player, 20);
+  } else {
+    newYPOS = setNewRelativeBottomYPOS(pitchHeight, player, -20);
+  }
+
+  return [player.originPOS[0], newYPOS ?? player.originPOS[1]];
 }
 
 function setAttackRelativePos(
