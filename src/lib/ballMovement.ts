@@ -594,7 +594,7 @@ function calcBallMovementOverTime(
 }
 
 function splitNumberIntoN(num: unknown, n: number) {
-  const arrayN = Array.from(Array(n).keys());
+  const arrayN = Array.from(new Array(n).keys());
   const splitNumber = [];
   for (const thisn of arrayN) {
     const nextNum = common.aTimesbDividedByC(n - thisn, num, n);
@@ -616,7 +616,7 @@ function mergeArrays(
   array3: number[],
 ) {
   let tempPos = [oldPos[0], oldPos[1]];
-  const arrayN = Array.from(Array(arrayLength - 1).keys());
+  const arrayN = Array.from(new Array(arrayLength - 1).keys());
   const newArray = [];
   for (const thisn of arrayN) {
     newArray.push([

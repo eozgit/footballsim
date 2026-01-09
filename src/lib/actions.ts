@@ -23,7 +23,7 @@ function selectAction(
 ): string {
   let goodActions: string[] = [];
   for (const thisAction of possibleActions) {
-    const tempArray = Array(thisAction.points).fill(thisAction.name);
+    const tempArray = new Array(thisAction.points).fill(thisAction.name);
     goodActions = goodActions.concat(tempArray);
   }
   if (goodActions[0] === null || goodActions[0] === undefined) {

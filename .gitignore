@@ -6,6 +6,7 @@ coverage
 temp.js
 dist/
 mise.toml
+.scannerwork/
 
 # Refactor Engine Data
 scripts/*.txt

@@ -1,4 +1,5 @@
 import * as common from './common.js';
+import { setPenaltyPositions } from './setPieces.js';
 import { repositionForDeepSetPiece } from './setPositions.js';
 import type { Ball, MatchDetails, Player, Team } from './types.js';
 
@@ -196,28 +197,6 @@ function setDeepFreekickBallAndKicker(
   kickPlayer.currentPOS = [ballX, ballY];
 }
 
-function setDefenderSetPiecePosition(
-  player: Player,
-  midWayFromBalltoGoalX: number,
-  playerSpace: number,
-  midWayFromBalltoGoalY: number,
-  matchDetails: MatchDetails,
-  getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
-) {
-  if (player.position === 'GK') {
-    const [origX, origY] = player.originPOS;
-    player.currentPOS = [origX, origY];
-  } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-    player.currentPOS = [
-      midWayFromBalltoGoalX + playerSpace,
-      midWayFromBalltoGoalY,
-    ];
-    playerSpace += 2;
-  } else {
-    player.currentPOS = getRandomPenaltyPosition(matchDetails);
-  }
-  return playerSpace;
-}
 function initializeKickerAndBall(
   matchDetails: MatchDetails,
   attack: Team,
@@ -244,59 +223,16 @@ function alignPlayersForPenalty(
   ball: Ball,
   pitchWidth: number,
 ) {
-  const factorGK = isTop ? 0.25 : 0.75;
-  const factorWB = isTop ? 0.66 : 0.33;
-  const getRandomPenaltyPosition = isTop
-    ? common.getRandomBottomPenaltyPosition
-    : common.getRandomTopPenaltyPosition;
-  for (const player of attack.players) {
-    if (player.position === 'GK') {
-      player.currentPOS = [
-        player.originPOS[0],
-        Math.floor(pitchHeight * factorGK),
-      ];
-    } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-      if (player.position === 'CB') {
-        player.currentPOS = [
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.5),
-        ];
-      } else if (player.position === 'LB' || player.position === 'RB') {
-        player.currentPOS = [
-          player.originPOS[0],
-          Math.floor(pitchHeight * factorWB),
-        ];
-      }
-    } else if (player.name !== kickPlayer.name) {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
-    }
-  }
-  let playerSpace = -3;
-  for (const player of defence.players) {
-    const ballDistanceFromGoalX = ball.position[0] - pitchWidth / 2;
-    const midWayFromBalltoGoalX = Math.floor(
-      (ball.position[0] - ballDistanceFromGoalX) / 2,
-    );
-    let midWayFromBalltoGoalY;
-    if (isTop) {
-      const ballDistanceFromGoalY = pitchHeight - ball.position[1];
-      midWayFromBalltoGoalY = Math.floor(
-        (ball.position[1] - ballDistanceFromGoalY) / 2,
-      );
-    } else {
-      midWayFromBalltoGoalY = Math.floor(ball.position[1] / 2);
-    }
-    playerSpace = setDefenderSetPiecePosition(
-      player,
-      midWayFromBalltoGoalX,
-      playerSpace,
-      midWayFromBalltoGoalY,
-      matchDetails,
-      getRandomPenaltyPosition,
-    );
-  }
-  matchDetails.endIteration = true;
-  return matchDetails;
+  return setPenaltyPositions(
+    isTop,
+    attack,
+    pitchHeight,
+    kickPlayer,
+    matchDetails,
+    defence,
+    ball,
+    pitchWidth,
+  );
 }
 function setSetPiecePositions(
   attack: Team,
