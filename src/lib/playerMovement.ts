@@ -172,58 +172,11 @@ function checkProvidedAction(
   thisPlayer: Player,
   action: string,
 ): string {
-  const ballActions = [
-    `shoot`,
-    `throughBall`,
-    `pass`,
-    `cross`,
-    `cleared`,
-    `boot`,
-    `penalty`,
-  ];
-  const allActions = [
-    `shoot`,
-    `throughBall`,
-    `pass`,
-    `cross`,
-    `tackle`,
-    `intercept`,
-    `slide`,
-  ];
-  Array.prototype.push.apply(allActions, [
-    `run`,
-    `sprint`,
-    `cleared`,
-    `boot`,
-    `penalty`,
-  ]);
-  const providedAction = thisPlayer.action ? thisPlayer.action : `unassigned`;
-  if (providedAction === `none`) {
-    return action;
-  }
-  if (allActions.includes(providedAction)) {
-    if (thisPlayer.playerID !== matchDetails.ball.Player) {
-      if (ballActions.includes(providedAction)) {
-        const notice = `${thisPlayer.name} doesnt have the ball so cannot ${providedAction} -action: run`;
-        console.error(notice);
-        return `run`;
-      }
-      return providedAction;
-    } else if (
-      providedAction === `tackle` ||
-      providedAction === `slide` ||
-      providedAction === `intercept`
-    ) {
-      action = ballActions[common.getRandomNumber(0, 5)];
-      const notice = `${thisPlayer.name} has the ball so cannot ${providedAction} -action: ${action}`;
-      console.error(notice);
-      return action;
-    }
-    return providedAction;
-  } else if (thisPlayer.action !== `none`) {
-    throw new Error(`Invalid player action for ${thisPlayer.name}`);
-  }
-  throw new Error(`Invalid action for player: ${thisPlayer.name}`);
+  return actions.validateAndResolvePlayerAction(
+    matchDetails,
+    thisPlayer,
+    action,
+  );
 }
 
 function handleBallPlayerActions(

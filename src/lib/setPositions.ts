@@ -934,7 +934,9 @@ export function setDefenceRelativePos(
     defendingTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
 
   for (const player of defendingTeam.players) {
-    if (player.currentPOS[0] === 'NP') throw new Error('No player position!');
+    if (player.currentPOS[0] === 'NP') {
+      throw new Error('No player position!');
+    }
 
     // 1. Proximity Check: If close to ball, move to ball
     if (isPlayerNearBall(player, [ball.position[0], ball.position[1]], 40)) {
