@@ -197,9 +197,7 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
 }
 
 function debug(label: string, ...args: unknown[]): void {
-  if (process.env.DEBUG_ENGINE) {
-    console.log(`[DEBUG:${label}]`, ...args);
-  }
+  console.log(`[DEBUG:${label}]`, ...args);
 }
 
 export {

@@ -42,6 +42,7 @@ interface Team {
 
 interface Player {
   name: string;
+  shirtNumber: number;
   position: string;
   rating: string;
   skill: Skill;

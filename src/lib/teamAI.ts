@@ -42,13 +42,15 @@ function processTeamTactics(
     );
 
     // 2. Execute Movement
-    player.currentPOS = executePlayerMovement(
+    const pos = executePlayerMovement(
       player,
       action,
       opp,
       matchDetails,
       tacticalContext,
     );
+    player.currentPOS[0] = pos[0];
+    player.currentPOS[1] = pos[1];
 
     // 3. Resolve Ball Interactions (Possession/Tackles)
     resolveBallInteractions(player, team, opp, matchDetails, action);
