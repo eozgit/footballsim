@@ -120,38 +120,56 @@ function executePlayerMovement(
 
 /**
  * Stage 3: Ball Proximity & Combat Logic
+ * Resolves physical interactions between a player and the ball.
+ * Logic preserved: Checks proximity (3-unit radius), team possession,
+ * and specific defensive actions (tackle/slide).
  */
-function resolveBallInteractions(
+export function resolveBallInteractions(
   player: Player,
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,
   action: string,
-) {
-  const { position: ballPos, withPlayer, withTeam } = matchDetails.ball;
-  const [curX] = player.currentPOS;
-  if (curX === 'NP') {
+): void {
+  const { ball } = matchDetails;
+  const [playerX, playerY] = player.currentPOS;
+
+  // 1. Position Validation
+  if (playerX === 'NP') {
     throw new Error('No player position!');
   }
-  const isCloseX = common.isBetween(curX, ballPos[0] - 3, ballPos[0] + 3);
-  const isCloseY = common.isBetween(
-    player.currentPOS[1],
-    ballPos[1] - 3,
-    ballPos[1] + 3,
-  );
 
-  if (isCloseX && isCloseY && withTeam !== team.teamID) {
-    if (withPlayer && !player.hasBall) {
+  // 2. Proximity Check (3-unit square radius)
+  const isNearBall =
+    common.isBetween(playerX, ball.position[0] - 3, ball.position[0] + 3) &&
+    common.isBetween(playerY, ball.position[1] - 3, ball.position[1] + 3);
+
+  if (!isNearBall) {
+    return;
+  }
+
+  // 3. Logic for Ball Retrieval or Defensive Action
+  // Case A: Ball is loose (no player has it)
+  if (!ball.withPlayer) {
+    setClosePlayerTakesBall(matchDetails, player, team, opp);
+    return;
+  }
+
+  // Case B: Ball is with another team
+  if (ball.withTeam !== team.teamID) {
+    // If player doesn't have the ball, they can attempt to steal it
+    if (!player.hasBall) {
       if (action === 'tackle') {
         completeTackleWhenCloseNoBall(matchDetails, player, team, opp);
+        return;
       }
       if (action === 'slide') {
         completeSlide(matchDetails, player, team, opp);
+        return;
       }
-    } else {
-      setClosePlayerTakesBall(matchDetails, player, team, opp);
     }
-  } else if (isCloseX && isCloseY && !withPlayer) {
+
+    // Default fallback for proximity with opposing team (e.g. general interception/take)
     setClosePlayerTakesBall(matchDetails, player, team, opp);
   }
 }

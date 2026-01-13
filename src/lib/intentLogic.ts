@@ -23,69 +23,91 @@ import type {
   Team,
 } from './types.js';
 
+/**
+ * Calculates match event weights based on attacking intent, considering
+ * player position, skill, and proximity to teammates and opposition.
+ * * Logic preserved: Validates positions, checks for penalty box proximity,
+ * and delegates to specific handlers for penalty box vs open play.
+ */
 function getAttackingIntentWeights(
   matchDetails: MatchDetails,
   player: Player,
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  const [theX] = player.currentPOS;
-  if (theX === 'NP') {
-    throw new Error('No player position!');
-  }
-  const curPOS = player.currentPOS as [number, number];
+  // 1. Validate and extract player coordinates
+  const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  const playerInformation = setPositions.closestPlayerToPosition(
+  // 2. Analyze surroundings (Opposition and Teammates)
+  const oppInfo = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    curPOS,
+    playerPos,
   );
-  const ownPlayerInformation = setPositions.closestPlayerToPosition(
+  const tmateInfo = setPositions.closestPlayerToPosition(
     player,
     team,
-    curPOS,
+    playerPos,
   );
 
+  // Normalize teammate proximity (Absolute values for directional-agnostic distance)
   const tmateProximity: [number, number] = [
-    Math.abs(ownPlayerInformation.proxPOS[0]),
-    Math.abs(ownPlayerInformation.proxPOS[1]),
+    Math.abs(tmateInfo.proxPOS[0]),
+    Math.abs(tmateInfo.proxPOS[1]),
   ];
 
-  const [curX, curY] = playerInformation.thePlayer.currentPOS;
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
+  // 3. Validate closest opponent coordinates
+  const oppPos = ensureValidPosition(
+    oppInfo.thePlayer.currentPOS,
+    'Closest opponent',
+  );
 
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { currentPOS, skill } = player;
-  const [playerX, playerY] = currentPOS;
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
-  }
+  // 4. Calculate shooting range thresholds based on skill
+  // Higher skill decreases the distance required for "shot range"
+  const shootingSkill = player.skill.shooting;
+  const halfRangeThreshold = pitchHeight - shootingSkill / 2;
+  const fullShotRangeThreshold = pitchHeight - shootingSkill;
 
-  const pos: [number, number] = [playerX, playerY];
-  const halfRange = pitchHeight - skill.shooting / 2;
-  const shotRange = pitchHeight - skill.shooting;
+  // 5. Determine context-specific weights
+  const isInPenaltyBox = checkPositionInBottomPenaltyBoxClose(
+    playerPos,
+    pitchWidth,
+    pitchHeight,
+  );
 
-  if (checkPositionInBottomPenaltyBoxClose(pos, pitchWidth, pitchHeight)) {
+  if (isInPenaltyBox) {
     return handleInPenaltyBox(
-      playerInformation,
+      oppInfo,
       tmateProximity,
-      currentPOS,
-      pos,
-      [curX, curY],
-      halfRange,
-      shotRange,
+      player.currentPOS, // Original position object for compatibility
+      playerPos,
+      oppPos,
+      halfRangeThreshold,
+      fullShotRangeThreshold,
       pitchHeight,
     );
   }
 
   return handleOutsidePenaltyBox(
-    playerInformation,
-    currentPOS,
-    shotRange,
+    oppInfo,
+    player.currentPOS,
+    fullShotRangeThreshold,
     pitchHeight,
   );
+}
+
+/**
+ * Utility to guard against 'NP' (No Position) states during simulation logic.
+ */
+function ensureValidPosition(
+  pos: [number | 'NP', number],
+  entityName: string,
+): [number, number] {
+  if (pos[0] === 'NP') {
+    throw new Error(`${entityName} position is invalid ('NP')!`);
+  }
+  return pos as [number, number];
 }
 
 function handleInPenaltyBox(

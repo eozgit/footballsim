@@ -740,7 +740,8 @@ function setPlayerPositions(
     if (thisPlayer.position === `GK`) {
       thisPlayer.currentPOS = [...thisPlayer.originPOS];
     } else {
-      thisPlayer.currentPOS = [...thisPlayer.originPOS];
+      thisPlayer.currentPOS[0] = thisPlayer.originPOS[0];
+      thisPlayer.currentPOS[1] = thisPlayer.originPOS[1];
       const playerPos = thisPlayer.currentPOS[1] + extra;
       if (common.isBetween(playerPos, -1, matchDetails.pitchSize[1] + 1)) {
         thisPlayer.currentPOS[1] = playerPos;

@@ -94,10 +94,10 @@ function setHalfwayToOppositeQtrYPos(
       const gkY = isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
       player.currentPOS = [player.originPOS[0], Math.floor(gkY)];
     } else if (player.name !== kickPlayer.name) {
-      player.currentPOS = [
-        player.originPOS[0],
-        Math.floor(calculateAttackerY(player, ball, pitchHeight, isTop)),
-      ];
+      player.currentPOS[0] = player.originPOS[0];
+      player.currentPOS[1] = Math.floor(
+        calculateAttackerY(player, ball, pitchHeight, isTop),
+      );
     }
   });
 
@@ -110,7 +110,8 @@ function setHalfwayToOppositeQtrYPos(
       const targetY = ['CM', 'LM', 'RM'].includes(player.position)
         ? wallY
         : pitchHeight * 0.5;
-      player.currentPOS = [player.originPOS[0], Math.floor(targetY)];
+      player.currentPOS[0] = player.originPOS[0];
+      player.currentPOS[1] = Math.floor(targetY);
     }
   });
 
