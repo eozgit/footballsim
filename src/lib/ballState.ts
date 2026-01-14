@@ -21,6 +21,7 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   }
 
   const nextBallPos = ball.ballOverIterations[0];
+  const [nbX, nbY, nbZ = 0] = nextBallPos;
 
   if (nextBallPos.length < 2) {
     throw new Error('Invalid ball position!');
@@ -30,10 +31,10 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   getBallDirection(matchDetails, nextBallPos);
 
   const endPos = resolveBallMovement(
-    setBPlayer([nextBallPos[0], nextBallPos[1]]),
+    setBPlayer([nbX, nbY]),
     ball.position,
     nextBallPos,
-    nextBallPos[2], // power
+    nbZ,
     matchDetails.kickOffTeam,
     matchDetails.secondTeam,
     matchDetails,

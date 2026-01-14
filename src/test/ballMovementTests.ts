@@ -141,7 +141,7 @@ describe('targetPlayers()', function () {
       );
       const playerValid = JSON.stringify(playersArray).indexOf(thisPlayer.name);
       const positionValid = JSON.stringify(playersArray).indexOf(
-        thisPlayer.position,
+        JSON.stringify(thisPlayer.position),
       );
       expect(playerValid).to.be.greaterThan(-1);
 
@@ -167,7 +167,7 @@ describe('targetPlayers()', function () {
       );
       const playerValid = JSON.stringify(playersArray).indexOf(thisPlayer.name);
       const positionValid = JSON.stringify(playersArray).indexOf(
-        thisPlayer.position,
+        JSON.stringify(thisPlayer.position),
       );
       expect(playerValid).to.be.greaterThan(-1);
 

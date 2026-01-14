@@ -23,7 +23,9 @@ function processTeamTactics(
   opp: Team,
   matchDetails: MatchDetails,
 ): Team {
-  const { position: ballPos } = matchDetails.ball;
+  const {
+    position: [ballX, ballY],
+  } = matchDetails.ball;
 
   for (const player of team.players) {
     if (player.currentPOS[0] === 'NP') {
@@ -31,7 +33,7 @@ function processTeamTactics(
     }
 
     // 1. Determine Intent and Action
-    const tacticalContext = getPlayerTacticalContext(player, ballPos);
+    const tacticalContext = getPlayerTacticalContext(player, [ballX, ballY]);
     const action = determinePlayerAction(
       player,
       team,

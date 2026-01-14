@@ -384,6 +384,7 @@ function getInterceptPosition(
 
 const mockPlayer: Player = {
   name: 'George Johnson',
+  shirtNumber: 45,
   position: 'ST', // or "ST"
   rating: '85',
   skill: {

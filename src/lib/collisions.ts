@@ -104,12 +104,12 @@ function checkInterceptionsOnTrajectory(
  * Iterates through the ball's path to check if any player can intercept the ball.
  */
 function resolvePathInterceptions(
-  trajectory: unknown[],
+  trajectory: [number, number, number][],
   originPlayer: Player,
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,
-  thisPOS: unknown,
+  thisPOS: [number, number],
   power: number,
 ) {
   for (const step of trajectory) {

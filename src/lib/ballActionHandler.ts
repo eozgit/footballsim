@@ -16,7 +16,7 @@ function executeActiveBallAction(
   // 1. Validate & Sync Ball to Player Position
   const [posX, posY] = thisPlayer.currentPOS;
 
-  if (posX === 'NP' || posY === 'NP') {
+  if (posX === 'NP') {
     throw new Error('No player position!');
   }
 
@@ -26,13 +26,16 @@ function executeActiveBallAction(
 
   // 2. Define Action Strategies
   // Each function returns the new position array or throws if failed
-  const actionExecutionMap: Record<string, () => unknown> = {
+  const actionExecutionMap: Record<string, () => [number, number]> = {
     cleared: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
     boot: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
     pass: () => {
       const pos = ballMovement.ballPassed(matchDetails, team, thisPlayer);
 
       matchDetails.iterationLog.push(`passed to new position: ${pos}`);
+      if (!Array.isArray(pos)) {
+        throw new Error('No position!');
+      }
 
       return pos;
     },

@@ -254,7 +254,7 @@ function getPlayersInDistance(
   team: Team,
   player: Player,
   pitchSize: [number, number, number?],
-): { position: [number, number]; proximity: number; name: string }[] {
+): Player[] {
   const [curX, curY] = player.currentPOS;
 
   if (curX === 'NP') {
@@ -262,7 +262,7 @@ function getPlayersInDistance(
   }
 
   const [pitchWidth, pitchHeight] = pitchSize;
-  const playersInDistance = [];
+  const playersInDistance: Player[] = [];
 
   for (const teamPlayer of team.players) {
     const [tpX, tpY] = teamPlayer.currentPOS;
@@ -353,12 +353,12 @@ function setBallMovementMatchDetails(
 
 function resolveDeflection(
   power: number,
-  thisPOS: unknown,
-  defPosition: unknown,
+  thisPOS: [number, number],
+  defPosition: [number, number],
   defPlayer: Player,
   defTeam: Team,
   matchDetails: MatchDetails,
-) {
+): BallPosition {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
   const movementDistance = Math.sqrt(xMovement + yMovement);
@@ -385,7 +385,7 @@ function resolveDeflection(
     tempPosition,
   );
   const intended = matchDetails.ballIntended;
-  const lastPOS = intended ? [...intended] : [...matchDetails.ball.position];
+  const lastPOS = structuredClone(intended ?? matchDetails.ball.position);
 
   delete matchDetails.ballIntended;
 

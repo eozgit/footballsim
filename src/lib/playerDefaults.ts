@@ -7,6 +7,7 @@ import type { Player } from './types.js';
 function initializePlayerObject(position: string): Player {
   return {
     position,
+    shirtNumber: 55,
     currentPOS: [320, 15],
     originPOS: [320, 5],
     name: 'string',

@@ -630,6 +630,9 @@ function handleGoalieSave(
   team: Team,
 ): [number, number, number] | undefined {
   const [posX, posY] = player.currentPOS;
+  if (posX === 'NP') {
+    throw new Error('No position');
+  }
   const inGoalieProx =
     common.isBetween(posX, ballPos[0] - 11, ballPos[0] + 11) &&
     common.isBetween(posY, ballPos[1] - 2, ballPos[1] + 2);
@@ -661,6 +664,10 @@ function handlePlayerDeflection(
   team: Team,
 ): [number, number] | undefined {
   const [posX, posY] = player.currentPOS;
+
+  if (posX === 'NP') {
+    throw new Error('No position');
+  }
   const inProx =
     common.isBetween(posX, ballPos[0] - 3, ballPos[0] + 3) &&
     common.isBetween(posY, ballPos[1] - 3, ballPos[1] + 3);

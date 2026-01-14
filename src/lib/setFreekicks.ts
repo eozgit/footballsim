@@ -158,7 +158,7 @@ function getBallDirection(
  */
 function calculateAttackerY(
   player: Player,
-  ball: unknown,
+  ball: Ball,
   pitchHeight: number,
   isTop: boolean,
 ): number {

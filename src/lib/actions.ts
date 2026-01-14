@@ -44,9 +44,10 @@ function findPossActions(
   ballY: number, // Changed from any
   matchDetails: MatchDetails,
 ) {
-  const possibleActions: object[] = populateActionsJSON();
+  const possibleActions: { name: string; points: number }[] =
+    populateActionsJSON();
   const [, pitchHeight] = matchDetails.pitchSize;
-  let params: unknown[] = [];
+  let params: MatchEventWeights;
   const { hasBall, originPOS } = player;
 
   if (hasBall === false) {
@@ -58,22 +59,7 @@ function findPossActions(
   }
 
   // Cast params to a tuple of 11 'any' elements to satisfy the spread requirement
-  return populatePossibleActions(
-    possibleActions,
-    ...(params as [
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-      unknown,
-    ]),
-  );
+  return populatePossibleActions(possibleActions, params);
 }
 
 function topTeamPlayerHasBall(
@@ -252,7 +238,7 @@ function playerDoesNotHaveBall(
   ballX: number,
   ballY: number,
   matchDetails: MatchDetails,
-) {
+): MatchEventWeights {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const { position, currentPOS, originPOS } = player;
 
@@ -300,7 +286,7 @@ function noBallNotGK4CloseBall(
   originPOS: number[],
   pitchWidth: number,
   pitchHeight: number,
-) {
+): MatchEventWeights {
   const [curX, curY] = currentPOS;
 
   if (curX === 'NP') {
@@ -334,7 +320,7 @@ function noBallNotGK4CloseBallBottomTeam(
   currentPOS: [number | 'NP', number],
   pitchWidth: number,
   pitchHeight: number,
-) {
+): MatchEventWeights {
   const [curX, curY] = currentPOS;
 
   if (curX === 'NP') {
@@ -360,7 +346,7 @@ function noBallNotGK2CloseBall(
   originPOS: number[],
   pitchWidth: number,
   pitchHeight: number,
-) {
+): MatchEventWeights {
   const [curX, curY] = currentPOS;
 
   if (curX === 'NP') {
@@ -394,7 +380,7 @@ function noBallNotGK2CloseBallBottomTeam(
   currentPOS: unknown,
   pitchWidth: unknown,
   pitchHeight: number,
-) {
+): MatchEventWeights {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
     if (matchDetails.ball.withPlayer === false) {
       return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
@@ -518,37 +504,27 @@ function onTopCornerBoundary(position: BallPosition, pitchWidth: number) {
 }
 
 function populatePossibleActions(
-  possibleActions: object[11],
-  a: number,
-  b: number,
-  c: number,
-  d: number,
-  e: number,
-  f: number,
-  g: number,
-  h: number,
-  i: number,
-  j: number,
-  k: number,
+  possibleActions: { name: string; points: number }[],
+  weights: MatchEventWeights,
 ) {
   //a-shoot, b-throughBall, c-pass, d-cross, e-tackle, f-intercept
   //g-slide, h-run, i-sprint j-cleared k-boot
-  possibleActions[0].points = a;
-  possibleActions[1].points = b;
-  possibleActions[2].points = c;
-  possibleActions[3].points = d;
-  possibleActions[4].points = e;
-  possibleActions[5].points = f;
-  possibleActions[6].points = g;
-  possibleActions[7].points = h;
-  possibleActions[8].points = i;
-  possibleActions[9].points = j;
-  possibleActions[10].points = k;
+  possibleActions[0].points = weights[0];
+  possibleActions[1].points = weights[1];
+  possibleActions[2].points = weights[2];
+  possibleActions[3].points = weights[3];
+  possibleActions[4].points = weights[4];
+  possibleActions[5].points = weights[5];
+  possibleActions[6].points = weights[6];
+  possibleActions[7].points = weights[7];
+  possibleActions[8].points = weights[8];
+  possibleActions[9].points = weights[9];
+  possibleActions[10].points = weights[10];
 
   return possibleActions;
 }
 
-function populateActionsJSON() {
+function populateActionsJSON(): { name: string; points: number }[] {
   return [
     {
       name: 'shoot',
