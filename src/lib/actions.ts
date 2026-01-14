@@ -356,7 +356,7 @@ function noBallNotGK2CloseBall(
   if (originPOS[1] > pitchHeight / 2) {
     return noBallNotGK2CloseBallBottomTeam(
       matchDetails,
-      currentPOS,
+      [curX, curY],
       pitchWidth,
       pitchHeight,
     );
@@ -377,8 +377,8 @@ function noBallNotGK2CloseBall(
 
 function noBallNotGK2CloseBallBottomTeam(
   matchDetails: MatchDetails,
-  currentPOS: unknown,
-  pitchWidth: unknown,
+  currentPOS: [number, number],
+  pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
   if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
@@ -506,20 +506,13 @@ function onTopCornerBoundary(position: BallPosition, pitchWidth: number) {
 function populatePossibleActions(
   possibleActions: { name: string; points: number }[],
   weights: MatchEventWeights,
-) {
-  //a-shoot, b-throughBall, c-pass, d-cross, e-tackle, f-intercept
-  //g-slide, h-run, i-sprint j-cleared k-boot
-  possibleActions[0].points = weights[0];
-  possibleActions[1].points = weights[1];
-  possibleActions[2].points = weights[2];
-  possibleActions[3].points = weights[3];
-  possibleActions[4].points = weights[4];
-  possibleActions[5].points = weights[5];
-  possibleActions[6].points = weights[6];
-  possibleActions[7].points = weights[7];
-  possibleActions[8].points = weights[8];
-  possibleActions[9].points = weights[9];
-  possibleActions[10].points = weights[10];
+): { name: string; points: number }[] {
+  // Use forEach to map weights to the corresponding action index
+  weights.forEach((weight, index) => {
+    if (possibleActions[index]) {
+      possibleActions[index].points = weight;
+    }
+  });
 
   return possibleActions;
 }
@@ -608,7 +601,6 @@ function resolveTackle(
     calcTackleScore(player.skill.tackling, 5) >
     calcRetentionScore(thatPlayer.skill.tackling, 5)
   ) {
-    throw new Error('Unused or not covered.');
     setSuccessTackle(
       matchDetails,
       team,
@@ -658,10 +650,8 @@ function resolveSlide(
   }
 
   if (
-    calcTackleScore(player.skill.tackling, 5) >
-    calcRetentionScore(thatPlayer.skill.tackling, 5)
+    calcTackleScore(player.skill, 5) > calcRetentionScore(thatPlayer.skill, 5)
   ) {
-    throw new Error('Unused or not covered.');
     setSuccessTackle(
       matchDetails,
       team,
@@ -683,7 +673,7 @@ function setFailedTackle(
   matchDetails: MatchDetails,
   player: Player,
   thatPlayer: Player,
-  tackleDetails: unknown,
+  tackleDetails: { injuryHigh: number; injuryLow: number; increment: number },
 ) {
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
   player.stats.tackles.off++;
@@ -708,9 +698,8 @@ function setSuccessTackle(
   opposition: Team,
   player: Player,
   thatPlayer: Player,
-  tackleDetails: unknown,
+  tackleDetails: { injuryHigh: number; injuryLow: number; increment: number },
 ): void {
-  throw new Error('Unused or not covered.');
   setPostTackleBall(matchDetails, team, opposition, player);
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
 
@@ -734,14 +723,14 @@ function setSuccessTackle(
   );
 }
 
-function calcTackleScore(skill: unknown, diff: number) {
+function calcTackleScore(skill: Skill, diff: number) {
   return (
     (Math.floor(skill.tackling) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
-function calcRetentionScore(skill: unknown, diff: number) {
+function calcRetentionScore(skill: Skill, diff: number) {
   return (
     (Math.floor(skill.agility) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
@@ -812,8 +801,8 @@ function setInjury(
   matchDetails: MatchDetails,
   thatPlayer: Player,
   player: Player,
-  tackledInjury: unknown,
-  tacklerInjury: unknown,
+  tackledInjury: number,
+  tacklerInjury: number,
 ) {
   if (isInjured(tackledInjury)) {
     thatPlayer.injured = true;

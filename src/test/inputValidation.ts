@@ -436,6 +436,7 @@ describe('otherValidationTests()', function () {
       assert.fail('Should have thrown an error for missing arguments');
     } catch (err: unknown) {
       assert(err instanceof Error);
+
       expect(err.message).to.contain('Please provide two teams and a pitch');
     }
   });

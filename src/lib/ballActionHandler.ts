@@ -3,9 +3,57 @@ import { ballMoved, updateInformation } from './playerMovement.js';
 import type { MatchDetails, Player, Team } from './types.js';
 
 /**
- * Orchestrates the transition of ball state based on a specific player action.
- * syncs ball to player and calculates new trajectory.
+ * Internal registry for ball actions.
+ * Consolidates logging and standardizes return expectations.
  */
+const ACTION_STRATEGIES: Record<
+  string,
+  (m: MatchDetails, t: Team, p: Player) => [number, number]
+> = {
+  cleared: ballMovement.ballKicked,
+  boot: ballMovement.ballKicked,
+  throughBall: ballMovement.throughBall,
+  shoot: ballMovement.shotMade,
+  penalty: ballMovement.penaltyTaken,
+  pass: (m: MatchDetails, t: Team, p: Player): [number, number] => {
+    const pos = ballMovement.ballPassed(m, t, p);
+
+    m.iterationLog.push(`passed to new position: ${pos}`);
+
+    if (!Array.isArray(pos)) {
+      throw new Error('No position');
+    }
+
+    return pos;
+  },
+  cross: (m: MatchDetails, t: Team, p: Player): [number, number] => {
+    const pos = ballMovement.ballCrossed(m, t, p);
+
+    m.iterationLog.push(`crossed to new position: ${pos}`);
+
+    return pos;
+  },
+};
+
+/**
+ * Validates player position and synchronizes ball state.
+ */
+function syncBallToPlayer(
+  matchDetails: MatchDetails,
+  player: Player,
+): [number, number] {
+  const [posX, posY] = player.currentPOS;
+
+  if (posX === 'NP') {
+    throw new Error('No player position!');
+  }
+
+  ballMovement.getBallDirection(matchDetails, [posX, posY]);
+  matchDetails.ball.position = [posX, posY, 0];
+
+  return [posX, posY];
+}
+
 function executeActiveBallAction(
   matchDetails: MatchDetails,
   thisPlayer: Player,
@@ -13,62 +61,24 @@ function executeActiveBallAction(
   opp: Team,
   action: string,
 ): void {
-  // 1. Validate & Sync Ball to Player Position
-  const [posX, posY] = thisPlayer.currentPOS;
+  syncBallToPlayer(matchDetails, thisPlayer);
 
-  if (posX === 'NP') {
-    throw new Error('No player position!');
+  const executeAction = ACTION_STRATEGIES[action];
+
+  if (!executeAction) {
+    return;
   }
 
-  // Sync ball direction and position to player
-  ballMovement.getBallDirection(matchDetails, [posX, posY]);
-  matchDetails.ball.position = [posX, posY, 0]; // Sets x, y, and z (altitude) to 0
+  ballMoved(matchDetails, thisPlayer, team, opp);
+  const newPosition = executeAction(matchDetails, team, thisPlayer);
 
-  // 2. Define Action Strategies
-  // Each function returns the new position array or throws if failed
-  const actionExecutionMap: Record<string, () => [number, number]> = {
-    cleared: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
-    boot: () => ballMovement.ballKicked(matchDetails, team, thisPlayer),
-    pass: () => {
-      const pos = ballMovement.ballPassed(matchDetails, team, thisPlayer);
-
-      matchDetails.iterationLog.push(`passed to new position: ${pos}`);
-      if (!Array.isArray(pos)) {
-        throw new Error('No position!');
-      }
-
-      return pos;
-    },
-    cross: () => {
-      const pos = ballMovement.ballCrossed(matchDetails, team, thisPlayer);
-
-      matchDetails.iterationLog.push(`crossed to new position: ${pos}`);
-
-      return pos;
-    },
-    throughBall: () => ballMovement.throughBall(matchDetails, team, thisPlayer),
-    shoot: () => ballMovement.shotMade(matchDetails, team, thisPlayer),
-    penalty: () => ballMovement.penaltyTaken(matchDetails, team, thisPlayer),
-  };
-
-  // 3. Execute Action
-  const executeAction = actionExecutionMap[action];
-
-  if (executeAction) {
-    // Logic: Record that the ball has officially moved
-    ballMoved(matchDetails, thisPlayer, team, opp);
-
-    const newPosition = executeAction();
-
-    // Validation & Global State Update
-    if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Action "${action}" failed to return a valid new position!`,
-      );
-    }
-
-    updateInformation(matchDetails, newPosition);
+  if (!Array.isArray(newPosition)) {
+    throw new Error(
+      `Action "${action}" failed to return a valid new position!`,
+    );
   }
+
+  updateInformation(matchDetails, newPosition);
 }
 
 export { executeActiveBallAction };
