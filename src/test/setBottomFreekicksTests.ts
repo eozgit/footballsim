@@ -13,8 +13,11 @@ describe('testFreekicksBottomOwnHalf()', function () {
     );
     const { kickOffTeam, secondTeam } = nextJSON;
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([340, 1040]);
+
     expect(secondTeam.players[0].currentPOS).to.eql([340, 1040]);
     for (const player of secondTeam.players) {
       if (player.position !== 'GK') {
@@ -33,6 +36,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
       }
     }
   });
+
   it('freekick in own half - Bottom origin positions', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -41,8 +45,11 @@ describe('testFreekicksBottomOwnHalf()', function () {
     );
     const { kickOffTeam, secondTeam } = nextJSON;
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([340, 900]);
+
     expect(secondTeam.players[0].currentPOS).to.eql([340, 900]);
     for (const player of secondTeam.players) {
       if (player.position !== 'GK') {
@@ -63,6 +70,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
       }
     }
   });
+
   it('freekick in own half - halfway boundary', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -74,12 +82,17 @@ describe('testFreekicksBottomOwnHalf()', function () {
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([340, 526]);
+
     expect(secondTeam.players[3].currentPOS).to.eql([340, 526]);
+
     expect(kickOffTeam.players[3].currentPOS).to.eql(
       kickOffTeam.players[3].originPOS,
     );
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
@@ -91,6 +104,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
         thisPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
       ]);
+
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
     for (const num of [5, 6, 7, 8]) {
@@ -100,6 +114,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
         thisPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.25),
       ]);
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.25) - 5,
@@ -109,6 +124,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 226]);
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
@@ -116,6 +132,7 @@ describe('testFreekicksBottomOwnHalf()', function () {
     }
   });
 });
+
 describe('testFreekicksBottomThirdQuarter()', function () {
   it('freekick between halfway and last sixth - Bottom center', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -129,23 +146,30 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([400, 500]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([400, 500]);
+
     expect(kickOffTeam.players[5].currentPOS).to.eql([
       80,
       Math.floor(pitchHeight * 0.25),
     ]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 600]);
+
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
     for (const num of [6, 7, 8]) {
@@ -153,6 +177,7 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.lt(351);
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.25),
@@ -165,12 +190,14 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.lt(
         Math.floor(pitchHeight * 0.25 + 50),
       );
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
+
   it('freekick between halfway and last sixth - Bottom left', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -183,23 +210,30 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('northeast');
+
     expect(nextJSON.ball.position).to.eql([29, 500]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([29, 500]);
+
     expect(kickOffTeam.players[5].currentPOS).to.eql([
       80,
       Math.floor(pitchHeight * 0.25),
     ]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 600]);
+
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
     for (const num of [6, 7, 8]) {
@@ -207,6 +241,7 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.lt(351);
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.25),
@@ -219,12 +254,14 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.lt(
         Math.floor(pitchHeight * 0.25 - 60),
       );
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
       ]);
     }
   });
+
   it('freekick between halfway and last sixth - Bottom right', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -237,23 +274,30 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('northwest');
+
     expect(nextJSON.ball.position).to.eql([655, 500]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([655, 500]);
+
     expect(kickOffTeam.players[5].currentPOS).to.eql([
       80,
       Math.floor(pitchHeight * 0.25),
     ]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 600]);
+
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
     for (const num of [6, 7, 8]) {
@@ -261,6 +305,7 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       const thatPlayer = kickOffTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.lt(351);
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.25),
@@ -273,6 +318,7 @@ describe('testFreekicksBottomThirdQuarter()', function () {
       expect(thisPlayer.currentPOS[1]).to.lt(
         Math.floor(pitchHeight * 0.25 - 60),
       );
+
       expect(thatPlayer.currentPOS).to.eql([
         thatPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
@@ -280,6 +326,7 @@ describe('testFreekicksBottomThirdQuarter()', function () {
     }
   });
 });
+
 describe('testFreekicksBottomLastQuarter()', function () {
   it('freekick last quarter - top center', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -294,13 +341,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([340, 250]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([340, 250]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -325,6 +377,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
       ]);
+
       playerSpace += 2;
     }
     const boundaryX = [pitchWidth / 4 + 5, pitchWidth - pitchWidth / 4 - 5];
@@ -342,13 +395,16 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Perform boundary checks (ST for 6-10, KOT for 5)
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
+
   it('freekick last sixth - Bottom edge of penalty box', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -362,13 +418,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.ball.position).to.eql([340, 171]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([340, 171]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -393,6 +454,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
       ]);
+
       playerSpace += 2;
     }
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -410,13 +472,16 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
+
   it('freekick last sixth - Bottom team top left', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -430,13 +495,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('northeast');
+
     expect(nextJSON.ball.position).to.eql([10, 174]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([10, 174]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -461,6 +531,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
       ]);
+
       playerSpace += 2;
     }
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -478,13 +549,16 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Logic: Assert ST boundaries for players 6-10, KOT for player 5
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
+
   it('freekick and last sixth - Bottom team bottom right', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(
@@ -498,13 +572,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('northwest');
+
     expect(nextJSON.ball.position).to.eql([600, 177]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([600, 177]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -529,6 +608,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
       ]);
+
       playerSpace += 2;
     }
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -546,13 +626,16 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Logic: Check ST for [6-10], KOT for [5]
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
+
   it('freekick last sixth - Bottom team bottom left goal line', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(itlocation, [10, 1]);
@@ -563,13 +646,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let firstWallPosition = 0;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('east');
+
     expect(nextJSON.ball.position).to.eql([10, 1]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([10, 1]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -593,6 +681,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX,
         firstWallPosition,
       ]);
+
       firstWallPosition += 2;
     }
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -610,13 +699,16 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // 3. Logic: Check ST for [6-10] and KOT for [5]
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }
   });
+
   it('freekick last sixth - Bottom team bottom right goal line', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setfreekicks.setBottomFreekick(itlocation, [600, 1]);
@@ -627,13 +719,18 @@ describe('testFreekicksBottomLastQuarter()', function () {
     let firstWallPosition = 0;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ball.direction).to.eql('west');
+
     expect(nextJSON.ball.position).to.eql([600, 1]);
+
     expect(secondTeam.players[5].currentPOS).to.eql([600, 1]);
+
     expect(STgoalie.currentPOS).to.eql([
       STgoalie.originPOS[0],
       Math.floor(pitchHeight * 0.75),
     ]);
+
     expect(KOTgoalie.currentPOS).to.eql(KOTgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = secondTeam.players[num];
@@ -657,6 +754,7 @@ describe('testFreekicksBottomLastQuarter()', function () {
         midWayFromBalltoGoalX,
         firstWallPosition,
       ]);
+
       firstWallPosition += 2;
     }
     const boundaryX = [pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 7];
@@ -675,9 +773,11 @@ describe('testFreekicksBottomLastQuarter()', function () {
       // Logic: Check ST for [6,7,8,9,10] and KOT for [5]
       if (num !== 5) {
         expect(common.isBetween(xST, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yST, boundaryY[0], boundaryY[1])).toBe(true);
       } else {
         expect(common.isBetween(xKOT, boundaryX[0], boundaryX[1])).toBe(true);
+
         expect(common.isBetween(yKOT, boundaryY[0], boundaryY[1])).toBe(true);
       }
     }

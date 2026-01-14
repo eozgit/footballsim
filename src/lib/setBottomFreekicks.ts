@@ -42,18 +42,23 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   if (ballY > pitchHeight - 100) {
     return setBottomOneHundredYPos(matchDetails, attack, defence);
   }
+
   if (hundredToHalfway) {
     return setBottomOneHundredToHalfwayYPos(matchDetails, attack, defence);
   }
+
   if (halfwayToLastQtr) {
     return setBottomHalfwayToTopQtrYPos(matchDetails, attack, defence);
   }
+
   if (upperFinalQtr) {
     return setBottomUpperQtrCentreYPos(matchDetails, attack, defence);
   }
+
   if (lowerFinalQtr) {
     return setBottomLowerFinalQtrBylinePos(matchDetails, attack, defence);
   }
+
   throw new Error(
     `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
   );
@@ -86,6 +91,7 @@ function setBottomHalfwayToTopQtrYPos(
     defence,
     'bottom',
   );
+
   return details;
 }
 
@@ -109,6 +115,7 @@ function setBottomUpperQtrCentreYPos(
     pitchWidth - pitchWidth / 4 - 5,
   );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+
   ball.direction = ballInCentre
     ? 'north'
     : ballLeft

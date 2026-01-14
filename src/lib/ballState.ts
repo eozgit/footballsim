@@ -16,10 +16,12 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   // 1. Validation & Early Exit
   if (!ball.ballOverIterations?.length) {
     ball.direction = 'wait';
+
     return matchDetails;
   }
 
   const nextBallPos = ball.ballOverIterations[0];
+
   if (nextBallPos.length < 2) {
     throw new Error('Invalid ball position!');
   }
@@ -62,4 +64,5 @@ function finalizeMomentumStep(
 
   return matchDetails;
 }
+
 export { processBallMomentum };

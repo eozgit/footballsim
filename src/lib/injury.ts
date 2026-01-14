@@ -8,6 +8,7 @@ function isInjured(x: number) {
   if (x === 23) {
     return true;
   }
+
   return common.getRandomNumber(0, x) === 23;
 }
 

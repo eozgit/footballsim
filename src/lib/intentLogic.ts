@@ -113,6 +113,7 @@ function ensureValidPosition(
   if (pos[0] === 'NP') {
     throw new Error(`${entityName} position is invalid ('NP')!`);
   }
+
   return pos as [number, number];
 }
 
@@ -146,18 +147,22 @@ function handleInPenaltyBox(
     if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
   if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
     return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
+
   if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
   }
+
   return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
 }
 
@@ -174,12 +179,15 @@ function handleUnderPressureInBox(
     if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
@@ -187,18 +195,22 @@ function handleUnderPressureInBox(
     if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
   if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
     return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
   }
+
   if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
   }
+
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
 
@@ -215,11 +227,14 @@ function handleOutsidePenaltyBox(
   if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
   }
+
   if (oppositionNearContext(playerInformation, 6, 6)) {
     return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
   }
+
   return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
+
 function getPlayerActionWeights(
   matchDetails: MatchDetails,
   player: Player,
@@ -232,6 +247,7 @@ function getPlayerActionWeights(
   if (currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
+
   const pos = currentPOS as [number, number];
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
@@ -281,6 +297,7 @@ function handleGKIntent(playerInformation: {
   if (oppositionNearContext(playerInformation, 10, 25)) {
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
   }
+
   return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
 }
 
@@ -295,6 +312,7 @@ function handleAttackingThirdIntent(
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
   }
+
   return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
@@ -310,15 +328,19 @@ function handleMiddleThirdIntent(
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
   }
+
   if (skill.shooting > 85) {
     return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
   }
+
   if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
   }
+
   if (position === 'ST') {
     return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
   }
+
   return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
 }
 
@@ -333,12 +355,15 @@ function handleDefensiveThirdIntent(
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
   }
+
   if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
   }
+
   if (position === 'ST') {
     return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
   }
+
   return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
 }
 
@@ -397,6 +422,7 @@ function validatePlayerPosition(
   if (pos[0] === 'NP') {
     throw new Error('No player position!');
   }
+
   return pos as [number, number];
 }
 
@@ -426,9 +452,11 @@ function handleDeepBoxThreat(
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
@@ -436,9 +464,11 @@ function handleDeepBoxThreat(
   if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
     return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
+
   if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
     return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
   }
+
   return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
 }
 
@@ -452,12 +482,15 @@ function handlePressuredBoxDecision(
     if (checkTeamMateSpaceClose(tmateProx, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
@@ -465,9 +498,11 @@ function handlePressuredBoxDecision(
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
+
     if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
       return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
     }
+
     return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
   }
 
@@ -475,9 +510,11 @@ function handlePressuredBoxDecision(
   if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
     return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
   }
+
   if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
     return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
   }
+
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
 
@@ -491,6 +528,7 @@ function handleBottomGKIntent(playerInformation: {
   if (oppositionNearContext(playerInformation, 10, 25)) {
     return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
   }
+
   return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
 }
 
@@ -502,6 +540,7 @@ function handleBottomAttackingThirdIntent(playerInformation: {
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
   }
+
   return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
@@ -516,14 +555,18 @@ function handleBottomDefensiveThirdIntent(
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
   }
+
   if (position === 'LM' || position === 'CM' || position === 'RM') {
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
   }
+
   if (position === 'ST') {
     return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
   }
+
   return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
 }
+
 function attemptGoalieSave(
   matchDetails: MatchDetails,
   goalie: Player,
@@ -532,9 +575,11 @@ function attemptGoalieSave(
   const [ballX, ballY] = matchDetails.ball.position;
   const ballProx = 8;
   const [goalieX, goalieY] = goalie.currentPOS;
+
   if (goalieX === 'NP') {
     throw new Error('No player position!');
   }
+
   const isNear =
     common.isBetween(ballX, goalieX - ballProx, goalieX + ballProx) &&
     common.isBetween(ballY, goalieY - ballProx, goalieY + ballProx);
@@ -551,10 +596,13 @@ function attemptGoalieSave(
       );
       goalie.stats.saves = (goalie.stats.saves || 0) + 1;
     }
+
     return true;
   }
+
   return false;
 }
+
 function handleGoalieSave(
   matchDetails: MatchDetails,
   player: Player,
@@ -572,15 +620,19 @@ function handleGoalieSave(
     common.isBetween(ballPos[2], -1, player.skill.jumping + 1)
   ) {
     const savingSkill = player.skill.saving || 0;
+
     if (savingSkill > common.getRandomNumber(0, power)) {
       setBallMovementMatchDetails(matchDetails, player, ballPos, team);
       matchDetails.iterationLog.push(`Ball saved`);
       player.stats.saves = (player.stats.saves || 0) + 1;
+
       return ballPos;
     }
   }
+
   return undefined;
 }
+
 function handlePlayerDeflection(
   matchDetails: MatchDetails,
   player: Player,
@@ -603,11 +655,15 @@ function handlePlayerDeflection(
       team,
       matchDetails,
     );
+
     matchDetails.iterationLog.push(`Ball deflected`);
+
     return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
   }
+
   return undefined;
 }
+
 export {
   getAttackingIntentWeights,
   getPlayerActionWeights,

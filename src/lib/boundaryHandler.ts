@@ -74,6 +74,7 @@ function resolveBallLocation(
 
   // 3. In-bounds: Finalize movement
   matchDetails.ballIntended = ballIntended;
+
   return matchDetails;
 }
 
@@ -98,6 +99,7 @@ function handleTouchline(
       ? setLeftSecondTeamThrowIn(matchDetails, ballIntended)
       : setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
   }
+
   return isKOT
     ? setRightSecondTeamThrowIn(matchDetails, ballIntended)
     : setRightKickOffTeamThrowIn(matchDetails, ballIntended);
@@ -117,21 +119,25 @@ function handleTopByline(
       ? setSecondTeamGoalScored(matchDetails)
       : setKickOffTeamGoalScored(matchDetails);
   }
+
   if (bXPOS < halfMWidth && isKOT) {
     return kickOffTeamSide === 'top'
       ? setTopLeftCornerPositions(matchDetails)
       : setTopGoalKick(matchDetails);
   }
+
   if (bXPOS > halfMWidth && isKOT) {
     return kickOffTeamSide === 'top'
       ? setTopRightCornerPositions(matchDetails)
       : setTopGoalKick(matchDetails);
   }
+
   if (bXPOS < halfMWidth && !isKOT) {
     return kickOffTeamSide === 'top'
       ? setTopGoalKick(matchDetails)
       : setTopLeftCornerPositions(matchDetails);
   }
+
   return kickOffTeamSide === 'top'
     ? setTopGoalKick(matchDetails)
     : setTopRightCornerPositions(matchDetails);
@@ -151,21 +157,25 @@ function handleBottomByline(
       ? setKickOffTeamGoalScored(matchDetails)
       : setSecondTeamGoalScored(matchDetails);
   }
+
   if (bXPOS < halfMWidth && isKOT) {
     return kickOffTeamSide === 'top'
       ? setBottomGoalKick(matchDetails)
       : setBottomLeftCornerPositions(matchDetails);
   }
+
   if (bXPOS > halfMWidth && isKOT) {
     return kickOffTeamSide === 'top'
       ? setBottomGoalKick(matchDetails)
       : setBottomRightCornerPositions(matchDetails);
   }
+
   if (bXPOS < halfMWidth && !isKOT) {
     return kickOffTeamSide === 'top'
       ? setBottomLeftCornerPositions(matchDetails)
       : setBottomGoalKick(matchDetails);
   }
+
   return kickOffTeamSide === 'top'
     ? setBottomRightCornerPositions(matchDetails)
     : setBottomGoalKick(matchDetails);

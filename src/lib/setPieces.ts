@@ -23,6 +23,7 @@ function executePenaltyShot(
   // 2. Determine Outcome and Record Stats
   const isOnTarget =
     player.skill.penalty_taking > common.getRandomNumber(0, 100);
+
   recordShotStats(matchDetails, team, player, isOnTarget);
 
   // 3. Calculate Target Position
@@ -31,6 +32,7 @@ function executePenaltyShot(
     player,
     isOnTarget,
   );
+
   matchDetails.iterationLog.push(
     `Shot ${isOnTarget ? 'On' : 'Off'} Target at X: ${shotPosition[0]}`,
   );
@@ -44,6 +46,7 @@ function executePenaltyShot(
   );
 
   checkGoalScored(matchDetails);
+
   return endPos;
 }
 
@@ -86,6 +89,7 @@ function setPenaltyPositions(
   });
 
   matchDetails.endIteration = true;
+
   return matchDetails;
 }
 
@@ -156,6 +160,7 @@ function positionDefendingTeam({
 
     if (isTop) {
       const ballDistanceFromGoalY = pitchHeight - ball.position[1];
+
       midWayY = Math.floor((ball.position[1] - ballDistanceFromGoalY) / 2);
     } else {
       midWayY = Math.floor(ball.position[1] / 2);
@@ -171,6 +176,7 @@ function positionDefendingTeam({
     );
   }
 }
+
 function setDefenderSetPiecePosition(
   player: Player,
   midWayFromBalltoGoalX: number,
@@ -181,6 +187,7 @@ function setDefenderSetPiecePosition(
 ) {
   if (player.position === 'GK') {
     const [origX, origY] = player.originPOS;
+
     player.currentPOS = [origX, origY];
   } else if (['CB', 'LB', 'RB'].includes(player.position)) {
     player.currentPOS = [
@@ -191,8 +198,10 @@ function setDefenderSetPiecePosition(
   } else {
     player.currentPOS = getRandomPenaltyPosition(matchDetails);
   }
+
   return playerSpace;
 }
+
 /**
  * Calculates the Y-coordinate for an attacking player during a deep set piece.
  */
@@ -240,6 +249,7 @@ export function calculateDefensiveSetPieceY(
 
   return getDefensiveTargetY(player.position, isTop, pitchHeight);
 }
+
 /**
  * Orchestrates the setup for a deep set piece.
  * Refactored to meet max-length metrics by delegating team positioning.
@@ -274,6 +284,7 @@ function executeDeepSetPieceSetup(
   repositionDefenders(defence, isTop, pitchHeight, isGKExecuting);
 
   matchDetails.endIteration = true;
+
   return matchDetails;
 }
 
@@ -318,6 +329,7 @@ function repositionAttackers(
         pitchHeight,
         isGKExecuting,
       );
+
       player.currentPOS[0] = player.originPOS[0];
       player.currentPOS[1] = Math.floor(finalY);
     }
@@ -340,6 +352,7 @@ function repositionDefenders(
       pitchHeight,
       isGKExecuting,
     );
+
     player.currentPOS[0] = player.originPOS[0];
     player.currentPOS[1] = Math.floor(targetY);
   }
@@ -356,12 +369,15 @@ function getAttackingLimit(
   if (pos === 'GK') {
     return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
   }
+
   if (['CB', 'LB', 'RB'].includes(pos)) {
     return pitchHeight * 0.5;
   }
+
   if (['CM', 'LM', 'RM'].includes(pos)) {
     return isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
   }
+
   return isTop ? pitchHeight * 0.9 : pitchHeight * 0.1;
 }
 
@@ -374,16 +390,20 @@ function getDefensiveTargetY(
   pitchHeight: number,
 ): number {
   const isMid = ['CM', 'LM', 'RM'].includes(pos);
+
   if (isMid) {
     return isTop ? pitchHeight * 0.75 + 5 : pitchHeight * 0.25 - 5;
   }
+
   return pitchHeight * 0.5;
 }
+
 /**
  * Calculates the target X for the defensive wall.
  */
 function calculateDefensiveWallX(ballX: number, pitchWidth: number): number {
   const ballDistanceFromGoalX = ballX - pitchWidth / 2;
+
   return Math.floor((ballX - ballDistanceFromGoalX) / 2);
 }
 
@@ -398,14 +418,18 @@ function getAttackerSetPieceY(
   if (position === 'GK') {
     return Math.floor(pitchHeight * (isTop ? 0.25 : 0.75));
   }
+
   if (position === 'CB') {
     return Math.floor(pitchHeight * 0.5);
   }
+
   if (position === 'LB' || position === 'RB') {
     return Math.floor(pitchHeight * (isTop ? 0.66 : 0.33));
   }
+
   return null;
 }
+
 function repositionTeamsForSetPiece(
   attack: Team,
   pitchHeight: number,
@@ -456,8 +480,10 @@ function repositionTeamsForSetPiece(
   }
 
   matchDetails.endIteration = true;
+
   return matchDetails;
 }
+
 export {
   executePenaltyShot,
   setPenaltyPositions,

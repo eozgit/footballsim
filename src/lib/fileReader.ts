@@ -13,6 +13,7 @@ function readFile<T>(filePath: string): Promise<T> {
         try {
           // data is a string because of the 'utf8' encoding
           const json: T = JSON.parse(data);
+
           resolve(json);
         } catch (parseError) {
           reject(parseError);

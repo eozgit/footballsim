@@ -8,6 +8,7 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
       player.intentPOS = [...player.originPOS];
     }
   }
+
   for (const player of matchDetails.secondTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
       player.currentPOS = [...player.originPOS];
@@ -15,11 +16,14 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
     }
   }
 }
+
 function initializePlayerState(player: Player) {
   player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
+
   if (player.currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
+
   player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
   player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
   player.action = `none`;
@@ -48,19 +52,23 @@ function initializePlayerState(player: Player) {
       fouls: 0,
     },
   };
+
   if (player.position === 'GK') {
     player.stats.saves = 0;
   }
 }
+
 function setGameVariables(team: Team): Team {
   team.players.forEach(initializePlayerState);
   team.intent = `none`;
   team.teamID = common.getRandomNumber(1000000000000, 999999999999999);
+
   return team;
 }
 
 function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   const playerWithBall = common.getRandomNumber(9, 10);
+
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.Player = team1.players[playerWithBall].playerID;
   matchDetails.ball.withTeam = team1.teamID;
@@ -81,6 +89,7 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   matchDetails.ball.lastTouch.teamID = team1.teamID;
   matchDetails.ball.ballOverIterations = [];
   const waitingPlayer = playerWithBall === 9 ? 10 : 9;
+
   team1.players[waitingPlayer].currentPOS = [
     matchDetails.ball.position[0] + 20,
     matchDetails.ball.position[1],
@@ -89,6 +98,7 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
     matchDetails.ball.position[0] + 20,
     matchDetails.ball.position[1],
   ];
+
   return team1;
 }
 
@@ -109,6 +119,7 @@ function populateMatchDetails(
     penalties: 0,
     fouls: 0,
   };
+
   return {
     matchID: common.getRandomNumber(1000000000000, 999999999999999),
     kickOffTeam: team1,

@@ -44,6 +44,7 @@ function getDefaultPlayerSkills() {
  */
 function getDefaultPlayerStats() {
   const emptyCounter = { total: 0, on: 0, off: 0, fouls: 0 };
+
   return {
     goals: 0,
     saves: 0,

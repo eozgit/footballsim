@@ -10,9 +10,11 @@ describe('testBoundariesForBottomGoal()', function () {
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(goalKick).to.be.greaterThan(-1);
     for (const player of nextJSON.secondTeam.players) {
       if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
@@ -24,6 +26,7 @@ describe('testBoundariesForBottomGoal()', function () {
     }
   });
 });
+
 describe('testBoundariesForTopGoal()', function () {
   it('expected Top Goal', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -32,7 +35,9 @@ describe('testBoundariesForTopGoal()', function () {
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
+
     expect(goalKick).to.be.greaterThan(-1);
     for (const player of nextJSON.kickOffTeam.players) {
       if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
@@ -44,6 +49,7 @@ describe('testBoundariesForTopGoal()', function () {
     }
   });
 });
+
 describe('testBoundariesForBottomGoalSecondHalf()', function () {
   it('expected Bottom Goal', async () => {
     const itlocation =
@@ -53,9 +59,11 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(goalKick).to.be.greaterThan(-1);
     for (const player of nextJSON.kickOffTeam.players) {
       if (player.playerID !== nextJSON.kickOffTeam.players[0].playerID) {
@@ -67,6 +75,7 @@ describe('testBoundariesForBottomGoalSecondHalf()', function () {
     }
   });
 });
+
 describe('testBoundariesForTopGoalSecondHalf()', function () {
   it('expected Top Goal', async () => {
     const itlocation =
@@ -76,7 +85,9 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
     const goalKick = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.gt(insideHalf);
+
     expect(goalKick).to.be.greaterThan(-1);
     for (const player of nextJSON.secondTeam.players) {
       if (player.playerID !== nextJSON.secondTeam.players[0].playerID) {
@@ -88,6 +99,7 @@ describe('testBoundariesForTopGoalSecondHalf()', function () {
     }
   });
 });
+
 describe('setKickOffTeamGoalScored()', function () {
   it('kickOff team in same position', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -99,12 +111,14 @@ describe('setKickOffTeamGoalScored()', function () {
     for (const player of nextJSON.secondTeam.players) {
       if (player.name === 'Aiden Smith') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
+
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
         );
       } else if (player.name === 'Wayne Smith') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
+
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
@@ -115,6 +129,7 @@ describe('setKickOffTeamGoalScored()', function () {
     }
   });
 });
+
 describe('setSecondTeamGoalScored()', function () {
   it('second team in same position', async () => {
     const itlocation = './src/init_config/iteration2.json';
@@ -126,12 +141,14 @@ describe('setSecondTeamGoalScored()', function () {
     for (const player of nextJSON.secondTeam.players) {
       if (player.name === 'Peter Johnson') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
+
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
         );
       } else if (player.name === 'Louise Johnson') {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
+
         expect(player.currentPOS[0]).to.within(
           nextJSON.ball.position[0],
           nextJSON.ball.position[0] + 20,
@@ -142,22 +159,27 @@ describe('setSecondTeamGoalScored()', function () {
     }
   });
 });
+
 describe('setFreekick()', function () {
   it('kickoff team assigned a freekick', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setSetpieceKickOffTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeamStatistics.freekicks).to.eql(1);
   });
+
   it('second team assigned a freekick', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setSetpieceSecondTeam(itlocation);
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeamStatistics.freekicks).to.eql(1);
   });
 });
+
 describe('setPenalties()', function () {
   it('kickoff team assigned a bottom penalty', async () => {
     const itlocation =
@@ -166,9 +188,12 @@ describe('setPenalties()', function () {
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
+
     expect(penaltyLog).to.be.greaterThan(-1);
   });
+
   it('second team assigned a bottom penalty', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/secondteambottompenalty.json';
@@ -176,9 +201,12 @@ describe('setPenalties()', function () {
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
+
     expect(penaltyLog).to.be.greaterThan(-1);
   });
+
   it('kickoff team assigned a top penalty', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -186,9 +214,12 @@ describe('setPenalties()', function () {
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeamStatistics.penalties).to.eql(1);
+
     expect(penaltyLog).to.be.greaterThan(-1);
   });
+
   it('second team assigned a top penalty', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/secondteamtoppenalty.json';
@@ -196,10 +227,13 @@ describe('setPenalties()', function () {
     const penaltyLog = nextJSON.iterationLog.indexOf('penalty to: ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeamStatistics.penalties).to.eql(1);
+
     expect(penaltyLog).to.be.greaterThan(-1);
   });
 });
+
 describe('testPenalties()', function () {
   it('top penalty returns kick off team players in the positions', async () => {
     const itlocation =
@@ -208,9 +242,13 @@ describe('testPenalties()', function () {
     const pitchWidth = nextJSON.pitchSize[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.teamID).to.eql(nextJSON.ball.withTeam);
+
     expect(nextJSON.ball.position).to.eql([pitchWidth / 2, 60]);
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([
       pitchWidth / 2,
       60,
@@ -230,6 +268,7 @@ describe('testPenalties()', function () {
       }
     }
   });
+
   it('bottom penalty returns kick off team players in the correct positions', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
@@ -237,9 +276,13 @@ describe('testPenalties()', function () {
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.teamID).to.eql(nextJSON.ball.withTeam);
+
     expect(nextJSON.ball.position).to.eql([pitchWidth / 2, pitchHeight - 60]);
+
     expect(nextJSON.ball.direction).to.eql('south');
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([
       pitchWidth / 2,
       pitchHeight - 60,
@@ -259,6 +302,7 @@ describe('testPenalties()', function () {
       }
     }
   });
+
   it('top penalty returns second team players in the correct positions', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/secondteamtoppenalty.json';
@@ -266,9 +310,13 @@ describe('testPenalties()', function () {
     const pitchWidth = nextJSON.pitchSize[0];
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.teamID).to.eql(nextJSON.ball.withTeam);
+
     expect(nextJSON.ball.position).to.eql([pitchWidth / 2, 60]);
+
     expect(nextJSON.ball.direction).to.eql('north');
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([
       pitchWidth / 2,
       60,
@@ -288,6 +336,7 @@ describe('testPenalties()', function () {
       }
     }
   });
+
   it('bottom penalty returns second team players in the correct positions', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/secondteambottompenalty.json';
@@ -295,9 +344,13 @@ describe('testPenalties()', function () {
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.teamID).to.eql(nextJSON.ball.withTeam);
+
     expect(nextJSON.ball.position).to.eql([pitchWidth / 2, pitchHeight - 60]);
+
     expect(nextJSON.ball.direction).to.eql('south');
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([
       pitchWidth / 2,
       pitchHeight - 60,
@@ -332,14 +385,18 @@ describe('testCorners()', function () {
         expect(player.currentPOS[1]).to.be.greaterThan(insideHalf);
       } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
+
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
         );
+
         expect(player.currentPOS[1]).to.be.greaterThan(-1);
+
         expect(player.currentPOS[1]).to.be.lessThan(pitchHeight / 6 + 7);
       }
     }
   });
+
   it('attacking team players are in relevant halves bottom Left corner', async () => {
     const itlocation = './src/init_config/iteration.json';
 
@@ -352,16 +409,20 @@ describe('testCorners()', function () {
         expect(player.currentPOS[1]).to.be.lessThan(insideHalf);
       } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
+
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
         );
+
         expect(player.currentPOS[1]).to.be.greaterThan(
           pitchHeight - pitchHeight / 6 + 5,
         );
+
         expect(player.currentPOS[1]).to.be.lessThan(pitchHeight + 1);
       }
     }
   });
+
   it('attacking team players are in relevant halves bottom right corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
 
@@ -374,16 +435,20 @@ describe('testCorners()', function () {
         expect(player.currentPOS[1]).to.be.lessThan(insideHalf);
       } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
+
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
         );
+
         expect(player.currentPOS[1]).to.be.greaterThan(
           pitchHeight - pitchHeight / 6 + 5,
         );
+
         expect(player.currentPOS[1]).to.be.lessThan(pitchHeight + 1);
       }
     }
   });
+
   it('attacking team players are in relevant halves top right corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
 
@@ -396,15 +461,19 @@ describe('testCorners()', function () {
         expect(player.currentPOS[1]).to.be.greaterThan(insideHalf);
       } else if (player.position !== 'LB' && player.position !== 'RB') {
         expect(player.currentPOS[0]).to.be.greaterThan(pitchWidth / 4 + 5);
+
         expect(player.currentPOS[0]).to.be.lessThan(
           pitchWidth - pitchWidth / 4 - 5,
         );
+
         expect(player.currentPOS[1]).to.be.greaterThan(-1);
+
         expect(player.currentPOS[1]).to.be.lessThan(pitchHeight / 6 + 7);
       }
     }
   });
 });
+
 describe('testThrowIns()', function () {
   it('kick off team left throw in', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -414,29 +483,52 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 230]);
+
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 230]);
+
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 230]);
+
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 230]);
+
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([0, 120]);
+
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 420]);
+
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([10, 130]);
+
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([15, 120]);
+
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([10, 110]);
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 650]);
+
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 820]);
+
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 820]);
+
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 820]);
+
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 820]);
+
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([20, 120]);
+
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 630]);
+
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([30, 125]);
+
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([25, 105]);
+
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([10, 90]);
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
+
   it('second off team left throw in', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setLeftSecondTeamThrowIn(
@@ -445,29 +537,52 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 80]);
+
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 80]);
+
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 80]);
+
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 80]);
+
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([20, 120]);
+
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 270]);
+
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([30, 125]);
+
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([25, 105]);
+
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([10, 90]);
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 500]);
+
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 970]);
+
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 970]);
+
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 970]);
+
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 970]);
+
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([0, 120]);
+
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 780]);
+
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([10, 130]);
+
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([15, 120]);
+
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([10, 110]);
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
+
   it('kick off team right throw in', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setRightKickOffTeamThrowIn(
@@ -476,29 +591,52 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 230]);
+
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 230]);
+
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 230]);
+
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 230]);
+
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([680, 120]);
+
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 420]);
+
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([670, 130]);
+
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([665, 120]);
+
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([670, 110]);
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 650]);
+
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 820]);
+
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 820]);
+
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 820]);
+
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 820]);
+
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([660, 120]);
+
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 630]);
+
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([650, 125]);
+
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([655, 105]);
+
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([670, 90]);
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 400]);
   });
+
   it('second off team right throw in', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.setRightSecondTeamThrowIn(
@@ -507,30 +645,53 @@ describe('testThrowIns()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS).to.eql([340, 0]);
+
     expect(nextJSON.kickOffTeam.players[1].currentPOS).to.eql([80, 80]);
+
     expect(nextJSON.kickOffTeam.players[2].currentPOS).to.eql([230, 80]);
+
     expect(nextJSON.kickOffTeam.players[3].currentPOS).to.eql([420, 80]);
+
     expect(nextJSON.kickOffTeam.players[4].currentPOS).to.eql([600, 80]);
+
     expect(nextJSON.kickOffTeam.players[5].currentPOS).to.eql([660, 120]);
+
     expect(nextJSON.kickOffTeam.players[6].currentPOS).to.eql([230, 270]);
+
     expect(nextJSON.kickOffTeam.players[7].currentPOS).to.eql([650, 125]);
+
     expect(nextJSON.kickOffTeam.players[8].currentPOS).to.eql([655, 105]);
+
     expect(nextJSON.kickOffTeam.players[9].currentPOS).to.eql([670, 90]);
+
     expect(nextJSON.kickOffTeam.players[10].currentPOS).to.eql([440, 500]);
+
     expect(nextJSON.secondTeam.players[0].currentPOS).to.eql([340, 1050]);
+
     expect(nextJSON.secondTeam.players[1].currentPOS).to.eql([80, 970]);
+
     expect(nextJSON.secondTeam.players[2].currentPOS).to.eql([230, 970]);
+
     expect(nextJSON.secondTeam.players[3].currentPOS).to.eql([420, 970]);
+
     expect(nextJSON.secondTeam.players[4].currentPOS).to.eql([600, 970]);
+
     expect(nextJSON.secondTeam.players[5].currentPOS).to.eql([680, 120]);
+
     expect(nextJSON.secondTeam.players[6].currentPOS).to.eql([230, 780]);
+
     expect(nextJSON.secondTeam.players[7].currentPOS).to.eql([670, 130]);
+
     expect(nextJSON.secondTeam.players[8].currentPOS).to.eql([665, 120]);
+
     expect(nextJSON.secondTeam.players[9].currentPOS).to.eql([670, 110]);
+
     expect(nextJSON.secondTeam.players[10].currentPOS).to.eql([440, 550]);
   });
 });
+
 describe('setPenalties()', function () {
   it('in bottom penalty area', async () => {
     const itlocation =
@@ -538,18 +699,21 @@ describe('setPenalties()', function () {
     const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
+
   it('in top penalty area', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
     const isInBottomPenaltyArea = await setpieces.inTopPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(true);
   });
+
   it('not in bottom penalty area', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
     const isInBottomPenaltyArea = await setpieces.inBottomPenalty(itlocation);
     expect(isInBottomPenaltyArea).to.eql(false);
   });
+
   it('not in top penalty area', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/intentPositionATTinOwnHalf.json';
@@ -563,8 +727,11 @@ describe('setGoalieHasBall()', function () {
     const itlocation = './src/init_config/iteration.json';
     const goalieHasBallSetup = await setpieces.goalieHasBall(itlocation);
     expect(goalieHasBallSetup.kickOffTeam.players[0].hasBall).to.eql(true);
+
     expect(goalieHasBallSetup.ball.withPlayer).to.eql(true);
+
     expect(goalieHasBallSetup.ball.withTeam).to.eql('78883930303030002');
+
     expect(goalieHasBallSetup.kickOffTeam.players[0].currentPOS).to.be.eql(
       goalieHasBallSetup.ball.position.slice(0, 2),
     );

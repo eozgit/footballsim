@@ -6,6 +6,7 @@ async function setTeam(teamLocation: string): Promise<Team> {
   const team = (await readFile(teamLocation).catch(function (err) {
     throw err.stack;
   })) as Team;
+
   return setVariables.setGameVariables(team);
 }
 

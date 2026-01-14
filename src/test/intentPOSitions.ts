@@ -33,6 +33,7 @@ describe('intentPOSitionsDefence()', function () {
       }
     }
   });
+
   it('kickoff team defensive players move towards ball on opposite side with player near', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTinOwnHalf3.json',
@@ -43,8 +44,11 @@ describe('intentPOSitionsDefence()', function () {
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
     expect(ballPosition).to.have.length(3);
+
     assert(ballPosition.length === 3);
+
     assert(ballPosition[2] === 0);
+
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
 
     if (ballPosition[2] >= 0) {
@@ -73,6 +77,7 @@ describe('intentPOSitionsDefence()', function () {
       }
     }
   });
+
   it('secondteam defensive players move towards ball on opposite side', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTinOwnHalf.json',
@@ -98,6 +103,7 @@ describe('intentPOSitionsDefence()', function () {
       }
     }
   });
+
   it('kickoff team defensive players ball in own half', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTinDEFHalf2.json',
@@ -106,6 +112,7 @@ describe('intentPOSitionsDefence()', function () {
       './src/test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
     const ballPosition = matchDetails.ball.position;
     assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
@@ -125,6 +132,7 @@ describe('intentPOSitionsDefence()', function () {
       expect(thisPlayer.intentPOS).to.eql(thisPlayer.originPOS);
     }
   });
+
   it('second team defensive players ball in own half', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTinDEFHalf.json',
@@ -135,6 +143,7 @@ describe('intentPOSitionsDefence()', function () {
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
     ballPosition.pop();
+
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
       if (player.playerID === closestPlayer.playerID) {
@@ -145,6 +154,7 @@ describe('intentPOSitionsDefence()', function () {
     }
   });
 });
+
 describe('intentPOSitionsAttacking()', function () {
   it('kickoff team attacking from behind originPOS', async () => {
     const matchDetails = await readMatchDetails(
@@ -161,6 +171,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('kickoff team attacking from originPOS', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTfromOrigin.json',
@@ -176,6 +187,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('kickoff team attacking from ahead of originPOS', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTaheadOfOrigin.json',
@@ -191,6 +203,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('second team attacking from behind originPOS', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTbehindOrigin2.json',
@@ -206,6 +219,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('second team attacking from originPOS', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTfromOrigin2.json',
@@ -221,6 +235,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('second team attacking from ahead of originPOS', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTaheadOfOrigin2.json',
@@ -236,6 +251,7 @@ describe('intentPOSitionsAttacking()', function () {
       ]);
     }
   });
+
   it('kickoff team attacking in own half from top', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTinOwnHalf4.json',
@@ -244,6 +260,7 @@ describe('intentPOSitionsAttacking()', function () {
       './src/test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (!player.hasBall) {
@@ -254,6 +271,7 @@ describe('intentPOSitionsAttacking()', function () {
       }
     }
   });
+
   it('kickoff team deep in opposition half do not exceed forward limits', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTdeep.json',
@@ -263,6 +281,7 @@ describe('intentPOSitionsAttacking()', function () {
       './src/test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (player.position === 'GK') {
@@ -290,6 +309,7 @@ describe('intentPOSitionsAttacking()', function () {
       }
     }
   });
+
   it('second team deep in opposition half do not exceed forward limits', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/intentPositionATTdeep2.json',
@@ -299,6 +319,7 @@ describe('intentPOSitionsAttacking()', function () {
       './src/test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
       if (player.position === 'GK') {
@@ -327,6 +348,7 @@ describe('intentPOSitionsAttacking()', function () {
     }
   });
 });
+
 describe('intentPOSitionsLooseBall()', function () {
   it('kickoff team moves towards ball', async () => {
     const matchDetails = await readMatchDetails(
@@ -337,49 +359,62 @@ describe('intentPOSitionsLooseBall()', function () {
       './src/test/input/closestPositions/closestPlayerKOTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
+
     expect(kickOffTeam.players[0].intentPOS).to.eql([
       kickOffTeam.players[0].originPOS[0],
       20,
     ]);
+
     expect(kickOffTeam.players[1].intentPOS).to.eql([380, 1000]);
+
     expect(kickOffTeam.players[2].intentPOS).to.eql([
       kickOffTeam.players[2].originPOS[0],
       101,
     ]);
+
     expect(kickOffTeam.players[3].intentPOS).to.eql([
       kickOffTeam.players[3].originPOS[0],
       101,
     ]);
+
     expect(kickOffTeam.players[4].intentPOS).to.eql([
       kickOffTeam.players[4].originPOS[0],
       287,
     ]);
+
     expect(kickOffTeam.players[5].intentPOS).to.eql([
       kickOffTeam.players[5].originPOS[0],
       465,
     ]);
+
     expect(kickOffTeam.players[6].intentPOS).to.eql([
       kickOffTeam.players[6].originPOS[0],
       484,
     ]);
+
     expect(kickOffTeam.players[7].intentPOS).to.eql([
       kickOffTeam.players[7].originPOS[0],
       482,
     ]);
+
     expect(kickOffTeam.players[8].intentPOS).to.eql([
       kickOffTeam.players[8].originPOS[0],
       481,
     ]);
+
     expect(kickOffTeam.players[9].intentPOS).to.eql([
       kickOffTeam.players[9].originPOS[0],
       724,
     ]);
+
     expect(kickOffTeam.players[10].intentPOS).to.eql([
       kickOffTeam.players[10].originPOS[0],
       733,
     ]);
   });
+
   it('second team moves towards ball', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/looseBall2.json',
@@ -389,49 +424,62 @@ describe('intentPOSitionsLooseBall()', function () {
       './src/test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
+
     expect(secondTeam.players[0].intentPOS).to.eql([
       secondTeam.players[0].originPOS[0],
       1030,
     ]);
+
     expect(secondTeam.players[1].intentPOS).to.eql([80, 485]);
+
     expect(secondTeam.players[2].intentPOS).to.eql([
       secondTeam.players[2].originPOS[0],
       950,
     ]);
+
     expect(secondTeam.players[3].intentPOS).to.eql([
       secondTeam.players[3].originPOS[0],
       950,
     ]);
+
     expect(secondTeam.players[4].intentPOS).to.eql([
       secondTeam.players[4].originPOS[0],
       537,
     ]);
+
     expect(secondTeam.players[5].intentPOS).to.eql([
       secondTeam.players[5].originPOS[0],
       415,
     ]);
+
     expect(secondTeam.players[6].intentPOS).to.eql([
       secondTeam.players[6].originPOS[0],
       414,
     ]);
+
     expect(secondTeam.players[7].intentPOS).to.eql([
       secondTeam.players[7].originPOS[0],
       412,
     ]);
+
     expect(secondTeam.players[8].intentPOS).to.eql([
       secondTeam.players[8].originPOS[0],
       455,
     ]);
+
     expect(secondTeam.players[9].intentPOS).to.eql([
       secondTeam.players[9].originPOS[0],
       205,
     ]);
+
     expect(secondTeam.players[10].intentPOS).to.eql([
       secondTeam.players[10].originPOS[0],
       205,
     ]);
   });
+
   it('second team moves towards ball player near ball', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/boundaryPositions/looseBall3.json',
@@ -441,47 +489,59 @@ describe('intentPOSitionsLooseBall()', function () {
       './src/test/input/closestPositions/closestPlayerSTInput.json',
     );
     setPos.setIntentPosition(matchDetails, closestPlayer);
+
     expect(matchDetails).to.be.an('object');
+
     expect(secondTeam.players[0].intentPOS).to.eql([
       secondTeam.players[0].originPOS[0],
       1030,
     ]);
+
     expect(secondTeam.players[1].intentPOS).to.eql([
       secondTeam.players[1].originPOS[0],
       485,
     ]);
+
     expect(secondTeam.players[2].intentPOS).to.eql([
       secondTeam.players[2].originPOS[0],
       950,
     ]);
+
     expect(secondTeam.players[3].intentPOS).to.eql([
       secondTeam.players[3].originPOS[0],
       950,
     ]);
+
     expect(secondTeam.players[4].intentPOS).to.eql([
       secondTeam.players[4].originPOS[0],
       537,
     ]);
+
     expect(secondTeam.players[5].intentPOS).to.eql([
       secondTeam.players[5].originPOS[0],
       415,
     ]);
+
     expect(secondTeam.players[6].intentPOS).to.eql([
       secondTeam.players[6].originPOS[0],
       414,
     ]);
+
     expect(secondTeam.players[7].intentPOS).to.eql([
       secondTeam.players[7].originPOS[0],
       412,
     ]);
+
     expect(secondTeam.players[8].intentPOS).to.eql([
       secondTeam.players[8].originPOS[0],
       455,
     ]);
+
     expect(secondTeam.players[9].intentPOS).to.eql([
       secondTeam.players[9].originPOS[0],
       205,
     ]);
+
     expect(secondTeam.players[10].intentPOS).to.eql([341, 10]);
   });
 });

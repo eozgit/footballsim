@@ -22,6 +22,7 @@ function setOneHundredYPos(
   // Set ball possession to the goalkeeper (players[0])
   attack.players[0].hasBall = true;
   const { ball } = matchDetails;
+
   ball.lastTouch.playerName = attack.players[0].name;
   ball.Player = attack.players[0].playerID;
   ball.withTeam = attack.teamID;
@@ -47,11 +48,13 @@ function setOneHundredYPos(
       const newY = isTop
         ? common.upToMin(player.originPOS[1] - 100, 0) // Push toward Top goal
         : common.upToMax(player.originPOS[1] + 100, pitchHeight); // Push toward Bottom goal
+
       player.currentPOS = [player.originPOS[0], newY];
     }
   }
 
   matchDetails.endIteration = true;
+
   return matchDetails;
 }
 
@@ -92,6 +95,7 @@ function setHalfwayToOppositeQtrYPos(
   attack.players.forEach((player) => {
     if (player.position === 'GK') {
       const gkY = isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
+
       player.currentPOS = [player.originPOS[0], Math.floor(gkY)];
     } else if (player.name !== kickPlayer.name) {
       player.currentPOS[0] = player.originPOS[0];
@@ -110,12 +114,14 @@ function setHalfwayToOppositeQtrYPos(
       const targetY = ['CM', 'LM', 'RM'].includes(player.position)
         ? wallY
         : pitchHeight * 0.5;
+
       player.currentPOS[0] = player.originPOS[0];
       player.currentPOS[1] = Math.floor(targetY);
     }
   });
 
   matchDetails.endIteration = true;
+
   return { matchDetails, kickPlayer };
 }
 
@@ -137,12 +143,14 @@ function getBallDirection(
     if (ballInCentre) {
       return 'south';
     }
+
     return ballLeft ? 'southeast' : 'southwest';
   }
 
   if (ballInCentre) {
     return 'north';
   }
+
   return ballLeft ? 'northeast' : 'northwest';
 }
 
@@ -171,6 +179,7 @@ function calculateAttackerY(
     ? common.upToMax(ball.position[1] + signedPush, pitchHeight * limitFactor)
     : common.upToMin(ball.position[1] + signedPush, pitchHeight * limitFactor);
 }
+
 function setDeepFreekickBallAndKicker(
   ball: Ball,
   kickPlayer: Player,
@@ -188,6 +197,7 @@ function setDeepFreekickBallAndKicker(
     pitchWidth - pitchWidth / 4 - 5,
   );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+
   ball.direction = isTop
     ? ballInCentre
       ? 'south'
@@ -198,6 +208,7 @@ function setDeepFreekickBallAndKicker(
       ? 'east'
       : 'west';
   const [ballX, ballY] = ball.position;
+
   kickPlayer.currentPOS = [ballX, ballY];
 }
 
@@ -208,15 +219,19 @@ function initializeKickerAndBall(
   const { ball, pitchSize } = matchDetails;
   const [pitchWidth, pitchHeight] = pitchSize;
   const kickPlayer = attack.players[5];
+
   setBallPossession(kickPlayer, ball, attack);
+
   return { ball, pitchWidth, pitchHeight, kickPlayer };
 }
+
 function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
   ball.withTeam = attack.teamID;
 }
+
 function alignPlayersForPenalty(
   isTop: boolean,
   attack: Team,
@@ -238,6 +253,7 @@ function alignPlayersForPenalty(
     pitchWidth,
   );
 }
+
 function setSetPiecePositions(
   attack: Team,
   pitchHeight: number,
@@ -259,6 +275,7 @@ function setSetPiecePositions(
     isTop,
   );
 }
+
 export {
   alignPlayersForPenalty,
   initializeKickerAndBall,

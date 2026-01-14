@@ -49,6 +49,7 @@ function processTeamTactics(
       matchDetails,
       tacticalContext,
     );
+
     player.currentPOS[0] = pos[0];
     player.currentPOS[1] = pos[1];
 
@@ -59,6 +60,7 @@ function processTeamTactics(
       handleBallPlayerActions(matchDetails, player, team, opp, action);
     }
   }
+
   return team;
 }
 
@@ -82,6 +84,7 @@ function determinePlayerAction(
     matchDetails,
   );
   let action = actions.selectAction(possibleActions);
+
   action = checkProvidedAction(matchDetails, player, action);
 
   const isClosestDefender =
@@ -93,9 +96,11 @@ function determinePlayerAction(
     if (!['tackle', 'slide', 'intercept'].includes(action)) {
       action = 'sprint';
     }
+
     ctx.x = closestPlayerActionBallX(ctx.x);
     ctx.y = closestPlayerActionBallY(ctx.y);
   }
+
   return action;
 }
 
@@ -112,9 +117,11 @@ function executePlayerMovement(
   const move = getMovement(player, action, opp, ctx.x, ctx.y, matchDetails);
   const newPos = completeMovement(matchDetails, player.currentPOS, move);
   const [newX, newY] = newPos;
+
   if (newX === 'NP') {
     throw new Error('No player position!');
   }
+
   return [newX, newY];
 }
 
@@ -152,6 +159,7 @@ export function resolveBallInteractions(
   // Case A: Ball is loose (no player has it)
   if (!ball.withPlayer) {
     setClosePlayerTakesBall(matchDetails, player, team, opp);
+
     return;
   }
 
@@ -161,10 +169,13 @@ export function resolveBallInteractions(
     if (!player.hasBall) {
       if (action === 'tackle') {
         completeTackleWhenCloseNoBall(matchDetails, player, team, opp);
+
         return;
       }
+
       if (action === 'slide') {
         completeSlide(matchDetails, player, team, opp);
+
         return;
       }
     }
@@ -176,12 +187,15 @@ export function resolveBallInteractions(
 
 function getPlayerTacticalContext(player: Player, ballPos: number[]) {
   const [curX, curY] = player.currentPOS;
+
   if (curX === 'NP') {
     throw new Error('No player position!');
   }
+
   return {
     x: curX - ballPos[0],
     y: curY - ballPos[1],
   };
 }
+
 export { processTeamTactics };

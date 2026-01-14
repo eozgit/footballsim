@@ -42,8 +42,10 @@ function getRandomKickDirection(side: 'top' | 'bottom'): string {
 
   const pool =
     side === 'top' ? baseTop.concat(diagTop) : baseBottom.concat(diagBottom);
+
   return pool[common.getRandomNumber(0, pool.length - 1)];
 }
+
 /**
  * Processes the outcome of a player kicking the ball.
  * Refactored to pass the 50-line linting limit.
@@ -158,9 +160,11 @@ function calculateThroughBallTarget(
     if (bottomThird) {
       return setTargetPlyPos(pos, -10, 10, -10, 10);
     }
+
     if (middleThird) {
       return setTargetPlyPos(pos, -20, 20, -50, 50);
     }
+
     return setTargetPlyPos(pos, -30, 30, -100, 100);
   }
 
@@ -168,9 +172,11 @@ function calculateThroughBallTarget(
   if (bottomThird) {
     return setTargetPlyPos(pos, -30, 30, -100, 100);
   }
+
   if (middleThird) {
     return setTargetPlyPos(pos, -20, 20, -50, 50);
   }
+
   return setTargetPlyPos(pos, -10, 10, -10, 10);
 }
 

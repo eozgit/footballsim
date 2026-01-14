@@ -14,8 +14,10 @@ let matchRNG: () => number = Math.random;
 function setMatchSeed(seed: number): void {
   matchRNG = function () {
     let t = (seed += 0x6d2b79f5);
+
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
 }
@@ -41,6 +43,7 @@ function upToMax(num: number, max: number): number {
   if (num > max) {
     return max;
   }
+
   return num;
 }
 
@@ -48,6 +51,7 @@ function upToMin(num: number, min: number): number {
   if (num < min) {
     return min;
   }
+
   return num;
 }
 
@@ -63,6 +67,7 @@ function getBallTrajectory(
   let arraySize = Math.round(thisPOS[1] - newPOS[1]);
 
   let effectivePower = power;
+
   if (movementDistance >= power) {
     effectivePower = Math.floor(power) + Math.floor(movementDistance);
   }
@@ -98,8 +103,10 @@ function getBallTrajectory(
     }
 
     let hPos;
+
     if (elevation === 1) {
       hPos = round(lastH + changeInH, 5);
+
       if (hPos >= height) {
         elevation = 0;
         hPos = height;
@@ -107,6 +114,7 @@ function getBallTrajectory(
     } else {
       hPos = round(lastH - changeInH, 5);
     }
+
     trajectory.push([xPos, yPos, hPos]);
   });
 
@@ -115,6 +123,7 @@ function getBallTrajectory(
 
 function calculatePower(strength: number | string): number {
   const hit = getRandomNumber(1, 5);
+
   return Math.floor(Number(strength)) * hit;
 }
 
@@ -134,6 +143,7 @@ function inTopPenalty(matchDetails: MatchDetails, item: BallPosition): boolean {
     matchWidth - matchWidth / 4 - 5,
   );
   const ballInTopPenalyBoxY = isBetween(item[1], -1, matchHeight / 6 + 7);
+
   return ballInPenalyBoxX && ballInTopPenalyBoxY;
 }
 
@@ -152,6 +162,7 @@ function inBottomPenalty(
     matchHeight - matchHeight / 6 - 7,
     matchHeight + 1,
   );
+
   return ballInPenalyBoxX && ballInBottomPenalyBoxY;
 }
 
@@ -161,6 +172,7 @@ function getRandomTopPenaltyPosition(
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [0, pitchHeight / 6 + 6];
+
   return [
     getRandomNumber(boundaryX[0], boundaryX[1]),
     getRandomNumber(boundaryY[0], boundaryY[1]),
@@ -173,6 +185,7 @@ function getRandomBottomPenaltyPosition(
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];
+
   return [
     getRandomNumber(boundaryX[0], boundaryX[1]),
     getRandomNumber(boundaryY[0], boundaryY[1]),
@@ -191,6 +204,7 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
   for (const player of matchDetails.kickOffTeam.players) {
     player.hasBall = false;
   }
+
   for (const player of matchDetails.secondTeam.players) {
     player.hasBall = false;
   }

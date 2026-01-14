@@ -53,4 +53,5 @@ function resolveBestPassOption(
 
   return bestPlayer;
 }
+
 export { resolveBestPassOption };

@@ -51,6 +51,7 @@ function calculateDeflectionVector(
   // Return the calculated position if direction is found, otherwise default to [0, 0]
   return handler ? handler(defPosition, newPower) : [0, 0];
 }
+
 /**
  * Updates the ball's cardinal direction based on movement vector.
  * Refactored to use a lookup map to reduce complexity.
@@ -69,6 +70,7 @@ function updateBallCardinalDirection(
   // 1. Handle stationary state
   if (dx === 0 && dy === 0) {
     matchDetails.ball.direction = 'wait';
+
     return;
   }
 
@@ -90,7 +92,9 @@ function updateBallCardinalDirection(
   };
 
   const key = `${sigX}${sigY}`;
+
   matchDetails.ball.direction =
     directionMap[key] || matchDetails.ball.direction;
 }
+
 export { calculateDeflectionVector, updateBallCardinalDirection };

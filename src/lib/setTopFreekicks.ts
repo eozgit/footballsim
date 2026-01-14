@@ -43,18 +43,23 @@ function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   if (ballY < 101) {
     return setTopOneHundredYPos(matchDetails, attack, defence);
   }
+
   if (hundredToHalfway) {
     return setTopOneHundredToHalfwayYPos(matchDetails, attack, defence);
   }
+
   if (halfwayToLastQtr) {
     return setTopHalfwayToBottomQtrYPos(matchDetails, attack, defence);
   }
+
   if (upperFinalQtr) {
     return setTopBottomQtrCentreYPos(matchDetails, attack, defence);
   }
+
   if (lowerFinalQtr) {
     return setTopLowerFinalQtrBylinePos(matchDetails, attack, defence);
   }
+
   throw new Error(
     `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
   );
@@ -87,6 +92,7 @@ function setTopHalfwayToBottomQtrYPos(
     defence,
     'top',
   );
+
   return details;
 }
 
@@ -130,9 +136,12 @@ function setTopLowerFinalQtrBylinePos(
     attack,
   );
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
+
   ball.direction = ballLeft ? 'east' : 'west';
   const [ballX, ballY] = ball.position;
+
   kickPlayer.currentPOS = [ballX, ballY];
+
   return setSetPiecePositions(
     attack,
     pitchHeight,

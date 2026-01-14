@@ -16,12 +16,14 @@ function resolvePlayerBallInteraction(
   if (!thisPlayer) {
     throw new Error('Player is undefined!');
   }
+
   if (
     !Array.isArray(thisPlayer.currentPOS) ||
     thisPlayer.currentPOS.length < 2
   ) {
     throw new Error(`Invalid player position: ${thisPlayer.currentPOS}`);
   }
+
   if (thisPlayer.currentPOS[0] === 'NP') {
     throw new Error('Player no position!');
   }
@@ -52,6 +54,7 @@ function resolvePlayerBallInteraction(
     thisTeam,
   );
 }
+
 /**
  * Resolves ball movement by checking for player interceptions and pitch boundaries.
  * Refactored to comply with the 50-line limit by extracting the trajectory loop.
@@ -69,6 +72,7 @@ function checkInterceptionsOnTrajectory(
 
   // 1. Process Interceptions (Extracted)
   const trajectory = common.getBallTrajectory(thisPOS, newPOS, power);
+
   resolvePathInterceptions(
     trajectory,
     player,
@@ -81,6 +85,7 @@ function checkInterceptionsOnTrajectory(
 
   // 2. Handle Boundaries
   const lastTeam = matchDetails.ball.lastTouch.teamID;
+
   matchDetails = setPositions.keepInBoundaries(matchDetails, lastTeam, newPOS);
 
   if (matchDetails.endIteration) {
@@ -89,6 +94,7 @@ function checkInterceptionsOnTrajectory(
 
   // 3. Finalize Position
   const finalPos = matchDetails.ballIntended || matchDetails.ball.position;
+
   delete matchDetails.ballIntended;
 
   return [common.round(finalPos[0], 2), common.round(finalPos[1], 2)];
@@ -139,4 +145,5 @@ function resolvePathInterceptions(
     }
   }
 }
+
 export { checkInterceptionsOnTrajectory, resolvePlayerBallInteraction };

@@ -14,6 +14,7 @@ function recordShotStats(
     if (half === 0) {
       throw new Error(`You cannot supply 0 as a half`);
     }
+
     return common.isEven(half)
       ? matchDetails.kickOffTeamStatistics
       : matchDetails.secondTeamStatistics;

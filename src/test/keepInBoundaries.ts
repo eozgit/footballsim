@@ -16,11 +16,14 @@ describe('testBoundariesForCorners1()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - Dragons');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Right Corner', async () => {
     const itlocation = './src/test/input/keepInBoundaries/topRightCorner.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -32,11 +35,14 @@ describe('testBoundariesForCorners1()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - Dragons');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Left Corner', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -48,11 +54,14 @@ describe('testBoundariesForCorners1()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Right Corner', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -64,12 +73,15 @@ describe('testBoundariesForCorners1()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.greaterThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
 });
+
 describe('testBoundariesForCorners2()', function () {
   it('expected Top Left Corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
@@ -82,11 +94,14 @@ describe('testBoundariesForCorners2()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Right Corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -98,11 +113,14 @@ describe('testBoundariesForCorners2()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.secondTeam.players[0].currentPOS[1]).to.be.lessThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Left Corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -114,11 +132,14 @@ describe('testBoundariesForCorners2()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.kickOffTeam.players[0].currentPOS[1]).to.be.greaterThan(
       insideHalf,
     );
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Right Corner', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -129,9 +150,11 @@ describe('testBoundariesForCorners2()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Corner to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
 });
+
 describe('set throw in()', function () {
   it('expected kick off team throw in left', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
@@ -143,8 +166,10 @@ describe('set throw in()', function () {
     const throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(throwLog).to.be.greaterThan(-1);
   });
+
   it('expected kick off team throw in right', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -155,8 +180,10 @@ describe('set throw in()', function () {
     const throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(throwLog).to.be.greaterThan(-1);
   });
+
   it('expected second team throw in left', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -167,8 +194,10 @@ describe('set throw in()', function () {
     const throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(throwLog).to.be.greaterThan(-1);
   });
+
   it('expected second team throw in right', async () => {
     const itlocation = './src/test/input/boundaryPositions/setCorners2.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -179,9 +208,11 @@ describe('set throw in()', function () {
     const throwLog = nextJSON.iterationLog.indexOf('Throw in to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(throwLog).to.be.greaterThan(-1);
   });
 });
+
 describe('goalKicks()', function () {
   it('expected Top Goal Kick', async () => {
     const itlocation = './src/init_config/iteration.json';
@@ -193,8 +224,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Goal Kick', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -205,8 +238,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Goal Kick 2', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -218,8 +253,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Goal Kick 2', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -231,8 +268,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Goal Kick 3', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -244,8 +283,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Goal Kick 4', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
@@ -257,8 +298,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Bottom Goal Kick 5', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteambottompenalty.json';
@@ -270,8 +313,10 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThatTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
+
   it('expected Top Goal Kick 6', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/secondteambottompenalty.json';
@@ -283,9 +328,11 @@ describe('goalKicks()', function () {
     const cornerLog = nextJSON.iterationLog.indexOf('Goal Kick to - ThisTeam');
 
     expect(nextJSON).to.be.an('object');
+
     expect(cornerLog).to.be.greaterThan(-1);
   });
 });
+
 describe('goalScored()', function () {
   it('expected second team goal scored', async () => {
     const itlocation = './src/init_config/iteration2.json';
@@ -299,8 +346,10 @@ describe('goalScored()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(goalLog).to.be.greaterThan(-1);
   });
+
   it('expected kick off team goal scored', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -313,8 +362,10 @@ describe('goalScored()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(goalLog).to.be.greaterThan(-1);
   });
+
   it('expected kick off team goal scored 2', async () => {
     const itlocation = './src/init_config/iteration.json';
     const nextJSON = await setpieces.keepInBoundaries(
@@ -327,8 +378,10 @@ describe('goalScored()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(goalLog).to.be.greaterThan(-1);
   });
+
   it('expected kick off team goal scored 3', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -342,8 +395,10 @@ describe('goalScored()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(goalLog).to.be.greaterThan(-1);
   });
+
   it('expected second team goal scored - own goal', async () => {
     const itlocation =
       './src/test/input/boundaryPositions/kickoffteamtoppenalty.json';
@@ -357,9 +412,11 @@ describe('goalScored()', function () {
     );
 
     expect(nextJSON).to.be.an('object');
+
     expect(goalLog).to.be.greaterThan(-1);
   });
 });
+
 describe('no boundary()', function () {
   it('returns unchanged matchDetails', async () => {
     const itlocation =
@@ -371,8 +428,11 @@ describe('no boundary()', function () {
     );
     const matchDetails = await readFile(itlocation);
     expect(nextJSON).to.be.an('object');
+
     expect(nextJSON.ballIntended).to.eql([349, 200]);
+
     delete nextJSON.ballIntended;
+
     expect(matchDetails).to.eql(nextJSON);
   });
 });

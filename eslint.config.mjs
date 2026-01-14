@@ -72,6 +72,15 @@ export default tseslint.config(
       // --- COMPLEXITY THRESHOLDS (WARNINGS FOR AGENTS TO REFACTOR) ---
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       complexity: ['warn', 10],
+      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+        { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
+        { blankLine: 'always', prev: 'block-like', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'block-like' },
+      ],
     },
   },
   {
@@ -87,6 +96,12 @@ export default tseslint.config(
       'max-lines-per-function': 'off',
       'unused-imports/no-unused-vars': 'warn',
       'import/no-commonjs': 'off', // Allow commonjs in tests if necessary
+      'padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+        // Specifically ensure room around test blocks
+        { blankLine: 'always', prev: 'expression', next: 'expression' },
+      ],
     },
   },
 );
