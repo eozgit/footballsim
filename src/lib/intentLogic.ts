@@ -35,11 +35,10 @@ function getAttackingIntentWeights(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  // 1. Validate and extract player coordinates
   const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  // 2. Analyze surroundings (Opposition and Teammates)
+  // 1. Surroundings Analysis
   const oppInfo = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -51,40 +50,34 @@ function getAttackingIntentWeights(
     playerPos,
   );
 
-  // Normalize teammate proximity (Absolute values for directional-agnostic distance)
   const tmateProximity: [number, number] = [
     Math.abs(tmateInfo.proxPOS[0]),
     Math.abs(tmateInfo.proxPOS[1]),
   ];
 
-  // 3. Validate closest opponent coordinates
   const oppPos = ensureValidPosition(
     oppInfo.thePlayer.currentPOS,
     'Closest opponent',
   );
 
-  // 4. Calculate shooting range thresholds based on skill
-  // Higher skill decreases the distance required for "shot range"
-  const shootingSkill = player.skill.shooting;
-  const halfRangeThreshold = pitchHeight - shootingSkill / 2;
-  const fullShotRangeThreshold = pitchHeight - shootingSkill;
-
-  // 5. Determine context-specific weights
-  const isInPenaltyBox = checkPositionInBottomPenaltyBoxClose(
-    playerPos,
-    pitchWidth,
+  // 2. Shooting Range Calculation
+  const { halfRange, fullRange } = calculateShootingThresholds(
+    player.skill.shooting,
     pitchHeight,
   );
 
-  if (isInPenaltyBox) {
+  // 3. Delegation based on Pitch Context
+  if (
+    checkPositionInBottomPenaltyBoxClose(playerPos, pitchWidth, pitchHeight)
+  ) {
     return handleInPenaltyBox(
       oppInfo,
       tmateProximity,
-      player.currentPOS, // Original position object for compatibility
+      player.currentPOS,
       playerPos,
       oppPos,
-      halfRangeThreshold,
-      fullShotRangeThreshold,
+      halfRange,
+      fullRange,
       pitchHeight,
     );
   }
@@ -92,9 +85,22 @@ function getAttackingIntentWeights(
   return handleOutsidePenaltyBox(
     oppInfo,
     player.currentPOS,
-    fullShotRangeThreshold,
+    fullRange,
     pitchHeight,
   );
+}
+
+/**
+ * Helper to determine shooting range thresholds based on player skill.
+ */
+function calculateShootingThresholds(
+  shootingSkill: number,
+  pitchHeight: number,
+) {
+  return {
+    halfRange: pitchHeight - shootingSkill / 2,
+    fullRange: pitchHeight - shootingSkill,
+  };
 }
 
 /**
@@ -220,26 +226,22 @@ function getPlayerActionWeights(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') {
+  const { position, currentPOS, skill } = player;
+
+  // 1. Validation and Setup
+  if (currentPOS[0] === 'NP') {
     throw new Error('No player position!');
   }
+  const pos = currentPOS as [number, number];
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
     opposition,
-    player.currentPOS as [number, number],
+    pos,
   );
 
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { position, currentPOS, skill } = player;
-  const [playerX, playerY] = currentPOS;
-
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
-  }
-  const pos: [number, number] = [playerX, playerY];
-
-  // 1. Specialized Position / Boundary Logic
+  // 2. High-Priority Specialized Logic
   if (position === 'GK') {
     return handleGKIntent(playerInformation);
   }
@@ -252,28 +254,22 @@ function getPlayerActionWeights(
     return getAttackingIntentWeights(matchDetails, player, team, opposition);
   }
 
-  // 2. Zone-based Delegation
+  // 3. Zone-based Delegation (Thirds of the pitch)
+  const playerY = pos[1];
+
+  // Attacking Third
   if (
-    common.isBetween(
-      currentPOS[1],
-      pitchHeight - pitchHeight / 3,
-      pitchHeight - pitchHeight / 6 + 5,
-    )
+    common.isBetween(playerY, pitchHeight * (2 / 3), pitchHeight * (5 / 6) + 5)
   ) {
     return handleAttackingThirdIntent(playerInformation, currentPOS);
   }
 
-  if (
-    common.isBetween(
-      currentPOS[1],
-      pitchHeight / 3,
-      pitchHeight - pitchHeight / 3,
-    )
-  ) {
+  // Middle Third
+  if (common.isBetween(playerY, pitchHeight / 3, pitchHeight * (2 / 3))) {
     return handleMiddleThirdIntent(playerInformation, position, skill);
   }
 
-  // 3. Defensive Third (Fallback)
+  // Defensive Third (Fallback)
   return handleDefensiveThirdIntent(playerInformation, position);
 }
 
@@ -352,59 +348,58 @@ function getAttackingThreatWeights(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-  const curPOS = player.currentPOS as [number, number];
+  const curPOS = validatePlayerPosition(player.currentPOS);
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  const playerInformation = setPositions.closestPlayerToPosition(
+  // 1. Analyze surroundings
+  const oppInfo = setPositions.closestPlayerToPosition(
     player,
     opposition,
     curPOS,
   );
-  const ownPlayerInfo = setPositions.closestPlayerToPosition(
-    player,
-    team,
-    curPOS,
-  );
+  const tmateInfo = setPositions.closestPlayerToPosition(player, team, curPOS);
 
   const tmateProximity: [number, number] = [
-    Math.abs(ownPlayerInfo.proxPOS[0]),
-    Math.abs(ownPlayerInfo.proxPOS[1]),
+    Math.abs(tmateInfo.proxPOS[0]),
+    Math.abs(tmateInfo.proxPOS[1]),
   ];
 
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-  const { currentPOS, skill } = player;
+  const closeOppPOS = oppInfo.thePlayer.currentPOS;
 
-  if (currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-  const pos = currentPOS as [number, number];
-  const closeOppPOS = playerInformation.thePlayer.currentPOS;
-
-  // Branch 1: Deep inside the penalty box
-  if (checkPositionInTopPenaltyBoxClose(pos, pitchWidth, pitchHeight)) {
+  // 2. Branch 1: Deep inside the penalty box
+  if (checkPositionInTopPenaltyBoxClose(curPOS, pitchWidth, pitchHeight)) {
     return handleDeepBoxThreat(
-      playerInformation,
+      oppInfo,
       tmateProximity,
-      currentPOS,
+      player.currentPOS,
       closeOppPOS,
-      skill,
+      player.skill,
     );
   }
 
-  // Branch 2: Edge of the box / Long range
-  if (common.isBetween(currentPOS[1], 0, skill.shooting)) {
+  // 3. Branch 2: Edge of the box / Long range (shooting skill based)
+  if (common.isBetween(curPOS[1], 0, player.skill.shooting)) {
     return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
   }
 
-  // Branch 3: Position based logic outside the danger zone
-  if (checkOppositionAhead(closeOppPOS, currentPOS)) {
+  // 4. Branch 3: Opposition blocking the path ahead
+  if (checkOppositionAhead(closeOppPOS, player.currentPOS)) {
     return [20, 0, 0, 0, 0, 0, 0, 80, 0, 0, 0];
   }
 
+  // Default outside danger zone
   return [50, 0, 20, 20, 0, 0, 0, 10, 0, 0, 0];
 }
+
+function validatePlayerPosition(
+  pos: [number | 'NP', number],
+): [number, number] {
+  if (pos[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+  return pos as [number, number];
+}
+
 function handleDeepBoxThreat(
   oppInfo: {
     thePlayer?: Player;

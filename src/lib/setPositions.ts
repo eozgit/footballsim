@@ -649,7 +649,6 @@ function setKickOffTeamGoalScored(matchDetails: MatchDetails): MatchDetails {
   if (thisIndex > -1) {
     matchDetails.kickOffTeam.players[thisIndex].stats.goals++;
   }
-  common.debug('sp3', matchDetails.ball.lastTouch);
   matchDetails.ball.lastTouch.playerName = ``;
   matchDetails.ball.lastTouch.playerID = -99;
   matchDetails.ball.lastTouch.teamID = -99;
@@ -676,7 +675,6 @@ function setSecondTeamGoalScored(matchDetails: MatchDetails): MatchDetails {
   if (thisIndex > -1) {
     matchDetails.secondTeam.players[thisIndex].stats.goals++;
   }
-  common.debug('sp4', matchDetails.ball.lastTouch);
   matchDetails.ball.lastTouch.playerName = '';
   matchDetails.ball.lastTouch.playerID = -99;
   matchDetails.ball.lastTouch.teamID = -99;

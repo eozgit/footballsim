@@ -80,7 +80,6 @@ function completeSlide(
       configurable: false,
     });
   }
-  common.debug('pm1', matchDetails);
   if (opp.name === matchDetails.kickOffTeam.name) {
     return setPositions.setSetpieceKickOffTeam(matchDetails);
   }
