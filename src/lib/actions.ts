@@ -598,8 +598,7 @@ function resolveTackle(
   }
 
   if (
-    calcTackleScore(player.skill.tackling, 5) >
-    calcRetentionScore(thatPlayer.skill.tackling, 5)
+    calcTackleScore(player.skill, 5) > calcRetentionScore(thatPlayer.skill, 5)
   ) {
     setSuccessTackle(
       matchDetails,

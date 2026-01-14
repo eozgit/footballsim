@@ -679,7 +679,7 @@ function handlePlayerDeflection(
     const newPOS = resolveDeflection(
       power,
       thisPOS,
-      player.currentPOS,
+      [posX, posY],
       player,
       team,
       matchDetails,

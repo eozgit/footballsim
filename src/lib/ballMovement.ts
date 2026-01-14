@@ -648,7 +648,7 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(num: unknown, n: number) {
+function splitNumberIntoN(num: number, n: number) {
   const arrayN = Array.from(new Array(n).keys());
   const splitNumber = [];
 
