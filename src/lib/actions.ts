@@ -280,6 +280,79 @@ function playerDoesNotHaveBall(
   return [0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0];
 }
 
+function noBallNotGK4CloseBallBottomTeam(
+  matchDetails: MatchDetails,
+  currentPOS: [number | 'NP', number],
+  pitchWidth: number,
+  pitchHeight: number,
+): MatchEventWeights {
+  return resolveNoBallNotGKIntent(
+    matchDetails,
+    currentPOS,
+    pitchWidth,
+    pitchHeight,
+    true,
+    {
+      inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
+      fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
+    },
+  );
+}
+
+function noBallNotGK2CloseBallBottomTeam(
+  matchDetails: MatchDetails,
+  currentPOS: [number, number],
+  pitchWidth: number,
+  pitchHeight: number,
+): MatchEventWeights {
+  return resolveNoBallNotGKIntent(
+    matchDetails,
+    currentPOS,
+    pitchWidth,
+    pitchHeight,
+    true,
+    {
+      inBox: [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0],
+      fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
+    },
+  );
+}
+/**
+ * Shared logic for non-goalkeeper players near the ball.
+ * Handles both proximity ranges and team-specific penalty box checks.
+ */
+function resolveNoBallNotGKIntent(
+  matchDetails: MatchDetails,
+  currentPOS: [number | 'NP', number],
+  pitchWidth: number,
+  pitchHeight: number,
+  isBottomTeam: boolean,
+  weights: { inBox: MatchEventWeights; fallback: MatchEventWeights },
+): MatchEventWeights {
+  const [curX, curY] = currentPOS;
+
+  if (curX === 'NP') {
+    throw new Error('No player position!');
+  }
+
+  const inPenaltyBox = isBottomTeam
+    ? checkPositionInBottomPenaltyBox([curX, curY], pitchWidth, pitchHeight)
+    : checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight);
+
+  // 1. Ball is loose
+  if (matchDetails.ball.withPlayer === false) {
+    return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
+  }
+
+  // 2. Ball is with a player - In Penalty Box
+  if (inPenaltyBox) {
+    return weights.inBox;
+  }
+
+  // 3. Ball is with a player - Outside Box
+  return weights.fallback;
+}
+
 function noBallNotGK4CloseBall(
   matchDetails: MatchDetails,
   currentPOS: [number | 'NP', number],
@@ -287,57 +360,19 @@ function noBallNotGK4CloseBall(
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
-  const [curX, curY] = currentPOS;
+  const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
-
-  if (originPOS[1] > pitchHeight / 2) {
-    return noBallNotGK4CloseBallBottomTeam(
-      matchDetails,
-      currentPOS,
-      pitchWidth,
-      pitchHeight,
-    );
-  }
-
-  if (checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false) {
-      return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-    }
-
-    return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false) {
-    return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-  }
-
-  return [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0];
-}
-
-function noBallNotGK4CloseBallBottomTeam(
-  matchDetails: MatchDetails,
-  currentPOS: [number | 'NP', number],
-  pitchWidth: number,
-  pitchHeight: number,
-): MatchEventWeights {
-  const [curX, curY] = currentPOS;
-
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
-
-  if (checkPositionInBottomPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false) {
-      return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-    }
-
-    return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false) {
-    return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-  }
-
-  return [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0];
+  return resolveNoBallNotGKIntent(
+    matchDetails,
+    currentPOS,
+    pitchWidth,
+    pitchHeight,
+    isBottomTeam,
+    {
+      inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
+      fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
+    },
+  );
 }
 
 function noBallNotGK2CloseBall(
@@ -347,53 +382,26 @@ function noBallNotGK2CloseBall(
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
+  const isBottomTeam = originPOS[1] > pitchHeight / 2;
   const [curX, curY] = currentPOS;
 
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
+  // Note: GK2 Bottom Team had a slightly different weight for 'inBox' in your original logic.
+  // We preserve that unique branching here.
+  const inBoxWeights: MatchEventWeights = isBottomTeam
+    ? [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0] // Original unique value for GK2 Bottom Team
+    : [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
 
-  if (originPOS[1] > pitchHeight / 2) {
-    return noBallNotGK2CloseBallBottomTeam(
-      matchDetails,
-      [curX, curY],
-      pitchWidth,
-      pitchHeight,
-    );
-  }
-
-  if (checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false) {
-      return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-    }
-
-    return [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
-  } else if (matchDetails.ball.withPlayer === false) {
-    return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-  }
-
-  return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
-}
-
-function noBallNotGK2CloseBallBottomTeam(
-  matchDetails: MatchDetails,
-  currentPOS: [number, number],
-  pitchWidth: number,
-  pitchHeight: number,
-): MatchEventWeights {
-  if (checkPositionInBottomPenaltyBox(currentPOS, pitchWidth, pitchHeight)) {
-    if (matchDetails.ball.withPlayer === false) {
-      return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-    }
-
-    return [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0];
-  }
-
-  if (matchDetails.ball.withPlayer === false) {
-    return [0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0];
-  }
-
-  return [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0];
+  return resolveNoBallNotGKIntent(
+    matchDetails,
+    currentPOS,
+    pitchWidth,
+    pitchHeight,
+    isBottomTeam,
+    {
+      inBox: inBoxWeights,
+      fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
+    },
+  );
 }
 
 function checkPositionInBottomPenaltyBox(

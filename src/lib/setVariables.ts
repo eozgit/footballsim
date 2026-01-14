@@ -1,5 +1,11 @@
 import * as common from './common.js';
-import type { MatchDetails, PitchDetails, Player, Team } from './types.js';
+import type {
+  MatchDetails,
+  PitchDetails,
+  Player,
+  Stats,
+  Team,
+} from './types.js';
 
 function resetPlayerPositions(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
@@ -16,20 +22,8 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
     }
   }
 }
-
-function initializePlayerState(player: Player) {
-  player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
-
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
-
-  player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
-  player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
-  player.action = `none`;
-  player.offside = false;
-  player.hasBall = false;
-  player.stats = {
+function initStats(): Stats {
+  return {
     goals: 0,
     shots: {
       total: 0,
@@ -52,6 +46,20 @@ function initializePlayerState(player: Player) {
       fouls: 0,
     },
   };
+}
+function initializePlayerState(player: Player) {
+  player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
+
+  if (player.currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
+
+  player.originPOS = [player.currentPOS[0], player.currentPOS[1]];
+  player.intentPOS = [player.currentPOS[0], player.currentPOS[1]];
+  player.action = `none`;
+  player.offside = false;
+  player.hasBall = false;
+  player.stats = initStats();
 
   if (player.position === 'GK') {
     player.stats.saves = 0;
@@ -154,4 +162,5 @@ export {
   setGameVariables,
   koDecider,
   populateMatchDetails,
+  initStats,
 };

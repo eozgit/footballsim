@@ -2,6 +2,7 @@ import * as actions from './actions.js';
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
+import { initStats } from './setVariables.js';
 import { processTeamTactics } from './teamAI.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
@@ -406,29 +407,7 @@ const mockPlayer: Player = {
   action: 'none',
   offside: false,
   hasBall: false,
-  stats: {
-    goals: 0,
-    shots: {
-      total: 0,
-      on: 0,
-      off: 0,
-      fouls: 0,
-    },
-    cards: {
-      yellow: 0,
-      red: 0,
-    },
-    passes: {
-      total: 0,
-      on: 0,
-      off: 0,
-    },
-    tackles: {
-      total: 0,
-      on: 0,
-      off: 0,
-    },
-  },
+  stats: initStats(),
 };
 
 function getInterceptTrajectory(
