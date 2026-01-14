@@ -739,124 +739,61 @@ function getBottomMostPlayer(team: Team) {
   return player;
 }
 
-function team1atBottom(team1: Team, team2: Team, pitchHeight: number) {
-  const offT1Ypos = offsideYPOS(team2, `top`, pitchHeight);
-  const topPlayer = getTopMostPlayer(team1, pitchHeight);
+type Side = 'top' | 'bottom';
 
-  if (topPlayer === undefined) {
-    throw new Error('Top player is undefined');
+function updateOffside(
+  team: Team,
+  opponent: Team,
+  attackSide: Side,
+  pitchHeight: number,
+) {
+  const offsideLines = offsideYPOS(opponent, attackSide, pitchHeight);
+  // Original logic uses pos1/pos2 vs pos2/pos1 based on side
+  const [min, max] =
+    attackSide === 'top'
+      ? [offsideLines.pos1, offsideLines.pos2]
+      : [offsideLines.pos2, offsideLines.pos1];
+
+  const leadPlayer =
+    attackSide === 'top'
+      ? getTopMostPlayer(team, pitchHeight)
+      : getBottomMostPlayer(team);
+
+  if (!leadPlayer) {
+    throw new Error(
+      `${attackSide === 'top' ? 'Top' : 'Bottom'} player is undefined`,
+    );
   }
 
-  const topPlayerOffsidePosition = common.isBetween(
-    topPlayer.currentPOS[1],
-    offT1Ypos.pos1,
-    offT1Ypos.pos2,
-  );
-
-  if (topPlayerOffsidePosition && topPlayer.hasBall) {
-    return;
+  // Early return: If the player furthest forward is in an offside position AND has the ball
+  if (
+    common.isBetween(leadPlayer.currentPOS[1], min, max) &&
+    leadPlayer.hasBall
+  ) {
+    return true;
   }
 
-  for (const thisPlayer of team1.players) {
-    thisPlayer.offside = false;
-
-    if (
-      common.isBetween(thisPlayer.currentPOS[1], offT1Ypos.pos1, offT1Ypos.pos2)
-    ) {
-      if (!thisPlayer.hasBall) {
-        thisPlayer.offside = true;
-      }
-    }
+  for (const p of team.players) {
+    p.offside = !p.hasBall && common.isBetween(p.currentPOS[1], min, max);
   }
 
-  const offT2Ypos = offsideYPOS(team1, `bottom`, pitchHeight);
-  const btmPlayer = getBottomMostPlayer(team2);
-
-  if (btmPlayer === undefined) {
-    throw new Error('Bottom player is undefined');
-  }
-
-  const btmPlayerOffsidePosition = common.isBetween(
-    btmPlayer.currentPOS[1],
-    offT2Ypos.pos2,
-    offT2Ypos.pos1,
-  );
-
-  if (btmPlayerOffsidePosition && btmPlayer.hasBall) {
-    return;
-  }
-
-  for (const thisPlayer of team2.players) {
-    thisPlayer.offside = false;
-
-    if (
-      common.isBetween(thisPlayer.currentPOS[1], offT2Ypos.pos2, offT2Ypos.pos1)
-    ) {
-      if (!thisPlayer.hasBall) {
-        thisPlayer.offside = true;
-      }
-    }
-  }
+  return false;
 }
 
-function team1atTop(team1: Team, team2: Team, pitchHeight: number) {
-  const offT1Ypos = offsideYPOS(team2, `bottom`, pitchHeight);
-  const btmPlayer = getBottomMostPlayer(team1);
-
-  if (btmPlayer === undefined) {
-    throw new Error('Bottom player is undefined');
-  }
-
-  const btmPlayerOffsidePosition = common.isBetween(
-    btmPlayer.currentPOS[1],
-    offT1Ypos.pos2,
-    offT1Ypos.pos1,
-  );
-
-  if (btmPlayerOffsidePosition && btmPlayer.hasBall) {
+export function team1atBottom(team1: Team, team2: Team, pitchHeight: number) {
+  if (updateOffside(team1, team2, 'top', pitchHeight)) {
     return;
   }
 
-  for (const thisPlayer of team1.players) {
-    thisPlayer.offside = false;
+  updateOffside(team2, team1, 'bottom', pitchHeight);
+}
 
-    if (
-      common.isBetween(thisPlayer.currentPOS[1], offT1Ypos.pos2, offT1Ypos.pos1)
-    ) {
-      if (!thisPlayer.hasBall) {
-        thisPlayer.offside = true;
-      }
-    }
-  }
-
-  const offT2Ypos = offsideYPOS(team1, `top`, pitchHeight);
-  const topPlayer = getTopMostPlayer(team2, pitchHeight);
-
-  if (topPlayer === undefined) {
-    throw new Error('Top player is undefined');
-  }
-
-  const topPlayerOffsidePosition = common.isBetween(
-    topPlayer.currentPOS[1],
-    offT2Ypos.pos1,
-    offT2Ypos.pos2,
-  );
-
-  if (topPlayerOffsidePosition && topPlayer.hasBall) {
+export function team1atTop(team1: Team, team2: Team, pitchHeight: number) {
+  if (updateOffside(team1, team2, 'bottom', pitchHeight)) {
     return;
   }
 
-  for (const thisPlayer of team2.players) {
-    thisPlayer.offside = false;
-
-    if (
-      common.isBetween(thisPlayer.currentPOS[1], offT2Ypos.pos1, offT2Ypos.pos2)
-    ) {
-      if (!thisPlayer.hasBall) {
-        thisPlayer.offside = true;
-      }
-    }
-  }
+  updateOffside(team2, team1, 'top', pitchHeight);
 }
 
 function offsideYPOS(team: Team, side: unknown, pitchHeight: number) {

@@ -123,80 +123,67 @@ function handleTouchline(
     : setRightKickOffTeamThrowIn(matchDetails, ballIntended);
 }
 
-function handleTopByline(
+const BYLINE_CFG = {
+  top: {
+    goal: (m: MatchDetails, isT: boolean) =>
+      isT ? setSecondTeamGoalScored(m) : setKickOffTeamGoalScored(m),
+    left: setTopLeftCornerPositions,
+    right: setTopRightCornerPositions,
+    kick: setTopGoalKick,
+  },
+  bottom: {
+    goal: (m: MatchDetails, isT: boolean) =>
+      isT ? setKickOffTeamGoalScored(m) : setSecondTeamGoalScored(m),
+    left: setBottomLeftCornerPositions,
+    right: setBottomRightCornerPositions,
+    kick: setBottomGoalKick,
+  },
+};
+
+function handleByline(
+  side: 'top' | 'bottom',
   matchDetails: MatchDetails,
   bXPOS: number,
-  halfMWidth: number,
-  leftPost: number,
-  rightPost: number,
+  halfMW: number,
+  leftP: number,
+  rightP: number,
   isKOT: boolean,
-  kickOffTeamSide: string,
+  kickOffTS: string,
 ): MatchDetails {
-  if (common.isBetween(bXPOS, leftPost, rightPost)) {
-    return kickOffTeamSide === 'top'
-      ? setSecondTeamGoalScored(matchDetails)
-      : setKickOffTeamGoalScored(matchDetails);
+  const cfg = BYLINE_CFG[side],
+    isT = kickOffTS === 'top';
+
+  if (common.isBetween(bXPOS, leftP, rightP)) {
+    return cfg.goal(matchDetails, isT);
   }
 
-  if (bXPOS < halfMWidth && isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setTopLeftCornerPositions(matchDetails)
-      : setTopGoalKick(matchDetails);
-  }
+  const isL = bXPOS < halfMW;
+  const isCorner = side === 'top' ? isKOT === isT : isKOT !== isT;
 
-  if (bXPOS > halfMWidth && isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setTopRightCornerPositions(matchDetails)
-      : setTopGoalKick(matchDetails);
-  }
-
-  if (bXPOS < halfMWidth && !isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setTopGoalKick(matchDetails)
-      : setTopLeftCornerPositions(matchDetails);
-  }
-
-  return kickOffTeamSide === 'top'
-    ? setTopGoalKick(matchDetails)
-    : setTopRightCornerPositions(matchDetails);
+  return isCorner
+    ? isL
+      ? cfg.left(matchDetails)
+      : cfg.right(matchDetails)
+    : cfg.kick(matchDetails);
 }
 
-function handleBottomByline(
-  matchDetails: MatchDetails,
-  bXPOS: number,
-  halfMWidth: number,
-  leftPost: number,
-  rightPost: number,
-  isKOT: boolean,
-  kickOffTeamSide: string,
-): MatchDetails {
-  if (common.isBetween(bXPOS, leftPost, rightPost)) {
-    return kickOffTeamSide === 'top'
-      ? setKickOffTeamGoalScored(matchDetails)
-      : setSecondTeamGoalScored(matchDetails);
-  }
-
-  if (bXPOS < halfMWidth && isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setBottomGoalKick(matchDetails)
-      : setBottomLeftCornerPositions(matchDetails);
-  }
-
-  if (bXPOS > halfMWidth && isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setBottomGoalKick(matchDetails)
-      : setBottomRightCornerPositions(matchDetails);
-  }
-
-  if (bXPOS < halfMWidth && !isKOT) {
-    return kickOffTeamSide === 'top'
-      ? setBottomLeftCornerPositions(matchDetails)
-      : setBottomGoalKick(matchDetails);
-  }
-
-  return kickOffTeamSide === 'top'
-    ? setBottomRightCornerPositions(matchDetails)
-    : setBottomGoalKick(matchDetails);
-}
+export const handleTopByline = (
+  m: MatchDetails,
+  x: number,
+  w: number,
+  l: number,
+  r: number,
+  k: boolean,
+  s: string,
+) => handleByline('top', m, x, w, l, r, k, s);
+export const handleBottomByline = (
+  m: MatchDetails,
+  x: number,
+  w: number,
+  l: number,
+  r: number,
+  k: boolean,
+  s: string,
+) => handleByline('bottom', m, x, w, l, r, k, s);
 
 export { resolveBallLocation };
