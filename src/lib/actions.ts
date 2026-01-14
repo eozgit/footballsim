@@ -723,14 +723,20 @@ function setSuccessTackle(
   );
 }
 
-function calcTackleScore(skill: Skill, diff: number) {
+function calcTackleScore(
+  skill: Pick<Skill, 'tackling' | 'strength'>,
+  diff: number,
+) {
   return (
     (Math.floor(skill.tackling) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
 }
 
-function calcRetentionScore(skill: Skill, diff: number) {
+function calcRetentionScore(
+  skill: Pick<Skill, 'agility' | 'strength'>,
+  diff: number,
+) {
   return (
     (Math.floor(skill.agility) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)

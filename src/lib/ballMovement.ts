@@ -298,8 +298,8 @@ function getPlayersInDistance(
 
 function resolveBallMovement(
   player: Player,
-  thisPOS: unknown,
-  newPOS: unknown,
+  thisPOS: BallPosition,
+  newPOS: BallPosition,
   power: number,
   team: Team,
   opp: Team,
@@ -307,8 +307,8 @@ function resolveBallMovement(
 ): [number, number] {
   return checkInterceptionsOnTrajectory(
     player,
-    thisPOS,
-    newPOS,
+    [thisPOS[0], thisPOS[1]],
+    [newPOS[0], newPOS[1]],
     power,
     team,
     opp,
@@ -596,7 +596,7 @@ function ballCrossed(
 
 function calcBallMovementOverTime(
   matchDetails: MatchDetails,
-  strength: unknown,
+  strength: number,
   nextPosition: number[],
   player: Player,
 ): [number, number] {
