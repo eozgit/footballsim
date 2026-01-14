@@ -1,3 +1,4 @@
+import type { TestPlayer } from './ballMovement.js';
 import {
   calcBallMovementOverTime,
   getBottomKickedPosition,
@@ -132,7 +133,7 @@ function resolvePassDestination(
  */
 function calculateThroughBallTarget(
   player: Player,
-  targetPlayer: Player,
+  targetPlayer: TestPlayer,
   matchDetails: MatchDetails,
 ): [number, number] {
   const [, pitchHeight] = matchDetails.pitchSize;

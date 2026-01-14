@@ -11,11 +11,19 @@ import {
   updateBallCardinalDirection,
 } from './physics.js';
 import { initializePlayerObject } from './playerDefaults.js';
-import type { TargetCandidate } from './playerSelectors.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
-import type { BallPosition, MatchDetails, Player, Team } from './types.js';
+import type {
+  Ball,
+  BallPosition,
+  MatchDetails,
+  Player,
+  Team,
+} from './types.js';
+
+export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
+export type PlayerWithProximity = TestPlayer & { proximity: number };
 
 function moveBall(matchDetails: MatchDetails) {
   return processBallMomentum(matchDetails);
@@ -122,7 +130,7 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Setup & Physics
-  updateLastTouch(matchDetails, team, player);
+  updateLastTouchAndLog(matchDetails, team, player);
   const shotPower = common.calculatePower(player.skill.strength);
 
   // 2. Logic Resolution
@@ -192,15 +200,13 @@ function recordShotStats(
   }
 }
 
-function updateLastTouch(
+function updateLastTouchAndLog(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
 ): void {
   matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
+  updateLastTouch(matchDetails.ball, player, team);
 }
 
 function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
@@ -255,7 +261,7 @@ function getPlayersInDistance(
   team: Team,
   player: Player,
   pitchSize: [number, number, number?],
-): Player[] {
+): PlayerWithProximity[] {
   const [curX, curY] = player.currentPOS;
 
   if (curX === 'NP') {
@@ -263,7 +269,7 @@ function getPlayersInDistance(
   }
 
   const [pitchWidth, pitchHeight] = pitchSize;
-  const playersInDistance: Player[] = [];
+  const playersInDistance: PlayerWithProximity[] = [];
 
   for (const teamPlayer of team.players) {
     const [tpX, tpY] = teamPlayer.currentPOS;
@@ -461,53 +467,114 @@ function ballPassed(
   team: Team,
   player: Player,
 ): [number, number] | MatchDetails {
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-  const [, pitchHeight] = matchDetails.pitchSize;
-  const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
-  const { position } = matchDetails.ball;
-  let closePlyPos = [0, 0];
-  const playersInDistance: TargetCandidate[] = getPlayersInDistance(
+  const { ball, pitchSize, iterationLog } = matchDetails;
+  const [, pitchHeight] = pitchSize;
+
+  // 1. Update state & identify pass target
+  updateLastTouch(ball, player, team);
+  const targetPlayer = getTargetPlayerCandidate(
     team,
     player,
-    matchDetails.pitchSize,
+    pitchSize,
+    pitchHeight,
   );
-  const tPlyr = getTargetPlayer(playersInDistance, side, pitchHeight);
-  const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
-  const middleThird = !!(
-    position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3
-  );
+  const [curX, curY] = targetPlayer.currentPOS;
 
-  if (player.skill.passing > common.getRandomNumber(0, 100)) {
-    closePlyPos = tPlyr.currentPOS;
-  } else if (player.originPOS[1] > pitchHeight / 2) {
-    if (bottomThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -10, 10, -10, 10);
-    } else if (middleThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -50, 50, -50, 50);
-    } else {
-      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -100, 100, -100, 100);
-    }
-  } else if (bottomThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -100, 100, -100, 100);
-  } else if (middleThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -50, 50, -50, 50);
-  } else {
-    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -10, 10, -10, 10);
+  if (curX === 'NP') {
+    throw new Error('No position');
   }
 
-  matchDetails.iterationLog.push(
-    `ball passed by: ${player.name} to: ${tPlyr.name}`,
+  // 2. Determine destination (with accuracy logic)
+  const destination = calculatePassDestination(
+    player,
+    ball.position,
+    [curX, curY],
+    pitchHeight,
   );
+
+  // 3. Finalize stats and movement
+  iterationLog.push(`ball passed by: ${player.name} to: ${targetPlayer.name}`);
   player.stats.passes.total++;
 
   return calcBallMovementOverTime(
     matchDetails,
     player.skill.strength,
-    closePlyPos,
+    destination,
     player,
   );
+}
+
+/** HELPER FUNCTIONS **/
+
+function updateLastTouch(ball: Ball, player: Player, team: Team) {
+  ball.lastTouch.playerName = player.name;
+  ball.lastTouch.playerID = player.playerID;
+  ball.lastTouch.teamID = team.teamID;
+}
+
+function getTargetPlayerCandidate(
+  team: Team,
+  player: Player,
+  pitchSize: [number, number, number?],
+  pitchHeight: number,
+) {
+  const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
+  const playersInDistance = getPlayersInDistance(team, player, pitchSize);
+  const target = getTargetPlayer(playersInDistance, side, pitchHeight);
+
+  if (target.currentPOS[0] === 'NP') {
+    throw new Error('No position');
+  }
+
+  return target;
+}
+
+function calculatePassDestination(
+  player: Player,
+  ballPos: BallPosition,
+  targetPos: [number, number],
+  pitchHeight: number,
+): [number, number] {
+  // If pass is successful, return target position directly
+  if (player.skill.passing > common.getRandomNumber(0, 100)) {
+    return targetPos;
+  }
+
+  // Otherwise, apply error based on pitch zone
+  const errorRange = getPassErrorRange(
+    ballPos[1],
+    player.originPOS[1],
+    pitchHeight,
+  );
+
+  return setTargetPlyPos(
+    targetPos,
+    -errorRange,
+    errorRange,
+    -errorRange,
+    errorRange,
+  );
+}
+
+function getPassErrorRange(
+  ballY: number,
+  playerOriginY: number,
+  pitchHeight: number,
+): number {
+  const isBottomThird = ballY > pitchHeight - pitchHeight / 3;
+  const isMiddleThird =
+    ballY > pitchHeight / 3 && ballY < pitchHeight - pitchHeight / 3;
+  const playerSide = playerOriginY > pitchHeight / 2 ? 'bottom' : 'top';
+
+  if (isBottomThird) {
+    return playerSide === 'bottom' ? 10 : 100;
+  }
+
+  if (isMiddleThird) {
+    return 50;
+  }
+
+  return playerSide === 'top' ? 10 : 100;
 }
 
 function setTargetPlyPos(
@@ -533,10 +600,10 @@ function setTargetPlyPos(
 }
 
 function getTargetPlayer(
-  playersArray: TargetCandidate[],
+  playersArray: PlayerWithProximity[],
   side: string,
   pitchHeight: number = 1050,
-): TargetCandidate {
+): PlayerWithProximity {
   return resolveBestPassOption(playersArray, side, pitchHeight);
 }
 
@@ -623,7 +690,7 @@ function calcBallMovementOverTime(
     xArray,
     yArray,
     powerArray,
-  );
+  ).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
 
   matchDetails.ball.ballOverIterations = BOIts;
   const endPos = resolveBallMovement(

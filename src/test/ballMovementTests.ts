@@ -7,8 +7,6 @@ import type { Player } from '../lib/types.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import type { TargetCandidate } from '@/lib/playerSelectors.js';
-
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
     const xArray = [-10, -10, -10, -10, -10, -10, -10, -10, -10, -10];
@@ -131,19 +129,24 @@ describe('targetPlayers()', function () {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
       )) as {
-        thisArray: TargetCandidate[];
+        thisArray: bMovement.PlayerWithProximity[];
       };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `top`,
       );
-      const playerValid = JSON.stringify(playersArray).indexOf(thisPlayer.name);
-      const positionValid = JSON.stringify(playersArray).indexOf(
-        JSON.stringify(thisPlayer.position),
-      );
-      expect(playerValid).to.be.greaterThan(-1);
 
-      expect(positionValid).to.be.greaterThan(-1);
+      const { name, currentPOS } = thisPlayer;
+      const [tx, ty] = currentPOS;
+
+      const playerValid = playersArray.thisArray.some((p) => p.name === name);
+      const positionValid = playersArray.thisArray.some(
+        ({ currentPOS: [x, y] }) => x === tx && y === ty,
+      );
+
+      expect(playerValid).toBe(true);
+
+      expect(positionValid).toBe(true);
     });
   }
   for (const i of [
@@ -153,19 +156,23 @@ describe('targetPlayers()', function () {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
       )) as {
-        thisArray: TargetCandidate[];
+        thisArray: bMovement.PlayerWithProximity[];
       };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
         `bottom`,
       );
-      const playerValid = JSON.stringify(playersArray).indexOf(thisPlayer.name);
-      const positionValid = JSON.stringify(playersArray).indexOf(
-        JSON.stringify(thisPlayer.position),
-      );
-      expect(playerValid).to.be.greaterThan(-1);
+      const { name, currentPOS } = thisPlayer;
+      const [tx, ty] = currentPOS;
 
-      expect(positionValid).to.be.greaterThan(-1);
+      const playerValid = playersArray.thisArray.some((p) => p.name === name);
+      const positionValid = playersArray.thisArray.some(
+        ({ currentPOS: [x, y] }) => x === tx && y === ty,
+      );
+
+      expect(playerValid).toBe(true);
+
+      expect(positionValid).toBe(true);
     });
   }
   it('set target player position', async () => {

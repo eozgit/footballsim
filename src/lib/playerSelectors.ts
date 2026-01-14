@@ -1,21 +1,22 @@
+import type { PlayerWithProximity } from './ballMovement.js';
 import * as common from './common.js';
 
-export interface TargetCandidate {
+/*export interface TargetCandidate {
   currentPOS: [number, number];
-  position: [number, number];
+  //position: [number, number];
   proximity: number;
   name: string;
-}
+}*/
 
 /**
  * Selects the best pass option by filtering for advanced players
  * and performing weighted random sampling.
  */
 function resolveBestPassOption(
-  playersArray: TargetCandidate[],
+  playersArray: PlayerWithProximity[],
   side: string,
   pitchHeight: number = 1050,
-): TargetCandidate {
+): PlayerWithProximity {
   // 1. Filter candidates (favoring those in the attacking half)
   const attackingHalfCandidates = playersArray.filter(
     (p) => p.proximity < pitchHeight / 2,
