@@ -196,18 +196,24 @@ function resolveBoxWeights(
   );
 }
 
-// --- Public API ---
+// Shared configuration for standard box intentions
+const STANDARD_SPACE_WEIGHTS = {
+  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
+  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
+};
 
-export function handleInPenaltyBox(
+function handleInPenaltyBox(
   playerInformation: unknown,
   tmateProximity: [number, number],
-  currentPOS: unknown,
+  currentPOS: any,
   pos: [number, number],
   oppCurPos: BallPosition,
   halfRange: number,
   shotRange: number,
   pitchHeight: number,
 ): MatchEventWeights {
+  // 1. Delegation to Pressure logic if opposition is close
   if (oppositionNearContext(playerInformation, 6, 6)) {
     return handleUnderPressureInBox(
       tmateProximity,
@@ -220,6 +226,7 @@ export function handleInPenaltyBox(
     );
   }
 
+  // 2. Default box resolution
   return resolveBoxWeights(
     tmateProximity,
     currentPOS[1],
@@ -227,11 +234,7 @@ export function handleInPenaltyBox(
     shotRange,
     pitchHeight,
     [-10, 10, -4, 10],
-    {
-      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-      shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
-      fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
-    },
+    STANDARD_SPACE_WEIGHTS,
     {
       half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       shot: [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0],
@@ -240,9 +243,9 @@ export function handleInPenaltyBox(
   );
 }
 
-export function handleUnderPressureInBox(
+function handleUnderPressureInBox(
   tmateProximity: [number, number],
-  currentPOS: unknown,
+  currentPOS: any,
   pos: BallPosition,
   oppCurPos: BallPosition,
   halfRange: number,
@@ -251,6 +254,7 @@ export function handleUnderPressureInBox(
 ): MatchEventWeights {
   const yPos = currentPOS[1];
 
+  // 1. Check for specific "Opposition Below" logic
   if (checkOppositionBelow(oppCurPos, pos)) {
     if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
@@ -263,6 +267,7 @@ export function handleUnderPressureInBox(
     });
   }
 
+  // 2. Standard pressure resolution
   return resolveBoxWeights(
     tmateProximity,
     yPos,
@@ -270,38 +275,13 @@ export function handleUnderPressureInBox(
     shotRange,
     pitchHeight,
     [-10, 10, -4, 10],
-    {
-      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-      shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
-      fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
-    },
+    STANDARD_SPACE_WEIGHTS,
     {
       half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
       shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
       fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
     },
   );
-}
-
-function handleOutsidePenaltyBox(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
-  currentPOS: [number | 'NP', number] | number[],
-  shotRange: number,
-  pitchHeight: number,
-): MatchEventWeights {
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-    return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  }
-
-  if (oppositionNearContext(playerInformation, 6, 6)) {
-    return [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0];
-  }
-
-  return [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
 function getPlayerActionWeights(
@@ -312,13 +292,11 @@ function getPlayerActionWeights(
 ): MatchEventWeights {
   const { position, currentPOS, skill } = player;
 
-  // 1. Validation and Setup
-  if (currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
+  if (currentPOS[0] === 'NP') throw new Error('No player position!');
 
   const pos = currentPOS as [number, number];
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+  const playerY = pos[1];
 
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -326,10 +304,8 @@ function getPlayerActionWeights(
     pos,
   );
 
-  // 2. High-Priority Specialized Logic
-  if (position === 'GK') {
-    return handleGKIntent(playerInformation);
-  }
+  // 1. Special Cases
+  if (position === 'GK') return handleGKIntent(playerInformation);
 
   if (onBottomCornerBoundary(pos, pitchWidth, pitchHeight)) {
     return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
@@ -339,9 +315,7 @@ function getPlayerActionWeights(
     return getAttackingIntentWeights(matchDetails, player, team, opposition);
   }
 
-  // 3. Zone-based Delegation (Thirds of the pitch)
-  const playerY = pos[1];
-
+  // 2. Vertical Zone Delegation
   // Attacking Third
   if (
     common.isBetween(playerY, pitchHeight * (2 / 3), pitchHeight * (5 / 6) + 5)
@@ -358,57 +332,56 @@ function getPlayerActionWeights(
   return handleDefensiveThirdIntent(playerInformation, position);
 }
 
-function handleGKIntent(playerInformation: {
-  thePlayer?: Player;
-  proxPOS: [number, number] | number[];
-  proxToBall?: number;
-}): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 25)) {
-    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  }
+// Utility to handle the "Opposition Close vs Open Space" pattern seen in all zones
+function resolveZonePressure(
+  playerInfo: any,
+  pressureWeights: MatchEventWeights,
+  openWeights: MatchEventWeights,
+  distX = 10,
+  distY = 10,
+): MatchEventWeights {
+  return oppositionNearContext(playerInfo, distX, distY)
+    ? pressureWeights
+    : openWeights;
+}
 
-  return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
+function handleGKIntent(playerInfo: any): MatchEventWeights {
+  return resolveZonePressure(
+    playerInfo,
+    [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
+    [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20],
+    10,
+    25,
+  );
 }
 
 function handleAttackingThirdIntent(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
-  _: [number | 'NP', number],
+  playerInfo: any,
+  _: any,
 ): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
-  }
-
-  return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
+  return resolveZonePressure(
+    playerInfo,
+    [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0],
+    [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0],
+  );
 }
 
 function handleMiddleThirdIntent(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
+  playerInfo: any,
   position: string,
   skill: Skill,
 ): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 10)) {
+  // Pressure check remains the highest priority in Middle Third
+  if (oppositionNearContext(playerInfo, 10, 10)) {
     return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
   }
 
-  if (skill.shooting > 85) {
-    return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
-  }
+  // Skill and Position based branching for open space
+  if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
 
-  if (position === 'LM' || position === 'CM' || position === 'RM') {
-    return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-  }
-
-  if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-  }
+  const isMidfielder = ['LM', 'CM', 'RM'].includes(position);
+  if (isMidfielder) return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
+  if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
 
   return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
 }
@@ -471,7 +444,34 @@ function validatePlayerPosition(
 
   return pos as [number, number];
 }
+/**
+ * Resolves intent weights when a player is outside the penalty box.
+ * Prioritizes shooting range, then defensive pressure, then open play.
+ */
+function handleOutsidePenaltyBox(
+  playerInformation: {
+    thePlayer?: Player;
+    proxPOS: [number, number] | number[];
+    proxToBall?: number;
+  },
+  currentPOS: [number | 'NP', number] | number[],
+  shotRange: number,
+  pitchHeight: number,
+): MatchEventWeights {
+  const playerY = currentPOS[1];
 
+  // 1. If in shot range, shooting is the priority regardless of pressure
+  if (common.isBetween(playerY, shotRange, pitchHeight)) {
+    return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
+  }
+
+  // 2. Resolve based on opposition pressure vs. open space
+  return resolveZonePressure(
+    playerInformation,
+    [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0], // Pressure: High pass/intercept weight
+    [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0], // Open: High run/sprint weight
+  );
+}
 function handleDeepBoxThreat(
   oppInfo: {
     thePlayer?: Player;
