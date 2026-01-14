@@ -136,14 +136,72 @@ function ensureValidPosition(
   return pos as [number, number];
 }
 
-function handleInPenaltyBox(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
+/**
+ * Resolves weight based on vertical pitch position (Half, Shot, or Default range).
+ */
+function getRangeBasedWeights(
+  yPos: number,
+  halfRange: number,
+  shotRange: number,
+  pitchHeight: number,
+  weightMap: {
+    half: MatchEventWeights;
+    shot: MatchEventWeights;
+    fallback: MatchEventWeights;
   },
+): MatchEventWeights {
+  if (common.isBetween(yPos, halfRange, pitchHeight)) {
+    return weightMap.half;
+  }
+
+  if (common.isBetween(yPos, shotRange, pitchHeight)) {
+    return weightMap.shot;
+  }
+
+  return weightMap.fallback;
+}
+
+/**
+ * Shared logic for choosing between "Pass to Teammate" or "Positional" weights.
+ */
+function resolveBoxWeights(
   tmateProximity: [number, number],
-  currentPOS: [number | 'NP', number] | number[],
+  yPos: number,
+  halfRange: number,
+  shotRange: number,
+  pitchHeight: number,
+  spaceConfig: [number, number, number, number],
+  spaceWeights: {
+    half: MatchEventWeights;
+    shot: MatchEventWeights;
+    fallback: MatchEventWeights;
+  },
+  defaultWeights: {
+    half: MatchEventWeights;
+    shot: MatchEventWeights;
+    fallback: MatchEventWeights;
+  },
+): MatchEventWeights {
+  const useSpaceWeights = checkTeamMateSpaceClose(
+    tmateProximity,
+    ...spaceConfig,
+  );
+
+  return getRangeBasedWeights(
+    yPos,
+    halfRange,
+    shotRange,
+    pitchHeight,
+    useSpaceWeights ? spaceWeights : defaultWeights,
+  );
+}
+
+// --- Public API ---
+
+export function handleInPenaltyBox(
+  playerInformation: unknown,
+  tmateProximity: [number, number],
+  currentPOS: unknown,
   pos: [number, number],
   oppCurPos: BallPosition,
   halfRange: number,
@@ -162,75 +220,67 @@ function handleInPenaltyBox(
     );
   }
 
-  if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
-      return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    }
-
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-      return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-    }
-
-    return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-  }
-
-  if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
-    return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  }
-
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-    return [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0];
-  }
-
-  return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
+  return resolveBoxWeights(
+    tmateProximity,
+    currentPOS[1],
+    halfRange,
+    shotRange,
+    pitchHeight,
+    [-10, 10, -4, 10],
+    {
+      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+      shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
+      fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
+    },
+    {
+      half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      shot: [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0],
+      fallback: [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0],
+    },
+  );
 }
 
-function handleUnderPressureInBox(
+export function handleUnderPressureInBox(
   tmateProximity: [number, number],
-  currentPOS: [number | 'NP', number] | number[],
+  currentPOS: unknown,
   pos: BallPosition,
   oppCurPos: BallPosition,
   halfRange: number,
   shotRange: number,
   pitchHeight: number,
 ): MatchEventWeights {
+  const yPos = currentPOS[1];
+
   if (checkOppositionBelow(oppCurPos, pos)) {
     if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
 
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
-      return [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    }
-
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-      return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
-    }
-
-    return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
+    return getRangeBasedWeights(yPos, halfRange, shotRange, pitchHeight, {
+      half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
+      fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
+    });
   }
 
-  if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -4, 10)) {
-    if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
-      return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-    }
-
-    if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-      return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-    }
-
-    return [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0];
-  }
-
-  if (common.isBetween(currentPOS[1], halfRange, pitchHeight)) {
-    return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
-  }
-
-  if (common.isBetween(currentPOS[1], shotRange, pitchHeight)) {
-    return [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0];
-  }
-
-  return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
+  return resolveBoxWeights(
+    tmateProximity,
+    yPos,
+    halfRange,
+    shotRange,
+    pitchHeight,
+    [-10, 10, -4, 10],
+    {
+      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+      shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
+      fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
+    },
+    {
+      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+      shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
+      fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
+    },
+  );
 }
 
 function handleOutsidePenaltyBox(
@@ -361,29 +411,6 @@ function handleMiddleThirdIntent(
   }
 
   return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
-}
-
-function handleDefensiveThirdIntent(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
-  position: string,
-): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  }
-
-  if (position === 'LM' || position === 'CM' || position === 'RM') {
-    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  }
-
-  if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-  }
-
-  return [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10];
 }
 
 function getAttackingThreatWeights(
@@ -563,27 +590,55 @@ function handleBottomAttackingThirdIntent(playerInformation: {
   return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
 }
 
-function handleBottomDefensiveThirdIntent(
+/**
+ * Shared logic for defensive third intentions.
+ * Returns weight arrays based on pressure and player position.
+ */
+function resolveDefensiveIntent(
   playerInformation: {
     thePlayer?: Player;
-    proxPOS: [number, number];
+    proxPOS: [number, number] | number[];
     proxToBall?: number;
   },
   position: string,
+  fallbackWeights: MatchEventWeights,
 ): MatchEventWeights {
+  // 1. High Pressure / Opposition Near
   if (oppositionNearContext(playerInformation, 10, 10)) {
     return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
   }
 
-  if (position === 'LM' || position === 'CM' || position === 'RM') {
+  // 2. Midfielders
+  if (['LM', 'CM', 'RM'].includes(position)) {
     return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
   }
 
+  // 3. Strikers
   if (position === 'ST') {
     return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
   }
 
-  return [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10];
+  // 4. Default for Defenders/Goalies
+  return fallbackWeights;
+}
+
+function handleBottomDefensiveThirdIntent(
+  playerInfo: unknown,
+  position: string,
+) {
+  return resolveDefensiveIntent(
+    playerInfo,
+    position,
+    [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10],
+  );
+}
+
+function handleDefensiveThirdIntent(playerInfo: unknown, position: string) {
+  return resolveDefensiveIntent(
+    playerInfo,
+    position,
+    [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10],
+  );
 }
 
 function attemptGoalieSave(

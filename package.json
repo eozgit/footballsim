@@ -38,7 +38,9 @@
     "release": "standard-version",
     "release:major": "standard-version --release-as major",
     "release:minor": "standard-version --release-as minor",
-    "release:patch": "standard-version --release-as patch"
+    "release:patch": "standard-version --release-as patch",
+    "dupes:scan": "jscpd ./src --reporters json --output ./scripts --ignore \"**/*.json\"",
+    "dupes:whales": "node ./scripts/review-clones.js"
   },
   "repository": {
     "type": "git",

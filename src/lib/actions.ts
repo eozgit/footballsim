@@ -566,55 +566,79 @@ function populateActionsJSON(): { name: string; points: number }[] {
   ];
 }
 
+/**
+ * Unified handler for all defensive challenges (Stand and Slide)
+ */
+function handleDefensiveChallenge(
+  player: Player,
+  team: Team,
+  opposition: Team,
+  matchDetails: MatchDetails,
+  config: {
+    label: string;
+    foulRange: [number, number];
+    tackleDetails: { injuryHigh: number; injuryLow: number; increment: number };
+  },
+) {
+  const { iterationLog, ball } = matchDetails;
+
+  iterationLog.push(`${config.label} attempted by: ${player.name}`);
+
+  // 1. Identify the ball carrier
+  const opponentWithBall = opposition.players.find(
+    (p) => p.playerID === ball.Player,
+  );
+
+  if (!opponentWithBall) {
+    return false;
+  }
+
+  player.stats.tackles.total++;
+
+  // 2. Check for foul
+  if (wasFoul(...config.foulRange)) {
+    setFoul(matchDetails, team, player, opponentWithBall);
+
+    return true;
+  }
+
+  // 3. Resolve Outcome (Skill Check)
+  const isSuccessful =
+    calcTackleScore(player.skill, 5) >
+    calcRetentionScore(opponentWithBall.skill, 5);
+
+  if (isSuccessful) {
+    setSuccessTackle(
+      matchDetails,
+      team,
+      opposition,
+      player,
+      opponentWithBall,
+      config.tackleDetails,
+    );
+  } else {
+    setFailedTackle(
+      matchDetails,
+      player,
+      opponentWithBall,
+      config.tackleDetails,
+    );
+  }
+
+  return false;
+}
+
 function resolveTackle(
   player: Player,
   team: Team,
   opposition: Team,
   matchDetails: MatchDetails,
 ) {
-  matchDetails.iterationLog.push(`Tackle attempted by: ${player.name}`);
-  const tackleDetails = {
-    injuryHigh: 1500,
-    injuryLow: 1400,
-    increment: 1,
-  };
-  const index = opposition.players.findIndex(function (thisPlayer: Player) {
-    return thisPlayer.playerID === matchDetails.ball.Player;
+  return handleDefensiveChallenge(player, team, opposition, matchDetails, {
+    label: 'Tackle',
+    foulRange: [10, 18],
+    tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 1 },
   });
-  let thatPlayer;
-
-  if (index) {
-    thatPlayer = opposition.players[index];
-  } else {
-    return false;
-  }
-
-  player.stats.tackles.total++;
-
-  if (wasFoul(10, 18)) {
-    setFoul(matchDetails, team, player, thatPlayer);
-
-    return true;
-  }
-
-  if (
-    calcTackleScore(player.skill, 5) > calcRetentionScore(thatPlayer.skill, 5)
-  ) {
-    setSuccessTackle(
-      matchDetails,
-      team,
-      opposition,
-      player,
-      thatPlayer,
-      tackleDetails,
-    );
-
-    return false;
-  }
-
-  setFailedTackle(matchDetails, player, thatPlayer, tackleDetails);
-
-  return false;
 }
 
 function resolveSlide(
@@ -623,49 +647,11 @@ function resolveSlide(
   opposition: Team,
   matchDetails: MatchDetails,
 ) {
-  matchDetails.iterationLog.push(`Slide tackle attempted by: ${player.name}`);
-  const tackleDetails = {
-    injuryHigh: 1500,
-    injuryLow: 1400,
-    increment: 3,
-  };
-  const index = opposition.players.findIndex(function (thisPlayer: Player) {
-    return thisPlayer.playerID === matchDetails.ball.Player;
+  return handleDefensiveChallenge(player, team, opposition, matchDetails, {
+    label: 'Slide tackle',
+    foulRange: [11, 20],
+    tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 3 },
   });
-  let thatPlayer;
-
-  if (index) {
-    thatPlayer = opposition.players[index];
-  } else {
-    return false;
-  }
-
-  player.stats.tackles.total++;
-
-  if (wasFoul(11, 20)) {
-    setFoul(matchDetails, team, player, thatPlayer);
-
-    return true;
-  }
-
-  if (
-    calcTackleScore(player.skill, 5) > calcRetentionScore(thatPlayer.skill, 5)
-  ) {
-    setSuccessTackle(
-      matchDetails,
-      team,
-      opposition,
-      player,
-      thatPlayer,
-      tackleDetails,
-    );
-
-    return false;
-  }
-
-  setFailedTackle(matchDetails, player, thatPlayer, tackleDetails);
-
-  return false;
 }
 
 function setFailedTackle(
