@@ -11,6 +11,7 @@ import {
   updateBallCardinalDirection,
 } from './physics.js';
 import { initializePlayerObject } from './playerDefaults.js';
+import type { TargetCandidate } from './playerSelectors.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
@@ -281,7 +282,8 @@ function getPlayersInDistance(
         const proximityToBall = Math.abs(playerToPlayerX + playerToPlayerY);
 
         playersInDistance.push({
-          position: [tpX, tpY] as [number, number],
+          //position: [tpX, tpY] as [number, number],
+          currentPOS: [tpX, tpY] as [number, number],
           proximity: proximityToBall,
           name: teamPlayer.name,
         });
@@ -466,11 +468,11 @@ function ballPassed(
   const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
   const { position } = matchDetails.ball;
   let closePlyPos = [0, 0];
-  const playersInDistance: {
-    position: [number, number];
-    proximity: number;
-    name: string;
-  }[] = getPlayersInDistance(team, player, matchDetails.pitchSize);
+  const playersInDistance: TargetCandidate[] = getPlayersInDistance(
+    team,
+    player,
+    matchDetails.pitchSize,
+  );
   const tPlyr = getTargetPlayer(playersInDistance, side, pitchHeight);
   const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
   const middleThird = !!(
@@ -478,21 +480,21 @@ function ballPassed(
   );
 
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
-    closePlyPos = tPlyr.position;
+    closePlyPos = tPlyr.currentPOS;
   } else if (player.originPOS[1] > pitchHeight / 2) {
     if (bottomThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -10, 10, -10, 10);
     } else if (middleThird) {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -50, 50, -50, 50);
+      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -50, 50, -50, 50);
     } else {
-      closePlyPos = setTargetPlyPos(tPlyr.position, -100, 100, -100, 100);
+      closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -100, 100, -100, 100);
     }
   } else if (bottomThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -100, 100, -100, 100);
+    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -100, 100, -100, 100);
   } else if (middleThird) {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -50, 50, -50, 50);
+    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -50, 50, -50, 50);
   } else {
-    closePlyPos = setTargetPlyPos(tPlyr.position, -10, 10, -10, 10);
+    closePlyPos = setTargetPlyPos(tPlyr.currentPOS, -10, 10, -10, 10);
   }
 
   matchDetails.iterationLog.push(
@@ -531,14 +533,10 @@ function setTargetPlyPos(
 }
 
 function getTargetPlayer(
-  playersArray: {
-    position: [number, number];
-    proximity: number;
-    name: string;
-  }[],
+  playersArray: TargetCandidate[],
   side: string,
   pitchHeight: number = 1050,
-): { position: [number, number]; proximity: number; name: string } {
+): TargetCandidate {
   return resolveBestPassOption(playersArray, side, pitchHeight);
 }
 

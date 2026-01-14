@@ -1,6 +1,7 @@
 import * as common from './common.js';
 
-interface TargetCandidate {
+export interface TargetCandidate {
+  currentPOS: [number, number];
   position: [number, number];
   proximity: number;
   name: string;

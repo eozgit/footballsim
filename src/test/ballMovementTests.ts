@@ -7,6 +7,8 @@ import type { Player } from '../lib/types.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import type { TargetCandidate } from '@/lib/playerSelectors.js';
+
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
     const xArray = [-10, -10, -10, -10, -10, -10, -10, -10, -10, -10];
@@ -129,11 +131,7 @@ describe('targetPlayers()', function () {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
       )) as {
-        thisArray: {
-          position: [number, number];
-          proximity: number;
-          name: string;
-        }[];
+        thisArray: TargetCandidate[];
       };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,
@@ -155,11 +153,7 @@ describe('targetPlayers()', function () {
       const playersArray = (await readFile(
         './src/test/input/ballMovements/targetPlayersArray.json',
       )) as {
-        thisArray: {
-          position: [number, number];
-          proximity: number;
-          name: string;
-        }[];
+        thisArray: TargetCandidate[];
       };
       const thisPlayer = bMovement.getTargetPlayer(
         playersArray.thisArray,

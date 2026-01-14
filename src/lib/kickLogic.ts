@@ -137,10 +137,13 @@ function calculateThroughBallTarget(
 ): [number, number] {
   const [, pitchHeight] = matchDetails.pitchSize;
   const { position } = matchDetails.ball;
-  const pos: [number, number] = [
-    targetPlayer.position[0],
-    targetPlayer.position[1],
-  ];
+  const [tpX, tpY] = targetPlayer.currentPOS;
+
+  if (tpX === 'NP') {
+    throw new Error('No position');
+  }
+
+  const pos: [number, number] = [tpX, tpY];
 
   const isAttackingTop = player.originPOS[1] > pitchHeight / 2;
   const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
