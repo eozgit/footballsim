@@ -22,6 +22,7 @@ function resetPlayerPositions(matchDetails: MatchDetails) {
     }
   }
 }
+
 function initStats(): Stats {
   return {
     goals: 0,
@@ -47,6 +48,7 @@ function initStats(): Stats {
     },
   };
 }
+
 function initializePlayerState(player: Player) {
   player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
 

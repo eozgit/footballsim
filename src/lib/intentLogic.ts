@@ -206,7 +206,7 @@ const STANDARD_SPACE_WEIGHTS = {
 function handleInPenaltyBox(
   playerInformation: unknown,
   tmateProximity: [number, number],
-  currentPOS: any,
+  currentPOS: [number, number],
   pos: [number, number],
   oppCurPos: BallPosition,
   halfRange: number,
@@ -245,7 +245,7 @@ function handleInPenaltyBox(
 
 function handleUnderPressureInBox(
   tmateProximity: [number, number],
-  currentPOS: any,
+  currentPOS: [number, number],
   pos: BallPosition,
   oppCurPos: BallPosition,
   halfRange: number,
@@ -292,7 +292,9 @@ function getPlayerActionWeights(
 ): MatchEventWeights {
   const { position, currentPOS, skill } = player;
 
-  if (currentPOS[0] === 'NP') throw new Error('No player position!');
+  if (currentPOS[0] === 'NP') {
+    throw new Error('No player position!');
+  }
 
   const pos = currentPOS as [number, number];
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -305,7 +307,9 @@ function getPlayerActionWeights(
   );
 
   // 1. Special Cases
-  if (position === 'GK') return handleGKIntent(playerInformation);
+  if (position === 'GK') {
+    return handleGKIntent(playerInformation);
+  }
 
   if (onBottomCornerBoundary(pos, pitchWidth, pitchHeight)) {
     return [0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0];
@@ -334,7 +338,7 @@ function getPlayerActionWeights(
 
 // Utility to handle the "Opposition Close vs Open Space" pattern seen in all zones
 function resolveZonePressure(
-  playerInfo: any,
+  playerInfo: unknown,
   pressureWeights: MatchEventWeights,
   openWeights: MatchEventWeights,
   distX = 10,
@@ -345,7 +349,7 @@ function resolveZonePressure(
     : openWeights;
 }
 
-function handleGKIntent(playerInfo: any): MatchEventWeights {
+function handleGKIntent(playerInfo: unknown): MatchEventWeights {
   return resolveZonePressure(
     playerInfo,
     [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
@@ -356,8 +360,8 @@ function handleGKIntent(playerInfo: any): MatchEventWeights {
 }
 
 function handleAttackingThirdIntent(
-  playerInfo: any,
-  _: any,
+  playerInfo: unknown,
+  _: unknown,
 ): MatchEventWeights {
   return resolveZonePressure(
     playerInfo,
@@ -367,7 +371,7 @@ function handleAttackingThirdIntent(
 }
 
 function handleMiddleThirdIntent(
-  playerInfo: any,
+  playerInfo: unknown,
   position: string,
   skill: Skill,
 ): MatchEventWeights {
@@ -377,11 +381,19 @@ function handleMiddleThirdIntent(
   }
 
   // Skill and Position based branching for open space
-  if (skill.shooting > 85) return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
+  if (skill.shooting > 85) {
+    return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
+  }
 
   const isMidfielder = ['LM', 'CM', 'RM'].includes(position);
-  if (isMidfielder) return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-  if (position === 'ST') return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+
+  if (isMidfielder) {
+    return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
+  }
+
+  if (position === 'ST') {
+    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
+  }
 
   return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
 }
@@ -444,6 +456,7 @@ function validatePlayerPosition(
 
   return pos as [number, number];
 }
+
 /**
  * Resolves intent weights when a player is outside the penalty box.
  * Prioritizes shooting range, then defensive pressure, then open play.
@@ -472,6 +485,7 @@ function handleOutsidePenaltyBox(
     [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0], // Open: High run/sprint weight
   );
 }
+
 function handleDeepBoxThreat(
   oppInfo: {
     thePlayer?: Player;

@@ -317,6 +317,7 @@ function noBallNotGK2CloseBallBottomTeam(
     },
   );
 }
+
 /**
  * Shared logic for non-goalkeeper players near the ball.
  * Handles both proximity ranges and team-specific penalty box checks.
@@ -393,7 +394,7 @@ function noBallNotGK2CloseBall(
 
   return resolveNoBallNotGKIntent(
     matchDetails,
-    currentPOS,
+    [curX, curY],
     pitchWidth,
     pitchHeight,
     isBottomTeam,
