@@ -38,26 +38,12 @@ function getAttackingIntentWeights(
   const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  // 1. Surroundings Analysis
-  const oppInfo = setPositions.closestPlayerToPosition(
+  // 1. Surroundings Analysis (Extracted to prevent "Canyon" growth)
+  const { oppInfo, tmateProximity, oppPos } = analyzePlayerSurroundings(
     player,
-    opposition,
     playerPos,
-  );
-  const tmateInfo = setPositions.closestPlayerToPosition(
-    player,
     team,
-    playerPos,
-  );
-
-  const tmateProximity: [number, number] = [
-    Math.abs(tmateInfo.proxPOS[0]),
-    Math.abs(tmateInfo.proxPOS[1]),
-  ];
-
-  const oppPos = ensureValidPosition(
-    oppInfo.thePlayer.currentPOS,
-    'Closest opponent',
+    opposition,
   );
 
   // 2. Shooting Range Calculation
@@ -88,6 +74,39 @@ function getAttackingIntentWeights(
     fullRange,
     pitchHeight,
   );
+}
+
+/**
+ * Helper to analyze proximity of teammates and opponents.
+ */
+function analyzePlayerSurroundings(
+  player: Player,
+  playerPos: [number, number],
+  team: Team,
+  opposition: Team,
+) {
+  const oppInfo = setPositions.closestPlayerToPosition(
+    player,
+    opposition,
+    playerPos,
+  );
+  const tmateInfo = setPositions.closestPlayerToPosition(
+    player,
+    team,
+    playerPos,
+  );
+
+  const tmateProximity: [number, number] = [
+    Math.abs(tmateInfo.proxPOS[0]),
+    Math.abs(tmateInfo.proxPOS[1]),
+  ];
+
+  const oppPos = ensureValidPosition(
+    oppInfo.thePlayer.currentPOS,
+    'Closest opponent',
+  );
+
+  return { oppInfo, tmateProximity, oppPos };
 }
 
 /**

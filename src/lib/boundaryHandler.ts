@@ -24,18 +24,12 @@ function resolveBallLocation(
   kickteamID: string | number,
   ballIntended: BallPosition,
 ): MatchDetails {
-  const { pitchSize, kickOffTeam } = matchDetails;
-  const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
   const [bXPOS, bYPOS] = ballIntended;
+  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  // 1. Pre-calculate environment constants
-  const halfMWidth = pitchWidth / 2;
-  const leftPost = halfMWidth - goalWidth / 2;
-  const rightPost = halfMWidth + goalWidth / 2;
-
-  const isKOT = String(kickteamID) === String(kickOffTeam.teamID);
-  const kickOffTeamSide =
-    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
+  // 1. Setup Environment and Team Context (Extracted to keep under 50 lines)
+  const context = getBallResolutionContext(matchDetails, kickteamID);
+  const { isKOT, kickOffTeamSide, goalInfo } = context;
 
   // 2. Delegate to boundary handlers
   if (isOutOfBoundsX(bXPOS, pitchWidth)) {
@@ -52,9 +46,9 @@ function resolveBallLocation(
     return handleTopByline(
       matchDetails,
       bXPOS,
-      halfMWidth,
-      leftPost,
-      rightPost,
+      goalInfo.halfMWidth,
+      goalInfo.leftPost,
+      goalInfo.rightPost,
       isKOT,
       kickOffTeamSide,
     );
@@ -64,18 +58,42 @@ function resolveBallLocation(
     return handleBottomByline(
       matchDetails,
       bXPOS,
-      halfMWidth,
-      leftPost,
-      rightPost,
+      goalInfo.halfMWidth,
+      goalInfo.leftPost,
+      goalInfo.rightPost,
       isKOT,
       kickOffTeamSide,
     );
   }
 
-  // 3. In-bounds: Finalize movement
+  // 3. In-play: Finalize movement
   matchDetails.ballIntended = ballIntended;
 
   return matchDetails;
+}
+
+/**
+ * Helper to calculate goal posts and determine team side context.
+ */
+function getBallResolutionContext(
+  matchDetails: MatchDetails,
+  kickteamID: string | number,
+) {
+  const { pitchSize, kickOffTeam } = matchDetails;
+  const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
+
+  const halfMWidth = pitchWidth / 2;
+
+  return {
+    isKOT: String(kickteamID) === String(kickOffTeam.teamID),
+    kickOffTeamSide:
+      kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom',
+    goalInfo: {
+      halfMWidth,
+      leftPost: halfMWidth - goalWidth / 2,
+      rightPost: halfMWidth + goalWidth / 2,
+    },
+  };
 }
 
 /**
