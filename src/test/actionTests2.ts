@@ -4,13 +4,15 @@ import * as actions from '../lib/actions.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import type { ProximityContext } from '@/lib/types.js';
+
 describe('bottomTeamPlayerHasBallInMiddle()', function () {
   it('In middle of pitch, no opp. near, shooting over 85', async () => {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
-    const playerInformation = { proxPOS: [218, -464] };
+    const playerInformation: ProximityContext = { proxPOS: [218, -464] };
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
@@ -25,7 +27,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     );
     const player = matchDetails.secondTeam.players[9];
     player.skill.shooting = 30;
-    const playerInformation = { proxPOS: [218, -464] };
+    const playerInformation: ProximityContext = { proxPOS: [218, -464] };
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
@@ -42,7 +44,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     player.skill.shooting = 30;
 
     player.position = 'CM';
-    const playerInformation = { proxPOS: [218, -464] };
+    const playerInformation: ProximityContext = { proxPOS: [218, -464] };
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
@@ -59,7 +61,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     player.skill.shooting = 30;
 
     player.position = 'CB';
-    const playerInformation = { proxPOS: [218, -464] };
+    const playerInformation: ProximityContext = { proxPOS: [218, -464] };
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
@@ -73,7 +75,7 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
     const player = matchDetails.secondTeam.players[9];
-    const playerInformation = { proxPOS: [5, -5] };
+    const playerInformation: ProximityContext = { proxPOS: [5, -5] };
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,

@@ -11,9 +11,11 @@ import {
 import * as setPositions from './setPositions.js';
 import type {
   BallPosition,
+  PlayerProximityDetails,
   MatchDetails,
   MatchEventWeights,
   Player,
+  ProximityContext,
   Skill,
   Team,
 } from './types.js';
@@ -134,11 +136,7 @@ function bottomTeamPlayerHasBall(
 }
 
 function bottomTeamPlayerHasBallInMiddle(
-  playerInformation: {
-    proxPOS: number[];
-    proxToBall?: number;
-    thePlayer?: unknown;
-  },
+  playerInformation: PlayerProximityDetails,
   position: string,
   skill: Skill,
 ): MatchEventWeights {
@@ -178,7 +176,7 @@ function oppositionNearPlayer(
 }
 
 function oppositionNearContext(
-  context: { proxPOS: number[] },
+  context: ProximityContext,
   distX: number,
   distY: number,
 ) {

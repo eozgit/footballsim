@@ -121,6 +121,15 @@ type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
 
 type BallPosition = [x: number, y: number, z?: number];
 
+interface ProximityContext {
+  proxPOS: [number, number];
+}
+
+type PlayerProximityDetails = ProximityContext & {
+  thePlayer?: Player;
+  proxToBall?: number;
+};
+
 export {
   MatchDetails,
   Ball,
@@ -136,4 +145,6 @@ export {
   PitchDetails,
   MatchEventWeights,
   BallPosition,
+  ProximityContext,
+  PlayerProximityDetails,
 };

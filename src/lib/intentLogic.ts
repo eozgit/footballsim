@@ -16,9 +16,11 @@ import * as common from './common.js';
 import * as setPositions from './setPositions.js';
 import type {
   BallPosition,
+  PlayerProximityDetails,
   MatchDetails,
   MatchEventWeights,
   Player,
+  ProximityContext,
   Skill,
   Team,
 } from './types.js';
@@ -56,10 +58,16 @@ function getAttackingIntentWeights(
   if (
     checkPositionInBottomPenaltyBoxClose(playerPos, pitchWidth, pitchHeight)
   ) {
+    const [curX, curY] = player.currentPOS;
+
+    if (curX === 'NP') {
+      throw new Error('Not playing');
+    }
+
     return handleInPenaltyBox(
       oppInfo,
       tmateProximity,
-      player.currentPOS,
+      [curX, curY],
       playerPos,
       oppPos,
       halfRange,
@@ -198,13 +206,13 @@ function resolveBoxWeights(
 
 // Shared configuration for standard box intentions
 const STANDARD_SPACE_WEIGHTS = {
-  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
-  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
+  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0] as MatchEventWeights,
+  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0] as MatchEventWeights,
+  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0] as MatchEventWeights,
 };
 
 function handleInPenaltyBox(
-  playerInformation: unknown,
+  playerInformation: ProximityContext,
   tmateProximity: [number, number],
   currentPOS: [number, number],
   pos: [number, number],
@@ -338,7 +346,7 @@ function getPlayerActionWeights(
 
 // Utility to handle the "Opposition Close vs Open Space" pattern seen in all zones
 function resolveZonePressure(
-  playerInfo: unknown,
+  playerInfo: ProximityContext,
   pressureWeights: MatchEventWeights,
   openWeights: MatchEventWeights,
   distX = 10,
@@ -349,7 +357,7 @@ function resolveZonePressure(
     : openWeights;
 }
 
-function handleGKIntent(playerInfo: unknown): MatchEventWeights {
+function handleGKIntent(playerInfo: ProximityContext): MatchEventWeights {
   return resolveZonePressure(
     playerInfo,
     [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
@@ -360,7 +368,7 @@ function handleGKIntent(playerInfo: unknown): MatchEventWeights {
 }
 
 function handleAttackingThirdIntent(
-  playerInfo: unknown,
+  playerInfo: ProximityContext,
   _: unknown,
 ): MatchEventWeights {
   return resolveZonePressure(
@@ -371,7 +379,7 @@ function handleAttackingThirdIntent(
 }
 
 function handleMiddleThirdIntent(
-  playerInfo: unknown,
+  playerInfo: ProximityContext,
   position: string,
   skill: Skill,
 ): MatchEventWeights {
@@ -462,11 +470,7 @@ function validatePlayerPosition(
  * Prioritizes shooting range, then defensive pressure, then open play.
  */
 function handleOutsidePenaltyBox(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
+  playerInformation: PlayerProximityDetails,
   currentPOS: [number | 'NP', number] | number[],
   shotRange: number,
   pitchHeight: number,
@@ -487,11 +491,7 @@ function handleOutsidePenaltyBox(
 }
 
 function handleDeepBoxThreat(
-  oppInfo: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
+  oppInfo: PlayerProximityDetails,
   tmateProx: [number, number],
   currentPOS: [number | 'NP', number],
   closeOppPOS: [number | 'NP', number],
@@ -609,11 +609,7 @@ function handleBottomAttackingThirdIntent(playerInformation: {
  * Returns weight arrays based on pressure and player position.
  */
 function resolveDefensiveIntent(
-  playerInformation: {
-    thePlayer?: Player;
-    proxPOS: [number, number] | number[];
-    proxToBall?: number;
-  },
+  playerInformation: PlayerProximityDetails,
   position: string,
   fallbackWeights: MatchEventWeights,
 ): MatchEventWeights {
@@ -637,7 +633,7 @@ function resolveDefensiveIntent(
 }
 
 function handleBottomDefensiveThirdIntent(
-  playerInfo: unknown,
+  playerInfo: PlayerProximityDetails,
   position: string,
 ) {
   return resolveDefensiveIntent(
@@ -647,7 +643,10 @@ function handleBottomDefensiveThirdIntent(
   );
 }
 
-function handleDefensiveThirdIntent(playerInfo: unknown, position: string) {
+function handleDefensiveThirdIntent(
+  playerInfo: PlayerProximityDetails,
+  position: string,
+) {
   return resolveDefensiveIntent(
     playerInfo,
     position,
