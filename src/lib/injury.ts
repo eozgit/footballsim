@@ -4,7 +4,7 @@ import type { MatchDetails, Team } from './types.js';
 //---------------
 //Injury Functions
 //---------------
-function isInjured(x: number) {
+function isInjured(x: number): boolean {
   if (x === 23) {
     return true;
   }
@@ -12,7 +12,7 @@ function isInjured(x: number) {
   return common.getRandomNumber(0, x) === 23;
 }
 
-function matchInjury(matchDetails: MatchDetails, team: Team) {
+function matchInjury(matchDetails: MatchDetails, team: Team): void {
   const player = team.players[common.getRandomNumber(0, 10)];
 
   if (isInjured(40000)) {

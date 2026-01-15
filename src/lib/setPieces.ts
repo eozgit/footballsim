@@ -9,7 +9,7 @@ function executePenaltyShot(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
-) {
+): [number, number] {
   // 1. Initialize State
   player.action = `none`;
   matchDetails.iterationLog.push(`Penalty Taken by: ${player.name}`);
@@ -24,7 +24,7 @@ function executePenaltyShot(
   const isOnTarget =
     player.skill.penalty_taking > common.getRandomNumber(0, 100);
 
-  recordShotStats(matchDetails, team, player, isOnTarget);
+  recordShotStats(matchDetails, player, isOnTarget);
 
   // 3. Calculate Target Position
   const shotPosition = calculatePenaltyTarget(
@@ -110,7 +110,7 @@ function positionAttackingTeam({
   kickPlayer: Player;
   matchDetails: MatchDetails;
   getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number];
-}) {
+}): void {
   const factorGK = isTop ? 0.25 : 0.75;
 
   const factorWB = isTop ? 0.66 : 0.33;
@@ -157,7 +157,7 @@ function positionDefendingTeam({
   pitchWidth: number;
   matchDetails: MatchDetails;
   getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number];
-}) {
+}): void {
   let playerSpace = -3;
 
   const midWayX = Math.floor(
@@ -193,7 +193,7 @@ function setDefenderSetPiecePosition(
   midWayFromBalltoGoalY: number,
   matchDetails: MatchDetails,
   getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
-) {
+): number {
   if (player.position === 'GK') {
     const [origX, origY] = player.originPOS;
 
@@ -459,7 +459,7 @@ function repositionTeamsForSetPiece(
     ? common.getRandomBottomPenaltyPosition
     : common.getRandomTopPenaltyPosition;
 
-  const isBackLine = (pos: string) => ['CB', 'LB', 'RB'].includes(pos);
+  const isBackLine = (pos: string): boolean => ['CB', 'LB', 'RB'].includes(pos);
 
   // 1. POSITION ATTACK
   for (const player of attack.players) {

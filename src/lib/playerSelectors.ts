@@ -1,12 +1,7 @@
 import type { PlayerWithProximity } from './ballMovement.js';
 import * as common from './common.js';
 
-/*export interface TargetCandidate {
-  currentPOS: [number, number];
-  //position: [number, number];
-  proximity: number;
-  name: string;
-}*/
+
 
 /**
  * Selects the best pass option by filtering for advanced players
@@ -35,7 +30,7 @@ function resolveBestPassOption(
    * Re-rolls the random index if the previous roll was > 5,
    * then updates the best player if the new candidate is "better" based on side.
    */
-  function compareAndRefreshSelection() {
+  function compareAndRefreshSelection(): void {
     if (currentRand > 5) {
       currentRand = common.getRandomNumber(0, tempArray.length - 1);
       const challenger = tempArray[currentRand];

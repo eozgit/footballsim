@@ -39,7 +39,6 @@ function resolveBallLocation(
       matchDetails,
       ballIntended,
       bXPOS,
-      pitchWidth,
       isKOT,
     );
   }
@@ -80,7 +79,7 @@ function resolveBallLocation(
 function getBallResolutionContext(
   matchDetails: MatchDetails,
   kickteamID: string | number,
-) {
+): { isKOT: boolean; kickOffTeamSide: string; goalInfo: { halfMWidth: number; leftPost: number; rightPost: number; }; } {
   const { pitchSize, kickOffTeam } = matchDetails;
 
   const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
@@ -112,7 +111,6 @@ function handleTouchline(
   matchDetails: MatchDetails,
   ballIntended: BallPosition,
   bXPOS: number,
-  pitchWidth: number,
   isKOT: boolean,
 ): MatchDetails {
   if (bXPOS < 0) {
@@ -164,11 +162,16 @@ function handleByline(
 
   const isCorner = side === 'top' ? isKOT === isT : isKOT !== isT;
 
-  return isCorner
-    ? isL
-      ? cfg.left(matchDetails)
-      : cfg.right(matchDetails)
-    : cfg.kick(matchDetails);
+  // Refactored for clarity and SonarJS compliance
+  if (isCorner) {
+    if (isL) {
+      return cfg.left(matchDetails);
+    }
+
+    return cfg.right(matchDetails);
+  }
+
+  return cfg.kick(matchDetails);
 }
 
 export const handleTopByline = (
@@ -179,7 +182,8 @@ export const handleTopByline = (
   r: number,
   k: boolean,
   s: string,
-) => handleByline('top', m, x, w, l, r, k, s);
+): MatchDetails => handleByline('top', m, x, w, l, r, k, s);
+
 export const handleBottomByline = (
   m: MatchDetails,
   x: number,
@@ -188,6 +192,6 @@ export const handleBottomByline = (
   r: number,
   k: boolean,
   s: string,
-) => handleByline('bottom', m, x, w, l, r, k, s);
+): MatchDetails => handleByline('bottom', m, x, w, l, r, k, s);
 
 export { resolveBallLocation };

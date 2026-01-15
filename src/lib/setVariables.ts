@@ -7,7 +7,7 @@ import type {
   Team,
 } from './types.js';
 
-function resetPlayerPositions(matchDetails: MatchDetails) {
+function resetPlayerPositions(matchDetails: MatchDetails): void {
   for (const player of matchDetails.kickOffTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
       common.setPlayerPos(player, [...player.originPOS]);
@@ -49,7 +49,7 @@ function initStats(): Stats {
   };
 }
 
-function initializePlayerState(player: Player) {
+function initializePlayerState(player: Player): void {
   player.playerID = common.getRandomNumber(1000000000000, 999999999999999);
 
   if (player.currentPOS[0] === 'NP') {
@@ -92,8 +92,6 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
   ];
-  //team1.players[playerWithBall].currentPOS.pop();
-  //team1.players[playerWithBall].intentPOS.pop();
   team1.players[playerWithBall].hasBall = true;
   matchDetails.ball.lastTouch.playerName = team1.players[playerWithBall].name;
   matchDetails.ball.lastTouch.playerID = team1.players[playerWithBall].playerID;

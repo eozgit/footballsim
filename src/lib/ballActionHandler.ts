@@ -29,7 +29,7 @@ const ACTION_STRATEGIES: Record<
   cross: (m: MatchDetails, t: Team, p: Player): [number, number] => {
     const pos = ballMovement.ballCrossed(m, t, p);
 
-    m.iterationLog.push(`crossed to new position: ${pos}`);
+    m.iterationLog.push(`crossed to new position: ${pos[0]} ${pos[1]}`);
 
     return pos;
   },

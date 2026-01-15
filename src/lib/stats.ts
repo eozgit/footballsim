@@ -1,16 +1,15 @@
 import * as common from './common.js';
-import type { MatchDetails, Team, Player } from './types.js';
+import type { MatchDetails, Player, TeamStatistics } from './types.js';
 
 /**
  * Updates both team and player shot statistics
  */
 function recordShotStats(
   matchDetails: MatchDetails,
-  team: Team,
   player: Player,
   isOnTarget: boolean,
-) {
-  const getStats = (half: number) => {
+): void {
+  const getStats = (half: number): TeamStatistics => {
     if (half === 0) {
       throw new Error(`You cannot supply 0 as a half`);
     }

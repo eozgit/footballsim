@@ -59,7 +59,7 @@ function calculateDeflectionVector(
 function updateBallCardinalDirection(
   matchDetails: MatchDetails,
   nextPOS: BallPosition,
-) {
+): void {
   const [currX, currY] = matchDetails.ball.position;
 
   const [nextX, nextY] = nextPOS;

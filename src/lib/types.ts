@@ -58,18 +58,6 @@ interface Player {
   stats: Stats;
 }
 
-// Keeping this Enum is actually good—it validates soccer positions
-enum Position {
-  CM = 'CM',
-  Cb = 'CB',
-  Gk = 'GK',
-  LB = 'LB',
-  LM = 'LM',
-  Rb = 'RB',
-  Rm = 'RM',
-  St = 'ST',
-}
-
 interface Skill {
   passing: number;
   shooting: number;
@@ -136,7 +124,6 @@ export {
   LastTouch,
   Team,
   Player,
-  Position,
   Skill,
   Stats,
   Cards,

@@ -178,7 +178,14 @@ function calculateAttackerY(
 
   const pushRange = isMidfielder ? [150, 300] : [300, 400];
 
-  const limitFactor = isMidfielder ? (isTop ? 0.75 : 0.25) : isTop ? 0.9 : 0.1;
+  // Refactored to satisfy sonarjs/no-nested-conditional
+  let limitFactor: number;
+
+  if (isMidfielder) {
+    limitFactor = isTop ? 0.75 : 0.25;
+  } else {
+    limitFactor = isTop ? 0.9 : 0.1;
+  }
 
   const push = common.getRandomNumber(pushRange[0], pushRange[1]);
 
@@ -195,7 +202,7 @@ function setDeepFreekickBallAndKicker(
   teamID: number,
   pitchWidth: number,
   isTop: boolean,
-) {
+): void {
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
@@ -208,15 +215,17 @@ function setDeepFreekickBallAndKicker(
 
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
 
-  ball.direction = isTop
-    ? ballInCentre
-      ? 'south'
-      : ballLeft
-        ? 'southeast'
-        : 'southwest'
-    : ballLeft
-      ? 'east'
-      : 'west';
+  // Refactored to satisfy sonarjs/no-nested-conditional
+  if (isTop) {
+    if (ballInCentre) {
+      ball.direction = 'south';
+    } else {
+      ball.direction = ballLeft ? 'southeast' : 'southwest';
+    }
+  } else {
+    ball.direction = ballLeft ? 'east' : 'west';
+  }
+
   const [ballX, ballY] = ball.position;
 
   common.setPlayerXY(kickPlayer, ballX, ballY);
@@ -275,7 +284,7 @@ function setSetPiecePositions(
   defence: Team,
   pitchWidth: number,
   isTop: boolean,
-) {
+): MatchDetails {
   return repositionTeamsForSetPiece(
     attack,
     pitchHeight,

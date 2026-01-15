@@ -8,12 +8,8 @@ import { initiateGame, playIteration, startSecondHalf } from './../engine.js';
 
 let nextIteration;
 
-function init() {
-  gameOfTenIterations()
-    .then(function () {})
-    .catch(function (error) {
-      throw new Error(error);
-    });
+async function init(): Promise<void> {
+  await gameOfTenIterations();
 }
 
 async function gameOfTenIterations(): Promise<MatchDetails> {
@@ -25,18 +21,18 @@ async function gameOfTenIterations(): Promise<MatchDetails> {
 
   const initJSON = await initGame(t1location, t2location, plocation);
 
-  nextIteration = await invokePlayIteration(initJSON);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  const halftimeIteration = await setupSecondHalf(nextIteration);
+  nextIteration = invokePlayIteration(initJSON);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  const halftimeIteration = setupSecondHalf(nextIteration);
 
-  nextIteration = await invokePlayIteration(halftimeIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
-  nextIteration = await invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(halftimeIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
+  nextIteration = invokePlayIteration(nextIteration);
 
   return nextIteration;
 }
@@ -52,7 +48,7 @@ async function initGame(
 
   const pitch = (await readDataFile(p)) as PitchDetails;
 
-  const matchDetails = await initiateGame(team1, team2, pitch);
+  const matchDetails = initiateGame(team1, team2, pitch);
 
   const numericSeed = parseInt(String(matchDetails.matchID).slice(-9), 10);
 
@@ -61,16 +57,16 @@ async function initGame(
   return matchDetails;
 }
 
-async function invokePlayIteration(
+function invokePlayIteration(
   inputIteration: MatchDetails,
-): Promise<MatchDetails> {
-  return await playIteration(inputIteration);
+): MatchDetails {
+  return playIteration(inputIteration);
 }
 
-async function setupSecondHalf(
+function setupSecondHalf(
   inputIteration: MatchDetails,
-): Promise<MatchDetails> {
-  return await startSecondHalf(inputIteration);
+): MatchDetails {
+  return startSecondHalf(inputIteration);
 }
 
 function readDataFile(filePath: string): Promise<unknown> {

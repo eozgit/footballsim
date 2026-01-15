@@ -3,7 +3,7 @@ import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
 import * as setPositions from './setPositions.js';
 import { initStats } from './setVariables.js';
-import { processTeamTactics } from './teamAI.js';
+import { processTeamTactics } from './teamAi.js';
 import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
@@ -11,7 +11,7 @@ function decideMovement(
   team: Team,
   opp: Team,
   matchDetails: MatchDetails,
-) {
+): Team {
   return processTeamTactics(closestPlayer, team, opp, matchDetails);
 }
 
@@ -20,7 +20,7 @@ function setClosePlayerTakesBall(
   thisPlayer: Player,
   team: Team,
   opp: Team,
-) {
+): void {
   if (thisPlayer.offside) {
     matchDetails.iterationLog.push(`${thisPlayer.name} is offside`);
 
@@ -35,11 +35,8 @@ function setClosePlayerTakesBall(
     matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
     matchDetails.ball.lastTouch.teamID = team.teamID;
     matchDetails.ball.ballOverIterations = [];
-    const [posX, posY] = thisPlayer.currentPOS;
+    const [posX, posY] = common.destructPos(thisPlayer.currentPOS);
 
-    if (posX === 'NP') {
-      throw new Error('No player position!');
-    }
 
     matchDetails.ball.position = [posX, posY];
     matchDetails.ball.Player = thisPlayer.playerID;
@@ -55,7 +52,7 @@ function completeSlide(
   thisPlayer: Player,
   team: Team,
   opp: Team,
-) {
+): MatchDetails {
   const foul = actions.resolveSlide(thisPlayer, team, opp, matchDetails);
 
   if (!foul) {
@@ -102,7 +99,7 @@ function completeTackleWhenCloseNoBall(
   thisPlayer: Player,
   team: Team,
   opp: Team,
-) {
+): MatchDetails {
   const foul = actions.resolveTackle(thisPlayer, team, opp, matchDetails);
 
   if (foul) {
@@ -142,14 +139,13 @@ function completeMovement(
   matchDetails: MatchDetails,
   player: Player,
   move: number[],
-) {
+): readonly [number, number] {
   const { currentPOS } = player;
 
-  if (currentPOS[0] === 'NP') {
-    return currentPOS;
-  }
 
-  let [newX, newY] = currentPOS;
+  const newXY = common.destructPos(currentPOS);
+
+  let [newX, newY] = newXY;
 
   const [dx, dy] = move;
 
@@ -169,10 +165,10 @@ function completeMovement(
   // SINGLE update
   common.setPlayerXY(player, newX, newY);
 
-  return player.currentPOS;
+  return newXY;
 }
 
-function closestPlayerActionBallX(ballToPlayerX: number) {
+function closestPlayerActionBallX(ballToPlayerX: number): number {
   if (common.isBetween(ballToPlayerX, -30, 30) === false) {
     if (ballToPlayerX > 29) {
       return 29;
@@ -184,7 +180,7 @@ function closestPlayerActionBallX(ballToPlayerX: number) {
   return ballToPlayerX;
 }
 
-function closestPlayerActionBallY(ballToPlayerY: number) {
+function closestPlayerActionBallY(ballToPlayerY: number): number {
   if (common.isBetween(ballToPlayerY, -30, 30) === false) {
     if (ballToPlayerY > 29) {
       return 29;
@@ -214,7 +210,7 @@ function handleBallPlayerActions(
   team: Team,
   opp: Team,
   action: string,
-) {
+): void {
   return executeActiveBallAction(matchDetails, thisPlayer, team, opp, action);
 }
 
@@ -223,7 +219,7 @@ function ballMoved(
   thisPlayer: Player,
   team: Team,
   opp: Team,
-) {
+): void {
   thisPlayer.hasBall = false;
   matchDetails.ball.withPlayer = false;
   team.intent = `attack`;
@@ -323,14 +319,8 @@ function getInterceptMovement(
   ballPosition: BallPosition,
   pitchSize: [number, number, number],
 ): [number, number] {
-  const [x, y] = player.currentPOS;
+  const [x, y] = common.destructPos(player.currentPOS);
 
-  // 1. Validation: Ensure player has a valid physical position on the pitch
-  if (x === 'NP') {
-    throw new Error(
-      `Player ${player.name} (ID: ${player.playerID}) is 'NP' at an active logic gate!`,
-    );
-  }
 
   // 2. Determine the target coordinates for interception
   const [targetX, targetY] = getInterceptPosition(
@@ -559,7 +549,7 @@ function calculateFormationMovement(
     Number(y),
   ]);
 
-  const getMove = (dir: number) => {
+  const getMove = (dir: number): number => {
     if (dir === 0) {
       return runOptions[1];
     }
@@ -610,19 +600,23 @@ function calculateSprintProximity(
   ballY: number,
   sprintOptions: number[],
 ): [number, number] {
-  const move: [number, number] = [0, 0];
+  /**
+   * Helper to determine sprint intensity based on position.
+   * Extracts nested logic to satisfy sonarjs/no-nested-conditional.
+   */
+  const getSprintValue = (pos: number): number => {
+    if (common.isBetween(pos, -60, 0)) {
+      return sprintOptions[common.getRandomNumber(3, 4)];
+    }
 
-  move[0] = common.isBetween(ballX, -60, 0)
-    ? sprintOptions[common.getRandomNumber(3, 4)]
-    : common.isBetween(ballX, 0, 60)
-      ? sprintOptions[common.getRandomNumber(0, 1)]
-      : sprintOptions[2];
+    if (common.isBetween(pos, 0, 60)) {
+      return sprintOptions[common.getRandomNumber(0, 1)];
+    }
 
-  move[1] = common.isBetween(ballY, -60, 0)
-    ? sprintOptions[common.getRandomNumber(3, 4)]
-    : common.isBetween(ballY, 0, 60)
-      ? sprintOptions[common.getRandomNumber(0, 1)]
-      : sprintOptions[2];
+    return sprintOptions[2];
+  };
+
+  const move: [number, number] = [getSprintValue(ballX), getSprintValue(ballY)];
 
   return move;
 }
@@ -643,7 +637,7 @@ function calculateSprintFormation(
     Number(y),
   ]);
 
-  const getMove = (dir: number) => {
+  const getMove = (dir: number): number => {
     if (dir === 0) {
       return sprintOptions[2];
     }
@@ -693,16 +687,13 @@ function closestPlayerToBall(
 
   setPositions.setIntentPosition(matchDetails, closestPlayerDetails);
 
-  if (closestPlayerDetails === undefined) {
-    throw new Error('Closest player details not found');
-  }
 
   matchDetails.iterationLog.push(
     `Closest Player to ball: ${closestPlayerDetails.name}`,
   );
 }
 
-function checkOffside(team1: Team, team2: Team, matchDetails: MatchDetails) {
+function checkOffside(team1: Team, team2: Team, matchDetails: MatchDetails): MatchDetails | undefined {
   const { ball } = matchDetails;
 
   const { pitchSize } = matchDetails;
@@ -721,7 +712,7 @@ function checkOffside(team1: Team, team2: Team, matchDetails: MatchDetails) {
   }
 }
 
-function getTopMostPlayer(team: Team, pitchHeight: number) {
+function getTopMostPlayer(team: Team, pitchHeight: number): Player | undefined {
   let player;
 
   for (const thisPlayer of team.players) {
@@ -738,7 +729,7 @@ function getTopMostPlayer(team: Team, pitchHeight: number) {
   return player;
 }
 
-function getBottomMostPlayer(team: Team) {
+function getBottomMostPlayer(team: Team): Player | undefined {
   let player;
 
   for (const thisPlayer of team.players) {
@@ -762,7 +753,7 @@ function updateOffside(
   opponent: Team,
   attackSide: Side,
   pitchHeight: number,
-) {
+): boolean {
   const offsideLines = offsideYPOS(opponent, attackSide, pitchHeight);
 
   // Original logic uses pos1/pos2 vs pos2/pos1 based on side
@@ -797,7 +788,7 @@ function updateOffside(
   return false;
 }
 
-export function team1atBottom(team1: Team, team2: Team, pitchHeight: number) {
+export function team1atBottom(team1: Team, team2: Team, pitchHeight: number): void {
   if (updateOffside(team1, team2, 'top', pitchHeight)) {
     return;
   }
@@ -805,7 +796,7 @@ export function team1atBottom(team1: Team, team2: Team, pitchHeight: number) {
   updateOffside(team2, team1, 'bottom', pitchHeight);
 }
 
-export function team1atTop(team1: Team, team2: Team, pitchHeight: number) {
+export function team1atTop(team1: Team, team2: Team, pitchHeight: number): void {
   if (updateOffside(team1, team2, 'bottom', pitchHeight)) {
     return;
   }
@@ -813,7 +804,7 @@ export function team1atTop(team1: Team, team2: Team, pitchHeight: number) {
   updateOffside(team2, team1, 'top', pitchHeight);
 }
 
-function offsideYPOS(team: Team, side: unknown, pitchHeight: number) {
+function offsideYPOS(team: Team, side: unknown, pitchHeight: number): { pos1: number; pos2: number; } {
   const offsideYPOS = {
     pos1: 0,
     pos2: pitchHeight / 2,

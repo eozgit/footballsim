@@ -11,7 +11,7 @@ function resolvePlayerBallInteraction(
   thisPos: [number, number, number], // ball current 3D pos
   power: number,
   thisTeam: Team,
-) {
+): [number, number, number] | [number, number] | undefined {
   // 1. Validation
   if (!thisPlayer) {
     throw new Error('Player is undefined!');
@@ -111,7 +111,7 @@ function resolvePathInterceptions(
   matchDetails: MatchDetails,
   thisPOS: [number, number],
   power: number,
-) {
+): void {
   for (const step of trajectory) {
     const checkPos: [number, number] = [
       common.round(step[0], 0),

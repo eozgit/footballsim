@@ -127,11 +127,14 @@ function setBottomUpperQtrCentreYPos(
 
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
 
-  ball.direction = ballInCentre
-    ? 'north'
-    : ballLeft
-      ? 'northeast'
-      : 'northwest';
+  // Refactored to satisfy sonarjs/no-nested-conditional
+  if (ballInCentre) {
+    ball.direction = 'north';
+  } else if (ballLeft) {
+    ball.direction = 'northeast';
+  } else {
+    ball.direction = 'northwest';
+  }
 
   return alignPlayersForPenalty(
     false,

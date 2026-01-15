@@ -64,7 +64,7 @@ function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   return matchDetails;
 }
 
-function assignTeamsAndResetPositions(matchDetails: MatchDetails) {
+function assignTeamsAndResetPositions(matchDetails: MatchDetails): { attack: Team; defence: Team; } {
   common.removeBallFromAllPlayers(matchDetails);
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
 
@@ -590,16 +590,20 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
     return setBottomPenalty(matchDetails);
   } else if (attackingTowardsTop) {
     matchDetails.kickOffTeamStatistics.freekicks++;
+    const [bx, by] = matchDetails.ball.position;
+
     matchDetails.iterationLog.push(
-      `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
+      `freekick to: ${matchDetails.kickOffTeam.name} [${bx} ${by}]`,
     );
 
     return setBottomFreekicks.setBottomFreekick(matchDetails);
   }
 
   matchDetails.kickOffTeamStatistics.freekicks++;
+  const [bx, by] = matchDetails.ball.position;
+
   matchDetails.iterationLog.push(
-    `freekick to: ${matchDetails.kickOffTeam.name} [${matchDetails.ball.position}]`,
+    `freekick to: ${matchDetails.kickOffTeam.name} [${bx} ${by}]`,
   );
 
   return setTopFreekicks.setTopFreekick(matchDetails);
@@ -635,16 +639,20 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
     return setBottomPenalty(matchDetails);
   } else if (attackingTowardsTop) {
     matchDetails.secondTeamStatistics.freekicks++;
+    const [bx, by] = matchDetails.ball.position;
+
     matchDetails.iterationLog.push(
-      `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
+      `freekick to: ${matchDetails.secondTeam.name} [${bx} ${by}]`,
     );
 
     return setBottomFreekicks.setBottomFreekick(matchDetails);
   }
 
   matchDetails.secondTeamStatistics.freekicks++;
+  const [bx, by] = matchDetails.ball.position;
+
   matchDetails.iterationLog.push(
-    `freekick to: ${matchDetails.secondTeam.name} [${matchDetails.ball.position}]`,
+    `freekick to: ${matchDetails.secondTeam.name} [${bx} ${by}]`,
   );
 
   return setTopFreekicks.setTopFreekick(matchDetails);
@@ -956,18 +964,28 @@ function setIntentPosition(
     (thisPlayer: Player) => thisPlayer.playerID === ball.Player,
   );
 
-  const kickTeam = kickOffTeamCheck
-    ? kickOffTeam
-    : secondTeamCheck
-      ? secondTeam
-      : null;
+  // 1. Extract nested ternary into a clear variable assignment
+  let kickTeam: Team | undefined;
 
-  const defendingTeam =
-    kickTeam === null
-      ? null
-      : kickTeam.teamID === kickOffTeam.teamID
-        ? secondTeam
-        : kickOffTeam;
+  if (kickOffTeamCheck) {
+    kickTeam = kickOffTeam;
+  } else if (secondTeamCheck) {
+    kickTeam = secondTeam;
+  } else {
+    kickTeam = undefined; // satisfy unicorn/no-null
+  }
+
+  // 2. Refactor defendingTeam to avoid nested logic and null checks
+  let defendingTeam: Team | undefined;
+
+  if (!kickTeam) {
+    defendingTeam = undefined;
+  } else {
+    // Use a simple if/else for the team ID swap logic
+    defendingTeam = kickTeam.teamID === kickOffTeam.teamID
+      ? secondTeam
+      : kickOffTeam;
+  }
 
   if (defendingTeam) {
     setDefenceRelativePos(matchDetails, defendingTeam, closestPlayer);
@@ -1339,7 +1357,7 @@ function checkShotAccuracy(
   pitchHeight: number,
   power: number,
 ): boolean {
-  const [_, playerY] = player.currentPOS;
+  const [, playerY] = player.currentPOS;
 
   const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
 
@@ -1350,35 +1368,7 @@ function checkShotAccuracy(
   return shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40);
 }
 
-function calculateShotTarget(
-  player: Player,
-  onTarget: boolean,
-  width: number,
-  height: number,
-  power: number,
-): [number, number] {
-  const isTopTeam = player.originPOS[1] < height / 2;
 
-  const playerY = player.currentPOS[1];
-
-  let targetX: number;
-
-  let targetY: number;
-
-  if (onTarget) {
-    targetX = common.getRandomNumber(width / 2 - 50, width / 2 + 50);
-    targetY = isTopTeam ? height + 1 : -1;
-  } else {
-    const isLeft = common.getRandomNumber(0, 10) > 5;
-
-    targetX = isLeft
-      ? common.getRandomNumber(0, width / 2 - 55)
-      : common.getRandomNumber(width / 2 + 55, width);
-    targetY = isTopTeam ? playerY + power : playerY - power;
-  }
-
-  return [targetX, targetY];
-}
 
 /**
  * Calculates the X and Y target coordinates for a penalty shot
@@ -1432,7 +1422,6 @@ function repositionForDeepSetPiece(
 
 export {
   calculatePenaltyTarget,
-  calculateShotTarget,
   checkShotAccuracy,
   closestPlayerToPosition,
   formationCheck,

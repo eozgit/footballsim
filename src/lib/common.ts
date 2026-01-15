@@ -31,8 +31,18 @@ function getRandomNumber(min: number, max: number): number {
   return Math.floor(matchRNG() * (max - min + 1)) + min;
 }
 
+/**
+ * Rounds a number to a specified number of decimal places.
+ * Satisfies sonarjs/no-nested-template-literals by using math over string templates.
+ */
 function round(value: number | string, decimals: number): number {
-  return Number(`${Math.round(Number(`${value}e${decimals}`))}e-${decimals}`);
+  const p = Math.pow(10, decimals);
+
+  const n = Number(value) * p;
+
+  const rounded = Math.round(n);
+
+  return rounded / p;
 }
 
 function isBetween(num: number, low: number, high: number): boolean {
@@ -258,7 +268,8 @@ function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
   if (descriptor) {
     try {
       (obj as { -readonly [P in K]: T[P] })[key] = value;
-    } catch (e) {
+    } catch (error) {
+      console.debug(`Standard assignment failed for ${String(key)}, falling back to defineProperty.`, error);
       // If assignment fails, only THEN attempt defineProperty as a last resort
       Object.defineProperty(obj, key, {
         value,
@@ -289,6 +300,16 @@ function setPlayerPos(
   setPlayerXY(player, pos[0], pos[1]);
 }
 
+function destructPos(position: readonly [number | 'NP', number]): [number, number] {
+  const [x, y] = position;
+
+  if (x === 'NP') {
+    throw new Error('Not playing.');
+  }
+
+  return [x, y];
+}
+
 function debug(label: string, ...args: unknown[]): void {
   console.log(`[DEBUG:${label}]`, ...args);
 }
@@ -315,4 +336,5 @@ export {
   sumFrom1toX,
   upToMax,
   upToMin,
+  destructPos,
 };

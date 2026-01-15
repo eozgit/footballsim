@@ -93,7 +93,7 @@ function analyzePlayerSurroundings(
   playerPos: [number, number],
   team: Team,
   opposition: Team,
-) {
+): { oppInfo: { thePlayer: Player; proxPOS: [number, number]; proxToBall: number; }; tmateProximity: [number, number]; oppPos: [number, number]; } {
   const oppInfo = setPositions.closestPlayerToPosition(
     player,
     opposition,
@@ -125,7 +125,7 @@ function analyzePlayerSurroundings(
 function calculateShootingThresholds(
   shootingSkill: number,
   pitchHeight: number,
-) {
+): { halfRange: number; fullRange: number; } {
   return {
     halfRange: pitchHeight - shootingSkill / 2,
     fullRange: pitchHeight - shootingSkill,
@@ -302,15 +302,12 @@ function getPlayerActionWeights(
 ): MatchEventWeights {
   const { position, currentPOS, skill } = player;
 
-  if (currentPOS[0] === 'NP') {
-    throw new Error('No player position!');
-  }
+  const pos = common.destructPos(currentPOS);
 
-  const pos = currentPOS as [number, number];
+  const [, playerY] = pos;
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  const playerY = pos[1];
 
   const playerInformation = setPositions.closestPlayerToPosition(
     player,
@@ -641,7 +638,7 @@ function resolveDefensiveIntent(
 function handleBottomDefensiveThirdIntent(
   playerInfo: PlayerProximityDetails,
   position: string,
-) {
+): MatchEventWeights {
   return resolveDefensiveIntent(
     playerInfo,
     position,
@@ -652,7 +649,7 @@ function handleBottomDefensiveThirdIntent(
 function handleDefensiveThirdIntent(
   playerInfo: PlayerProximityDetails,
   position: string,
-) {
+): MatchEventWeights {
   return resolveDefensiveIntent(
     playerInfo,
     position,

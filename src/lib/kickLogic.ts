@@ -58,7 +58,7 @@ function executeKickAction(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
-) {
+): [number, number] {
   const { ball, pitchSize } = matchDetails;
 
   const [, pitchHeight] = pitchSize;
@@ -101,7 +101,7 @@ function resolvePassDestination(
   matchDetails: MatchDetails,
   team: Team,
   player: Player,
-) {
+): [number, number] {
   const { ball, pitchSize } = matchDetails;
 
   // 1. Update Metadata & Stats
@@ -147,11 +147,8 @@ function calculateThroughBallTarget(
 
   const { position } = matchDetails.ball;
 
-  const [tpX, tpY] = targetPlayer.currentPOS;
+  const [tpX, tpY] = common.destructPos(targetPlayer.currentPOS);
 
-  if (tpX === 'NP') {
-    throw new Error('No position');
-  }
 
   const pos: [number, number] = [tpX, tpY];
 

@@ -58,7 +58,7 @@ function finalizeMomentumStep(
 ): MatchDetails {
   matchDetails.ball.ballOverIterations.shift();
   matchDetails.iterationLog.push(
-    `ball still moving from previous kick: ${endPos}`,
+    `ball still moving from previous kick: ${endPos[0]} ${endPos[1]}`,
   );
   matchDetails.ball.position = endPos;
 

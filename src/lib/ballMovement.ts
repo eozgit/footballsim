@@ -25,7 +25,7 @@ import type {
 export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
 export type PlayerWithProximity = TestPlayer & { proximity: number };
 
-function moveBall(matchDetails: MatchDetails) {
+function moveBall(matchDetails: MatchDetails): MatchDetails {
   return processBallMomentum(matchDetails);
 }
 
@@ -62,7 +62,7 @@ function setBPlayer(ballPos: BallPosition): Player {
   return { ...player, ...patch };
 }
 
-function ballKicked(matchDetails: MatchDetails, team: Team, player: Player) {
+function ballKicked(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   return executeKickAction(matchDetails, team, player);
 }
 
@@ -129,7 +129,7 @@ function newKickedPosition(
   return newPosition;
 }
 
-function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
+function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Setup & Physics
@@ -146,7 +146,7 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player) {
   recordShotStats(matchDetails, player, isOnTarget);
 
   // 3. Coordinate Resolution
-  const targetCoord = setPositions.calculateShotTarget(
+  const targetCoord = calculateShotTarget(
     player,
     isOnTarget,
     pitchWidth,
@@ -212,11 +212,11 @@ function updateLastTouchAndLog(
   updateLastTouch(matchDetails.ball, player, team);
 }
 
-function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
+function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   return executePenaltyShot(matchDetails, team, player);
 }
 
-function checkGoalScored(matchDetails: MatchDetails) {
+function checkGoalScored(matchDetails: MatchDetails): void {
   const { ball, kickOffTeam, secondTeam } = matchDetails;
 
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
@@ -261,7 +261,7 @@ function checkGoalScored(matchDetails: MatchDetails) {
   }
 }
 
-function throughBall(matchDetails: MatchDetails, team: Team, player: Player) {
+function throughBall(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   return resolvePassDestination(matchDetails, team, player);
 }
 
@@ -343,7 +343,7 @@ function thisPlayerIsInProximity(
   thisPos: [number, number, number],
   power: number,
   thisTeam: Team,
-) {
+): [number, number] | [number, number, number] | undefined {
   return resolvePlayerBallInteraction(
     matchDetails,
     thisPlayer,
@@ -359,7 +359,7 @@ function setBallMovementMatchDetails(
   thisPlayer: Player,
   thisPos: BallPosition,
   thisTeam: Team,
-) {
+): void {
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
   matchDetails.ball.withPlayer = true;
@@ -430,7 +430,7 @@ function setDeflectionPlayerHasBall(
   matchDetails: MatchDetails,
   defPlayer: Player,
   defTeam: Team,
-) {
+): BallPosition | undefined {
   defPlayer.hasBall = true;
   matchDetails.ball.lastTouch.playerName = defPlayer.name;
   matchDetails.ball.lastTouch.playerID = defPlayer.playerID;
@@ -446,11 +446,8 @@ function setDeflectionPlayerHasBall(
   matchDetails.ball.Player = defPlayer.playerID;
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = defTeam.teamID;
-  const [posX, posY] = defPlayer.currentPOS;
+  const [posX, posY] = common.destructPos(defPlayer.currentPOS);
 
-  if (posX === 'NP') {
-    throw new Error('No player position!');
-  }
 
   matchDetails.ball.position = [posX, posY];
 }
@@ -476,7 +473,7 @@ function setDeflectionPlayerOffside(
   }
 }
 
-function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition) {
+function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
   return updateBallCardinalDirection(matchDetails, nextPOS);
 }
 
@@ -526,7 +523,7 @@ function ballPassed(
 
 /** HELPER FUNCTIONS **/
 
-function updateLastTouch(ball: Ball, player: Player, team: Team) {
+function updateLastTouch(ball: Ball, player: Player, team: Team): void {
   ball.lastTouch.playerName = player.name;
   ball.lastTouch.playerID = player.playerID;
   ball.lastTouch.teamID = team.teamID;
@@ -537,7 +534,7 @@ function getTargetPlayerCandidate(
   player: Player,
   pitchSize: [number, number, number?],
   pitchHeight: number,
-) {
+): PlayerWithProximity {
   const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
 
   const playersInDistance = getPlayersInDistance(team, player, pitchSize);
@@ -748,7 +745,7 @@ function calcBallMovementOverTime(
   return endPos;
 }
 
-function splitNumberIntoN(num: number, n: number) {
+function splitNumberIntoN(num: number, n: number): number[] {
   const arrayN = Array.from(new Array(n).keys());
 
   const splitNumber = [];
@@ -773,7 +770,7 @@ function mergeArrays(
   array1: number[],
   array2: number[],
   array3: number[],
-) {
+): number[][] {
   let tempPos = [oldPos[0], oldPos[1]];
 
   const arrayN = Array.from(new Array(arrayLength - 1).keys());
@@ -792,6 +789,36 @@ function mergeArrays(
   newArray.push([newPos[0], newPos[1], array3[array3.length - 1]]);
 
   return newArray;
+}
+
+function calculateShotTarget(
+  player: Player,
+  onTarget: boolean,
+  width: number,
+  height: number,
+  power: number,
+): [number, number] {
+  const isTopTeam = player.originPOS[1] < height / 2;
+
+  const playerY = player.currentPOS[1];
+
+  let targetX: number;
+
+  let targetY: number;
+
+  if (onTarget) {
+    targetX = common.getRandomNumber(width / 2 - 50, width / 2 + 50);
+    targetY = isTopTeam ? height + 1 : -1;
+  } else {
+    const isLeft = common.getRandomNumber(0, 10) > 5;
+
+    targetX = isLeft
+      ? common.getRandomNumber(0, width / 2 - 55)
+      : common.getRandomNumber(width / 2 + 55, width);
+    targetY = isTopTeam ? playerY + power : playerY - power;
+  }
+
+  return [targetX, targetY];
 }
 
 export {

@@ -1,4 +1,4 @@
-import type { Player } from './types.js';
+import type { Player, Skill, Stats } from './types.js';
 
 /**
  * Creates a new Player object with default attributes.
@@ -27,7 +27,7 @@ function initializePlayerObject(position: string): Player {
 /**
  * Returns the default skill set for a new player.
  */
-function getDefaultPlayerSkills() {
+function getDefaultPlayerSkills(): Skill {
   return {
     passing: 80,
     shooting: 80,
@@ -43,7 +43,7 @@ function getDefaultPlayerSkills() {
 /**
  * Returns the initial empty statistics object for a new player.
  */
-function getDefaultPlayerStats() {
+function getDefaultPlayerStats(): Stats {
   const emptyCounter = { total: 0, on: 0, off: 0, fouls: 0 };
 
   return {

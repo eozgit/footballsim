@@ -10,11 +10,11 @@ import * as validate from './lib/validate.js';
 //------------------------
 //    Functions
 //------------------------
-async function initiateGame(
+function initiateGame(
   team1: Team,
   team2: Team,
   pitchDetails: PitchDetails,
-) {
+): MatchDetails {
   validate.validateArguments(team1, team2, pitchDetails);
   validate.validateTeam(team1);
   validate.validateTeam(team2);
@@ -39,9 +39,9 @@ async function initiateGame(
   return matchDetails;
 }
 
-async function playIteration(
+function playIteration(
   matchDetails: MatchDetails,
-): Promise<MatchDetails> {
+): MatchDetails {
   const closestPlayerA = {
     name: '',
     position: 100000,
@@ -96,9 +96,9 @@ async function playIteration(
   return matchDetails;
 }
 
-async function startSecondHalf(
+function startSecondHalf(
   matchDetails: MatchDetails,
-): Promise<MatchDetails> {
+): MatchDetails {
   validate.validateMatchDetails(matchDetails);
   validate.validateTeamSecondHalf(matchDetails.kickOffTeam);
   validate.validateTeamSecondHalf(matchDetails.secondTeam);
@@ -131,7 +131,6 @@ export {
   MatchDetails,
   PitchDetails,
   Player,
-  Position,
   Shots,
   Skill,
   Stats,
