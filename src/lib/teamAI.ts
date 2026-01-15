@@ -34,6 +34,7 @@ function processTeamTactics(
 
     // 1. Determine Intent and Action
     const tacticalContext = getPlayerTacticalContext(player, [ballX, ballY]);
+
     const action = determinePlayerAction(
       player,
       team,
@@ -85,6 +86,7 @@ function determinePlayerAction(
     ctx.y,
     matchDetails,
   );
+
   let action = actions.selectAction(possibleActions);
 
   action = checkProvidedAction(matchDetails, player, action);
@@ -117,7 +119,9 @@ function executePlayerMovement(
   ctx: { x: number; y: number },
 ): [number, number] {
   const move = getMovement(player, action, opp, ctx.x, ctx.y, matchDetails);
+
   const newPos = completeMovement(matchDetails, player, move);
+
   const [newX, newY] = newPos;
 
   if (newX === 'NP') {
@@ -141,6 +145,7 @@ export function resolveBallInteractions(
   action: string,
 ): void {
   const { ball } = matchDetails;
+
   const [playerX, playerY] = player.currentPOS;
 
   // 1. Position Validation

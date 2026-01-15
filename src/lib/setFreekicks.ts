@@ -17,6 +17,7 @@ function setOneHundredYPos(
   side: 'top' | 'bottom',
 ): MatchDetails {
   const isTop = side === 'top';
+
   const [, pitchHeight] = matchDetails.pitchSize;
 
   // Set ball possession to the goalkeeper (players[0])
@@ -82,6 +83,7 @@ function setHalfwayToOppositeQtrYPos(
   side: 'top' | 'bottom',
 ): { matchDetails: MatchDetails; kickPlayer: Player } {
   const isTop = side === 'top';
+
   const { ball, pitchWidth, pitchHeight, kickPlayer } = initializeKickerAndBall(
     matchDetails,
     attack,
@@ -113,6 +115,7 @@ function setHalfwayToOppositeQtrYPos(
       common.setPlayerPos(player, [...player.originPOS]);
     } else {
       const wallY = isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
+
       const targetY = ['CM', 'LM', 'RM'].includes(player.position)
         ? wallY
         : pitchHeight * 0.5;
@@ -139,6 +142,7 @@ function getBallDirection(
     pitchWidth / 4 + 5,
     pitchWidth - pitchWidth / 4 - 5,
   );
+
   const ballLeft = common.isBetween(ballX, 0, pitchWidth / 4 + 4);
 
   if (isTop) {
@@ -171,10 +175,13 @@ function calculateAttackerY(
   }
 
   const isMidfielder = ['CM', 'LM', 'RM'].includes(player.position);
+
   const pushRange = isMidfielder ? [150, 300] : [300, 400];
+
   const limitFactor = isMidfielder ? (isTop ? 0.75 : 0.25) : isTop ? 0.9 : 0.1;
 
   const push = common.getRandomNumber(pushRange[0], pushRange[1]);
+
   const signedPush = isTop ? push : -push;
 
   return isTop
@@ -198,6 +205,7 @@ function setDeepFreekickBallAndKicker(
     pitchWidth / 4 + 5,
     pitchWidth - pitchWidth / 4 - 5,
   );
+
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
 
   ball.direction = isTop
@@ -219,7 +227,9 @@ function initializeKickerAndBall(
   attack: Team,
 ): { ball: Ball; pitchWidth: number; pitchHeight: number; kickPlayer: Player } {
   const { ball, pitchSize } = matchDetails;
+
   const [pitchWidth, pitchHeight] = pitchSize;
+
   const kickPlayer = attack.players[5];
 
   setBallPossession(kickPlayer, ball, attack);

@@ -18,10 +18,12 @@ function setGoalieHasBall(
   thisGoalie: Player,
 ): MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const team =
     kickOffTeam.players[0].playerID === thisGoalie.playerID
       ? kickOffTeam
       : secondTeam;
+
   const opposition =
     kickOffTeam.players[0].playerID === thisGoalie.playerID
       ? secondTeam
@@ -49,6 +51,7 @@ function setGoalieHasBall(
 
 function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
+
   const [pitchWidth] = matchDetails.pitchSize;
 
   common.setPlayerXY(attack.players[1], pitchWidth, 0);
@@ -64,11 +67,14 @@ function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
 function assignTeamsAndResetPositions(matchDetails: MatchDetails) {
   common.removeBallFromAllPlayers(matchDetails);
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
+
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
+
   const attack =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.kickOffTeam
       : matchDetails.secondTeam;
+
   const defence =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.secondTeam
@@ -115,12 +121,16 @@ function setBottomLeftCornerPositions(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
+
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
+
   const attack =
     kickOffTeamKeepYPos < halfPitchSize
       ? matchDetails.kickOffTeam
       : matchDetails.secondTeam;
+
   const defence =
     kickOffTeamKeepYPos < halfPitchSize
       ? matchDetails.secondTeam
@@ -161,12 +171,16 @@ function setBottomRightCornerPositions(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
+
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
+
   const attack =
     kickOffTeamKeepYPos < halfPitchSize
       ? matchDetails.kickOffTeam
       : matchDetails.secondTeam;
+
   const defence =
     kickOffTeamKeepYPos < halfPitchSize
       ? matchDetails.secondTeam
@@ -223,12 +237,15 @@ function setLeftKickOffTeamThrowIn(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   let [, place] = ballIntended;
+
   const [, pitchHeight] = matchDetails.pitchSize;
 
   place = place - 30 < 0 ? 30 : place;
   place = place + 10 > pitchHeight + 1 ? pitchHeight - 10 : place;
   const movement = kickOffTeam.players[5].originPOS[1] - place;
+
   const oppMovement = 0 - movement;
 
   ballThrowInPosition(matchDetails, kickOffTeam);
@@ -256,12 +273,15 @@ function setRightKickOffTeamThrowIn(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   let [, place] = ballIntended;
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   place = place - 30 < 0 ? 30 : place;
   place = place + 10 > pitchHeight + 1 ? pitchHeight - 10 : place;
   const movement = kickOffTeam.players[5].originPOS[1] - place;
+
   const oppMovement = 0 - movement;
 
   ballThrowInPosition(matchDetails, kickOffTeam);
@@ -289,12 +309,15 @@ function setLeftSecondTeamThrowIn(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   let [, place] = ballIntended;
+
   const [, pitchHeight] = matchDetails.pitchSize;
 
   place = place - 30 < 0 ? 30 : place;
   place = place + 10 > pitchHeight + 1 ? pitchHeight - 10 : place;
   const movement = secondTeam.players[5].originPOS[1] - place;
+
   const oppMovement = 0 - movement;
 
   ballThrowInPosition(matchDetails, secondTeam);
@@ -322,12 +345,15 @@ function setRightSecondTeamThrowIn(
 ): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   let [, place] = ballIntended;
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   place = place - 30 < 0 ? 30 : place;
   place = place + 10 > pitchHeight + 1 ? pitchHeight - 10 : place;
   const movement = secondTeam.players[5].originPOS[1] - place;
+
   const oppMovement = 0 - movement;
 
   ballThrowInPosition(matchDetails, secondTeam);
@@ -435,9 +461,12 @@ function defenceRightThrowInPlayerPosition(
 
 function setBottomGoalKick(matchDetails: MatchDetails): MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const side =
     kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
+
   const teamTaking = side === 'bottom' ? kickOffTeam : secondTeam;
 
   common.removeBallFromAllPlayers(matchDetails);
@@ -452,11 +481,14 @@ function setBottomGoalKick(matchDetails: MatchDetails): MatchDetails {
 
 function setTopGoalKick(matchDetails: MatchDetails): MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const [pitchWidth] = matchDetails.pitchSize;
+
   const side =
     kickOffTeam.players[0].originPOS[1] < matchDetails.pitchSize[1] / 2
       ? 'top'
       : 'bottom';
+
   const teamTaking = side === 'top' ? kickOffTeam : secondTeam;
 
   common.removeBallFromAllPlayers(matchDetails);
@@ -493,6 +525,7 @@ function closestPlayerToPosition(
   position: BallPosition,
 ): { thePlayer: Player; proxPOS: [number, number]; proxToBall: number } {
   let currentDifference = 1000000;
+
   const playerInformation: {
     thePlayer: Player;
     proxPOS: [number, number];
@@ -510,7 +543,9 @@ function closestPlayerToPosition(
       }
 
       const ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
+
       const ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
+
       const proximityToBall = Math.abs(ballToPlayerX) + Math.abs(ballToPlayerY);
 
       if (proximityToBall < currentDifference) {
@@ -527,7 +562,9 @@ function closestPlayerToPosition(
 
 function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const ballPosition = matchDetails.ball.position;
+
   const attackingTowardsTop =
     matchDetails.kickOffTeam.players[0].currentPOS[1] > pitchHeight / 2;
 
@@ -570,7 +607,9 @@ function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
 
 function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const ballPosition = matchDetails.ball.position;
+
   const attackingTowardsTop =
     matchDetails.secondTeam.players[0].currentPOS[1] > pitchHeight / 2;
 
@@ -614,17 +653,23 @@ function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails {
 function setTopPenalty(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
+
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
+
   const attack =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.kickOffTeam
       : matchDetails.secondTeam;
+
   const defence =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
+
   const tempArray: [number, number] = [pitchWidth / 2, pitchHeight / 6];
+
   const shootArray: [number, number] = [
     pitchWidth / 2,
     common.round(pitchHeight / 17.5, 0),
@@ -644,20 +689,26 @@ function setTopPenalty(matchDetails: MatchDetails): MatchDetails {
 function setBottomPenalty(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const kickOffTeamKeepYPos = matchDetails.kickOffTeam.players[0].originPOS[1];
+
   const halfPitchSize = matchDetails.pitchSize[1] / 2;
+
   const attack =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.secondTeam
       : matchDetails.kickOffTeam;
+
   const defence =
     kickOffTeamKeepYPos > halfPitchSize
       ? matchDetails.kickOffTeam
       : matchDetails.secondTeam;
+
   const tempArray: [number, number] = [
     pitchWidth / 2,
     pitchHeight - pitchHeight / 6,
   ];
+
   const shootArray: [number, number] = [
     pitchWidth / 2,
     pitchHeight - common.round(pitchHeight / 17.5, 0),
@@ -680,6 +731,7 @@ function setPlayerPenaltyPositions(
   defence: Team,
 ): void {
   let oppxpos = -10;
+
   let teamxpos = -9;
 
   for (const num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
@@ -801,6 +853,7 @@ function setBallSpecificGoalScoreValue(
   matchDetails.ball.withPlayer = true;
   matchDetails.ball.withTeam = conceedingTeam.teamID;
   const playerWithBall = common.getRandomNumber(9, 10);
+
   const waitingPlayer = playerWithBall === 9 ? 10 : 9;
 
   common.setPlayerXY(
@@ -866,6 +919,7 @@ function formationCheck(
   current: [number, number],
 ): number[] {
   const xPos = origin[0] - current[0];
+
   const yPos = origin[1] - current[1];
 
   return [xPos, yPos];
@@ -893,17 +947,21 @@ function setIntentPosition(
   closestPlayer: Player,
 ): void {
   const { ball, kickOffTeam, secondTeam } = matchDetails;
+
   const kickOffTeamCheck = kickOffTeam.players.find(
     (thisPlayer: Player) => thisPlayer.playerID === ball.Player,
   );
+
   const secondTeamCheck = secondTeam.players.find(
     (thisPlayer: Player) => thisPlayer.playerID === ball.Player,
   );
+
   const kickTeam = kickOffTeamCheck
     ? kickOffTeam
     : secondTeamCheck
       ? secondTeam
       : null;
+
   const defendingTeam =
     kickTeam === null
       ? null
@@ -931,7 +989,9 @@ function setLooseintentPOS(
   closestPlayer: Player,
 ): void {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const { ball } = matchDetails;
+
   const side =
     thisTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
 
@@ -963,7 +1023,8 @@ function shouldMoveDirectlyToBall(
   }
 
   const diffX = ball.position[0] - (player.currentPOS[0] as number);
-  const diffY = ball.position[1] - (player.currentPOS[1] as number);
+
+  const diffY = ball.position[1] - (player.currentPOS[1]);
 
   // Checks if player is within a 16x16 unit "action zone" around the ball
   return common.isBetween(diffX, -16, 16) && common.isBetween(diffY, -16, 16);
@@ -976,9 +1037,11 @@ function calculateTacticalYPOS(
   pitchHeight: number,
 ): number {
   const diffY = ball.position[1] - player.currentPOS[1];
+
   const southwards = ['south', 'southwest', 'southeast'].includes(
     ball.direction,
   );
+
   const northwards = ['north', 'northwest', 'northeast'].includes(
     ball.direction,
   );
@@ -1051,6 +1114,7 @@ export function setDefenceRelativePos(
   closestPlayer: Player,
 ): void {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const { ball } = matchDetails;
 
   // Determine if team is defending the 'top' or 'bottom' goal
@@ -1102,6 +1166,7 @@ function isPlayerNearBall(
   delta: number,
 ): boolean {
   const diffX = ballPos[0] - (player.currentPOS[0] as number);
+
   const diffY = ballPos[1] - player.currentPOS[1];
 
   return (
@@ -1150,6 +1215,7 @@ function setAttackRelativePos(
   kickingTeam: Team,
 ): void {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const side =
     kickingTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom';
 
@@ -1274,6 +1340,7 @@ function checkShotAccuracy(
   power: number,
 ): boolean {
   const [_, playerY] = player.currentPOS;
+
   const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
 
   const shotReachGoal = isTopTeam
@@ -1291,8 +1358,11 @@ function calculateShotTarget(
   power: number,
 ): [number, number] {
   const isTopTeam = player.originPOS[1] < height / 2;
-  const playerY = player.currentPOS[1] as number;
+
+  const playerY = player.currentPOS[1];
+
   let targetX: number;
+
   let targetY: number;
 
   if (onTarget) {
@@ -1319,7 +1389,9 @@ function calculatePenaltyTarget(
   isOnTarget: boolean,
 ): [number, number] {
   const [pitchWidth, pitchHeight] = pitchSize;
+
   const shotPower = common.calculatePower(player.skill.strength);
+
   const target: [number, number] = [0, 0];
 
   if (isOnTarget) {

@@ -10,8 +10,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'run',
@@ -20,6 +23,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(true).to.eql(common.isBetween(movement[0], -3, 1));
 
     expect(true).to.eql(common.isBetween(movement[1], -3, 1));
@@ -29,8 +33,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'sprint',
@@ -39,6 +46,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(true).to.eql(common.isBetween(movement[0], -5, 5));
 
     expect(true).to.eql(common.isBetween(movement[1], 1, 5));
@@ -48,8 +56,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'shoot',
@@ -58,6 +69,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -65,8 +77,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'throughBall',
@@ -75,6 +90,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -82,8 +98,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'pass',
@@ -92,6 +111,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -99,8 +119,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'cross',
@@ -109,6 +132,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -116,8 +140,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'cleared',
@@ -126,6 +153,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -133,8 +161,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'boot',
@@ -143,6 +174,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -150,8 +182,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[9];
+
     const opposition = matchDetails.secondTeam;
+
     const movement = pMovement.getMovement(
       player,
       'penalty',
@@ -160,6 +195,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -167,8 +203,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'tackle',
@@ -177,6 +216,7 @@ describe('getMovement()', function () {
       444,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, -1]);
   });
 
@@ -184,8 +224,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'tackle',
@@ -194,6 +237,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -201,8 +245,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'tackle',
@@ -211,6 +258,7 @@ describe('getMovement()', function () {
       -10,
       matchDetails,
     );
+
     expect(movement).to.eql([1, 1]);
   });
 
@@ -218,8 +266,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'tackle',
@@ -228,6 +279,7 @@ describe('getMovement()', function () {
       -10,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, 1]);
   });
 
@@ -235,8 +287,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'slide',
@@ -245,6 +300,7 @@ describe('getMovement()', function () {
       444,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, -1]);
   });
 
@@ -252,9 +308,12 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     common.setPlayerXY(player, player.currentPOS[0], player.currentPOS[1] + 2);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -263,6 +322,7 @@ describe('getMovement()', function () {
       448,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, 0]);
   });
 
@@ -270,8 +330,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails2.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -280,6 +343,7 @@ describe('getMovement()', function () {
       -522,
       matchDetails,
     );
+
     expect(movement).to.eql([1, 1]);
   });
 
@@ -287,9 +351,12 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 337, player.currentPOS[1]);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -298,6 +365,7 @@ describe('getMovement()', function () {
       -255,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 1]);
   });
 
@@ -305,11 +373,14 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 337, player.currentPOS[1]);
 
     common.setPlayerXY(player, player.currentPOS[0], 527);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -318,6 +389,7 @@ describe('getMovement()', function () {
       0,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -325,11 +397,14 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 337, player.currentPOS[1]);
 
     common.setPlayerXY(player, player.currentPOS[0], 957);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -338,6 +413,7 @@ describe('getMovement()', function () {
       430,
       matchDetails,
     );
+
     expect(movement).to.eql([0, -1]);
   });
 
@@ -345,11 +421,14 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 537, player.currentPOS[1]);
 
     common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -358,6 +437,7 @@ describe('getMovement()', function () {
       430,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, -1]);
   });
 
@@ -365,11 +445,14 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 537, player.currentPOS[1]);
 
     common.setPlayerXY(player, player.currentPOS[0], 1);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -378,6 +461,7 @@ describe('getMovement()', function () {
       430,
       matchDetails,
     );
+
     expect(movement).to.eql([-1, 1]);
   });
 
@@ -385,11 +469,14 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.kickOffTeam.players[5];
+
     common.setPlayerXY(player, 1, player.currentPOS[1]);
 
     common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'intercept',
@@ -398,6 +485,7 @@ describe('getMovement()', function () {
       430,
       matchDetails,
     );
+
     expect(movement).to.eql([1, -1]);
   });
 
@@ -405,8 +493,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'run',
@@ -415,6 +506,7 @@ describe('getMovement()', function () {
       444,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 
@@ -422,8 +514,11 @@ describe('getMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const player = matchDetails.secondTeam.players[4];
+
     const opposition = matchDetails.kickOffTeam;
+
     const movement = pMovement.getMovement(
       player,
       'sprint',
@@ -432,6 +527,7 @@ describe('getMovement()', function () {
       444,
       matchDetails,
     );
+
     expect(movement).to.eql([0, 0]);
   });
 });
@@ -441,7 +537,9 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const newPosition: [number, number] = [12, 32];
+
     pMovement.updateInformation(matchDetails, newPosition);
 
     expect(matchDetails.ball.position).to.eql([12, 32, 0]);
@@ -451,10 +549,14 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.secondTeam.players[4];
+
     thisPlayer.hasBall = true;
     const team = matchDetails.secondTeam;
+
     const opp = matchDetails.kickOffTeam;
+
     pMovement.ballMoved(matchDetails, thisPlayer, team, opp);
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -474,9 +576,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -500,9 +606,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -526,9 +636,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -549,6 +663,7 @@ describe('misc()', function () {
     const ballLog = matchDetails.iterationLog[4].indexOf(
       `passed to new position:`,
     );
+
     expect(ballLog).to.be.greaterThan(-1);
   });
 
@@ -556,9 +671,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -579,6 +698,7 @@ describe('misc()', function () {
     const ballLog = matchDetails.iterationLog[4].indexOf(
       `crossed to new position:`,
     );
+
     expect(ballLog).to.be.greaterThan(-1);
   });
 
@@ -586,9 +706,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -612,9 +736,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -638,9 +766,13 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     pMovement.handleBallPlayerActions(
       matchDetails,
       thisPlayer,
@@ -664,9 +796,12 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     thisPlayer.action = `tackle`;
     let action = `run`;
+
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
 
     expect(action).to.eql(`tackle`);
@@ -676,8 +811,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     let action = `run`;
+
     thisPlayer.action = `pass`;
 
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -689,8 +827,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     let action = `run`;
+
     thisPlayer.action = `slide`;
 
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -702,8 +843,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     let action = `run`;
+
     thisPlayer.action = `intercept`;
 
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -715,8 +859,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     let action = `run`;
+
     thisPlayer.action = `shoot`;
 
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -728,8 +875,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     let action = `run`;
+
     thisPlayer.action = `none`;
 
     action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -741,8 +891,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     let action = `run`;
+
     thisPlayer.action = ``;
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -761,8 +914,11 @@ describe('misc()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     let action = `run`;
+
     thisPlayer.action = `megs`;
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
@@ -783,10 +939,15 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 20, 20);
+
     const betweenX = common.isBetween(move[0], -3, 1);
+
     const betweenY = common.isBetween(move[1], -3, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -798,15 +959,20 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     const move = pMovement.getSprintMovement(
       matchDetails,
       thisPlayer,
       -20,
       -20,
     );
+
     const betweenX = common.isBetween(move[0], -1, 3);
+
     const betweenY = common.isBetween(move[1], -1, 3);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -818,11 +984,16 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     thisPlayer.fitness = 29;
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 0, 0);
+
     const betweenX = common.isBetween(move[0], -1, 1);
+
     const betweenY = common.isBetween(move[1], -1, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -834,11 +1005,16 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     thisPlayer.fitness = 29;
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, -20, 10);
+
     const betweenX = common.isBetween(move[0], -5, 5);
+
     const betweenY = common.isBetween(move[1], 1, 5);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -850,13 +1026,18 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     thisPlayer.fitness = 31;
 
     thisPlayer.originPOS[1] = 720;
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, -20, 10);
+
     const betweenX = common.isBetween(move[0], -5, 5);
+
     const betweenY = common.isBetween(move[1], -5, -1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -868,11 +1049,16 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 10, 100);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -3, 0);
+
     const betweenY = common.isBetween(move[1], -3, 0);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -884,11 +1070,16 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 600, 1000);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -3, 1);
+
     const betweenY = common.isBetween(move[1], -3, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -900,11 +1091,16 @@ describe('getSprintMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 230, 290);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -3, 0);
+
     const betweenY = common.isBetween(move[1], -3, 0);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -918,10 +1114,15 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 20, 20);
+
     const betweenX = common.isBetween(move[0], -2, 1);
+
     const betweenY = common.isBetween(move[1], -2, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -933,10 +1134,15 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, -20);
+
     const betweenX = common.isBetween(move[0], -1, 2);
+
     const betweenY = common.isBetween(move[1], -1, 2);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -948,11 +1154,16 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[7];
+
     thisPlayer.fitness = 29;
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 0, 0);
+
     const betweenX = common.isBetween(move[0], -1, 1);
+
     const betweenY = common.isBetween(move[1], -1, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -964,11 +1175,16 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     thisPlayer.fitness = 19;
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, 10);
+
     const betweenX = common.isBetween(move[0], -3, 1);
+
     const betweenY = common.isBetween(move[1], -3, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -980,13 +1196,18 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[9];
+
     thisPlayer.fitness = 31;
 
     thisPlayer.originPOS[1] = 720;
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, -20, 10);
+
     const betweenX = common.isBetween(move[0], -1, 3);
+
     const betweenY = common.isBetween(move[1], -1, 3);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -998,11 +1219,16 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 10, 100);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -2, 0);
+
     const betweenY = common.isBetween(move[1], -2, 0);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -1014,11 +1240,16 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 600, 1000);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -3, 1);
+
     const betweenY = common.isBetween(move[1], -3, 1);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -1030,11 +1261,16 @@ describe('getRunMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails1.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[6];
+
     common.setPlayerXY(thisPlayer, 230, 290);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
+
     const betweenX = common.isBetween(move[0], -2, 0);
+
     const betweenY = common.isBetween(move[1], -2, 0);
+
     expect(betweenX).to.eql(true);
 
     expect(betweenY).to.eql(true);
@@ -1048,10 +1284,14 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
+
     matchDetails.kickOffTeam.players[10].action = `slide`;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1061,6 +1301,7 @@ describe('decideMovement()', function () {
     const slideInfo = matchDetails.iterationLog[2].indexOf(
       `Slide tackle attempted by: Louise Johnson`,
     );
+
     expect(slideInfo).to.be.greaterThan(-1);
   });
 
@@ -1068,10 +1309,14 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
+
     matchDetails.kickOffTeam.players[10].action = `tackle`;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1081,6 +1326,7 @@ describe('decideMovement()', function () {
     const tackleInfo = matchDetails.iterationLog[2].indexOf(
       `Tackle attempted by: Louise Johnson`,
     );
+
     expect(tackleInfo).to.be.greaterThan(-1);
   });
 
@@ -1088,12 +1334,16 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
+
     matchDetails.kickOffTeam.players[10].action = `slide`;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1103,6 +1353,7 @@ describe('decideMovement()', function () {
     const slideInfo = matchDetails.iterationLog[2].indexOf(
       `Slide tackle attempted by: Louise Johnson`,
     );
+
     expect(slideInfo).to.be.greaterThan(-1);
   });
 
@@ -1110,10 +1361,14 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
+
     matchDetails.ball.withPlayer = false;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1130,12 +1385,16 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.ball.withPlayer = false;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1152,14 +1411,18 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.ball.withTeam = `78883930303030002`;
 
     matchDetails.ball.withPlayer = false;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1176,7 +1439,9 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.kickOffTeam.players[10].offside = true;
@@ -1185,7 +1450,9 @@ describe('decideMovement()', function () {
 
     matchDetails.ball.withPlayer = false;
     const team = matchDetails.kickOffTeam;
+
     const opp = matchDetails.secondTeam;
+
     matchDetails.kickOffTeam = pMovement.decideMovement(
       closestPlayer,
       team,
@@ -1195,6 +1462,7 @@ describe('decideMovement()', function () {
     const offsideInfo = matchDetails.iterationLog[2].indexOf(
       `Louise Johnson is offside`,
     );
+
     expect(offsideInfo).to.be.greaterThan(-1);
   });
 
@@ -1202,15 +1470,20 @@ describe('decideMovement()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/matchDetails3.json',
     );
+
     const thisPlayer = matchDetails.kickOffTeam.players[10];
+
     matchDetails.kickOffTeam.players[10].offside = true;
     const team = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
+
     team.name = `aaaa`;
     const opp = matchDetails.secondTeam;
+
     pMovement.setClosePlayerTakesBall(matchDetails, thisPlayer, team, opp);
     const offsideInfo = matchDetails.iterationLog[2].indexOf(
       `Louise Johnson is offside`,
     );
+
     expect(offsideInfo).to.be.greaterThan(-1);
   });
 });
@@ -1218,7 +1491,9 @@ describe('decideMovement()', function () {
 describe('closestPlayerAction()', function () {
   it('over 30', async () => {
     let ballX = 31;
+
     let ballY = 31;
+
     ballX = pMovement.closestPlayerActionBallX(ballX);
 
     ballY = pMovement.closestPlayerActionBallY(ballY);
@@ -1230,7 +1505,9 @@ describe('closestPlayerAction()', function () {
 
   it('under -30', async () => {
     let ballX = -33;
+
     let ballY = -31;
+
     ballX = pMovement.closestPlayerActionBallX(ballX);
 
     ballY = pMovement.closestPlayerActionBallY(ballY);
@@ -1242,7 +1519,9 @@ describe('closestPlayerAction()', function () {
 
   it('within 30s', async () => {
     let ballX = -15;
+
     let ballY = 15;
+
     ballX = pMovement.closestPlayerActionBallX(ballX);
 
     ballY = pMovement.closestPlayerActionBallY(ballY);

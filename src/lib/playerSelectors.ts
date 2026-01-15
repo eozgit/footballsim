@@ -21,11 +21,13 @@ function resolveBestPassOption(
   const attackingHalfCandidates = playersArray.filter(
     (p) => p.proximity < pitchHeight / 2,
   );
+
   const tempArray =
     attackingHalfCandidates.length > 0 ? attackingHalfCandidates : playersArray;
 
   // 2. Initial selection
   let currentRand = common.getRandomNumber(0, tempArray.length - 1);
+
   let bestPlayer = tempArray[currentRand];
 
   /**

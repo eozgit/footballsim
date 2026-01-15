@@ -5,26 +5,27 @@
     "moduleResolution": "NodeNext",
     "types": ["node"],
     "lib": ["ESNext", "DOM"],
-    "allowJs": true,
-    "checkJs": false,
-    "noImplicitAny": true,
     "strict": true,
-    "rootDir": "src",
+    /* Ported from Demo */
+    "strictPropertyInitialization": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    
+    "allowJs": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
     "outDir": "dist",
     "baseUrl": ".",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "allowImportingTsExtensions": false,
-    //"noEmit": true
-    "declaration": true /* Generates the .d.ts files your client needs */,
-    "declarationMap": true /* Allows "Go to Definition" to jump to your TS source */,
-    "sourceMap": true /* Crucial for debugging */,
     "paths": {
       "@/*": ["src/*"]
-    }
+    },
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*.ts", "init_config/**/*"],
-  "exclude": ["node_modules", "**/node_modules/*", "dist", "coverage"]
+  "exclude": ["node_modules", "dist", "coverage"]
 }

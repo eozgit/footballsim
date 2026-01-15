@@ -24,7 +24,9 @@ async function initiateGame(
     team2,
     pitchDetails,
   );
+
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam);
+
   const secondTeam = setVariables.setGameVariables(matchDetails.secondTeam);
 
   kickOffTeam = setVariables.koDecider(kickOffTeam, matchDetails);
@@ -44,6 +46,7 @@ async function playIteration(
     name: '',
     position: 100000,
   };
+
   const closestPlayerB = {
     name: '',
     position: 100000,

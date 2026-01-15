@@ -48,8 +48,11 @@ function findPossActions(
 ) {
   const possibleActions: { name: string; points: number }[] =
     populateActionsJSON();
+
   const [, pitchHeight] = matchDetails.pitchSize;
+
   let params: MatchEventWeights;
+
   const { hasBall, originPOS } = player;
 
   if (hasBall === false) {
@@ -105,6 +108,7 @@ function bottomTeamPlayerHasBall(
     opposition,
     pos,
   );
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Specialized Position / Boundary Logic
@@ -203,6 +207,7 @@ function checkOppositionAhead(
   currentPOS: readonly [number | 'NP', number],
 ): boolean {
   const [closeX, closeY] = closePlayerPosition;
+
   const [currentX, currentY] = currentPOS;
 
   if (closeX === 'NP' || currentX === 'NP') {
@@ -238,6 +243,7 @@ function playerDoesNotHaveBall(
   matchDetails: MatchDetails,
 ): MatchEventWeights {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const { position, currentPOS, originPOS } = player;
 
   if (position === 'GK') {
@@ -382,6 +388,7 @@ function noBallNotGK2CloseBall(
   pitchHeight: number,
 ): MatchEventWeights {
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
+
   const [curX, curY] = currentPOS;
 
   // Note: GK2 Bottom Team had a slightly different weight for 'inBox' in your original logic.
@@ -413,6 +420,7 @@ function checkPositionInBottomPenaltyBox(
     pitchWidth / 4 - 5,
     pitchWidth - pitchWidth / 4 + 5,
   );
+
   const xPos = common.isBetween(
     position[1],
     pitchHeight - pitchHeight / 6 + 5,
@@ -436,6 +444,7 @@ function checkPositionInBottomPenaltyBoxClose(
     pitchWidth / 3 - 5,
     pitchWidth - pitchWidth / 3 + 5,
   );
+
   const xPos = common.isBetween(
     position[1],
     pitchHeight - pitchHeight / 12 + 5,
@@ -459,6 +468,7 @@ function checkPositionInTopPenaltyBox(
     pitchWidth / 4 - 5,
     pitchWidth - pitchWidth / 4 + 5,
   );
+
   const yPos = common.isBetween(position[1], 0, pitchHeight / 6 - 5);
 
   if (yPos && xPos) {
@@ -478,6 +488,7 @@ function checkPositionInTopPenaltyBoxClose(
     pitchWidth / 3 - 5,
     pitchWidth - pitchWidth / 3 + 5,
   );
+
   const yPos = common.isBetween(position[1], 0, pitchHeight / 12 - 5);
 
   if (yPos && xPos) {
@@ -773,7 +784,9 @@ function setPostTacklePosition(
       common.upToMin(losePlayer.currentPOS[1] - increment, 0),
     );
     const { ball } = matchDetails;
+
     const [bx, _, bz] = ball.position;
+
     const by = common.upToMin(matchDetails.ball.position[1] - increment, 0);
 
     common.setBallPosition(ball, bx, by, bz);
@@ -789,7 +802,9 @@ function setPostTacklePosition(
       common.upToMax(losePlayer.currentPOS[1] + increment, pitchHeight),
     );
     const { ball } = matchDetails;
+
     const [bx, _, bz] = ball.position;
+
     const by = common.upToMax(
       matchDetails.ball.position[1] + increment,
       pitchHeight,
@@ -866,8 +881,11 @@ const BALL_ACTIONS = [
   'boot',
   'penalty',
 ];
+
 const DEFENSIVE_ACTIONS = ['tackle', 'intercept', 'slide'];
+
 const MOVEMENT_ACTIONS = ['run', 'sprint'];
+
 const VALID_ACTIONS = [
   ...BALL_ACTIONS,
   ...DEFENSIVE_ACTIONS,

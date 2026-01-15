@@ -21,6 +21,7 @@ function recordShotStats(
   };
 
   const teamStats = getStats(matchDetails.half);
+
   const entities = [teamStats, player.stats];
 
   entities.forEach((entity) => {

@@ -94,6 +94,7 @@ function validatePlayerObjectsIteration(player: Player) {
 
 function validateStats(stats: unknown) {
   const statsObject = [`cards`, `goals`, `tackles`, `passes`, `shots`];
+
   let badObjects = 0;
 
   for (const type of statsObject) {
@@ -119,6 +120,7 @@ function validatePlayerSkills(skills: unknown) {
     `penalty_taking`,
     `jumping`,
   ];
+
   let badObjects = 0;
 
   for (const type of skillType) {
@@ -137,6 +139,7 @@ function validatePlayerSkills(skills: unknown) {
 
 function validatePitch(pitchDetails: PitchDetails) {
   const pitchObjects = [`pitchWidth`, `pitchHeight`];
+
   let badObjects = 0;
 
   for (const obj of pitchObjects) {
@@ -199,6 +202,7 @@ function validateBall(ball: unknown) {
     `direction`,
     `ballOverIterations`,
   ];
+
   let badObjects = 0;
 
   for (const prop of ballProps) {
@@ -222,6 +226,7 @@ function isPlayerInBounds(
 ): void {
   if (player.currentPOS[0] !== 'NP') {
     const onPitchX = common.isBetween(player.currentPOS[0], -1, pitchWidth + 1);
+
     const onPitchY = common.isBetween(
       player.currentPOS[1],
       -1,
@@ -244,6 +249,7 @@ function isPlayerInBounds(
 
 function validatePlayerPositions(matchDetails: MatchDetails) {
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   for (const player of kickOffTeam.players) {

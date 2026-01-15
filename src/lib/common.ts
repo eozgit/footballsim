@@ -61,7 +61,9 @@ function getBallTrajectory(
   power: number,
 ): [number, number, number][] {
   const xMovement = (thisPOS[0] - newPOS[0]) ** 2;
+
   const yMovement = (Math.floor(thisPOS[1]) - Math.floor(newPOS[1])) ** 2;
+
   const movementDistance = Math.round(Math.sqrt(xMovement + yMovement));
 
   let arraySize = Math.round(thisPOS[1] - newPOS[1]);
@@ -81,19 +83,26 @@ function getBallTrajectory(
   }
 
   const yPlaces = Array.from({ length: Math.abs(arraySize) }, (_, i) => i);
+
   const trajectory: [number, number, number][] = [[thisPOS[0], thisPOS[1], 0]];
 
   const changeInX = (newPOS[0] - thisPOS[0]) / Math.abs(thisPOS[1] - newPOS[1]);
+
   const changeInY = (thisPOS[1] - newPOS[1]) / (newPOS[1] - thisPOS[1]);
+
   const changeInH = height / (yPlaces.length / 2);
+
   let elevation = 1;
 
   yPlaces.forEach(() => {
     const lastX = trajectory[trajectory.length - 1][0];
+
     const lastY = trajectory[trajectory.length - 1][1];
+
     const lastH = trajectory[trajectory.length - 1][2];
 
     const xPos = round(lastX + changeInX, 5);
+
     let yPos = 0;
 
     if (newPOS[1] > thisPOS[1]) {
@@ -137,11 +146,13 @@ function sumFrom1toX(x: number): number {
 
 function inTopPenalty(matchDetails: MatchDetails, item: BallPosition): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
+
   const ballInPenalyBoxX = isBetween(
     item[0],
     matchWidth / 4 + 5,
     matchWidth - matchWidth / 4 - 5,
   );
+
   const ballInTopPenalyBoxY = isBetween(item[1], -1, matchHeight / 6 + 7);
 
   return ballInPenalyBoxX && ballInTopPenalyBoxY;
@@ -152,11 +163,13 @@ function inBottomPenalty(
   item: BallPosition,
 ): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
+
   const ballInPenalyBoxX = isBetween(
     item[0],
     matchWidth / 4 + 5,
     matchWidth - matchWidth / 4 - 5,
   );
+
   const ballInBottomPenalyBoxY = isBetween(
     item[1],
     matchHeight - matchHeight / 6 - 7,
@@ -170,7 +183,9 @@ function getRandomTopPenaltyPosition(
   matchDetails: MatchDetails,
 ): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
+
   const boundaryY = [0, pitchHeight / 6 + 6];
 
   return [
@@ -183,7 +198,9 @@ function getRandomBottomPenaltyPosition(
   matchDetails: MatchDetails,
 ): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
+
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];
 
   return [

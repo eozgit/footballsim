@@ -38,6 +38,7 @@ function getAttackingIntentWeights(
   opposition: Team,
 ): MatchEventWeights {
   const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Surroundings Analysis (Extracted to prevent "Canyon" growth)
@@ -98,6 +99,7 @@ function analyzePlayerSurroundings(
     opposition,
     playerPos,
   );
+
   const tmateInfo = setPositions.closestPlayerToPosition(
     player,
     team,
@@ -305,7 +307,9 @@ function getPlayerActionWeights(
   }
 
   const pos = currentPOS as [number, number];
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const playerY = pos[1];
 
   const playerInformation = setPositions.closestPlayerToPosition(
@@ -413,6 +417,7 @@ function getAttackingThreatWeights(
   opposition: Team,
 ): MatchEventWeights {
   const curPOS = validatePlayerPosition(player.currentPOS);
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Analyze surroundings
@@ -421,6 +426,7 @@ function getAttackingThreatWeights(
     opposition,
     curPOS,
   );
+
   const tmateInfo = setPositions.closestPlayerToPosition(player, team, curPOS);
 
   const tmateProximity: [number, number] = [
@@ -660,7 +666,9 @@ function attemptGoalieSave(
   teamName: string,
 ): boolean {
   const [ballX, ballY] = matchDetails.ball.position;
+
   const ballProx = 8;
+
   const [goalieX, goalieY] = goalie.currentPOS;
 
   if (goalieX === 'NP') {

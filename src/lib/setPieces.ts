@@ -112,6 +112,7 @@ function positionAttackingTeam({
   getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number];
 }) {
   const factorGK = isTop ? 0.25 : 0.75;
+
   const factorWB = isTop ? 0.66 : 0.33;
 
   for (const player of attack.players) {
@@ -222,6 +223,7 @@ export function calculateAttackingSetPieceY(
   isGKExecuting: boolean,
 ): number {
   const offset = isTop ? 300 : -300;
+
   const baseNewY = isGKExecuting
     ? player.originPOS[1] + offset
     : player.originPOS[1] + (ballY - player.originPOS[1]) + offset;
@@ -270,11 +272,14 @@ function executeDeepSetPieceSetup(
   side: 'top' | 'bottom',
 ): MatchDetails {
   const isTop = side === 'top';
+
   const { ball } = matchDetails;
+
   const [, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Identify Kicker
   const kickPlayer = selectDeepSetPieceKicker(ball, attack, isTop, pitchHeight);
+
   const isGKExecuting = kickPlayer.position === 'GK';
 
   // 2. Set Possession & Ball State
@@ -309,6 +314,7 @@ function selectDeepSetPieceKicker(
   const goalieAreaLimit = isTop
     ? pitchHeight * 0.25 + 1
     : pitchHeight * 0.75 - 1;
+
   const goalieToKick = isTop
     ? ball.position[1] <= goalieAreaLimit
     : ball.position[1] >= goalieAreaLimit;
@@ -458,6 +464,7 @@ function repositionTeamsForSetPiece(
   // 1. POSITION ATTACK
   for (const player of attack.players) {
     const { playerID, position, originPOS } = player;
+
     const targetY = getAttackerSetPieceY(position, pitchHeight, isTop);
 
     if (targetY !== null) {

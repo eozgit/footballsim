@@ -25,10 +25,12 @@ function resolveBallLocation(
   ballIntended: BallPosition,
 ): MatchDetails {
   const [bXPOS, bYPOS] = ballIntended;
+
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Setup Environment and Team Context (Extracted to keep under 50 lines)
   const context = getBallResolutionContext(matchDetails, kickteamID);
+
   const { isKOT, kickOffTeamSide, goalInfo } = context;
 
   // 2. Delegate to boundary handlers
@@ -80,6 +82,7 @@ function getBallResolutionContext(
   kickteamID: string | number,
 ) {
   const { pitchSize, kickOffTeam } = matchDetails;
+
   const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
 
   const halfMWidth = pitchWidth / 2;
@@ -158,6 +161,7 @@ function handleByline(
   }
 
   const isL = bXPOS < halfMW;
+
   const isCorner = side === 'top' ? isKOT === isT : isKOT !== isT;
 
   return isCorner

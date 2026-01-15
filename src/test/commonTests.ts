@@ -9,6 +9,7 @@ import { isInjured } from '../lib/injury.js';
 describe('testCommonFunction()', function () {
   it('check random number', async () => {
     let number = common.getRandomNumber(1, 1);
+
     expect(number).to.eql(1);
 
     number = common.getRandomNumber(-2, -2);
@@ -22,6 +23,7 @@ describe('testCommonFunction()', function () {
 
   it('round a number', async () => {
     let number = common.round(0.12, 0);
+
     expect(number).to.eql(0);
 
     number = common.round(0.18, 1);
@@ -35,6 +37,7 @@ describe('testCommonFunction()', function () {
 
   it('is between', async () => {
     let number = common.isBetween(0.12, 0, 1);
+
     expect(number).to.eql(true);
 
     number = common.isBetween(-0.12, -1, 1);
@@ -52,6 +55,7 @@ describe('testCommonFunction()', function () {
 
   it('up to max', async () => {
     let number = common.upToMax(120, 100);
+
     expect(number).to.eql(100);
 
     number = common.upToMax(120, 150);
@@ -61,6 +65,7 @@ describe('testCommonFunction()', function () {
 
   it('up to min', async () => {
     let number = common.upToMin(120, 100);
+
     expect(number).to.eql(120);
 
     number = common.upToMin(120, 150);
@@ -70,6 +75,7 @@ describe('testCommonFunction()', function () {
 
   it('calculate power', async () => {
     let number = common.calculatePower(1);
+
     expect(number).to.be.gt(0);
 
     expect(number).to.be.lt(6);
@@ -83,6 +89,7 @@ describe('testCommonFunction()', function () {
 
   it('a times b divided by c', async () => {
     let number = common.aTimesbDividedByC(1, 1, 1);
+
     expect(number).to.eql(1);
 
     number = common.aTimesbDividedByC(1, 4, 2);
@@ -96,6 +103,7 @@ describe('testCommonFunction()', function () {
 
   it('sum from 1 to x', async () => {
     let number = common.sumFrom1toX(1);
+
     expect(number).to.eql(1);
 
     number = common.sumFrom1toX(2);
@@ -109,11 +117,13 @@ describe('testCommonFunction()', function () {
 
   it('read file', async () => {
     let pitch = await readFile('./src/init_config/pitch.json');
+
     const testPitchData = {
       pitchWidth: 680,
       pitchHeight: 1050,
       goalWidth: 90,
     };
+
     expect(pitch).to.eql(testPitchData);
     try {
       pitch = await readFile('./src/init_config/patch.json');
@@ -125,17 +135,20 @@ describe('testCommonFunction()', function () {
       assert(err instanceof Error);
       const errorText =
         "Error: ENOENT: no such file or directory, open './src/init_config/patch.json'";
+
       expect(err.toString()).to.have.string(errorText);
     }
   });
 
   it('is injured', async () => {
     const number = isInjured(1);
+
     expect(number).to.eql(false);
   });
 
   it('is even', async () => {
     let number = common.isEven(1);
+
     expect(number).to.eql(false);
 
     number = common.isEven(0);
@@ -149,6 +162,7 @@ describe('testCommonFunction()', function () {
 
   it('is odd', async () => {
     let number = common.isOdd(2);
+
     expect(number).to.eql(false);
 
     number = common.isOdd(0);
@@ -162,6 +176,7 @@ describe('testCommonFunction()', function () {
 
   it('get trajectory', async () => {
     let number = common.getBallTrajectory([0, 0, 0], [10, 10, 0], 100);
+
     expect(number).to.eql([
       [0, 0, 0],
       [1, 1, 49.50757517794625],

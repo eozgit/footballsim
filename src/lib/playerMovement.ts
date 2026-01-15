@@ -150,9 +150,11 @@ function completeMovement(
   }
 
   let [newX, newY] = currentPOS;
+
   const [dx, dy] = move;
 
-  const targetX = (newX as number) + dx;
+  const targetX = (newX) + dx;
+
   const targetY = newY + dy;
 
   // Validate bounds
@@ -243,6 +245,7 @@ function updateInformation(
   matchDetails.ball.position = [posX, posY];
 
   const { ball } = matchDetails;
+
   const [bx, by] = ball.position;
 
   common.setBallPosition(ball, bx, by, 0);
@@ -257,6 +260,7 @@ function getMovement(
   matchDetails: MatchDetails,
 ): [number, number] {
   const { position } = matchDetails.ball;
+
   const ballActions = [
     `shoot`,
     `throughBall`,
@@ -345,9 +349,10 @@ function getInterceptMovement(
    * 0  (if already at the coordinate)
    */
   const deltaX = targetX - x;
+
   const deltaY = targetY - y;
 
-  return [Math.sign(deltaX) as number, Math.sign(deltaY) as number];
+  return [Math.sign(deltaX), Math.sign(deltaY)];
 }
 
 function getInterceptPosition(
@@ -363,14 +368,19 @@ function getInterceptPosition(
   );
 
   let closestPos: BallPosition = BallPlyTraj[0] || [0, 0];
+
   let shortestDiff = Infinity;
+
   let closestIndex = 0;
 
   // Single loop to find both the closest position and its index
   for (let i = 0; i < BallPlyTraj.length; i++) {
     const thisPos = BallPlyTraj[i];
-    const xDiff = Math.abs((currentPOS[0] as number) - (thisPos[0] as number));
-    const yDiff = Math.abs((currentPOS[1] as number) - (thisPos[1] as number));
+
+    const xDiff = Math.abs((currentPOS[0]) - (thisPos[0]));
+
+    const yDiff = Math.abs((currentPOS[1]) - (thisPos[1]));
+
     const totalDiff = xDiff + yDiff;
 
     if (totalDiff < shortestDiff) {
@@ -424,13 +434,17 @@ function getInterceptTrajectory(
   pitchSize: [number, number, number],
 ): BallPosition[] {
   const [pitchWidth, pitchHeight] = pitchSize;
+
   const playerInformation = setPositions.closestPlayerToPosition(
     mockPlayer,
     opposition,
     ballPosition,
   );
+
   const interceptPlayer = playerInformation.thePlayer;
+
   const targetX = pitchWidth / 2;
+
   const targetY =
     interceptPlayer.originPOS[1] < pitchHeight / 2 ? pitchHeight : 0;
 
@@ -439,18 +453,25 @@ function getInterceptTrajectory(
   }
 
   const moveX = targetX - interceptPlayer.currentPOS[0];
+
   const moveY = targetY - interceptPlayer.currentPOS[1];
+
   const highNum =
     Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
+
   const xDiff = moveX / highNum;
+
   const yDiff = moveY / highNum;
+
   const POI: BallPosition[] = [
     [...interceptPlayer.currentPOS] as [number, number, number?],
   ];
 
   for (let i = 0; i < Math.round(highNum); i++) {
     const lastArrayPOS = POI.length - 1;
+
     const lastXPOS = POI[lastArrayPOS][0];
+
     const lastYPOS = POI[lastArrayPOS][1];
 
     POI.push([
@@ -641,6 +662,7 @@ function closestPlayerToBall(
   matchDetails: MatchDetails,
 ): void {
   let closestPlayerDetails;
+
   const { position } = matchDetails.ball;
 
   for (const thisPlayer of team.players) {
@@ -653,7 +675,9 @@ function closestPlayerToBall(
     const ballToPlayerX: number = Math.abs(
       thisPlayer.currentPOS[0] - position[0],
     );
+
     const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
+
     const proximityToBall = ballToPlayerX + ballToPlayerY;
 
     if (proximityToBall < closestPlayer.position) {
@@ -680,7 +704,9 @@ function closestPlayerToBall(
 
 function checkOffside(team1: Team, team2: Team, matchDetails: MatchDetails) {
   const { ball } = matchDetails;
+
   const { pitchSize } = matchDetails;
+
   const team1side =
     team1.players[0].originPOS[1] < pitchSize[1] / 2 ? `top` : `bottom`;
 
@@ -700,6 +726,7 @@ function getTopMostPlayer(team: Team, pitchHeight: number) {
 
   for (const thisPlayer of team.players) {
     let topMostPosition: number = pitchHeight;
+
     const [, plyrX] = thisPlayer.currentPOS;
 
     if (thisPlayer.currentPOS[1] < topMostPosition) {
@@ -716,6 +743,7 @@ function getBottomMostPlayer(team: Team) {
 
   for (const thisPlayer of team.players) {
     let topMostPosition = 0;
+
     const [, plyrX] = thisPlayer.currentPOS;
 
     if (thisPlayer.currentPOS[1] > topMostPosition) {
@@ -736,6 +764,7 @@ function updateOffside(
   pitchHeight: number,
 ) {
   const offsideLines = offsideYPOS(opponent, attackSide, pitchHeight);
+
   // Original logic uses pos1/pos2 vs pos2/pos1 based on side
   const [min, max] =
     attackSide === 'top'

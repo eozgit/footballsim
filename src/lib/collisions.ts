@@ -123,6 +123,7 @@ function resolvePathInterceptions(
       team,
       checkPos,
     );
+
     const p2 = setPositions.closestPlayerToPosition(
       originPlayer,
       opp,
@@ -130,7 +131,9 @@ function resolvePathInterceptions(
     );
 
     const useP1 = p1.proxToBall >= p2.proxToBall;
+
     const closestPlayer = useP1 ? p1.thePlayer : p2.thePlayer;
+
     const closestTeam = useP1 ? team : opp;
 
     if (closestPlayer) {

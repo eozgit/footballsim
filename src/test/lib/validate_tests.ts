@@ -1,14 +1,16 @@
 import { initiateGame, playIteration, startSecondHalf } from '../../engine.js';
 import { readFile } from '../../lib/fileReader.js';
-import type { MatchDetails, PitchDetails, Team } from '../../lib/types.js';
+import type { MatchDetails, Team } from '../../lib/types.js';
 import * as validate from '../../lib/validate.js';
 
 import { readMatchDetails } from './utils.js';
 
 async function initGame(t1: string, t2: string, p: string) {
-  const team1 = (await readFile(t1)) as Team;
-  const team2 = (await readFile(t2)) as Team;
-  const pitch = (await readFile(p)) as PitchDetails;
+  const team1 = (await readFile(t1));
+
+  const team2 = (await readFile(t2));
+
+  const pitch = (await readFile(p));
 
   return initiateGame(team1, team2, pitch);
 }
@@ -20,7 +22,7 @@ async function playIter(inputIteration: string): Promise<MatchDetails> {
 }
 
 async function setupSecondHalf(inputIteration: string) {
-  const inputJson = (await readFile(inputIteration)) as MatchDetails;
+  const inputJson = (await readFile(inputIteration));
 
   return await startSecondHalf(inputJson);
 }

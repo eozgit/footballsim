@@ -17,8 +17,8 @@
     "dev": "tsc --watch",
     "prepublishOnly": "npm run build",
     "format": "prettier --write .",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
+    "lint:check": "eslint .",
+    "lint": "eslint . --fix",
     "stats": "eslint . --format json --stats > lint-stats.json",
     "test": "vitest run src/test",
     "test:bail": "vitest run src/test --bail 1",
@@ -93,8 +93,12 @@
     "typescript-eslint": "^8.51.0",
     "vitest": "^4.0.16"
   },
-  "lint-staged": {
-    "*.{js,ts,tsx,json,md}": [
+"lint-staged": {
+    "**/*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{mjs,json,md}": [
       "prettier --write"
     ]
   },

@@ -35,8 +35,11 @@ function createPlayer(position: string): Player {
 
 function setBPlayer(ballPos: BallPosition): Player {
   const [ballX, ballY] = ballPos;
+
   const pos: [number, number] = [ballX, ballY];
+
   const player = createPlayer('LB');
+
   const patch: Partial<Player> = {
     name: `Ball`,
     position: `LB`,
@@ -215,11 +218,14 @@ function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player) {
 
 function checkGoalScored(matchDetails: MatchDetails) {
   const { ball, kickOffTeam, secondTeam } = matchDetails;
+
   const [pitchWidth, pitchHeight, goalWidth] = matchDetails.pitchSize;
+
   const [ballX, ballY] = ball.position;
 
   // 1. Position Safety Checks
   const KOGoalie = kickOffTeam.players[0];
+
   const STGoalie = secondTeam.players[0];
 
   if (KOGoalie.currentPOS[0] === 'NP' || STGoalie.currentPOS[0] === 'NP') {
@@ -237,7 +243,9 @@ function checkGoalScored(matchDetails: MatchDetails) {
 
   // 3. Phase 2: Goal Line Detection
   const centreGoal = pitchWidth / 2;
+
   const goalEdge = goalWidth / 2;
+
   const withinGoalX = common.isBetween(
     ballX,
     centreGoal - goalEdge,
@@ -269,6 +277,7 @@ function getPlayersInDistance(
   }
 
   const [pitchWidth, pitchHeight] = pitchSize;
+
   const playersInDistance: PlayerWithProximity[] = [];
 
   for (const teamPlayer of team.players) {
@@ -280,11 +289,14 @@ function getPlayersInDistance(
       }
 
       const onPitchX = common.isBetween(tpX, -1, pitchWidth + 1);
+
       const onPitchY = common.isBetween(tpY, -1, pitchHeight + 1);
 
       if (onPitchX && onPitchY) {
         const playerToPlayerX = curX - tpX;
+
         const playerToPlayerY = curY - tpY;
+
         const proximityToBall = Math.abs(playerToPlayerX + playerToPlayerY);
 
         playersInDistance.push({
@@ -368,10 +380,15 @@ function resolveDeflection(
   matchDetails: MatchDetails,
 ): BallPosition {
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
+
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
+
   const movementDistance = Math.sqrt(xMovement + yMovement);
+
   const newPower = power - movementDistance;
+
   let tempPosition: BallPosition = [0, 0];
+
   const { direction } = matchDetails.ball;
 
   if (newPower < 75) {
@@ -393,6 +410,7 @@ function resolveDeflection(
     tempPosition,
   );
   const intended = matchDetails.ballIntended;
+
   const lastPOS = structuredClone(intended ?? matchDetails.ball.position);
 
   delete matchDetails.ballIntended;
@@ -468,6 +486,7 @@ function ballPassed(
   player: Player,
 ): [number, number] | MatchDetails {
   const { ball, pitchSize, iterationLog } = matchDetails;
+
   const [, pitchHeight] = pitchSize;
 
   // 1. Update state & identify pass target
@@ -478,6 +497,7 @@ function ballPassed(
     pitchSize,
     pitchHeight,
   );
+
   const [curX, curY] = targetPlayer.currentPOS;
 
   if (curX === 'NP') {
@@ -519,7 +539,9 @@ function getTargetPlayerCandidate(
   pitchHeight: number,
 ) {
   const side = player.originPOS[1] > pitchHeight / 2 ? 'bottom' : 'top';
+
   const playersInDistance = getPlayersInDistance(team, player, pitchSize);
+
   const target = getTargetPlayer(playersInDistance, side, pitchHeight);
 
   if (target.currentPOS[0] === 'NP') {
@@ -562,8 +584,10 @@ function getPassErrorRange(
   pitchHeight: number,
 ): number {
   const isBottomThird = ballY > pitchHeight - pitchHeight / 3;
+
   const isMiddleThird =
     ballY > pitchHeight / 3 && ballY < pitchHeight - pitchHeight / 3;
+
   const playerSide = playerOriginY > pitchHeight / 2 ? 'bottom' : 'top';
 
   if (isBottomThird) {
@@ -585,6 +609,7 @@ function setTargetPlyPos(
   highY: number,
 ): [number, number] {
   const closePlyPos: [number, number] = [0, 0];
+
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
 
   closePlyPos[0] = common.round(
@@ -620,6 +645,7 @@ function ballCrossed(
   matchDetails.ball.lastTouch.playerID = player.playerID;
   matchDetails.ball.lastTouch.teamID = team.teamID;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
+
   const ballIntended = [];
 
   if (player.originPOS[1] > pitchHeight / 2) {
@@ -666,11 +692,17 @@ function calcBallMovementOverTime(
   player: Player,
 ): [number, number] {
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const { position } = matchDetails.ball;
+
   const power: number = common.calculatePower(strength);
+
   const changeInX = nextPosition[0] - position[0];
+
   const changeInY = nextPosition[1] - position[1];
+
   const totalChange = Math.max(Math.abs(changeInX), Math.abs(changeInY));
+
   let movementIterations = common.round(
     totalChange / common.getRandomNumber(2, 3),
     0,
@@ -681,8 +713,11 @@ function calcBallMovementOverTime(
   }
 
   const powerArray = splitNumberIntoN(power, movementIterations);
+
   const xArray = splitNumberIntoN(changeInX, movementIterations);
+
   const yArray = splitNumberIntoN(changeInY, movementIterations);
+
   const BOIts = mergeArrays(
     powerArray.length,
     [matchDetails.ball.position[0], matchDetails.ball.position[1]],
@@ -715,6 +750,7 @@ function calcBallMovementOverTime(
 
 function splitNumberIntoN(num: number, n: number) {
   const arrayN = Array.from(new Array(n).keys());
+
   const splitNumber = [];
 
   for (const thisn of arrayN) {
@@ -739,7 +775,9 @@ function mergeArrays(
   array3: number[],
 ) {
   let tempPos = [oldPos[0], oldPos[1]];
+
   const arrayN = Array.from(new Array(arrayLength - 1).keys());
+
   const newArray = [];
 
   for (const thisn of arrayN) {

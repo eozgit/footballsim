@@ -13,27 +13,35 @@ import type { MatchDetails, Team } from './types.js';
 function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const [, ballY] = matchDetails.ball.position;
+
   const attack =
     kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
       ? kickOffTeam
       : secondTeam;
+
   const defence =
     kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
       ? secondTeam
       : kickOffTeam;
+
   const hundredToHalfway = common.isBetween(ballY, 100, pitchHeight / 2 + 1);
+
   const halfwayToLastQtr = common.isBetween(
     ballY,
     pitchHeight / 2,
     pitchHeight - pitchHeight / 4,
   );
+
   const upperFinalQtr = common.isBetween(
     ballY,
     pitchHeight - pitchHeight / 4,
     pitchHeight - pitchHeight / 6 - 5,
   );
+
   const lowerFinalQtr = common.isBetween(
     ballY,
     pitchHeight - pitchHeight / 6 - 5,
@@ -135,6 +143,7 @@ function setTopLowerFinalQtrBylinePos(
     matchDetails,
     attack,
   );
+
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
 
   ball.direction = ballLeft ? 'east' : 'west';

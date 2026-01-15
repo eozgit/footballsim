@@ -21,6 +21,7 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   }
 
   const nextBallPos = ball.ballOverIterations[0];
+
   const [nbX, nbY, nbZ = 0] = nextBallPos;
 
   if (nextBallPos.length < 2) {

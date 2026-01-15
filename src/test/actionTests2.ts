@@ -12,13 +12,17 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const playerInformation: ProximityContext = { proxPOS: [218, -464] };
+
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
       player.skill,
     );
+
     expect(parameters).to.eql([10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0]);
   });
 
@@ -26,14 +30,18 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.skill.shooting = 30;
     const playerInformation: ProximityContext = { proxPOS: [218, -464] };
+
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
       player.skill,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
 
@@ -41,16 +49,20 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.skill.shooting = 30;
 
     player.position = 'CM';
     const playerInformation: ProximityContext = { proxPOS: [218, -464] };
+
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
       player.skill,
     );
+
     expect(parameters).to.eql([0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0]);
   });
 
@@ -58,16 +70,20 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.skill.shooting = 30;
 
     player.position = 'CB';
     const playerInformation: ProximityContext = { proxPOS: [218, -464] };
+
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
       player.skill,
     );
+
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10]);
   });
 
@@ -75,13 +91,17 @@ describe('bottomTeamPlayerHasBallInMiddle()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const playerInformation: ProximityContext = { proxPOS: [5, -5] };
+
     const parameters = actions.bottomTeamPlayerHasBallInMiddle(
       playerInformation,
       player.position,
       player.skill,
     );
+
     expect(parameters).to.eql([0, 20, 30, 20, 0, 0, 0, 20, 0, 0, 10]);
   });
 });
@@ -91,15 +111,20 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInMiddle.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0]);
   });
 
@@ -107,15 +132,20 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
 
@@ -123,18 +153,23 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     common.setPlayerXY(player, 0, 0);
 
     matchDetails.ball.position = [0, 0];
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -142,10 +177,14 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.position = 'GK';
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[7], 385, 70);
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
@@ -153,6 +192,7 @@ describe('bottomTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40]);
   });
 
@@ -160,16 +200,21 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.position = 'GK';
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20]);
   });
 
@@ -177,15 +222,20 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
 
@@ -193,9 +243,13 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[7], 385, 205);
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
@@ -203,6 +257,7 @@ describe('bottomTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0]);
   });
 
@@ -210,9 +265,13 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[4], 385, 982);
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
@@ -220,6 +279,7 @@ describe('bottomTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20]);
   });
 
@@ -227,16 +287,21 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.position = 'LM';
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0]);
   });
 
@@ -244,16 +309,21 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.position = 'LB';
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10]);
   });
 
@@ -261,16 +331,21 @@ describe('bottomTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     player.position = 'ST';
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.bottomTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
 });
@@ -280,15 +355,20 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
 
@@ -296,9 +376,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 1;
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
@@ -306,6 +390,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0]);
   });
 
@@ -313,9 +398,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 500;
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
@@ -323,6 +412,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -330,10 +420,14 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     common.setPlayerXY(player, player.currentPOS[0], 875);
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 377, 880);
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
@@ -341,6 +435,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0]);
   });
 
@@ -348,18 +443,23 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     common.setPlayerXY(player, player.currentPOS[0], 875);
 
     player.skill.shooting = 1000;
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
 
@@ -367,16 +467,21 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     common.setPlayerXY(player, player.currentPOS[0], 910);
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
 
@@ -384,9 +489,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 250;
 
     common.setPlayerXY(opposition.players[3], 275, 991);
@@ -400,6 +509,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -407,9 +517,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 275, 991);
 
     matchDetails.ball.position = [280, 995];
@@ -421,6 +535,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
 
@@ -428,9 +543,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 5;
 
     common.setPlayerXY(opposition.players[3], 275, 991);
@@ -444,6 +563,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
 
@@ -451,9 +571,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 250;
 
     common.setPlayerXY(opposition.players[3], 375, 991);
@@ -465,6 +589,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -472,9 +597,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 375, 991);
 
     common.setPlayerXY(matchDetails.secondTeam.players[10], 382, 997);
@@ -484,6 +613,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
 
@@ -491,9 +621,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 2;
 
     common.setPlayerXY(opposition.players[3], 375, 991);
@@ -505,6 +639,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0]);
   });
 
@@ -512,9 +647,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 2;
 
     common.setPlayerXY(opposition.players[3], 375, 991);
@@ -524,6 +663,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0]);
   });
 
@@ -531,9 +671,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 375, 991);
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
@@ -541,6 +685,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
 
@@ -548,9 +693,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 250;
 
     common.setPlayerXY(opposition.players[3], 375, 991);
@@ -560,6 +709,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -567,9 +717,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 250;
 
     common.setPlayerXY(opposition.players[3], 380, 999);
@@ -579,6 +733,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -586,9 +741,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 380, 999);
     const parameters = actions.topTeamPlayerHasBallInBottomPenaltyBox(
       matchDetails,
@@ -596,6 +755,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0]);
   });
 
@@ -603,9 +763,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 2;
 
     common.setPlayerXY(opposition.players[3], 380, 999);
@@ -615,6 +779,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0]);
   });
 
@@ -622,9 +787,13 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(opposition.players[3], 380, 999);
 
     common.setPlayerXY(matchDetails.secondTeam.players[10], 382, 997);
@@ -634,6 +803,7 @@ describe('topTeamPlayerHasBallInBottomPenaltyBox()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
 });
@@ -643,9 +813,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.position = 'GK';
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -653,6 +827,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20]);
   });
 
@@ -660,9 +835,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.position = 'GK';
 
     common.setPlayerXY(opposition.players[3], 380, 999);
@@ -672,6 +851,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40]);
   });
 
@@ -679,9 +859,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(player, 0, 1050);
 
     matchDetails.ball.position = [0, 1050];
@@ -691,6 +875,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0]);
   });
 
@@ -698,15 +883,20 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
 
@@ -714,15 +904,20 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
 
@@ -730,9 +925,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInBottomThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 815);
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -740,6 +939,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0]);
   });
 
@@ -747,9 +947,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 532);
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -757,6 +961,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10]);
   });
 
@@ -764,15 +969,20 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
       player,
       team,
       opposition,
     );
+
     expect(parameters).to.eql([10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0]);
   });
 
@@ -780,9 +990,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 50;
 
     player.position = 'LM';
@@ -792,6 +1006,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0]);
   });
 
@@ -799,9 +1014,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 50;
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -809,6 +1028,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
 
@@ -816,9 +1036,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInMiddleThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.skill.shooting = 50;
 
     player.position = 'LB';
@@ -828,6 +1052,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10]);
   });
 
@@ -835,9 +1060,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 182);
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -845,6 +1074,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20]);
   });
 
@@ -852,9 +1082,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.position = 'LM';
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -862,6 +1096,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0]);
   });
 
@@ -869,9 +1104,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.position = 'ST';
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -879,6 +1118,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
 
@@ -886,9 +1126,13 @@ describe('topTeamPlayerHasBall()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     player.position = 'RB';
     const parameters = actions.topTeamPlayerHasBall(
       matchDetails,
@@ -896,6 +1140,7 @@ describe('topTeamPlayerHasBall()', function () {
       team,
       opposition,
     );
+
     expect(parameters).to.eql([0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10]);
   });
 });
@@ -905,9 +1150,13 @@ describe('findPossActions()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const output = actions.findPossActions(
       player,
       team,
@@ -916,6 +1165,7 @@ describe('findPossActions()', function () {
       10,
       matchDetails,
     );
+
     expect(output).to.eql([
       { name: 'shoot', points: 60 },
       { name: 'throughBall', points: 0 },
@@ -935,9 +1185,13 @@ describe('findPossActions()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/actionInputs/topTeamHasBallInOwnThird.json',
     );
+
     const player = matchDetails.secondTeam.players[9];
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     const output = actions.findPossActions(
       player,
       team,
@@ -946,6 +1200,7 @@ describe('findPossActions()', function () {
       10,
       matchDetails,
     );
+
     expect(output).to.eql([
       { name: 'shoot', points: 0 },
       { name: 'throughBall', points: 0 },

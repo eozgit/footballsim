@@ -61,10 +61,12 @@ function updateBallCardinalDirection(
   nextPOS: BallPosition,
 ) {
   const [currX, currY] = matchDetails.ball.position;
+
   const [nextX, nextY] = nextPOS;
 
   // Calculate delta (preserving the original logic: thisPOS - nextPOS)
   const dx = currX - nextX;
+
   const dy = currY - nextY;
 
   // 1. Handle stationary state
@@ -76,6 +78,7 @@ function updateBallCardinalDirection(
 
   // 2. Normalize deltas to -1, 0, or 1 to use as a lookup key
   const sigX = Math.sign(dx); // -1 (East), 0, 1 (West)
+
   const sigY = Math.sign(dy); // -1 (South), 0, 1 (North)
 
   // 3. Map signs to cardinal strings

@@ -10,8 +10,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsidePosition1.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -25,8 +28,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsideTopPosition1.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -42,8 +48,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsideTopPosition1withBall.json',
     );
+
     const team = matchDetails.kickOffTeam;
+
     const opposition = matchDetails.secondTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -59,8 +68,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsideTopPosition1withBall.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -76,8 +88,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
+
     const team = matchDetails.kickOffTeam;
+
     const opposition = matchDetails.secondTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -93,8 +108,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsideBtmPosition1withBall.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -110,8 +128,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsidePosition2.json',
     );
+
     const team = matchDetails.kickOffTeam;
+
     const opposition = matchDetails.secondTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -127,12 +148,17 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/onsidePosition1.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     common.setPlayerXY(team.players[9], team.players[9].currentPOS[0], 121);
 
     const { ball } = matchDetails;
+
     const [bx, _, bz] = ball.position;
+
     common.setBallPosition(ball, bx, 121, bz);
 
     common.setPlayerXY(team.players[10], 400, 57);
@@ -152,8 +178,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsidePosition3.json',
     );
+
     const team = matchDetails.kickOffTeam;
+
     const opposition = matchDetails.secondTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -169,8 +198,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/offsidePosition3.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -186,8 +218,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/onsideBottomPosition2GK.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(
@@ -203,8 +238,11 @@ describe('checkOffside()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/offsideTests/ballNotWithTeam.json',
     );
+
     const team = matchDetails.secondTeam;
+
     const opposition = matchDetails.kickOffTeam;
+
     pMovement.checkOffside(team, opposition, matchDetails);
 
     expect(

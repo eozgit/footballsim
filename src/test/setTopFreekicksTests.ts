@@ -7,8 +7,11 @@ import setfreekicks from './lib/set_freekicks.js';
 describe('testFreekicksTopOwnHalf()', function () {
   it('freekick in own half - top boundary', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 1]);
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     expect(nextJSON).to.be.an('object');
 
     expect(nextJSON.ball.direction).to.eql('south');
@@ -21,10 +24,12 @@ describe('testFreekicksTopOwnHalf()', function () {
         expect(player.currentPOS).to.eql(player.originPOS);
       }
     }
+
     for (const player of secondTeam.players) {
       if (player.position === 'GK') {
         expect(player.currentPOS).to.eql(player.originPOS);
       }
+
       if (player.position !== 'GK') {
         expect(player.currentPOS).to.eql([
           player.originPOS[0],
@@ -36,8 +41,11 @@ describe('testFreekicksTopOwnHalf()', function () {
 
   it('freekick in own half - top origin positions', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 101]);
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     expect(nextJSON).to.be.an('object');
 
     expect(nextJSON.ball.direction).to.eql('south');
@@ -53,6 +61,7 @@ describe('testFreekicksTopOwnHalf()', function () {
         ]);
       }
     }
+
     for (const player of secondTeam.players) {
       if (player.position === 'GK') {
         expect(player.currentPOS).to.eql(player.originPOS);
@@ -67,9 +76,13 @@ describe('testFreekicksTopOwnHalf()', function () {
 
   it('freekick in own half - halfway boundary', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 524]);
+
     const [, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
@@ -90,7 +103,9 @@ describe('testFreekicksTopOwnHalf()', function () {
     ]);
     for (const num of [1, 2, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       expect(thisPlayer.currentPOS).to.eql([
         thisPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.5),
@@ -98,9 +113,12 @@ describe('testFreekicksTopOwnHalf()', function () {
 
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
+
     for (const num of [5, 6, 7, 8]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       expect(thisPlayer.currentPOS).to.eql([
         thisPlayer.originPOS[0],
         Math.floor(pitchHeight * 0.75),
@@ -111,9 +129,12 @@ describe('testFreekicksTopOwnHalf()', function () {
         Math.floor(pitchHeight * 0.75) + 5,
       ]);
     }
+
     for (const num of [9, 10]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 824]);
 
       expect(thatPlayer.currentPOS).to.eql([
@@ -127,10 +148,15 @@ describe('testFreekicksTopOwnHalf()', function () {
 describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
   it('freekick between halfway and last quarter - top center', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [400, 550]);
+
     const [, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
@@ -154,14 +180,17 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 450]);
 
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
+
     for (const num of [6, 7, 8]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(699);
@@ -171,8 +200,10 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
         Math.floor(pitchHeight * 0.75),
       ]);
     }
+
     for (const num of [9, 10]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(849);
@@ -186,10 +217,15 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
 
   it('freekick between halfway and last quarter - top left', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [29, 550]);
+
     const [, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
@@ -213,14 +249,17 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 450]);
 
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
+
     for (const num of [6, 7, 8]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(699);
@@ -230,8 +269,10 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
         Math.floor(pitchHeight * 0.75),
       ]);
     }
+
     for (const num of [9, 10]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(849);
@@ -245,10 +286,15 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
 
   it('freekick between halfway and last quarter - top right', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [655, 550]);
+
     const [, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
 
     expect(nextJSON).to.be.an('object');
@@ -272,14 +318,17 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS).to.eql([thisPlayer.originPOS[0], 450]);
 
       expect(thatPlayer.currentPOS).to.eql(thatPlayer.originPOS);
     }
+
     for (const num of [6, 7, 8]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(699);
@@ -289,8 +338,10 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
         Math.floor(pitchHeight * 0.75),
       ]);
     }
+
     for (const num of [9, 10]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
 
       expect(thisPlayer.currentPOS[1]).to.gt(849);
@@ -306,11 +357,17 @@ describe('testFreekicksTopHalfwayToThirdQuarter()', function () {
 describe('testFreekicksTopLastQuarter()', function () {
   it('freekick last quarter - top center', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 840]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
@@ -335,15 +392,21 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       const ballDistanceFromGoalY = pitchHeight - nextJSON.ball.position[1];
+
       const midWayFromBalltoGoalY = Math.floor(
         (nextJSON.ball.position[1] - ballDistanceFromGoalY) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -355,6 +418,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
@@ -362,10 +426,14 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       playerSpace += 2;
     }
+
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
+
     const boundaryY = [pitchHeight - pitchHeight / 6 - 5, pitchHeight + 1];
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // Guard against 'NP' for both teams
@@ -387,11 +455,17 @@ describe('testFreekicksTopLastQuarter()', function () {
 
   it('freekick last quarter - top edge of penalty box', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [340, 869]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
@@ -410,15 +484,21 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       const ballDistanceFromGoalY = pitchHeight - nextJSON.ball.position[1];
+
       const midWayFromBalltoGoalY = Math.floor(
         (nextJSON.ball.position[1] - ballDistanceFromGoalY) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -430,6 +510,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
@@ -437,10 +518,14 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       playerSpace += 2;
     }
+
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
+
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // Type Guard: Ensure coordinates are valid numbers before passing to isBetween
@@ -464,11 +549,17 @@ describe('testFreekicksTopLastQuarter()', function () {
 
   it('freekick last quarter - top team bottom left', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [10, 850]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
@@ -487,15 +578,21 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       const ballDistanceFromGoalY = pitchHeight - nextJSON.ball.position[1];
+
       const midWayFromBalltoGoalY = Math.floor(
         (nextJSON.ball.position[1] - ballDistanceFromGoalY) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -507,6 +604,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
@@ -514,10 +612,14 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       playerSpace += 2;
     }
+
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
+
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // Safe Guard: Fail fast if any position is 'NP' (No Position)
@@ -540,11 +642,17 @@ describe('testFreekicksTopLastQuarter()', function () {
 
   it('freekick and last quarter - top team bottom right', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [600, 826]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let playerSpace = -3;
 
     expect(nextJSON).to.be.an('object');
@@ -563,15 +671,21 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       const ballDistanceFromGoalY = pitchHeight - nextJSON.ball.position[1];
+
       const midWayFromBalltoGoalY = Math.floor(
         (nextJSON.ball.position[1] - ballDistanceFromGoalY) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -583,6 +697,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX + playerSpace,
         midWayFromBalltoGoalY,
@@ -590,10 +705,14 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       playerSpace += 2;
     }
+
     const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
+
     const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // Type Guard: If position is 'NP', the test should fail with a clear message
@@ -617,11 +736,17 @@ describe('testFreekicksTopLastQuarter()', function () {
 
   it('freekick last quarter - top team bottom left goal line', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [10, 1049]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let firstWallPosition = pitchHeight;
 
     expect(nextJSON).to.be.an('object');
@@ -640,11 +765,15 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -656,6 +785,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX,
         firstWallPosition,
@@ -663,9 +793,11 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       firstWallPosition -= 2;
     }
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       // 1. Destructure both elements immediately
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // 2. Validate (Narrowing strings/undefined to numbers)
@@ -676,6 +808,7 @@ describe('testFreekicksTopLastQuarter()', function () {
       // 3. Create new arrays from the validated destructured elements
       // TypeScript now implicitly knows these are [number, number]
       const kotCoords: [number, number] = [xKOT, yKOT];
+
       const stCoords: [number, number] = [xST, yST];
 
       if (num !== 5) {
@@ -689,11 +822,17 @@ describe('testFreekicksTopLastQuarter()', function () {
 
   it('freekick last quarter - top team bottom right goal line', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const nextJSON = await setfreekicks.setTopFreekick(itlocation, [600, 1049]);
+
     const [pitchWidth, pitchHeight] = nextJSON.pitchSize;
+
     const { kickOffTeam, secondTeam } = nextJSON;
+
     const KOTgoalie = kickOffTeam.players[0];
+
     const STgoalie = secondTeam.players[0];
+
     let firstWallPosition = pitchHeight;
 
     expect(nextJSON).to.be.an('object');
@@ -712,11 +851,15 @@ describe('testFreekicksTopLastQuarter()', function () {
     expect(STgoalie.currentPOS).to.eql(STgoalie.originPOS);
     for (const num of [1, 2, 3, 4]) {
       const thisPlayer = kickOffTeam.players[num];
+
       const thatPlayer = secondTeam.players[num];
+
       const ballDistanceFromGoalX = nextJSON.ball.position[0] - pitchWidth / 2;
+
       const midWayFromBalltoGoalX = Math.floor(
         (nextJSON.ball.position[0] - ballDistanceFromGoalX) / 2,
       );
+
       if (thisPlayer.position === 'CB') {
         expect(thisPlayer.currentPOS).to.eql([
           thisPlayer.originPOS[0],
@@ -728,6 +871,7 @@ describe('testFreekicksTopLastQuarter()', function () {
           Math.floor(pitchHeight * 0.66),
         ]);
       }
+
       expect(thatPlayer.currentPOS).to.eql([
         midWayFromBalltoGoalX,
         firstWallPosition,
@@ -735,8 +879,10 @@ describe('testFreekicksTopLastQuarter()', function () {
 
       firstWallPosition -= 2;
     }
+
     for (const num of [5, 6, 7, 8, 9, 10]) {
       const [xKOT, yKOT] = kickOffTeam.players[num].currentPOS;
+
       const [xST, yST] = secondTeam.players[num].currentPOS;
 
       // Type Guard: Ensure coordinates are valid numbers
@@ -745,6 +891,7 @@ describe('testFreekicksTopLastQuarter()', function () {
       }
 
       const boundaryX = [pitchWidth / 4 - 7, pitchWidth - pitchWidth / 4 + 7];
+
       const boundaryY = [pitchHeight - pitchHeight / 6 + 4, pitchHeight + 1];
 
       // Primary Check

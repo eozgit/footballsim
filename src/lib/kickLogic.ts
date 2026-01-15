@@ -14,7 +14,9 @@ import type { MatchDetails, Player, Team } from './types.js';
  */
 function getRandomKickDirection(side: 'top' | 'bottom'): string {
   const horizontal = ['east', 'east', 'west', 'west'];
+
   const baseTop = ['wait', 'north', 'north', 'north', 'north', ...horizontal];
+
   const diagTop = [
     'northeast',
     'northeast',
@@ -32,6 +34,7 @@ function getRandomKickDirection(side: 'top' | 'bottom'): string {
     'south',
     ...horizontal,
   ];
+
   const diagBottom = [
     'southeast',
     'southeast',
@@ -57,6 +60,7 @@ function executeKickAction(
   player: Player,
 ) {
   const { ball, pitchSize } = matchDetails;
+
   const [, pitchHeight] = pitchSize;
 
   // 1. Update Metadata
@@ -69,7 +73,9 @@ function executeKickAction(
 
   // 2. Resolve Direction and Power
   const side = player.originPOS[1] > pitchHeight / 2 ? 'top' : 'bottom';
+
   const direction = getRandomKickDirection(side);
+
   const power = common.calculatePower(player.skill.strength);
 
   // 3. Resolve Target Position
@@ -109,6 +115,7 @@ function resolvePassDestination(
 
   // FIXED: Replaced non-existent common.sample with your actual random logic
   const randIdx = common.getRandomNumber(0, playersInDistance.length - 1);
+
   const tPlyr = playersInDistance[randIdx];
 
   matchDetails.iterationLog.push(
@@ -137,7 +144,9 @@ function calculateThroughBallTarget(
   matchDetails: MatchDetails,
 ): [number, number] {
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const { position } = matchDetails.ball;
+
   const [tpX, tpY] = targetPlayer.currentPOS;
 
   if (tpX === 'NP') {
@@ -147,7 +156,9 @@ function calculateThroughBallTarget(
   const pos: [number, number] = [tpX, tpY];
 
   const isAttackingTop = player.originPOS[1] > pitchHeight / 2;
+
   const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
+
   const middleThird =
     position[1] > pitchHeight / 3 &&
     position[1] < pitchHeight - pitchHeight / 3;

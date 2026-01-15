@@ -13,6 +13,7 @@ describe('removeBallFromAllPlayers()', function () {
     for (const player of nextJSON.kickOffTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
+
     for (const player of nextJSON.secondTeam.players) {
       expect(player.hasBall).to.eql(false);
     }
@@ -22,8 +23,11 @@ describe('removeBallFromAllPlayers()', function () {
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const matchDetails = await readMatchDetails(itlocation);
+
     const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
+
     const nextJSON = await setpieces.switchSide(
       matchDetails,
       matchDetails.kickOffTeam,
@@ -38,8 +42,11 @@ describe('switchTeamSides()', function () {
 
   it('check players sides are switched second team', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const matchDetails = await readMatchDetails(itlocation);
+
     const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
+
     const nextJSON = await setpieces.switchSide(
       matchDetails,
       matchDetails.secondTeam,
@@ -54,6 +61,7 @@ describe('switchTeamSides()', function () {
 
   it('no origin POS set', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const matchDetails = await readMatchDetails(itlocation);
 
     // Force the invalid state
@@ -75,7 +83,9 @@ describe('switchTeamSides()', function () {
 
   it('low fitness level', async () => {
     const itlocation = './src/init_config/iteration.json';
+
     const matchDetails = await readMatchDetails(itlocation);
+
     matchDetails.secondTeam.players[0].fitness = 10;
     const nextJSON = await setpieces.switchSide(
       matchDetails,

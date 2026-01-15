@@ -12,31 +12,39 @@ import type { MatchDetails, Team } from './types.js';
 function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const { kickOffTeam, secondTeam } = matchDetails;
+
   const [, pitchHeight] = matchDetails.pitchSize;
+
   const [, ballY] = matchDetails.ball.position;
+
   const attack =
     kickOffTeam.players[0].originPOS[1] > pitchHeight / 2
       ? kickOffTeam
       : secondTeam;
+
   const defence =
     kickOffTeam.players[0].originPOS[1] > pitchHeight / 2
       ? secondTeam
       : kickOffTeam;
+
   const hundredToHalfway = common.isBetween(
     ballY,
     pitchHeight / 2 - 1,
     pitchHeight - 100,
   );
+
   const halfwayToLastQtr = common.isBetween(
     ballY,
     pitchHeight / 4,
     pitchHeight / 2,
   );
+
   const upperFinalQtr = common.isBetween(
     ballY,
     pitchHeight / 6 - 5,
     pitchHeight / 4,
   );
+
   const lowerFinalQtr = common.isBetween(ballY, 0, pitchHeight / 6 - 5);
 
   if (ballY > pitchHeight - 100) {
@@ -106,7 +114,9 @@ function setBottomUpperQtrCentreYPos(
     defence,
     'bottom',
   );
+
   const { ball, pitchSize } = details;
+
   const [pitchWidth, pitchHeight] = pitchSize;
 
   const ballInCentre = common.isBetween(
@@ -114,6 +124,7 @@ function setBottomUpperQtrCentreYPos(
     pitchWidth / 4 + 5,
     pitchWidth - pitchWidth / 4 - 5,
   );
+
   const ballLeft = common.isBetween(ball.position[0], 0, pitchWidth / 4 + 4);
 
   ball.direction = ballInCentre
@@ -143,6 +154,7 @@ function setBottomLowerFinalQtrBylinePos(
     ball,
     pitchSize: [pitchWidth, pitchHeight],
   } = matchDetails;
+
   const kickPlayer = attack.players[5];
 
   setDeepFreekickBallAndKicker(

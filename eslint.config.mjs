@@ -6,19 +6,12 @@ import unusedImports from 'eslint-plugin-unused-imports';
 
 export default tseslint.config(
   {
-    // Global ignores MUST be in their own object at the top level
-    ignores: [
-      'coverage/**',
-      'scripts/**',
-      'dist/**',
-      '.dependency-cruiser.cjs',
-    ],
+    ignores: ['coverage/**', 'scripts/**', 'dist/**', '.dependency-cruiser.cjs'],
   },
   js.configs.recommended,
-  ...tseslint.configs.recommended,
   {
-    // Apply core discipline to all source files
-    files: ['src/**/*.ts', 'src/**/*.js'],
+    files: ['src/**/*.ts'],
+    extends: [...tseslint.configs.recommendedTypeChecked],
     plugins: {
       import: importPlugin,
       'unused-imports': unusedImports,
@@ -26,82 +19,50 @@ export default tseslint.config(
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
-      globals: {
-        ...globals.node,
-        ...globals.browser,
+      parserOptions: {
+        project: ['./tsconfig.json'],
+        tsconfigRootDir: import.meta.dirname,
       },
+      globals: { ...globals.node, ...globals.browser },
     },
     rules: {
-      // --- AUTO-FIXABLE DISCIPLINE (ENFORCED AS ERRORS) ---
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
       eqeqeq: ['error', 'always'],
       curly: ['error', 'all'],
-
-      // --- AGENT-OPTIMIZED UNUSED CODE REMOVAL ---
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': [
-        'error',
-        {
-          vars: 'all',
-          varsIgnorePattern: '^_',
-          args: 'after-used',
-          argsIgnorePattern: '^_',
-        },
-      ],
-
-      // --- STRICT TYPE SAFETY ---
+      'unused-imports/no-unused-vars': ['error', { vars: 'all', args: 'after-used', argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
-      '@typescript-eslint/consistent-type-imports': [
-        'error',
-        { prefer: 'type-imports' },
-      ],
-
-      // --- IMPORT DISCIPLINE ---
-      'import/order': [
-        'error',
-        {
-          'newlines-between': 'always',
-          alphabetize: { order: 'asc', caseInsensitive: true },
-        },
-      ],
-      'import/no-commonjs': 'error',
-
-      // --- COMPLEXITY THRESHOLDS (WARNINGS FOR AGENTS TO REFACTOR) ---
+      '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
+      '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
+      'import/order': ['error', { 'newlines-between': 'always', alphabetize: { order: 'asc' } }],
+      'complexity': ['warn', 10],
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
-      complexity: ['warn', 10],
-      'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0, maxBOF: 0 }],
       'padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-        { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
         { blankLine: 'always', prev: 'block-like', next: '*' },
-        { blankLine: 'always', prev: '*', next: 'block-like' },
       ],
     },
   },
   {
-    // Test specific overrides
+    // Test-specific overrides: Relaxing strictness for test readability
     files: ['src/test/**/*.ts'],
-    languageOptions: {
-      globals: {
-        ...globals.vitest,
-      },
-    },
     rules: {
-      '@typescript-eslint/no-explicit-any': 'off',
-      'max-lines-per-function': 'off',
-      'unused-imports/no-unused-vars': 'warn',
-      'import/no-commonjs': 'off', // Allow commonjs in tests if necessary
-      'padding-line-between-statements': [
-        'error',
-        { blankLine: 'always', prev: '*', next: 'return' },
-        // Specifically ensure room around test blocks
-        { blankLine: 'always', prev: 'expression', next: 'expression' },
-      ],
-    },
+      '@typescript-eslint/require-await': 'off', // Tests often use async wrappers for Vitest
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-explicit-any': 'off'
+    }
   },
+  // Ensure the config file itself doesn't try to use type-checked rules
+  {
+    files: ['*.mjs', '*.js'],
+    extends: [tseslint.configs.disableTypeChecked],
+  }
 );

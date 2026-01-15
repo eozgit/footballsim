@@ -18,8 +18,11 @@ function init() {
 
 async function gameOfTenIterations(): Promise<MatchDetails> {
   const t1location = './team1.json';
+
   const t2location = './team2.json';
+
   const plocation = './pitch.json';
+
   const initJSON = await initGame(t1location, t2location, plocation);
 
   nextIteration = await invokePlayIteration(initJSON);
@@ -44,9 +47,13 @@ async function initGame(
   p: string,
 ): Promise<MatchDetails> {
   const team1 = (await readDataFile(t1)) as Team;
+
   const team2 = (await readDataFile(t2)) as Team;
+
   const pitch = (await readDataFile(p)) as PitchDetails;
+
   const matchDetails = await initiateGame(team1, team2, pitch);
+
   const numericSeed = parseInt(String(matchDetails.matchID).slice(-9), 10);
 
   common.setMatchSeed(numericSeed);

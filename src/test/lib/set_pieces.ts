@@ -46,6 +46,7 @@ async function keepInBoundaries(
   ballIntended: BallPosition,
 ): Promise<MatchDetails> {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.keepInBoundaries(matchDetails, kickersSide, ballIntended);
 
   return matchDetails;
@@ -53,6 +54,7 @@ async function keepInBoundaries(
 
 async function removeBallFromAllPlayers(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   common.removeBallFromAllPlayers(matchDetails);
 
   return matchDetails;
@@ -60,6 +62,7 @@ async function removeBallFromAllPlayers(iterationFile: string) {
 
 async function setSetpieceKickOffTeam(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setSetpieceKickOffTeam(matchDetails);
 
   return matchDetails;
@@ -67,6 +70,7 @@ async function setSetpieceKickOffTeam(iterationFile: string) {
 
 async function setSetpieceSecondTeam(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setSetpieceSecondTeam(matchDetails);
 
   return matchDetails;
@@ -74,6 +78,7 @@ async function setSetpieceSecondTeam(iterationFile: string) {
 
 async function setTopGoalKick(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setTopGoalKick(matchDetails);
 
   return matchDetails;
@@ -81,6 +86,7 @@ async function setTopGoalKick(iterationFile: string) {
 
 async function setBottomGoalKick(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setBottomGoalKick(matchDetails);
 
   return matchDetails;
@@ -92,6 +98,7 @@ async function switchSide(matchDetails: MatchDetails, team: Team) {
 
 async function setKickOffTeamGoalScored(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setKickOffTeamGoalScored(matchDetails);
 
   return matchDetails;
@@ -99,6 +106,7 @@ async function setKickOffTeamGoalScored(iterationFile: string) {
 
 async function setSecondTeamGoalScored(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setSecondTeamGoalScored(matchDetails);
 
   return matchDetails;
@@ -109,6 +117,7 @@ async function setLeftKickOffTeamThrowIn(
   ballIntended: BallPosition,
 ) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
@@ -119,6 +128,7 @@ async function setLeftSecondTeamThrowIn(
   ballIntended: BallPosition,
 ) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setLeftSecondTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
@@ -129,6 +139,7 @@ async function setRightKickOffTeamThrowIn(
   ballIntended: BallPosition,
 ) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setRightKickOffTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
@@ -139,6 +150,7 @@ async function setRightSecondTeamThrowIn(
   ballIntended: BallPosition,
 ) {
   const matchDetails = await readMatchDetails(iterationFile);
+
   setPos.setRightSecondTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
