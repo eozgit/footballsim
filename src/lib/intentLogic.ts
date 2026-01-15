@@ -254,7 +254,7 @@ function handleInPenaltyBox(
 function handleUnderPressureInBox(
   tmateProximity: [number, number],
   currentPOS: readonly [number, number],
-  pos: readonly BallPosition,
+  pos: BallPosition,
   oppCurPos: BallPosition,
   halfRange: number,
   shotRange: number,
@@ -471,7 +471,7 @@ function validatePlayerPosition(
  */
 function handleOutsidePenaltyBox(
   playerInformation: PlayerProximityDetails,
-  currentPOS: [number | 'NP', number] | number[],
+  currentPOS: readonly [number | 'NP', number],
   shotRange: number,
   pitchHeight: number,
 ): MatchEventWeights {
@@ -493,8 +493,8 @@ function handleOutsidePenaltyBox(
 function handleDeepBoxThreat(
   oppInfo: PlayerProximityDetails,
   tmateProx: [number, number],
-  currentPOS: [number | 'NP', number],
-  closeOppPOS: [number | 'NP', number],
+  currentPOS: readonly [number | 'NP', number],
+  closeOppPOS: readonly [number | 'NP', number],
   skill: Skill,
 ): MatchEventWeights {
   // Scenario: Defender is closing in
@@ -534,8 +534,8 @@ function handleDeepBoxThreat(
 
 function handlePressuredBoxDecision(
   tmateProx: [number, number],
-  currentPOS: [number | 'NP', number],
-  closeOppPOS: [number | 'NP', number],
+  currentPOS: readonly [number | 'NP', number],
+  closeOppPOS: readonly [number | 'NP', number],
   skill: Skill,
 ): MatchEventWeights {
   if (checkOppositionAhead(closeOppPOS, currentPOS)) {

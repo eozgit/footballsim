@@ -119,7 +119,7 @@ interface PitchDetails {
 
 type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
 
-type BallPosition = [x: number, y: number, z?: number];
+type BallPosition = readonly [x: number, y: number, z?: number];
 
 interface ProximityContext {
   proxPOS: [number, number];

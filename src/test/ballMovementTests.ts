@@ -710,7 +710,9 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[9];
     player.skill.passing = 1;
 
-    matchDetails.ball.position[1] = 1000;
+    const { ball } = matchDetails;
+    const [bx, _, by] = ball.position;
+    common.setBallPosition(ball, bx, 1000, by);
     const endPos = bMovement.throughBall(matchDetails, team, player);
     if (!Array.isArray(endPos)) {
       throw new Error(
@@ -732,7 +734,9 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[9];
     player.skill.passing = 1;
 
-    matchDetails.ball.position[1] = 100;
+    const { ball } = matchDetails;
+    const [bx, _, by] = ball.position;
+    common.setBallPosition(ball, bx, 100, by);
     const endPos = bMovement.throughBall(matchDetails, team, player);
     if (!Array.isArray(endPos)) {
       throw new Error(
@@ -774,7 +778,9 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[9];
     player.skill.passing = 1;
 
-    matchDetails.ball.position[1] = 1000;
+    const { ball } = matchDetails;
+    const [bx, _, by] = ball.position;
+    common.setBallPosition(ball, bx, 1000, by);
     const endPos = bMovement.throughBall(matchDetails, team, player);
     if (!Array.isArray(endPos)) {
       throw new Error(
@@ -796,7 +802,9 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[9];
     player.skill.passing = 1;
 
-    matchDetails.ball.position[1] = 100;
+    const { ball } = matchDetails;
+    const [bx, _, by] = ball.position;
+    common.setBallPosition(ball, bx, 100, by);
     const endPos = bMovement.throughBall(matchDetails, team, player);
     if (!Array.isArray(endPos)) {
       throw new Error(
@@ -1300,7 +1308,9 @@ describe('checkGoalScored()', function () {
     const matchDetails = await readMatchDetails(
       './src/test/input/getMovement/checkGoalScored.json',
     );
-    matchDetails.ball.position[1] = 1048;
+    const { ball } = matchDetails;
+    const [bx, _, by] = ball.position;
+    common.setBallPosition(ball, bx, 1048, by);
 
     matchDetails.secondTeam.players[0].skill.saving = 101;
 

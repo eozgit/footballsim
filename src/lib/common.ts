@@ -244,7 +244,27 @@ function movePlayer(player: Player, dx: number, dy: number): void {
     setPlayerXY(player, x + dx, y + dy);
   }
 }
+/**
+ * Safely updates the ball's position.
+ * Bypasses readonly constraints using Object.defineProperty to ensure
+ * compatibility with frozen objects in test environments.
+ */
+function setBallPosition(
+  ball: { position: BallPosition },
+  x: number,
+  y: number,
+  z?: number,
+): void {
+  const newPos: any = [x, y];
+  if (z !== undefined) newPos.push(z);
 
+  Object.defineProperty(ball, 'position', {
+    value: newPos as BallPosition,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+}
 function debug(label: string, ...args: unknown[]): void {
   console.log(`[DEBUG:${label}]`, ...args);
 }
@@ -271,4 +291,5 @@ export {
   setPlayerPos,
   setPlayerXY,
   movePlayer,
+  setBallPosition,
 };

@@ -322,7 +322,7 @@ function noBallNotGK2CloseBallBottomTeam(
  */
 function resolveNoBallNotGKIntent(
   matchDetails: MatchDetails,
-  currentPOS: [number | 'NP', number],
+  currentPOS: readonly [number | 'NP', number],
   pitchWidth: number,
   pitchHeight: number,
   isBottomTeam: boolean,
@@ -354,8 +354,8 @@ function resolveNoBallNotGKIntent(
 
 function noBallNotGK4CloseBall(
   matchDetails: MatchDetails,
-  currentPOS: [number | 'NP', number],
-  originPOS: number[],
+  currentPOS: readonly [number | 'NP', number],
+  originPOS: readonly [number, number],
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
@@ -376,8 +376,8 @@ function noBallNotGK4CloseBall(
 
 function noBallNotGK2CloseBall(
   matchDetails: MatchDetails,
-  currentPOS: [number | 'NP', number],
-  originPOS: number[],
+  currentPOS: readonly [number | 'NP', number],
+  originPOS: readonly [number, number],
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
@@ -772,10 +772,10 @@ function setPostTacklePosition(
       losePlayer.currentPOS[0],
       common.upToMin(losePlayer.currentPOS[1] - increment, 0),
     );
-    matchDetails.ball.position[1] = common.upToMin(
-      matchDetails.ball.position[1] - increment,
-      0,
-    );
+    const { ball } = matchDetails;
+    const [bx, _, bz] = ball.position;
+    const by = common.upToMin(matchDetails.ball.position[1] - increment, 0);
+    common.setBallPosition(ball, bx, by, bz);
     common.setPlayerXY(
       winningPlyr,
       winningPlyr.currentPOS[0],
@@ -787,10 +787,13 @@ function setPostTacklePosition(
       losePlayer.currentPOS[0],
       common.upToMax(losePlayer.currentPOS[1] + increment, pitchHeight),
     );
-    matchDetails.ball.position[1] = common.upToMax(
+    const { ball } = matchDetails;
+    const [bx, _, bz] = ball.position;
+    const by = common.upToMax(
       matchDetails.ball.position[1] + increment,
       pitchHeight,
     );
+    common.setBallPosition(ball, bx, by, bz);
     common.setPlayerXY(
       winningPlyr,
       winningPlyr.currentPOS[0],
