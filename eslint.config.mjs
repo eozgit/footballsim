@@ -5,6 +5,7 @@ import tseslint from 'typescript-eslint';
 import unusedImports from 'eslint-plugin-unused-imports';
 import sonarjs from 'eslint-plugin-sonarjs';
 import unicorn from 'eslint-plugin-unicorn';
+import n from 'eslint-plugin-n';
 
 export default tseslint.config(
   {
@@ -18,6 +19,8 @@ export default tseslint.config(
     plugins: {
       import: importPlugin,
       'unused-imports': unusedImports,
+      n,
+      unicorn,
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -45,6 +48,20 @@ export default tseslint.config(
       'unicorn/no-null': 'warn', // Discourages null, encourages undefined/optional
       'unicorn/filename-case': ['error', { case: 'camelCase' }],
 
+      // --- WINTERCG / TC55 COMPLIANCE ---
+      'n/no-deprecated-api': 'error',
+      'n/no-extraneous-import': 'error',
+      'n/prefer-global/buffer': ['error', 'never'], // Forces TextEncoder/Uint8Array
+      'n/prefer-global/process': ['error', 'never'], // Forces feature detection
+
+      // Force Web Standards
+      'no-restricted-globals': [
+        'error',
+        { name: 'Buffer', message: 'Use Uint8Array instead for WinterCG compliance.' },
+        { name: 'process', message: 'Use environment detection or globalThis instead.' },
+        { name: '__dirname', message: 'Use import.meta.url instead.' },
+        { name: '__filename', message: 'Use import.meta.url instead.' }
+      ],
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
