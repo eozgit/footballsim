@@ -46,7 +46,7 @@ interface Player {
   position: string;
   rating: string;
   skill: Skill;
-  currentPOS: [number | 'NP', number];
+  currentPOS: readonly [number | 'NP', number];
   fitness: number;
   injured: boolean;
   playerID: number;

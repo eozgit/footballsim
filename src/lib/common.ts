@@ -1,4 +1,4 @@
-import type { BallPosition, MatchDetails } from './types.js';
+import type { BallPosition, MatchDetails, Player } from './types.js';
 
 //-------------------------
 // Seedable RNG (Mulberry32)
@@ -210,6 +210,41 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
   }
 }
 
+/**
+ * Safely updates a player's position tuple.
+ * Uses Object.defineProperty to bypass runtime 'writable: false' constraints.
+ */
+function setPlayerXY(player: Player, x: number | 'NP', y: number): void {
+  Object.defineProperty(player, 'currentPOS', {
+    value: [x, y],
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
+}
+
+/**
+ * Updates player position using an existing tuple.
+ */
+function setPlayerPos(
+  player: Player,
+  pos: readonly [number | 'NP', number],
+): void {
+  // We call our internal XY setter to keep the 'any' cast in one place
+  setPlayerXY(player, pos[0], pos[1]);
+}
+
+/**
+ * Relative movement utility
+ */
+function movePlayer(player: Player, dx: number, dy: number): void {
+  const [x, y] = player.currentPOS;
+
+  if (x !== 'NP') {
+    setPlayerXY(player, x + dx, y + dy);
+  }
+}
+
 function debug(label: string, ...args: unknown[]): void {
   console.log(`[DEBUG:${label}]`, ...args);
 }
@@ -233,4 +268,7 @@ export {
   sumFrom1toX,
   upToMax,
   upToMin,
+  setPlayerPos,
+  setPlayerXY,
+  movePlayer,
 };

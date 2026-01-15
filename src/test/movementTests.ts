@@ -288,7 +288,7 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 337;
+    common.setPlayerXY(player, 337, player.currentPOS[1]);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -306,9 +306,9 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 337;
+    common.setPlayerXY(player, 337, player.currentPOS[1]);
 
-    player.currentPOS[1] = 527;
+    common.setPlayerXY(player, player.currentPOS[0], 527);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -326,9 +326,9 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 337;
+    common.setPlayerXY(player, 337, player.currentPOS[1]);
 
-    player.currentPOS[1] = 957;
+    common.setPlayerXY(player, player.currentPOS[0], 957);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -346,9 +346,9 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 537;
+    common.setPlayerXY(player, 537, player.currentPOS[1]);
 
-    player.currentPOS[1] = 1357;
+    common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -366,9 +366,9 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 537;
+    common.setPlayerXY(player, 537, player.currentPOS[1]);
 
-    player.currentPOS[1] = 1;
+    common.setPlayerXY(player, player.currentPOS[0], 1);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -386,9 +386,9 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.kickOffTeam.players[5];
-    player.currentPOS[0] = 1;
+    common.setPlayerXY(player, 1, player.currentPOS[1]);
 
-    player.currentPOS[1] = 1357;
+    common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,
@@ -869,7 +869,7 @@ describe('getSprintMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [10, 100];
+    common.setPlayerXY(thisPlayer, 10, 100);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -3, 0);
     const betweenY = common.isBetween(move[1], -3, 0);
@@ -885,7 +885,7 @@ describe('getSprintMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [600, 1000];
+    common.setPlayerXY(thisPlayer, 600, 1000);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -3, 1);
     const betweenY = common.isBetween(move[1], -3, 1);
@@ -901,7 +901,7 @@ describe('getSprintMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [230, 290];
+    common.setPlayerXY(thisPlayer, 230, 290);
     const move = pMovement.getSprintMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -3, 0);
     const betweenY = common.isBetween(move[1], -3, 0);
@@ -999,7 +999,7 @@ describe('getRunMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [10, 100];
+    common.setPlayerXY(thisPlayer, 10, 100);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -2, 0);
     const betweenY = common.isBetween(move[1], -2, 0);
@@ -1015,7 +1015,7 @@ describe('getRunMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [600, 1000];
+    common.setPlayerXY(thisPlayer, 600, 1000);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -3, 1);
     const betweenY = common.isBetween(move[1], -3, 1);
@@ -1031,7 +1031,7 @@ describe('getRunMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const thisPlayer = matchDetails.kickOffTeam.players[6];
-    thisPlayer.currentPOS = [230, 290];
+    common.setPlayerXY(thisPlayer, 230, 290);
     const move = pMovement.getRunMovement(matchDetails, thisPlayer, 40, 40);
     const betweenX = common.isBetween(move[0], -2, 0);
     const betweenY = common.isBetween(move[1], -2, 0);
@@ -1091,7 +1091,7 @@ describe('decideMovement()', function () {
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
     matchDetails.kickOffTeam.players[10].action = `slide`;
 
-    matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
     const team = matchDetails.kickOffTeam;
     const opp = matchDetails.secondTeam;
     matchDetails.kickOffTeam = pMovement.decideMovement(
@@ -1131,7 +1131,7 @@ describe('decideMovement()', function () {
       './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Peter Johnson', position: 0 };
-    matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.ball.withPlayer = false;
     const team = matchDetails.kickOffTeam;
@@ -1153,7 +1153,7 @@ describe('decideMovement()', function () {
       './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
-    matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.ball.withTeam = `78883930303030002`;
 
@@ -1177,7 +1177,7 @@ describe('decideMovement()', function () {
       './src/test/input/getMovement/matchDetails3.json',
     );
     const closestPlayer = { name: 'Louise Johnson', position: 0 };
-    matchDetails.kickOffTeam.players[10].currentPOS = [402, 519];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[10], 402, 519);
 
     matchDetails.kickOffTeam.players[10].offside = true;
 

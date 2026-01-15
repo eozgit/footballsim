@@ -10,14 +10,14 @@ import type {
 function resetPlayerPositions(matchDetails: MatchDetails) {
   for (const player of matchDetails.kickOffTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
-      player.currentPOS = [...player.originPOS];
+      common.setPlayerPos(player, [...player.originPOS]);
       player.intentPOS = [...player.originPOS];
     }
   }
 
   for (const player of matchDetails.secondTeam.players) {
     if (player.currentPOS[0] !== 'NP') {
-      player.currentPOS = [...player.originPOS];
+      common.setPlayerPos(player, [...player.originPOS]);
       player.intentPOS = [...player.originPOS];
     }
   }
@@ -83,10 +83,11 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   matchDetails.ball.Player = team1.players[playerWithBall].playerID;
   matchDetails.ball.withTeam = team1.teamID;
   team1.intent = `attack`;
-  team1.players[playerWithBall].currentPOS = [
+  common.setPlayerXY(
+    team1.players[playerWithBall],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   team1.players[playerWithBall].intentPOS = [
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
@@ -100,10 +101,11 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   matchDetails.ball.ballOverIterations = [];
   const waitingPlayer = playerWithBall === 9 ? 10 : 9;
 
-  team1.players[waitingPlayer].currentPOS = [
+  common.setPlayerXY(
+    team1.players[waitingPlayer],
     matchDetails.ball.position[0] + 20,
     matchDetails.ball.position[1],
-  ];
+  );
   team1.players[waitingPlayer].intentPOS = [
     matchDetails.ball.position[0] + 20,
     matchDetails.ball.position[1],

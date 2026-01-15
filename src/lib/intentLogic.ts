@@ -134,7 +134,7 @@ function calculateShootingThresholds(
  * Utility to guard against 'NP' (No Position) states during simulation logic.
  */
 function ensureValidPosition(
-  pos: [number | 'NP', number],
+  pos: readonly [number | 'NP', number],
   entityName: string,
 ): [number, number] {
   if (pos[0] === 'NP') {
@@ -214,8 +214,8 @@ const STANDARD_SPACE_WEIGHTS = {
 function handleInPenaltyBox(
   playerInformation: ProximityContext,
   tmateProximity: [number, number],
-  currentPOS: [number, number],
-  pos: [number, number],
+  currentPOS: readonly [number, number],
+  pos: readonly [number, number],
   oppCurPos: BallPosition,
   halfRange: number,
   shotRange: number,
@@ -253,8 +253,8 @@ function handleInPenaltyBox(
 
 function handleUnderPressureInBox(
   tmateProximity: [number, number],
-  currentPOS: [number, number],
-  pos: BallPosition,
+  currentPOS: readonly [number, number],
+  pos: readonly BallPosition,
   oppCurPos: BallPosition,
   halfRange: number,
   shotRange: number,
@@ -456,7 +456,7 @@ function getAttackingThreatWeights(
 }
 
 function validatePlayerPosition(
-  pos: [number | 'NP', number],
+  pos: readonly [number | 'NP', number],
 ): [number, number] {
   if (pos[0] === 'NP') {
     throw new Error('No player position!');

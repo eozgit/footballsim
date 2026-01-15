@@ -1,5 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
+import * as common from '../lib/common.js';
 import * as pMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
@@ -128,11 +129,11 @@ describe('checkOffside()', function () {
     );
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    team.players[9].currentPOS[1] = 121;
+    common.setPlayerXY(team.players[9], team.players[9].currentPOS[0], 121);
 
     matchDetails.ball.position[1] = 121;
 
-    team.players[10].currentPOS = [400, 57];
+    common.setPlayerXY(team.players[10], 400, 57);
 
     pMovement.checkOffside(team, opposition, matchDetails);
 

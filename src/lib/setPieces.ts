@@ -118,13 +118,21 @@ function positionAttackingTeam({
     const { position, name, originPOS } = player;
 
     if (position === 'GK') {
-      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * factorGK)];
+      common.setPlayerXY(
+        player,
+        originPOS[0],
+        Math.floor(pitchHeight * factorGK),
+      );
     } else if (position === 'CB') {
-      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * 0.5)];
+      common.setPlayerXY(player, originPOS[0], Math.floor(pitchHeight * 0.5));
     } else if (position === 'LB' || position === 'RB') {
-      player.currentPOS = [originPOS[0], Math.floor(pitchHeight * factorWB)];
+      common.setPlayerXY(
+        player,
+        originPOS[0],
+        Math.floor(pitchHeight * factorWB),
+      );
     } else if (name !== kickPlayer.name) {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+      common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
     }
   }
 }
@@ -188,15 +196,16 @@ function setDefenderSetPiecePosition(
   if (player.position === 'GK') {
     const [origX, origY] = player.originPOS;
 
-    player.currentPOS = [origX, origY];
+    common.setPlayerXY(player, origX, origY);
   } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-    player.currentPOS = [
+    common.setPlayerXY(
+      player,
       midWayFromBalltoGoalX + playerSpace,
       midWayFromBalltoGoalY,
-    ];
+    );
     playerSpace += 2;
   } else {
-    player.currentPOS = getRandomPenaltyPosition(matchDetails);
+    common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
   }
 
   return playerSpace;
@@ -320,7 +329,7 @@ function repositionAttackers(
 ): void {
   for (const player of attack.players) {
     if (player.name === kickPlayer.name) {
-      player.currentPOS = [ball.position[0], ball.position[1]];
+      common.setPlayerXY(player, ball.position[0], ball.position[1]);
     } else {
       const finalY = calculateAttackingSetPieceY(
         player,
@@ -330,8 +339,8 @@ function repositionAttackers(
         isGKExecuting,
       );
 
-      player.currentPOS[0] = player.originPOS[0];
-      player.currentPOS[1] = Math.floor(finalY);
+      common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
+      common.setPlayerXY(player, player.currentPOS[0], Math.floor(finalY));
     }
   }
 }
@@ -353,8 +362,8 @@ function repositionDefenders(
       isGKExecuting,
     );
 
-    player.currentPOS[0] = player.originPOS[0];
-    player.currentPOS[1] = Math.floor(targetY);
+    common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
+    common.setPlayerXY(player, player.currentPOS[0], Math.floor(targetY));
   }
 }
 
@@ -452,9 +461,9 @@ function repositionTeamsForSetPiece(
     const targetY = getAttackerSetPieceY(position, pitchHeight, isTop);
 
     if (targetY !== null) {
-      player.currentPOS = [originPOS[0], targetY];
+      common.setPlayerXY(player, originPOS[0], targetY);
     } else if (playerID !== kickPlayer.playerID) {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+      common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
     }
   }
 
@@ -470,12 +479,12 @@ function repositionTeamsForSetPiece(
 
     if (position === 'GK') {
       // Must use spread to match original's new array reference
-      player.currentPOS = [...originPOS];
+      common.setPlayerPos(player, [...originPOS]);
     } else if (isBackLine(position)) {
-      player.currentPOS = [wallX, playerSpace];
+      common.setPlayerXY(player, wallX, playerSpace);
       playerSpace = isTop ? playerSpace - 2 : playerSpace + 2;
     } else {
-      player.currentPOS = getRandomPenaltyPosition(matchDetails);
+      common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
     }
   }
 

@@ -140,7 +140,7 @@ function completeTackleWhenCloseNoBall(
 
 function completeMovement(
   matchDetails: MatchDetails,
-  currentPOS: [number | 'NP', number],
+  currentPOS: readonly [number | 'NP', number],
   move: number[],
 ) {
   if (currentPOS[0] !== 'NP') {

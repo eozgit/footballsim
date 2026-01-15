@@ -52,8 +52,8 @@ function processTeamTactics(
       tacticalContext,
     );
 
-    player.currentPOS[0] = pos[0];
-    player.currentPOS[1] = pos[1];
+    common.setPlayerXY(player, pos[0], player.currentPOS[1]);
+    common.setPlayerXY(player, player.currentPOS[0], pos[1]);
 
     // 3. Resolve Ball Interactions (Possession/Tackles)
     resolveBallInteractions(player, team, opp, matchDetails, action);

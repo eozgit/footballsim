@@ -356,7 +356,7 @@ function setBallMovementMatchDetails(
   matchDetails.ball.lastTouch.teamID = thisTeam.teamID;
   matchDetails.ball.withTeam = thisTeam.teamID;
   matchDetails.ball.position = [...thisPos];
-  thisPlayer.currentPOS = [thisPos[0], thisPos[1]];
+  common.setPlayerXY(thisPlayer, thisPos[0], thisPos[1]);
 }
 
 function resolveDeflection(

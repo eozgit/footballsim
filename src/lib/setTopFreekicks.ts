@@ -140,7 +140,7 @@ function setTopLowerFinalQtrBylinePos(
   ball.direction = ballLeft ? 'east' : 'west';
   const [ballX, ballY] = ball.position;
 
-  kickPlayer.currentPOS = [ballX, ballY];
+  common.setPlayerXY(kickPlayer, ballX, ballY);
 
   return setSetPiecePositions(
     attack,

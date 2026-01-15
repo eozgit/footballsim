@@ -199,8 +199,8 @@ function checkTeamMateSpaceClose(
 }
 
 function checkOppositionAhead(
-  closePlayerPosition: [number | 'NP', number],
-  currentPOS: [number | 'NP', number],
+  closePlayerPosition: readonly [number | 'NP', number],
+  currentPOS: readonly [number | 'NP', number],
 ): boolean {
   const [closeX, closeY] = closePlayerPosition;
   const [currentX, currentY] = currentPOS;
@@ -767,30 +767,34 @@ function setPostTacklePosition(
   const [, pitchHeight] = matchDetails.pitchSize;
 
   if (losePlayer.originPOS[1] > pitchHeight / 2) {
-    losePlayer.currentPOS[1] = common.upToMin(
-      losePlayer.currentPOS[1] - increment,
-      0,
+    common.setPlayerXY(
+      losePlayer,
+      losePlayer.currentPOS[0],
+      common.upToMin(losePlayer.currentPOS[1] - increment, 0),
     );
     matchDetails.ball.position[1] = common.upToMin(
       matchDetails.ball.position[1] - increment,
       0,
     );
-    winningPlyr.currentPOS[1] = common.upToMax(
-      winningPlyr.currentPOS[1] + increment,
-      pitchHeight,
+    common.setPlayerXY(
+      winningPlyr,
+      winningPlyr.currentPOS[0],
+      common.upToMax(winningPlyr.currentPOS[1] + increment, pitchHeight),
     );
   } else {
-    losePlayer.currentPOS[1] = common.upToMax(
-      losePlayer.currentPOS[1] + increment,
-      pitchHeight,
+    common.setPlayerXY(
+      losePlayer,
+      losePlayer.currentPOS[0],
+      common.upToMax(losePlayer.currentPOS[1] + increment, pitchHeight),
     );
     matchDetails.ball.position[1] = common.upToMax(
       matchDetails.ball.position[1] + increment,
       pitchHeight,
     );
-    winningPlyr.currentPOS[1] = common.upToMin(
-      winningPlyr.currentPOS[1] - increment,
-      0,
+    common.setPlayerXY(
+      winningPlyr,
+      winningPlyr.currentPOS[0],
+      common.upToMin(winningPlyr.currentPOS[1] - increment, 0),
     );
   }
 }

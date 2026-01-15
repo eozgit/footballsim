@@ -35,7 +35,7 @@ function setGoalieHasBall(
   const [x, y] = thisGoalie.currentPOS as [number, number];
 
   matchDetails.ball.position = [x, y, 0];
-  thisGoalie.currentPOS = [x, y];
+  common.setPlayerXY(thisGoalie, x, y);
 
   matchDetails.ball.Player = thisGoalie.playerID;
   matchDetails.ball.withPlayer = true;
@@ -51,9 +51,9 @@ function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
   const [pitchWidth] = matchDetails.pitchSize;
 
-  attack.players[1].currentPOS = [pitchWidth, 0];
-  attack.players[4].currentPOS = [pitchWidth - 10, 20];
-  defence.players[4].currentPOS = [pitchWidth - 12, 10];
+  common.setPlayerXY(attack.players[1], pitchWidth, 0);
+  common.setPlayerXY(attack.players[4], pitchWidth - 10, 20);
+  common.setPlayerXY(defence.players[4], pitchWidth - 12, 10);
   matchDetails.ball.position = [pitchWidth, 0, 0];
   setBallSpecificCornerValue(matchDetails, attack);
   matchDetails.endIteration = true;
@@ -75,19 +75,23 @@ function assignTeamsAndResetPositions(matchDetails: MatchDetails) {
       : matchDetails.kickOffTeam;
 
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = [
+    common.setPlayerPos(attack.players[playerNum], [
       ...attack.players[playerNum].originPOS,
-    ];
-    defence.players[playerNum].currentPOS = [
+    ]);
+    common.setPlayerPos(defence.players[playerNum], [
       ...defence.players[playerNum].originPOS,
-    ];
+    ]);
   }
 
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
-    attack.players[playerNum].currentPOS =
-      common.getRandomTopPenaltyPosition(matchDetails);
-    defence.players[playerNum].currentPOS =
-      common.getRandomTopPenaltyPosition(matchDetails);
+    common.setPlayerPos(
+      attack.players[playerNum],
+      common.getRandomTopPenaltyPosition(matchDetails),
+    );
+    common.setPlayerPos(
+      defence.players[playerNum],
+      common.getRandomTopPenaltyPosition(matchDetails),
+    );
   }
 
   return { attack, defence };
@@ -96,9 +100,9 @@ function assignTeamsAndResetPositions(matchDetails: MatchDetails) {
 function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
 
-  attack.players[1].currentPOS = [0, 0];
-  attack.players[4].currentPOS = [10, 20];
-  defence.players[1].currentPOS = [12, 10];
+  common.setPlayerXY(attack.players[1], 0, 0);
+  common.setPlayerXY(attack.players[4], 10, 20);
+  common.setPlayerXY(defence.players[1], 12, 10);
   matchDetails.ball.position = [0, 0, 0];
   setBallSpecificCornerValue(matchDetails, attack);
   matchDetails.endIteration = true;
@@ -123,24 +127,28 @@ function setBottomLeftCornerPositions(
       : matchDetails.kickOffTeam;
 
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = [
+    common.setPlayerPos(attack.players[playerNum], [
       ...attack.players[playerNum].originPOS,
-    ];
-    defence.players[playerNum].currentPOS = [
+    ]);
+    common.setPlayerPos(defence.players[playerNum], [
       ...defence.players[playerNum].originPOS,
-    ];
+    ]);
   }
 
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
-    attack.players[playerNum].currentPOS =
-      common.getRandomBottomPenaltyPosition(matchDetails);
-    defence.players[playerNum].currentPOS =
-      common.getRandomBottomPenaltyPosition(matchDetails);
+    common.setPlayerPos(
+      attack.players[playerNum],
+      common.getRandomBottomPenaltyPosition(matchDetails),
+    );
+    common.setPlayerPos(
+      defence.players[playerNum],
+      common.getRandomBottomPenaltyPosition(matchDetails),
+    );
   }
 
-  attack.players[1].currentPOS = [0, pitchHeight];
-  attack.players[4].currentPOS = [10, pitchHeight - 20];
-  defence.players[1].currentPOS = [12, pitchHeight - 10];
+  common.setPlayerXY(attack.players[1], 0, pitchHeight);
+  common.setPlayerXY(attack.players[4], 10, pitchHeight - 20);
+  common.setPlayerXY(defence.players[1], 12, pitchHeight - 10);
   matchDetails.ball.position = [0, pitchHeight, 0];
   setBallSpecificCornerValue(matchDetails, attack);
   matchDetails.endIteration = true;
@@ -165,24 +173,28 @@ function setBottomRightCornerPositions(
       : matchDetails.kickOffTeam;
 
   for (const playerNum of [0, 1, 2, 3, 4]) {
-    attack.players[playerNum].currentPOS = [
+    common.setPlayerPos(attack.players[playerNum], [
       ...attack.players[playerNum].originPOS,
-    ];
-    defence.players[playerNum].currentPOS = [
+    ]);
+    common.setPlayerPos(defence.players[playerNum], [
       ...defence.players[playerNum].originPOS,
-    ];
+    ]);
   }
 
   for (const playerNum of [5, 6, 7, 8, 9, 10]) {
-    attack.players[playerNum].currentPOS =
-      common.getRandomBottomPenaltyPosition(matchDetails);
-    defence.players[playerNum].currentPOS =
-      common.getRandomBottomPenaltyPosition(matchDetails);
+    common.setPlayerPos(
+      attack.players[playerNum],
+      common.getRandomBottomPenaltyPosition(matchDetails),
+    );
+    common.setPlayerPos(
+      defence.players[playerNum],
+      common.getRandomBottomPenaltyPosition(matchDetails),
+    );
   }
 
-  attack.players[1].currentPOS = [pitchWidth, pitchHeight];
-  attack.players[4].currentPOS = [pitchWidth - 10, pitchHeight - 20];
-  defence.players[4].currentPOS = [pitchWidth - 12, pitchHeight - 10];
+  common.setPlayerXY(attack.players[1], pitchWidth, pitchHeight);
+  common.setPlayerXY(attack.players[4], pitchWidth - 10, pitchHeight - 20);
+  common.setPlayerXY(defence.players[4], pitchWidth - 12, pitchHeight - 10);
   matchDetails.ball.position = [pitchWidth, pitchHeight, 0];
   setBallSpecificCornerValue(matchDetails, attack);
   matchDetails.endIteration = true;
@@ -225,10 +237,11 @@ function setLeftKickOffTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  kickOffTeam.players[5].currentPOS = [
+  common.setPlayerXY(
+    kickOffTeam.players[5],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -257,10 +270,11 @@ function setRightKickOffTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  kickOffTeam.players[5].currentPOS = [
+  common.setPlayerXY(
+    kickOffTeam.players[5],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   matchDetails.ball.lastTouch.playerName = kickOffTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = kickOffTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = kickOffTeam.teamID;
@@ -289,10 +303,11 @@ function setLeftSecondTeamThrowIn(
   attackLeftThrowInPlayerPosition(pitchHeight, secondTeam, place);
   defenceLeftThrowInPlayerPosition(pitchHeight, kickOffTeam, place);
   matchDetails.ball.position = [0, place, 0];
-  secondTeam.players[5].currentPOS = [
+  common.setPlayerXY(
+    secondTeam.players[5],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;
@@ -321,10 +336,11 @@ function setRightSecondTeamThrowIn(
   attackRightThrowInPlayerPosition(matchDetails.pitchSize, secondTeam, place);
   defenceRightThrowInPlayerPosition(matchDetails.pitchSize, kickOffTeam, place);
   matchDetails.ball.position = [pitchWidth, place, 0];
-  secondTeam.players[5].currentPOS = [
+  common.setPlayerXY(
+    secondTeam.players[5],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   matchDetails.ball.lastTouch.playerName = secondTeam.players[5].name;
   matchDetails.ball.lastTouch.playerID = secondTeam.players[5].playerID;
   matchDetails.ball.lastTouch.teamID = secondTeam.teamID;
@@ -346,9 +362,13 @@ function attackLeftThrowInPlayerPosition(
   attack: Team,
   place: number,
 ): void {
-  attack.players[8].currentPOS = [15, place];
-  attack.players[7].currentPOS = [10, common.upToMax(place + 10, pitchHeight)];
-  attack.players[9].currentPOS = [10, common.upToMin(place - 10, 0)];
+  common.setPlayerXY(attack.players[8], 15, place);
+  common.setPlayerXY(
+    attack.players[7],
+    10,
+    common.upToMax(place + 10, pitchHeight),
+  );
+  common.setPlayerXY(attack.players[9], 10, common.upToMin(place - 10, 0));
   attack.players[5].hasBall = true;
 }
 
@@ -357,10 +377,14 @@ function defenceLeftThrowInPlayerPosition(
   defence: Team,
   place: number,
 ): void {
-  defence.players[5].currentPOS = [20, place];
-  defence.players[7].currentPOS = [30, common.upToMax(place + 5, pitchHeight)];
-  defence.players[8].currentPOS = [25, common.upToMin(place - 15, 0)];
-  defence.players[9].currentPOS = [10, common.upToMin(place - 30, 0)];
+  common.setPlayerXY(defence.players[5], 20, place);
+  common.setPlayerXY(
+    defence.players[7],
+    30,
+    common.upToMax(place + 5, pitchHeight),
+  );
+  common.setPlayerXY(defence.players[8], 25, common.upToMin(place - 15, 0));
+  common.setPlayerXY(defence.players[9], 10, common.upToMin(place - 30, 0));
 }
 
 function attackRightThrowInPlayerPosition(
@@ -370,15 +394,17 @@ function attackRightThrowInPlayerPosition(
 ): void {
   const [pitchWidth, pitchHeight] = pitchSize;
 
-  attack.players[8].currentPOS = [pitchWidth - 15, place];
-  attack.players[7].currentPOS = [
+  common.setPlayerXY(attack.players[8], pitchWidth - 15, place);
+  common.setPlayerXY(
+    attack.players[7],
     pitchWidth - 10,
     common.upToMax(place + 10, pitchHeight),
-  ];
-  attack.players[9].currentPOS = [
+  );
+  common.setPlayerXY(
+    attack.players[9],
     pitchWidth - 10,
     common.upToMin(place - 10, 0),
-  ];
+  );
   attack.players[5].hasBall = true;
 }
 
@@ -389,19 +415,22 @@ function defenceRightThrowInPlayerPosition(
 ): void {
   const [pitchWidth, pitchHeight] = pitchSize;
 
-  defence.players[5].currentPOS = [pitchWidth - 20, place];
-  defence.players[7].currentPOS = [
+  common.setPlayerXY(defence.players[5], pitchWidth - 20, place);
+  common.setPlayerXY(
+    defence.players[7],
     pitchWidth - 30,
     common.upToMax(place + 5, pitchHeight),
-  ];
-  defence.players[8].currentPOS = [
+  );
+  common.setPlayerXY(
+    defence.players[8],
     pitchWidth - 25,
     common.upToMin(place - 15, 0),
-  ];
-  defence.players[9].currentPOS = [
+  );
+  common.setPlayerXY(
+    defence.players[9],
     pitchWidth - 10,
     common.upToMin(place - 30, 0),
-  ];
+  );
 }
 
 function setBottomGoalKick(matchDetails: MatchDetails): MatchDetails {
@@ -446,7 +475,7 @@ function setBallSpecificGoalKickValue(
 ): void {
   const ballPos = matchDetails.ball.position;
 
-  attack.players[0].currentPOS = [ballPos[0], ballPos[1]];
+  common.setPlayerXY(attack.players[0], ballPos[0], ballPos[1]);
   attack.players[0].hasBall = true;
   matchDetails.ball.lastTouch.playerName = attack.players[0].name;
   matchDetails.ball.lastTouch.playerID = attack.players[0].playerID;
@@ -601,7 +630,7 @@ function setTopPenalty(matchDetails: MatchDetails): MatchDetails {
     common.round(pitchHeight / 17.5, 0),
   ];
 
-  defence.players[0].currentPOS = [...defence.players[0].originPOS];
+  common.setPlayerPos(defence.players[0], [...defence.players[0].originPOS]);
   setPlayerPenaltyPositions(tempArray, attack, defence);
   setBallSpecificPenaltyValue(matchDetails, shootArray, attack);
   matchDetails.ball.direction = `north`;
@@ -634,7 +663,7 @@ function setBottomPenalty(matchDetails: MatchDetails): MatchDetails {
     pitchHeight - common.round(pitchHeight / 17.5, 0),
   ];
 
-  defence.players[0].currentPOS = [...defence.players[0].originPOS];
+  common.setPlayerPos(defence.players[0], [...defence.players[0].originPOS]);
   setPlayerPenaltyPositions(tempArray, attack, defence);
   setBallSpecificPenaltyValue(matchDetails, shootArray, attack);
   matchDetails.ball.direction = `south`;
@@ -656,15 +685,20 @@ function setPlayerPenaltyPositions(
   for (const num of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
     if (num !== 10) {
       if (attack.players[num].currentPOS[0] !== 'NP') {
-        attack.players[num].currentPOS = [
+        common.setPlayerXY(
+          attack.players[num],
           tempArray[0] + teamxpos,
           tempArray[1],
-        ];
+        );
       }
     }
 
     if (defence.players[num].currentPOS[0] !== 'NP') {
-      defence.players[num].currentPOS = [tempArray[0] + oppxpos, tempArray[1]];
+      common.setPlayerXY(
+        defence.players[num],
+        tempArray[0] + oppxpos,
+        tempArray[1],
+      );
     }
 
     oppxpos += 2;
@@ -677,8 +711,8 @@ function setBallSpecificPenaltyValue(
   shootArray: [number, number],
   attack: Team,
 ): void {
-  attack.players[0].currentPOS = [...attack.players[0].originPOS];
-  attack.players[10].currentPOS = [...shootArray];
+  common.setPlayerPos(attack.players[0], [...attack.players[0].originPOS]);
+  common.setPlayerPos(attack.players[10], [...shootArray]);
   attack.players[10].hasBall = true;
   attack.players[10].action = `penalty`;
   matchDetails.ball.lastTouch.playerName = attack.players[10].name;
@@ -769,10 +803,11 @@ function setBallSpecificGoalScoreValue(
   const playerWithBall = common.getRandomNumber(9, 10);
   const waitingPlayer = playerWithBall === 9 ? 10 : 9;
 
-  conceedingTeam.players[playerWithBall].currentPOS = [
+  common.setPlayerXY(
+    conceedingTeam.players[playerWithBall],
     matchDetails.ball.position[0],
     matchDetails.ball.position[1],
-  ];
+  );
   conceedingTeam.players[playerWithBall].hasBall = true;
   matchDetails.ball.lastTouch.playerName =
     conceedingTeam.players[playerWithBall].name;
@@ -781,10 +816,11 @@ function setBallSpecificGoalScoreValue(
   matchDetails.ball.lastTouch.teamID = conceedingTeam.teamID;
   matchDetails.ball.Player = conceedingTeam.players[playerWithBall].playerID;
 
-  conceedingTeam.players[waitingPlayer].currentPOS = [
+  common.setPlayerXY(
+    conceedingTeam.players[waitingPlayer],
     matchDetails.ball.position[0] + 20,
     matchDetails.ball.position[1],
-  ];
+  );
 }
 
 function keepInBoundaries(
@@ -802,14 +838,22 @@ function setPlayerPositions(
 ): void {
   for (const thisPlayer of team.players) {
     if (thisPlayer.position === `GK`) {
-      thisPlayer.currentPOS = [...thisPlayer.originPOS];
+      common.setPlayerPos(thisPlayer, [...thisPlayer.originPOS]);
     } else {
-      thisPlayer.currentPOS[0] = thisPlayer.originPOS[0];
-      thisPlayer.currentPOS[1] = thisPlayer.originPOS[1];
+      common.setPlayerXY(
+        thisPlayer,
+        thisPlayer.originPOS[0],
+        thisPlayer.currentPOS[1],
+      );
+      common.setPlayerXY(
+        thisPlayer,
+        thisPlayer.currentPOS[0],
+        thisPlayer.originPOS[1],
+      );
       const playerPos = thisPlayer.currentPOS[1] + extra;
 
       if (common.isBetween(playerPos, -1, matchDetails.pitchSize[1] + 1)) {
-        thisPlayer.currentPOS[1] = playerPos;
+        common.setPlayerXY(thisPlayer, thisPlayer.currentPOS[0], playerPos);
       }
 
       thisPlayer.intentPOS = [thisPlayer.originPOS[0], playerPos];
@@ -835,7 +879,7 @@ function switchSide(matchDetails: MatchDetails, team: Team): MatchDetails {
 
     thisPlayer.originPOS[1] =
       matchDetails.pitchSize[1] - thisPlayer.originPOS[1];
-    thisPlayer.currentPOS = [...thisPlayer.originPOS];
+    common.setPlayerPos(thisPlayer, [...thisPlayer.originPOS]);
     thisPlayer.intentPOS = [...thisPlayer.originPOS];
     thisPlayer.fitness =
       thisPlayer.fitness < 51 ? common.round(thisPlayer.fitness + 50, 2) : 100;

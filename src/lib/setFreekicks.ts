@@ -34,22 +34,22 @@ function setOneHundredYPos(
   for (const player of attack.players) {
     if (player.position === 'GK') {
       // Explicit tuple assignment for [number, number]
-      player.currentPOS = [ball.position[0], ball.position[1]];
+      common.setPlayerXY(player, ball.position[0], ball.position[1]);
     } else {
-      player.currentPOS = [player.originPOS[0], player.originPOS[1]];
+      common.setPlayerXY(player, player.originPOS[0], player.originPOS[1]);
     }
   }
 
   // Position defensive players with a 100-unit buffer from their origin
   for (const player of defence.players) {
     if (player.position === 'GK') {
-      player.currentPOS = [player.originPOS[0], player.originPOS[1]];
+      common.setPlayerXY(player, player.originPOS[0], player.originPOS[1]);
     } else {
       const newY = isTop
         ? common.upToMin(player.originPOS[1] - 100, 0) // Push toward Top goal
         : common.upToMax(player.originPOS[1] + 100, pitchHeight); // Push toward Bottom goal
 
-      player.currentPOS = [player.originPOS[0], newY];
+      common.setPlayerXY(player, player.originPOS[0], newY);
     }
   }
 
@@ -89,18 +89,20 @@ function setHalfwayToOppositeQtrYPos(
 
   // 1. Set Ball Direction based on position relative to centre
   ball.direction = getBallDirection(ball.position[0], pitchWidth, isTop);
-  kickPlayer.currentPOS = [ball.position[0], ball.position[1]];
+  common.setPlayerXY(kickPlayer, ball.position[0], ball.position[1]);
 
   // 2. Position Attacking Team
   attack.players.forEach((player) => {
     if (player.position === 'GK') {
       const gkY = isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
 
-      player.currentPOS = [player.originPOS[0], Math.floor(gkY)];
+      common.setPlayerXY(player, player.originPOS[0], Math.floor(gkY));
     } else if (player.name !== kickPlayer.name) {
-      player.currentPOS[0] = player.originPOS[0];
-      player.currentPOS[1] = Math.floor(
-        calculateAttackerY(player, ball, pitchHeight, isTop),
+      common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
+      common.setPlayerXY(
+        player,
+        player.currentPOS[0],
+        Math.floor(calculateAttackerY(player, ball, pitchHeight, isTop)),
       );
     }
   });
@@ -108,15 +110,15 @@ function setHalfwayToOppositeQtrYPos(
   // 3. Position Defending Team
   defence.players.forEach((player) => {
     if (['GK', 'CB', 'LB', 'RB'].includes(player.position)) {
-      player.currentPOS = [...player.originPOS];
+      common.setPlayerPos(player, [...player.originPOS]);
     } else {
       const wallY = isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
       const targetY = ['CM', 'LM', 'RM'].includes(player.position)
         ? wallY
         : pitchHeight * 0.5;
 
-      player.currentPOS[0] = player.originPOS[0];
-      player.currentPOS[1] = Math.floor(targetY);
+      common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
+      common.setPlayerXY(player, player.currentPOS[0], Math.floor(targetY));
     }
   });
 
@@ -209,7 +211,7 @@ function setDeepFreekickBallAndKicker(
       : 'west';
   const [ballX, ballY] = ball.position;
 
-  kickPlayer.currentPOS = [ballX, ballY];
+  common.setPlayerXY(kickPlayer, ballX, ballY);
 }
 
 function initializeKickerAndBall(

@@ -2,6 +2,7 @@ import { expect, it, describe } from 'vitest';
 
 import * as actions from '../lib/actions.js';
 import { createPlayer } from '../lib/ballMovement.js';
+import * as common from '../lib/common.js';
 import type { Player } from '../lib/types.js';
 
 import { readMatchDetails } from './lib/utils.js';
@@ -743,7 +744,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    player.currentPOS[1] = 23;
+    common.setPlayerXY(player, player.currentPOS[0], 23);
 
     matchDetails.ball.position[1] = 23;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -779,7 +780,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    player.currentPOS[1] = 105;
+    common.setPlayerXY(player, player.currentPOS[0], 105);
     if (player.currentPOS[0] === 'NP') {
       throw new Error('PLayer no position');
     }
@@ -802,7 +803,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    player.currentPOS[1] = 105;
+    common.setPlayerXY(player, player.currentPOS[0], 105);
     if (player.currentPOS[0] === 'NP') {
       throw new Error('PLayer no position');
     }
@@ -825,7 +826,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    player.currentPOS[1] = 105;
+    common.setPlayerXY(player, player.currentPOS[0], 105);
     if (player.currentPOS[0] === 'NP') {
       throw new Error('PLayer no position');
     }
@@ -833,7 +834,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
     player.skill.shooting = 3;
 
-    matchDetails.kickOffTeam.players[1].currentPOS = [382, 100];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[1], 382, 100);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -850,7 +851,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[1], 382, 28);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -869,7 +870,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 60;
 
-    matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[1], 382, 28);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -886,9 +887,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.secondTeam.players[8].currentPOS = [379, 40];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 40);
 
-    matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[1], 382, 28);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -907,7 +908,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const opposition = matchDetails.kickOffTeam;
     player.skill.shooting = 20;
 
-    matchDetails.kickOffTeam.players[1].currentPOS = [382, 28];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[1], 382, 28);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -924,7 +925,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.secondTeam.players[8].currentPOS = [379, 40];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 40);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -941,7 +942,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.secondTeam.players[8].currentPOS = [379, 40];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 40);
 
     player.skill.shooting = 45;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -960,7 +961,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.secondTeam.players[8].currentPOS = [379, 40];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 40);
 
     player.skill.shooting = 5;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -979,9 +980,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
-    matchDetails.secondTeam.players[8].currentPOS = [379, 27];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 27);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,
@@ -998,9 +999,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
-    matchDetails.secondTeam.players[8].currentPOS = [379, 27];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 27);
 
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -1019,9 +1020,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
-    matchDetails.secondTeam.players[8].currentPOS = [379, 27];
+    common.setPlayerXY(matchDetails.secondTeam.players[8], 379, 27);
 
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -1040,7 +1041,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
     player.skill.shooting = 80;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -1059,7 +1060,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
     player.skill.shooting = 35;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
@@ -1078,7 +1079,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const player = matchDetails.secondTeam.players[9];
     const team = matchDetails.secondTeam;
     const opposition = matchDetails.kickOffTeam;
-    matchDetails.kickOffTeam.players[0].currentPOS = [395, 8];
+    common.setPlayerXY(matchDetails.kickOffTeam.players[0], 395, 8);
 
     player.skill.shooting = 2;
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
