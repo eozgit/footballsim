@@ -1,4 +1,4 @@
-import type { BallPosition, MatchDetails, Player } from './types.js';
+import type { Ball, BallPosition, MatchDetails, Player } from './types.js';
 
 //-------------------------
 // Seedable RNG (Mulberry32)
@@ -215,12 +215,41 @@ function removeBallFromAllPlayers(matchDetails: MatchDetails): void {
  * Uses Object.defineProperty to bypass runtime 'writable: false' constraints.
  */
 function setPlayerXY(player: Player, x: number | 'NP', y: number): void {
-  Object.defineProperty(player, 'currentPOS', {
-    value: [x, y],
-    writable: true,
-    enumerable: true,
-    configurable: true,
-  });
+  safeSet(player, 'currentPOS', [x, y]);
+}
+
+/**
+ * Safely updates the ball's position.
+ * Bypasses readonly constraints using Object.defineProperty to ensure
+ * compatibility with frozen objects in test environments.
+ */
+function setBallPosition(ball: Ball, x: number, y: number, z?: number): void {
+  const newPos: BallPosition = z !== undefined ? [x, y, z] : [x, y];
+
+  safeSet(ball, 'position', newPos);
+}
+
+/**
+ * Internal helper to bypass readonly constraints and avoid
+ * Firefox 'redefine non-configurable' errors.
+ */
+function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+  const descriptor = Object.getOwnPropertyDescriptor(obj, key);
+
+  if (descriptor && descriptor.writable) {
+    /** * We cast to a version of T where the specific key is NOT readonly.
+     * This bypasses the 'readonly' error without using 'any' or 'unknown',
+     * which stops the linter from "fixing" it into a broken state.
+     */
+    (obj as { -readonly [P in K]: T[P] })[key] = value;
+  } else {
+    Object.defineProperty(obj, key, {
+      value,
+      writable: true,
+      enumerable: true,
+      configurable: true,
+    });
+  }
 }
 
 /**
@@ -232,31 +261,6 @@ function setPlayerPos(
 ): void {
   // We call our internal XY setter to keep the 'any' cast in one place
   setPlayerXY(player, pos[0], pos[1]);
-}
-
-/**
- * Safely updates the ball's position.
- * Bypasses readonly constraints using Object.defineProperty to ensure
- * compatibility with frozen objects in test environments.
- */
-function setBallPosition(
-  ball: { position: BallPosition },
-  x: number,
-  y: number,
-  z?: number,
-): void {
-  const newPos = [x, y];
-
-  if (z !== undefined) {
-    newPos.push(z);
-  }
-
-  Object.defineProperty(ball, 'position', {
-    value: newPos,
-    writable: true,
-    enumerable: true,
-    configurable: true,
-  });
 }
 
 function debug(label: string, ...args: unknown[]): void {
@@ -278,11 +282,11 @@ export {
   isOdd,
   removeBallFromAllPlayers,
   round,
+  setBallPosition,
   setMatchSeed,
+  setPlayerPos,
+  setPlayerXY,
   sumFrom1toX,
   upToMax,
   upToMin,
-  setPlayerPos,
-  setPlayerXY,
-  setBallPosition,
 };

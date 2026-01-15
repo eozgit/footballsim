@@ -140,31 +140,32 @@ function completeTackleWhenCloseNoBall(
 
 function completeMovement(
   matchDetails: MatchDetails,
-  player: Player, // Pass the full player object
+  player: Player,
   move: number[],
 ) {
   const { currentPOS } = player;
 
-  if (currentPOS[0] !== 'NP') {
-    const intendedMovementX = currentPOS[0] + move[0];
-    const intendedMovementY = currentPOS[1] + move[1];
-
-    if (
-      intendedMovementX < matchDetails.pitchSize[0] + 1 &&
-      intendedMovementX > -1
-    ) {
-      // Use the actual player object and absolute coordinates
-      common.setPlayerXY(player, intendedMovementX, currentPOS[1]);
-    }
-
-    if (
-      intendedMovementY < matchDetails.pitchSize[1] + 1 &&
-      intendedMovementY > -1
-    ) {
-      // Use the actual player object and absolute coordinates
-      common.setPlayerXY(player, player.currentPOS[0], intendedMovementY);
-    }
+  if (currentPOS[0] === 'NP') {
+    return currentPOS;
   }
+
+  let [newX, newY] = currentPOS;
+  const [dx, dy] = move;
+
+  const targetX = (newX as number) + dx;
+  const targetY = newY + dy;
+
+  // Validate bounds
+  if (targetX < matchDetails.pitchSize[0] + 1 && targetX > -1) {
+    newX = targetX;
+  }
+
+  if (targetY < matchDetails.pitchSize[1] + 1 && targetY > -1) {
+    newY = targetY;
+  }
+
+  // SINGLE update
+  common.setPlayerXY(player, newX, newY);
 
   return player.currentPOS;
 }
