@@ -3,12 +3,15 @@ import globals from 'globals';
 import importPlugin from 'eslint-plugin-import';
 import tseslint from 'typescript-eslint';
 import unusedImports from 'eslint-plugin-unused-imports';
+import sonarjs from 'eslint-plugin-sonarjs';
+import unicorn from 'eslint-plugin-unicorn';
 
 export default tseslint.config(
   {
     ignores: ['coverage/**', 'scripts/**', 'dist/**', '.dependency-cruiser.cjs'],
   },
   js.configs.recommended,
+  sonarjs.configs.recommended,
   {
     files: ['src/**/*.ts'],
     extends: [...tseslint.configs.recommendedTypeChecked],
@@ -26,6 +29,22 @@ export default tseslint.config(
       globals: { ...globals.node, ...globals.browser },
     },
     rules: {
+      // --- THE GOOD PARTS: LOGIC SAFETY ---
+      'sonarjs/cognitive-complexity': ['error', 15], // Hard limit on "unreadable" logic
+      'sonarjs/no-duplicate-string': 'warn',
+      'sonarjs/no-identical-functions': 'error',
+
+      // --- THE GOOD PARTS: CLEAN ENGINE ---
+      'complexity': ['error', 10], // Stricter than demo
+      'max-depth': ['error', 3],   // Prevent deep nesting (if/else/loop hell)
+      'max-params': ['error', 4],  // Use objects/interfaces for > 4 params
+
+      // --- MODERN SAFETY (Unicorn) ---
+      'unicorn/no-array-reduce': 'warn', // Prefer for-of for engine performance
+      'unicorn/prefer-module': 'error',
+      'unicorn/no-null': 'warn', // Discourages null, encourages undefined/optional
+      'unicorn/filename-case': ['error', { case: 'camelCase' }],
+
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
@@ -37,8 +56,8 @@ export default tseslint.config(
       '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
+      'import/no-cycle': 'error',
       'import/order': ['error', { 'newlines-between': 'always', alphabetize: { order: 'asc' } }],
-      'complexity': ['warn', 10],
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       'padding-line-between-statements': [
         'error',

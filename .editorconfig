@@ -1,0 +1,16 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+end_of_line = lf           # CHANGED: Use LF for compatibility
+charset = utf-8
+trim_trailing_whitespace = true  # CHANGED: Keep files clean
+insert_final_newline = true     # CHANGED: Standard POSIX practice
+
+[*.{sh,bash}]
+end_of_line = lf           # Double-enforce LF for shell scripts
+
+[*.md]
+trim_trailing_whitespace = false # Markdown needs spaces for line breaks

@@ -75,6 +75,8 @@
     "dependency-cruiser": "^17.3.5",
     "eslint": "^9.39.2",
     "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-unused-imports": "^4.3.0",
     "express": "^5.2.1",
     "glob": "^13.0.0",
@@ -93,7 +95,7 @@
     "typescript-eslint": "^8.51.0",
     "vitest": "^4.0.16"
   },
-"lint-staged": {
+  "lint-staged": {
     "**/*.{ts,js}": [
       "eslint --fix",
       "prettier --write"
