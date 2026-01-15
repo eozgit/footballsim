@@ -746,7 +746,9 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
     const opposition = matchDetails.kickOffTeam;
     common.setPlayerXY(player, player.currentPOS[0], 23);
 
-    matchDetails.ball.position[1] = 23;
+    const { ball } = matchDetails;
+    const [bx, _, bz] = ball.position;
+    common.setBallPosition(ball, bx, 23, bz);
     const parameters = actions.bottomTeamPlayerHasBallInTopPenaltyBox(
       matchDetails,
       player,

@@ -117,7 +117,7 @@ function executePlayerMovement(
   ctx: { x: number; y: number },
 ): [number, number] {
   const move = getMovement(player, action, opp, ctx.x, ctx.y, matchDetails);
-  const newPos = completeMovement(matchDetails, player.currentPOS, move);
+  const newPos = completeMovement(matchDetails, player, move);
   const [newX, newY] = newPos;
 
   if (newX === 'NP') {

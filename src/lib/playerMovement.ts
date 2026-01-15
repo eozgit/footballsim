@@ -140,9 +140,11 @@ function completeTackleWhenCloseNoBall(
 
 function completeMovement(
   matchDetails: MatchDetails,
-  currentPOS: readonly [number | 'NP', number],
+  player: Player, // Pass the full player object
   move: number[],
 ) {
+  const { currentPOS } = player;
+
   if (currentPOS[0] !== 'NP') {
     const intendedMovementX = currentPOS[0] + move[0];
     const intendedMovementY = currentPOS[1] + move[1];
@@ -151,18 +153,20 @@ function completeMovement(
       intendedMovementX < matchDetails.pitchSize[0] + 1 &&
       intendedMovementX > -1
     ) {
-      currentPOS[0] += move[0];
+      // Use the actual player object and absolute coordinates
+      common.setPlayerXY(player, intendedMovementX, currentPOS[1]);
     }
 
     if (
       intendedMovementY < matchDetails.pitchSize[1] + 1 &&
       intendedMovementY > -1
     ) {
-      currentPOS[1] += move[1];
+      // Use the actual player object and absolute coordinates
+      common.setPlayerXY(player, player.currentPOS[0], intendedMovementY);
     }
   }
 
-  return currentPOS;
+  return player.currentPOS;
 }
 
 function closestPlayerActionBallX(ballToPlayerX: number) {
@@ -237,7 +241,10 @@ function updateInformation(
 
   matchDetails.ball.position = [posX, posY];
 
-  matchDetails.ball.position[2] = 0;
+  const { ball } = matchDetails;
+  const [bx, by] = ball.position;
+
+  common.setBallPosition(ball, bx, by, 0);
 }
 
 function getMovement(

@@ -775,6 +775,7 @@ function setPostTacklePosition(
     const { ball } = matchDetails;
     const [bx, _, bz] = ball.position;
     const by = common.upToMin(matchDetails.ball.position[1] - increment, 0);
+
     common.setBallPosition(ball, bx, by, bz);
     common.setPlayerXY(
       winningPlyr,
@@ -793,6 +794,7 @@ function setPostTacklePosition(
       matchDetails.ball.position[1] + increment,
       pitchHeight,
     );
+
     common.setBallPosition(ball, bx, by, bz);
     common.setPlayerXY(
       winningPlyr,

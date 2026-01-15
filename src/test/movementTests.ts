@@ -253,7 +253,7 @@ describe('getMovement()', function () {
       './src/test/input/getMovement/matchDetails1.json',
     );
     const player = matchDetails.secondTeam.players[4];
-    player.currentPOS[1] += 2;
+    common.setPlayerXY(player, player.currentPOS[0], player.currentPOS[1] + 2);
     const opposition = matchDetails.kickOffTeam;
     const movement = pMovement.getMovement(
       player,

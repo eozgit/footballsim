@@ -131,7 +131,9 @@ describe('checkOffside()', function () {
     const opposition = matchDetails.kickOffTeam;
     common.setPlayerXY(team.players[9], team.players[9].currentPOS[0], 121);
 
-    matchDetails.ball.position[1] = 121;
+    const { ball } = matchDetails;
+    const [bx, _, bz] = ball.position;
+    common.setBallPosition(ball, bx, 121, bz);
 
     common.setPlayerXY(team.players[10], 400, 57);
 

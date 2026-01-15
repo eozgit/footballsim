@@ -235,16 +235,6 @@ function setPlayerPos(
 }
 
 /**
- * Relative movement utility
- */
-function movePlayer(player: Player, dx: number, dy: number): void {
-  const [x, y] = player.currentPOS;
-
-  if (x !== 'NP') {
-    setPlayerXY(player, x + dx, y + dy);
-  }
-}
-/**
  * Safely updates the ball's position.
  * Bypasses readonly constraints using Object.defineProperty to ensure
  * compatibility with frozen objects in test environments.
@@ -255,16 +245,20 @@ function setBallPosition(
   y: number,
   z?: number,
 ): void {
-  const newPos: any = [x, y];
-  if (z !== undefined) newPos.push(z);
+  const newPos = [x, y];
+
+  if (z !== undefined) {
+    newPos.push(z);
+  }
 
   Object.defineProperty(ball, 'position', {
-    value: newPos as BallPosition,
+    value: newPos,
     writable: true,
     enumerable: true,
     configurable: true,
   });
 }
+
 function debug(label: string, ...args: unknown[]): void {
   console.log(`[DEBUG:${label}]`, ...args);
 }
@@ -290,6 +284,5 @@ export {
   upToMin,
   setPlayerPos,
   setPlayerXY,
-  movePlayer,
   setBallPosition,
 };
