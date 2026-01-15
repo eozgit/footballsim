@@ -236,13 +236,22 @@ function setBallPosition(ball: Ball, x: number, y: number, z?: number): void {
 function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key);
 
-  if (descriptor && descriptor.writable) {
-    /** * We cast to a version of T where the specific key is NOT readonly.
-     * This bypasses the 'readonly' error without using 'any' or 'unknown',
-     * which stops the linter from "fixing" it into a broken state.
-     */
-    (obj as { -readonly [P in K]: T[P] })[key] = value;
+  // If the property exists, just use standard assignment.
+  // We MUST avoid Object.defineProperty if the property is already there.
+  if (descriptor) {
+    try {
+      (obj as { -readonly [P in K]: T[P] })[key] = value;
+    } catch (e) {
+      // If assignment fails, only THEN attempt defineProperty as a last resort
+      Object.defineProperty(obj, key, {
+        value,
+        writable: true,
+        enumerable: true,
+        configurable: true,
+      });
+    }
   } else {
+    // First time definition: ensure it is configurable and writable
     Object.defineProperty(obj, key, {
       value,
       writable: true,
