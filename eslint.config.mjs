@@ -82,6 +82,38 @@ export default tseslint.config(
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'always', prev: 'block-like', next: '*' },
       ],
+      // Add this to your rules block
+      'no-restricted-syntax': [
+        'error',
+        // 1. Ban for..in (Iterates over prototypes, slow, often causes bugs)
+        {
+          selector: 'ForInStatement',
+          message: 'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
+        },
+        // 2. Ban Labels/GOTO (Makes execution flow unpredictable)
+        {
+          selector: 'LabeledStatement',
+          message: 'Labels are GOTO in disguise. Refactor logic into smaller, pure functions.',
+        },
+        // 3. Ban Sequence Expressions (The comma operator: a, b, c)
+        // This prevents: return x++, y++, z; (which is a nightmare to debug)
+        {
+          selector: 'SequenceExpression',
+          message: 'The comma operator is confusing and obscures return values. Use multiple statements.',
+        },
+        // 4. Ban TypeScript Enums (Optional but Recommended for WinterCG)
+        // Enums have weird runtime behavior. Const objects + Union types are safer.
+        {
+          selector: 'TSEnumDeclaration',
+          message: 'Use const objects with "as const" or union types instead of Enums.',
+        },
+        // 5. Ban Class Private Fields (Optional)
+        // Unless you really need #private, standard private/protected is better for sim-engines.
+        {
+          selector: 'PropertyDefinition[accessible="private"]',
+          message: 'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
+        },
+      ],
     },
   },
   {
