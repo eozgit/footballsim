@@ -584,11 +584,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `cleared`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'cleared'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -614,11 +611,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `boot`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'boot'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -644,11 +638,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `pass`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'pass'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -679,11 +670,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `cross`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'cross'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -714,11 +702,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `throughBall`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'throughBall'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -744,11 +729,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `shoot`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'shoot'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);
@@ -774,11 +756,8 @@ describe('misc()', function () {
     const opp = matchDetails.secondTeam;
 
     pMovement.handleBallPlayerActions(
-      matchDetails,
-      thisPlayer,
-      team,
-      opp,
-      `penalty`,
+      { matchDetails, player: thisPlayer, team, opp },
+      'penalty'
     );
 
     expect(matchDetails.ball.withPlayer).to.eql(false);

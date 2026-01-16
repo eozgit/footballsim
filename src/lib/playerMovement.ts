@@ -4,7 +4,7 @@ import * as common from './common.js';
 import * as setPositions from './setPositions.js';
 import { initStats } from './setVariables.js';
 import { processTeamTactics } from './teamAi.js';
-import type { BallPosition, MatchDetails, Player, Team } from './types.js';
+import type { ActionContext, BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function decideMovement(
   closestPlayer: { name: string; position: number },
@@ -198,12 +198,11 @@ function checkProvidedAction(
 }
 
 function handleBallPlayerActions(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  team: Team,
-  opp: Team,
+  ctx: ActionContext,
   action: string,
 ): void {
+  const { matchDetails, player: thisPlayer, team, opp } = ctx;
+
   return executeActiveBallAction(matchDetails, thisPlayer, team, opp, action);
 }
 

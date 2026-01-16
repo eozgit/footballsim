@@ -60,7 +60,10 @@ function processTeamTactics(
     resolveBallInteractions(player, team, opp, matchDetails, action);
 
     if (player.hasBall) {
-      handleBallPlayerActions(matchDetails, player, team, opp, action);
+      handleBallPlayerActions(
+        { matchDetails, player, team, opp },
+        action
+      );
     }
   }
 
