@@ -32,12 +32,9 @@ import type {
  * * Logic preserved: Validates positions, checks for penalty box proximity,
  * and delegates to specific handlers for penalty box vs open play.
  */
-function getAttackingIntentWeights(
-  matchDetails: MatchDetails,
-  player: Player,
-  team: Team,
-  opposition: Team,
-): MatchEventWeights {
+function getAttackingIntentWeights(ctx: ActionContext): MatchEventWeights {
+  const { matchDetails, player, team, opp: opposition } = ctx;
+
   const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -323,7 +320,7 @@ function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
   }
 
   if (checkPositionInBottomPenaltyBox(pos, pitchWidth, pitchHeight)) {
-    return getAttackingIntentWeights(matchDetails, player, team, opposition);
+    return getAttackingIntentWeights({ matchDetails, player, team, opp: opposition });
   }
 
   // 2. Vertical Zone Delegation

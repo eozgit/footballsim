@@ -85,7 +85,7 @@ function topTeamPlayerHasBallInBottomPenaltyBox(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  return getAttackingIntentWeights(matchDetails, player, team, opposition);
+  return getAttackingIntentWeights({ matchDetails, player, team, opp: opposition });
 }
 
 function bottomTeamPlayerHasBall(
