@@ -34,7 +34,7 @@ function selectAction(
   // If the linter knows it can't be null, simplify to a truthiness check 
   // or check specifically for undefined.
   if (!goodActions[0]) {
-    return 'wait';
+    return 'run';
   }
 
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];

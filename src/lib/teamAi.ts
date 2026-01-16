@@ -87,9 +87,13 @@ function determinePlayerAction(
     matchDetails,
   );
 
-  let action = actions.selectAction(possibleActions);
+  // 1. Get the new intended action from the AI weights
+  const aiAction = actions.selectAction(possibleActions);
 
-  action = checkProvidedAction(matchDetails, player, action);
+  // 2. Pass the NEW aiAction into the validator.
+  // This ensures the validator checks if the NEW intent is legal, 
+  // rather than checking the player's previous state.
+  let action = checkProvidedAction(matchDetails, player, aiAction);
 
   const isClosestDefender =
     matchDetails.ball.withTeam &&
@@ -106,6 +110,22 @@ function determinePlayerAction(
   }
 
   return action;
+}
+
+/**
+ * Updated helper to ensure the validator treats the newly 
+ * selected action as the state to be verified.
+ */
+function checkProvidedAction(
+  matchDetails: MatchDetails,
+  thisPlayer: Player,
+  newAction: string,
+): string {
+  return actions.validateAndResolvePlayerAction(
+    matchDetails,
+    thisPlayer,
+    newAction, // We pass the new choice as the fallback
+  );
 }
 
 /**

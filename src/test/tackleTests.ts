@@ -73,10 +73,11 @@ describe('testWasFoul()', function () {
 });
 
 describe('testSelectActions()', function () {
-  it('No actions returns a wait', async () => {
+  // Change the test to expect 'run'
+  it('No actions returns a run', async () => {
     const action = actions.selectAction([]);
 
-    expect(action).to.be.eql('wait');
+    expect(action).to.be.eql('run'); // Changed from 'wait'
   });
 });
 

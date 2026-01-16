@@ -263,30 +263,34 @@ function setBallPosition(ball: Ball, x: number, y: number, z?: number): void {
 function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key);
 
-  // If the property exists, just use standard assignment.
-  // We MUST avoid Object.defineProperty if the property is already there.
-  if (descriptor) {
+  const objUnknown = obj as unknown;
+
+  // If the property is non-configurable, we CANNOT use defineProperty.
+  // We must hope a forced assignment works, or mutate the internal reference.
+  if (descriptor && descriptor.configurable === false) {
     try {
-      (obj as { -readonly [P in K]: T[P] })[key] = value;
-    } catch (error) {
-      console.debug(`Standard assignment failed for ${String(key)}, falling back to defineProperty.`, error);
-      // If assignment fails, only THEN attempt defineProperty as a last resort
-      Object.defineProperty(obj, key, {
-        value,
-        writable: true,
-        enumerable: true,
-        configurable: true,
-      });
+      objUnknown[key] = value;
+    } catch {
+      // If it's a non-configurable array, mutate its contents instead
+      if (Array.isArray(objUnknown[key]) && Array.isArray(value)) {
+        const target = objUnknown[key];
+
+        value.forEach((val, i) => { target[i] = val; });
+      } else {
+        console.error(`Property ${String(key)} is locked (non-configurable).`);
+      }
     }
-  } else {
-    // First time definition: ensure it is configurable and writable
-    Object.defineProperty(obj, key, {
-      value,
-      writable: true,
-      enumerable: true,
-      configurable: true,
-    });
+
+    return;
   }
+
+  // If it IS configurable, or doesn't exist yet, use the standard logic
+  Object.defineProperty(obj, key, {
+    value,
+    writable: true,
+    enumerable: true,
+    configurable: true,
+  });
 }
 
 /**

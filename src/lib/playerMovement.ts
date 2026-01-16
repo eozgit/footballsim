@@ -142,30 +142,23 @@ function completeMovement(
 ): readonly [number, number] {
   const { currentPOS } = player;
 
-
-  const newXY = common.destructPos(currentPOS);
-
-  let [newX, newY] = newXY;
+  const [oldX, oldY] = common.destructPos(currentPOS);
 
   const [dx, dy] = move;
 
-  const targetX = (newX) + dx;
+  let newX = oldX + dx;
 
-  const targetY = newY + dy;
+  let newY = oldY + dy;
 
-  // Validate bounds
-  if (targetX < matchDetails.pitchSize[0] + 1 && targetX > -1) {
-    newX = targetX;
-  }
+  // Validate bounds (Correcting the logic to use the new values)
+  if (newX > matchDetails.pitchSize[0] || newX < 0) { newX = oldX; }
 
-  if (targetY < matchDetails.pitchSize[1] + 1 && targetY > -1) {
-    newY = targetY;
-  }
+  if (newY > matchDetails.pitchSize[1] || newY < 0) { newY = oldY; }
 
-  // SINGLE update
+  // Apply the update
   common.setPlayerXY(player, newX, newY);
 
-  return newXY;
+  return [newX, newY];
 }
 
 function closestPlayerActionBallX(ballToPlayerX: number): number {
