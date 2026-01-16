@@ -117,7 +117,18 @@ type PlayerProximityDetails = ProximityContext & {
   thePlayer?: Player;
   proxToBall?: number;
 };
-
+interface MatchContext {
+  matchDetails: MatchDetails;
+  team: Team;
+  opp: Team;
+}
+interface ActionContext extends MatchContext {
+  player: Player;
+}
+interface BallContext {
+  matchDetails: MatchDetails;
+  ball: BallPosition; // Consolidated ballX, ballY, and ball state
+}
 export {
   MatchDetails,
   Ball,
@@ -134,4 +145,7 @@ export {
   BallPosition,
   ProximityContext,
   PlayerProximityDetails,
+  MatchContext,
+  ActionContext,
+  BallContext,
 };

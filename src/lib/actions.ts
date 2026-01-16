@@ -8,6 +8,7 @@ import {
   handleBottomDefensiveThirdIntent,
   handleBottomGKIntent,
 } from './intentLogic.js';
+import { getPlayerTeam } from './playerSelectors.js';
 import * as setPositions from './setPositions.js';
 import type {
   BallPosition,
@@ -31,7 +32,7 @@ function selectAction(
     goodActions = goodActions.concat(tempArray);
   }
 
-  // If the linter knows it can't be null, simplify to a truthiness check 
+  // If the linter knows it can't be null, simplify to a truthiness check
   // or check specifically for undefined.
   if (!goodActions[0]) {
     return 'run';
@@ -42,12 +43,12 @@ function selectAction(
 
 function findPossActions(
   player: Player,
-  team: Team,
-  opposition: Team,
-  ballX: number, // Changed from any
-  ballY: number, // Changed from any
   matchDetails: MatchDetails,
 ): { name: string; points: number; }[] {
+  const { team, opp: opposition } = getPlayerTeam(player, matchDetails);
+
+  const [ballX, ballY] = matchDetails.ball.position;
+
   const possibleActions: { name: string; points: number }[] =
     populateActionsJSON();
 

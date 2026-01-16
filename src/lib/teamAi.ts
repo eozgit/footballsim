@@ -80,10 +80,6 @@ function determinePlayerAction(
 ): string {
   const possibleActions = actions.findPossActions(
     player,
-    team,
-    opp,
-    ctx.x,
-    ctx.y,
     matchDetails,
   );
 
@@ -91,7 +87,7 @@ function determinePlayerAction(
   const aiAction = actions.selectAction(possibleActions);
 
   // 2. Pass the NEW aiAction into the validator.
-  // This ensures the validator checks if the NEW intent is legal, 
+  // This ensures the validator checks if the NEW intent is legal,
   // rather than checking the player's previous state.
   let action = checkProvidedAction(matchDetails, player, aiAction);
 
@@ -113,7 +109,7 @@ function determinePlayerAction(
 }
 
 /**
- * Updated helper to ensure the validator treats the newly 
+ * Updated helper to ensure the validator treats the newly
  * selected action as the state to be verified.
  */
 function checkProvidedAction(

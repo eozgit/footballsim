@@ -1,5 +1,6 @@
 import type { PlayerWithProximity } from './ballMovement.js';
 import * as common from './common.js';
+import type { Player, MatchDetails, Team } from './types.js';
 
 
 
@@ -51,6 +52,15 @@ function resolveBestPassOption(
   compareAndRefreshSelection();
 
   return bestPlayer;
+}
+
+export function getPlayerTeam(player: Player, matchDetails: MatchDetails): { team: Team; opp: Team } {
+  const isKickOff = matchDetails.kickOffTeam.players.some(p => p.playerID === player.playerID);
+
+  return {
+    team: isKickOff ? matchDetails.kickOffTeam : matchDetails.secondTeam,
+    opp: isKickOff ? matchDetails.secondTeam : matchDetails.kickOffTeam
+  };
 }
 
 export { resolveBestPassOption };

@@ -1153,16 +1153,12 @@ describe('findPossActions()', function () {
 
     const player = matchDetails.secondTeam.players[9];
 
-    const team = matchDetails.secondTeam;
+    // OVERRIDE STATE MANUALLY
+    matchDetails.ball.position = [10, 10];
 
-    const opposition = matchDetails.kickOffTeam;
-
+    // CLEAN CALL: Only pass the essential objects
     const output = actions.findPossActions(
       player,
-      team,
-      opposition,
-      10,
-      10,
       matchDetails,
     );
 
@@ -1188,16 +1184,13 @@ describe('findPossActions()', function () {
 
     const player = matchDetails.secondTeam.players[9];
 
-    const team = matchDetails.secondTeam;
+    // Override the ball position directly in matchDetails
+    // instead of passing 10, 10 as separate arguments
+    matchDetails.ball.position = [10, 10];
 
-    const opposition = matchDetails.kickOffTeam;
-
+    // Clean call: Only pass the essential actor and the world state
     const output = actions.findPossActions(
       player,
-      team,
-      opposition,
-      10,
-      10,
       matchDetails,
     );
 
