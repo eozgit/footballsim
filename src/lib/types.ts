@@ -148,6 +148,20 @@ interface ResolveBoxContext {
     fallback: MatchEventWeights;
   };
 }
+interface AreaBounds {
+  lowX: number;
+  highX: number;
+  lowY: number;
+  highY: number;
+}
+interface InteractionContext extends ActionContext {
+  targetPlayer: Player;
+}
+interface Trajectory {
+  origin: [number, number];
+  target: [number, number];
+  power?: number;
+}
 export {
   MatchDetails,
   Ball,
@@ -168,4 +182,7 @@ export {
   ActionContext,
   BallContext,
   ResolveBoxContext,
+  AreaBounds,
+  InteractionContext,
+  Trajectory,
 };
