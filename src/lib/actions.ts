@@ -76,7 +76,7 @@ function topTeamPlayerHasBall(
   team: Team,
   opposition: Team,
 ): MatchEventWeights {
-  return getPlayerActionWeights(matchDetails, player, team, opposition);
+  return getPlayerActionWeights({ matchDetails, player, team, opp: opposition });
 }
 
 function topTeamPlayerHasBallInBottomPenaltyBox(

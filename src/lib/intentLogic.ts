@@ -23,6 +23,7 @@ import type {
   ProximityContext,
   Skill,
   Team,
+  ActionContext,
 } from './types.js';
 
 /**
@@ -294,12 +295,9 @@ function handleUnderPressureInBox(
   );
 }
 
-function getPlayerActionWeights(
-  matchDetails: MatchDetails,
-  player: Player,
-  team: Team,
-  opposition: Team,
-): MatchEventWeights {
+function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
+  const { matchDetails, player, team, opp: opposition } = ctx;
+
   const { position, currentPOS, skill } = player;
 
   const pos = common.destructPos(currentPOS);
