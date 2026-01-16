@@ -24,6 +24,7 @@ import type {
   Skill,
   Team,
   ActionContext,
+  ResolveBoxContext,
 } from './types.js';
 
 /**
@@ -172,24 +173,20 @@ function getRangeBasedWeights(
 /**
  * Shared logic for choosing between "Pass to Teammate" or "Positional" weights.
  */
-function resolveBoxWeights(
-  tmateProximity: [number, number],
-  yPos: number,
-  halfRange: number,
-  shotRange: number,
-  pitchHeight: number,
-  spaceConfig: [number, number, number, number],
-  spaceWeights: {
-    half: MatchEventWeights;
-    shot: MatchEventWeights;
-    fallback: MatchEventWeights;
-  },
-  defaultWeights: {
-    half: MatchEventWeights;
-    shot: MatchEventWeights;
-    fallback: MatchEventWeights;
-  },
-): MatchEventWeights {
+
+function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
+  const {
+    tmateProximity,
+    yPos,
+    halfRange,
+    shotRange,
+    pitchHeight,
+    spaceConfig,
+    spaceWeights,
+    defaultWeights,
+  } = ctx;
+
+  // ... rest of the function remains exactly the same
   const useSpaceWeights = checkTeamMateSpaceClose(
     tmateProximity,
     ...spaceConfig,
@@ -235,20 +232,20 @@ function handleInPenaltyBox(
   }
 
   // 2. Default box resolution
-  return resolveBoxWeights(
+  return resolveBoxWeights({
     tmateProximity,
-    currentPOS[1],
+    yPos: currentPOS[1], // Mapping original currentPOS[1] to yPos
     halfRange,
     shotRange,
     pitchHeight,
-    [-10, 10, -4, 10],
-    STANDARD_SPACE_WEIGHTS,
-    {
+    spaceConfig: [-10, 10, -4, 10],
+    spaceWeights: STANDARD_SPACE_WEIGHTS,
+    defaultWeights: {
       half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       shot: [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0],
       fallback: [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0],
     },
-  );
+  });
 }
 
 function handleUnderPressureInBox(
@@ -276,20 +273,20 @@ function handleUnderPressureInBox(
   }
 
   // 2. Standard pressure resolution
-  return resolveBoxWeights(
+  return resolveBoxWeights({
     tmateProximity,
     yPos,
     halfRange,
     shotRange,
     pitchHeight,
-    [-10, 10, -4, 10],
-    STANDARD_SPACE_WEIGHTS,
-    {
+    spaceConfig: [-10, 10, -4, 10],
+    spaceWeights: STANDARD_SPACE_WEIGHTS,
+    defaultWeights: {
       half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
       shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
       fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
     },
-  );
+  });
 }
 
 function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {

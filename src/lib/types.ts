@@ -129,6 +129,25 @@ interface BallContext {
   matchDetails: MatchDetails;
   ball: BallPosition; // Consolidated ballX, ballY, and ball state
 }
+
+interface ResolveBoxContext {
+  tmateProximity: [number, number];
+  yPos: number;
+  halfRange: number;
+  shotRange: number;
+  pitchHeight: number;
+  spaceConfig: [number, number, number, number];
+  spaceWeights: {
+    half: MatchEventWeights;
+    shot: MatchEventWeights;
+    fallback: MatchEventWeights;
+  };
+  defaultWeights: {
+    half: MatchEventWeights;
+    shot: MatchEventWeights;
+    fallback: MatchEventWeights;
+  };
+}
 export {
   MatchDetails,
   Ball,
@@ -148,4 +167,5 @@ export {
   MatchContext,
   ActionContext,
   BallContext,
+  ResolveBoxContext,
 };
