@@ -309,7 +309,7 @@ describe('testCalculationOfTackleScores()', function () {
 
     const tackleScore = actions.calcTackleScore(skills, 5);
 
-    expect(true).to.eql(common.isBetween(tackleScore, 44, 56));
+    expect(common.isBetween(tackleScore, 44, 56)).to.eql(true);
   });
 
   it('retention score', async () => {
@@ -320,7 +320,7 @@ describe('testCalculationOfTackleScores()', function () {
 
     const retentionScore = actions.calcRetentionScore(skills, 5);
 
-    expect(true).to.eql(common.isBetween(retentionScore, 44, 56));
+    expect(common.isBetween(retentionScore, 44, 56)).to.eql(true);
   });
 
   it('tackler win', async () => {

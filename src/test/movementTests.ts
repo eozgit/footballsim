@@ -24,9 +24,9 @@ describe('getMovement()', function () {
       matchDetails,
     );
 
-    expect(true).to.eql(common.isBetween(movement[0], -3, 1));
+    expect(common.isBetween(movement[0], -3, 1)).to.eql(true);
 
-    expect(true).to.eql(common.isBetween(movement[1], -3, 1));
+    expect(common.isBetween(movement[1], -3, 1)).to.eql(true);
   });
 
   it('Has Ball - sprint', async () => {
@@ -47,9 +47,9 @@ describe('getMovement()', function () {
       matchDetails,
     );
 
-    expect(true).to.eql(common.isBetween(movement[0], -5, 5));
+    expect(common.isBetween(movement[0], -5, 5)).to.eql(true);
 
-    expect(true).to.eql(common.isBetween(movement[1], 1, 5));
+    expect(common.isBetween(movement[1], 1, 5)).to.eql(true);
   });
 
   it('Has Ball - shoot', async () => {
@@ -1474,7 +1474,7 @@ describe('decideMovement()', function () {
     const thisPlayer = matchDetails.kickOffTeam.players[10];
 
     matchDetails.kickOffTeam.players[10].offside = true;
-    const team = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
+    const team = structuredClone((matchDetails.kickOffTeam));
 
     team.name = `aaaa`;
     const opp = matchDetails.secondTeam;

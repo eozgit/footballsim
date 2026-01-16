@@ -195,10 +195,12 @@ describe('testPositionInBottomBoxClose()', function () {
   });
 });
 
+const bottomTeamHasBallInTopPenaltyBox = './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json';
+
 describe('noBallNotGK2CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -214,7 +216,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -230,7 +232,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -246,7 +248,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle, intercept and slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -264,7 +266,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 describe('noBallNotGK4CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -280,7 +282,7 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -296,7 +298,7 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -312,7 +314,7 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -330,7 +332,7 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 describe('noBallNotGK2CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -347,7 +349,7 @@ describe('noBallNotGK2CloseBall()', function () {
 
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -364,7 +366,7 @@ describe('noBallNotGK2CloseBall()', function () {
 
   it('Player has the ball, not GK, in top Goal (not own), tackle, intercept and slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -381,7 +383,7 @@ describe('noBallNotGK2CloseBall()', function () {
 
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -398,7 +400,7 @@ describe('noBallNotGK2CloseBall()', function () {
 
   it('Player has the ball, not GK, not in top Goal (own), tackle, intercept and slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -417,7 +419,7 @@ describe('noBallNotGK2CloseBall()', function () {
 describe('noBallNotGK4CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -434,7 +436,7 @@ describe('noBallNotGK4CloseBall()', function () {
 
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -451,7 +453,7 @@ describe('noBallNotGK4CloseBall()', function () {
 
   it('Player has the ball, not GK, in top Goal (not own), tackle slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -468,7 +470,7 @@ describe('noBallNotGK4CloseBall()', function () {
 
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = false;
@@ -485,7 +487,7 @@ describe('noBallNotGK4CloseBall()', function () {
 
   it('Player has the ball, not GK, not in top Goal (own), tackle slide', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.ball.withPlayer = true;
@@ -506,7 +508,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player: Player = createPlayer('GK');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -527,7 +529,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player = createPlayer('LB');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -547,7 +549,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player = createPlayer('CM');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -567,7 +569,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player = createPlayer('CM');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -587,7 +589,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player = createPlayer('CM');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -607,7 +609,7 @@ describe('playerDoesNotHaveBall()', function () {
     const player = createPlayer('ST');
 
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     matchDetails.pitchSize = [680, 1050, 90];
@@ -817,7 +819,7 @@ describe('checkPlayerIsDistanceFromPosition()', function () {
 describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   it('Top Box Close, not within space of goal, no opposition, no team mate, half/shooting skill from goal', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
@@ -838,7 +840,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
   it('Top Box Close, not within space of goal, no opposition, no team mate, 0/half skill from goal', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
@@ -866,7 +868,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
   it('In Top Box Close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
@@ -888,7 +890,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
   it('In Top Box Not close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
@@ -917,7 +919,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
   it('In Top Box Not close, No opposition ahead, no close team mate, within shooting skill distance from goal', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
@@ -946,7 +948,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
 
   it('In Top Box Not Close, no close team mate, player ahead', async () => {
     const matchDetails = await readMatchDetails(
-      './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json',
+      bottomTeamHasBallInTopPenaltyBox,
     );
 
     const player = matchDetails.secondTeam.players[9];
