@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import setpieces from './lib/set_pieces.js';
+import setpieces from './lib/setPieces.js';
 
 describe('testBoundariesForBottomGoal()', function () {
   it('expected Bottom Goal', async () => {

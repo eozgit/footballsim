@@ -865,7 +865,7 @@ describe('throughBall()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 1000, bz);
     const endPos = bMovement.throughBall(matchDetails, team, player);
@@ -898,7 +898,7 @@ describe('throughBall()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 100, bz);
     const endPos = bMovement.throughBall(matchDetails, team, player);
@@ -958,7 +958,7 @@ describe('throughBall()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 1000, bz);
     const endPos = bMovement.throughBall(matchDetails, team, player);
@@ -991,7 +991,7 @@ describe('throughBall()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 100, bz);
     const endPos = bMovement.throughBall(matchDetails, team, player);
@@ -1592,11 +1592,13 @@ describe('penaltyTaken()', function () {
     }
   });
 });
+const checkGoalScored =
+
+  './src/test/input/getMovement/checkGoalScored.json';
 
 describe('checkGoalScored()', function () {
   it(`koteam close to ball`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.kickOffTeam.players[0].skill.saving = 101;
@@ -1613,8 +1615,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`steam close to ball`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     const { ball } = matchDetails;
@@ -1637,8 +1638,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`second team goal scored`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, -1];
@@ -1655,8 +1655,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`kickoff team goal scored`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, 1051];
@@ -1673,8 +1672,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`kickoff team goal scored - top`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, -1];
@@ -1693,8 +1691,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`second team goal scored - top`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, 1051];
@@ -1713,8 +1710,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`top goal scored - bad half`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, -1];
@@ -1730,8 +1726,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`bottom goal scored - bad half`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/checkGoalScored.json',
+    const matchDetails = await readMatchDetails(checkGoalScored
     );
 
     matchDetails.ball.position = [350, 1051];

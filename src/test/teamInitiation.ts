@@ -1,6 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
-import initteams from './lib/initiate_team.js';
+import initteams from './lib/initiateTeam.js';
 
 describe('testTeamSetup()', function () {
   it('check all players origin positions are the same as the start positions', async () => {

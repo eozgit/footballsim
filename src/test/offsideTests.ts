@@ -157,7 +157,7 @@ describe('checkOffside()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 121, bz);
 

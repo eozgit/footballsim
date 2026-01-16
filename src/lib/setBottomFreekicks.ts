@@ -68,7 +68,7 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   }
 
   throw new Error(
-    `Unhandled freekick position: ball at [${matchDetails.ball.position}]`,
+    `Unhandled freekick position: ball at [${matchDetails.ball.position.join(', ')}]`
   );
 }
 

@@ -4,7 +4,7 @@ import * as common from '../lib/common.js';
 import { readFile } from '../lib/fileReader.js';
 
 import { readMatchDetails } from './lib/utils.js';
-import validation from './lib/validate_tests.js';
+import validation from './lib/validateTests.js';
 
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {

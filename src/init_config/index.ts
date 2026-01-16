@@ -75,8 +75,9 @@ function readDataFile(filePath: string): Promise<unknown> {
       if (err) {
         reject(err);
       } else {
-        data = JSON.parse(data);
-        resolve(data);
+        // Resolve the result of JSON.parse directly.
+        // It's safe to resolve 'any' into a Promise typed as 'unknown'.
+        resolve(JSON.parse(data));
       }
     });
   });

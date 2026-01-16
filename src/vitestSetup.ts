@@ -1,4 +1,3 @@
-// vitest-setup.js
 import { afterAll } from 'vitest';
 
 afterAll(async () => {

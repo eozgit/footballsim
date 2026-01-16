@@ -1,11 +1,12 @@
 import { assert, describe, expect, it } from 'vitest';
 
-import setpieces from './lib/set_pieces.js';
+import setpieces from './lib/setPieces.js';
 import { readMatchDetails } from './lib/utils.js';
 
+const itlocation = './src/init_config/iteration.json';
+
 describe('removeBallFromAllPlayers()', function () {
-  it('check no player has the ball after its been removed from all players', async () => {
-    const itlocation = './src/init_config/iteration.json';
+  it('check no player has the ball after its been removed from all players', async (): Promise<void> => {
 
     const nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
 
@@ -22,7 +23,6 @@ describe('removeBallFromAllPlayers()', function () {
 
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
-    const itlocation = './src/init_config/iteration.json';
 
     const matchDetails = await readMatchDetails(itlocation);
 
@@ -41,7 +41,6 @@ describe('switchTeamSides()', function () {
   });
 
   it('check players sides are switched second team', async () => {
-    const itlocation = './src/init_config/iteration.json';
 
     const matchDetails = await readMatchDetails(itlocation);
 
@@ -60,7 +59,6 @@ describe('switchTeamSides()', function () {
   });
 
   it('no origin POS set', async () => {
-    const itlocation = './src/init_config/iteration.json';
 
     const matchDetails = await readMatchDetails(itlocation);
 
@@ -82,7 +80,6 @@ describe('switchTeamSides()', function () {
   });
 
   it('low fitness level', async () => {
-    const itlocation = './src/init_config/iteration.json';
 
     const matchDetails = await readMatchDetails(itlocation);
 

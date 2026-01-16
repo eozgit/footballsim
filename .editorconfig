@@ -4,13 +4,13 @@ root = true
 [*]
 indent_style = space
 indent_size = 2
-end_of_line = lf           # CHANGED: Use LF for compatibility
+end_of_line = lf
 charset = utf-8
-trim_trailing_whitespace = true  # CHANGED: Keep files clean
-insert_final_newline = true     # CHANGED: Standard POSIX practice
+trim_trailing_whitespace = true
+insert_final_newline = true
 
 [*.{sh,bash}]
-end_of_line = lf           # Double-enforce LF for shell scripts
+end_of_line = lf
 
 [*.md]
-trim_trailing_whitespace = false # Markdown needs spaces for line breaks
+trim_trailing_whitespace = false
