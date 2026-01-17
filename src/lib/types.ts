@@ -104,7 +104,10 @@ interface PitchDetails {
   pitchHeight: number;
   goalWidth: number;
 }
-
+interface TacticalWeighting {
+  inBox: MatchEventWeights;
+  fallback: MatchEventWeights;
+}
 type MatchEventWeights<T = number> = [T, T, T, T, T, T, T, T, T, T, T];
 
 type BallPosition = readonly [x: number, y: number, z?: number];
@@ -162,6 +165,28 @@ interface Trajectory {
   target: [number, number];
   power?: number;
 }
+/**
+ * A tuple representing a range for foul probability [min, max].
+ */
+type ProbabilityRange = [number, number];
+
+/**
+ * Details regarding the outcome of a successful or failed tackle.
+ */
+interface TackleImpact {
+  injuryHigh: number;
+  injuryLow: number;
+  increment: number;
+}
+
+/**
+ * Configuration for a specific type of defensive action.
+ */
+interface DefensiveActionConfig {
+  label: string;
+  foulRange: ProbabilityRange;
+  tackleDetails: TackleImpact;
+}
 export {
   MatchDetails,
   Ball,
@@ -185,4 +210,7 @@ export {
   AreaBounds,
   InteractionContext,
   Trajectory,
+  TacticalWeighting,
+  DefensiveActionConfig,
+  TackleImpact,
 };

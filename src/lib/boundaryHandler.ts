@@ -124,17 +124,28 @@ function handleTouchline(
     : setRightKickOffTeamThrowIn(matchDetails, ballIntended);
 }
 
-const BYLINE_CFG = {
+/** * 1. Define strict interfaces for the config
+ */
+type SetPieceHandler = (m: MatchDetails) => MatchDetails;
+type GoalHandler = (m: MatchDetails, isT: boolean) => MatchDetails;
+
+interface BylineSideConfig {
+  goal: GoalHandler;
+  left: SetPieceHandler;
+  right: SetPieceHandler;
+  kick: SetPieceHandler;
+}
+
+// Use a Record to allow indexing while maintaining strict values
+const BYLINE_CFG: Record<'top' | 'bottom', BylineSideConfig> = {
   top: {
-    goal: (m: MatchDetails, isT: boolean) =>
-      isT ? setSecondTeamGoalScored(m) : setKickOffTeamGoalScored(m),
+    goal: (m, isT) => (isT ? setSecondTeamGoalScored(m) : setKickOffTeamGoalScored(m)),
     left: setTopLeftCornerPositions,
     right: setTopRightCornerPositions,
     kick: setTopGoalKick,
   },
   bottom: {
-    goal: (m: MatchDetails, isT: boolean) =>
-      isT ? setKickOffTeamGoalScored(m) : setSecondTeamGoalScored(m),
+    goal: (m, isT) => (isT ? setKickOffTeamGoalScored(m) : setSecondTeamGoalScored(m)),
     left: setBottomLeftCornerPositions,
     right: setBottomRightCornerPositions,
     kick: setBottomGoalKick,
@@ -142,7 +153,7 @@ const BYLINE_CFG = {
 };
 
 function handleByline(bylineConfig: {
-  side: string;
+  side: string; // Keep as string if it comes from external data
   matchDetails: MatchDetails;
   ballX: number;
   halfMW: number;
@@ -162,8 +173,16 @@ function handleByline(bylineConfig: {
     kickOffTS,
   } = bylineConfig;
 
-  const cfg = BYLINE_CFG[side],
-    isT = kickOffTS === 'top';
+  /** * 2. Type Guard: Narrow 'side' to the allowed keys.
+   * This removes the 'Unsafe assignment' and 'indexing' errors.
+   */
+  if (side !== 'top' && side !== 'bottom') {
+    throw new Error(`Invalid byline side: ${side}`);
+  }
+
+  const cfg = BYLINE_CFG[side];
+
+  const isT = kickOffTS === 'top';
 
   if (common.isBetween(bXPOS, leftP, rightP)) {
     return cfg.goal(matchDetails, isT);
@@ -173,13 +192,8 @@ function handleByline(bylineConfig: {
 
   const isCorner = side === 'top' ? isKOT === isT : isKOT !== isT;
 
-  // Refactored for clarity and SonarJS compliance
   if (isCorner) {
-    if (isL) {
-      return cfg.left(matchDetails);
-    }
-
-    return cfg.right(matchDetails);
+    return isL ? cfg.left(matchDetails) : cfg.right(matchDetails);
   }
 
   return cfg.kick(matchDetails);

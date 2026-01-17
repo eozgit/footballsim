@@ -20,6 +20,9 @@ import type {
   Skill,
   Team,
   AreaBounds,
+  TacticalWeighting,
+  DefensiveActionConfig,
+  TackleImpact,
 } from './types.js';
 
 function selectAction(possibleActions: { name: string; points: number }[]): string {
@@ -174,7 +177,7 @@ function oppositionNearContext(context: ProximityContext, distX: number, distY: 
   return Math.abs(context.proxPOS[0]) < distX && Math.abs(context.proxPOS[1]) < distY;
 }
 
-function checkTeamMateSpaceClose(spaceConfig: AreaBounds): boolean {
+function checkTeamMateSpaceClose(spaceConfig: AreaBounds & { tmateProximity: number[] }): boolean {
   const { tmateProximity, lowX, highX, lowY, highY } = spaceConfig;
 
   return (
@@ -215,12 +218,14 @@ function playerDoesNotHaveBall(
 
   const { position, currentPOS, originPOS } = player;
 
+  const curPos = common.destructPos(currentPOS);
+
   if (position === 'GK') {
     return [0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0];
   } else if (common.isBetween(ballX, -20, 20) && common.isBetween(ballY, -20, 20)) {
     return noBallNotGK2CloseBall({
       matchDetails: matchDetails,
-      currentPOS: currentPOS,
+      currentPOS: curPos,
       originPOS: originPOS,
       pitchWidth: pitchWidth,
       pitchHeight: pitchHeight,
@@ -228,7 +233,7 @@ function playerDoesNotHaveBall(
   } else if (common.isBetween(ballX, -40, 40) && common.isBetween(ballY, -40, 40)) {
     return noBallNotGK4CloseBall({
       matchDetails: matchDetails,
-      currentPOS: currentPOS,
+      currentPOS: curPos,
       originPOS: originPOS,
       pitchWidth: pitchWidth,
       pitchHeight: pitchHeight,
@@ -250,9 +255,11 @@ function noBallNotGK4CloseBallBottomTeam(
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
+  const curPos = common.destructPos(currentPOS);
+
   return resolveNoBallNotGKIntent({
     matchDetails: matchDetails,
-    currentPOS: currentPOS,
+    currentPOS: curPos,
     pitchWidth: pitchWidth,
     pitchHeight: pitchHeight,
     isBottomTeam: true,
@@ -292,19 +299,15 @@ function resolveNoBallNotGKIntent(intentConfig: {
   pitchWidth: number;
   pitchHeight: number;
   isBottomTeam: boolean;
-  weights: unknown;
+  weights: TacticalWeighting;
 }): MatchEventWeights {
   const { matchDetails, currentPOS, pitchWidth, pitchHeight, isBottomTeam, weights } = intentConfig;
 
-  const [curX, curY] = currentPOS;
-
-  if (curX === 'NP') {
-    throw new Error('No player position!');
-  }
+  const curPos = common.destructPos(currentPOS);
 
   const inPenaltyBox = isBottomTeam
-    ? checkPositionInBottomPenaltyBox([curX, curY], pitchWidth, pitchHeight)
-    : checkPositionInTopPenaltyBox([curX, curY], pitchWidth, pitchHeight);
+    ? checkPositionInBottomPenaltyBox(curPos, pitchWidth, pitchHeight)
+    : checkPositionInTopPenaltyBox(curPos, pitchWidth, pitchHeight);
 
   // 1. Ball is loose
   if (matchDetails.ball.withPlayer === false) {
@@ -509,7 +512,7 @@ function handleDefensiveChallenge(challengeConfig: {
   team: Team;
   opp: Team;
   matchDetails: MatchDetails;
-  config: unknown;
+  config: DefensiveActionConfig;
 }): boolean {
   const { player, team, opp: opposition, matchDetails, config } = challengeConfig;
 
@@ -622,7 +625,7 @@ function setSuccessTackle(tackleConfig: {
   opposition: Team;
   player: Player;
   thatPlayer: Player;
-  tackleDetails: TackleDetails;
+  tackleDetails: TackleImpact;
 }): void {
   const { matchDetails, team, opposition, player, thatPlayer, tackleDetails } = tackleConfig;
 
