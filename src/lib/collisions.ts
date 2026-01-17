@@ -8,7 +8,7 @@ function resolvePlayerBallInteraction(interactionConfig: {
   matchDetails: MatchDetails;
   thisPlayer: Player;
   thisPOS: [number, number];
-  thisPos: [number, number];
+  thisPos: [number, number, number];
   power: number;
   thisTeam: Team;
 }): [number, number, number] | [number, number] | undefined {
@@ -20,7 +20,9 @@ function resolvePlayerBallInteraction(interactionConfig: {
   }
 
   if (!Array.isArray(thisPlayer.currentPOS) || thisPlayer.currentPOS.length < 2) {
-    throw new Error(`Invalid player position: ${thisPlayer.currentPOS}`);
+    throw new Error(
+      `Invalid player position: ${thisPlayer.currentPOS[0]} ${thisPlayer.currentPOS[1]}`,
+    );
   }
 
   if (thisPlayer.currentPOS[0] === 'NP') {
@@ -51,6 +53,7 @@ function resolvePlayerBallInteraction(interactionConfig: {
     ballPos: checkPos,
     power: power,
     team: thisTeam,
+    opp: {} as Team,
   });
 }
 
@@ -67,7 +70,9 @@ function checkInterceptionsOnTrajectory(trajectoryConfig: {
   opp: Team;
   matchDetails: MatchDetails;
 }): [number, number] {
-  let { player, thisPOS, newPOS, power, team, opp, matchDetails } = trajectoryConfig;
+  const { player, thisPOS, newPOS, power, team, opp } = trajectoryConfig;
+
+  let { matchDetails } = trajectoryConfig;
 
   common.removeBallFromAllPlayers(matchDetails);
 

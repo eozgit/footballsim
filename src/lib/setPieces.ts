@@ -3,7 +3,7 @@ import * as common from './common.js';
 import { setBallPossession } from './setFreekicks.js';
 import { calculatePenaltyTarget } from './setPositions.js';
 import { recordShotStats } from './stats.js';
-import type { Ball, MatchDetails, Player, Team } from './types.js';
+import type { ActionContext, Ball, BallContext, MatchDetails, Player, Team } from './types.js';
 
 function executePenaltyShot(
   matchDetails: MatchDetails,

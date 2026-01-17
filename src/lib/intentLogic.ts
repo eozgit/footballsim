@@ -21,6 +21,7 @@ import type {
   Team,
   ActionContext,
   ResolveBoxContext,
+  BallPosition,
 } from './types.js';
 
 /**
@@ -703,7 +704,7 @@ function attemptGoalieSave(matchDetails: MatchDetails, goalie: Player, teamName:
 function handleGoalieSave(saveConfig: {
   matchDetails: MatchDetails;
   player: Player;
-  ballPos: [number, number];
+  ballPos: BallPosition;
   power: number;
   team: Team;
 }): [number, number, number] | undefined {

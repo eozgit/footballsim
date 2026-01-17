@@ -19,6 +19,7 @@ import type {
   ProximityContext,
   Skill,
   Team,
+  AreaBounds,
 } from './types.js';
 
 function selectAction(possibleActions: { name: string; points: number }[]): string {

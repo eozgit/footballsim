@@ -11,7 +11,7 @@ import {
   handleBallPlayerActions,
   setClosePlayerTakesBall,
 } from './playerMovement.js';
-import type { MatchDetails, Player, Team } from './types.js';
+import type { ActionContext, MatchDetails, Player, Team } from './types.js';
 
 /**
  * Orchestrates the tactical loop for a team.
