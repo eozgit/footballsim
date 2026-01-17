@@ -35,23 +35,10 @@ function processTeamTactics(
     // 1. Determine Intent and Action
     const tacticalContext = getPlayerTacticalContext(player, [ballX, ballY]);
 
-    const action = determinePlayerAction(
-      player,
-      team,
-      opp,
-      matchDetails,
-      tacticalContext,
-      closestPlayer,
-    );
+    const action = determinePlayerAction({ player: player, team: team, opp: opp, matchDetails: matchDetails, ctx: tacticalContext, closest: closestPlayer });
 
     // 2. Execute Movement
-    const pos = executePlayerMovement(
-      player,
-      action,
-      opp,
-      matchDetails,
-      tacticalContext,
-    );
+    const pos = executePlayerMovement({ player: player, action: action, opp: opp, matchDetails: matchDetails, ctx: tacticalContext });
 
     common.setPlayerXY(player, pos[0], player.currentPOS[1]);
     common.setPlayerXY(player, player.currentPOS[0], pos[1]);
@@ -73,14 +60,8 @@ function processTeamTactics(
 /**
  * Stage 1: Action Selection Logic
  */
-function determinePlayerAction(
-  player: Player,
-  team: Team,
-  opp: Team,
-  matchDetails: MatchDetails,
-  ctx: { x: number; y: number },
-  closest: { name: string; position: number },
-): string {
+function determinePlayerAction(actionConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; ctx: any; closest: any; }): string {
+    const { player, team, opp, matchDetails, ctx, closest } = actionConfig;
   const possibleActions = actions.findPossActions(
     player,
     matchDetails,
@@ -130,13 +111,8 @@ function checkProvidedAction(
 /**
  * Stage 2: Physical Movement
  */
-function executePlayerMovement(
-  player: Player,
-  action: string,
-  opp: Team,
-  matchDetails: MatchDetails,
-  ctx: { x: number; y: number },
-): [number, number] {
+function executePlayerMovement(moveCtx: { player: Player; action: string; opp: Team; matchDetails: MatchDetails; ctx: any; }): [number, number] {
+    const { player, action, opp, matchDetails, ctx } = moveCtx;
   const move = getMovement({ player: player, action: action, opposition: opp, ballX: ctx.x, ballY: ctx.y, matchDetails: matchDetails });
 
   const newPos = completeMovement(matchDetails, player, move);
