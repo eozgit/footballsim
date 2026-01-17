@@ -243,13 +243,7 @@ function playerDoesNotHaveBall(
     common.isBetween(ballX, -20, 20) &&
     common.isBetween(ballY, -20, 20)
   ) {
-    return noBallNotGK2CloseBall(
-      matchDetails,
-      currentPOS,
-      originPOS,
-      pitchWidth,
-      pitchHeight,
-    );
+    return noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: currentPOS, originPOS: originPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight });
   } else if (
     common.isBetween(ballX, -40, 40) &&
     common.isBetween(ballY, -40, 40)
@@ -344,13 +338,8 @@ function noBallNotGK4CloseBall(
           } });
 }
 
-function noBallNotGK2CloseBall(
-  matchDetails: MatchDetails,
-  currentPOS: readonly [number | 'NP', number],
-  originPOS: readonly [number, number],
-  pitchWidth: number,
-  pitchHeight: number,
-): MatchEventWeights {
+function noBallNotGK2CloseBall(positionConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; originPOS: [number, number]; pitchWidth: number; pitchHeight: number; }): MatchEventWeights {
+    let { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
   const [curX, curY] = currentPOS;
@@ -518,17 +507,8 @@ function populateActionsJSON(): { name: string; points: number }[] {
 /**
  * Unified handler for all defensive challenges (Stand and Slide)
  */
-function handleDefensiveChallenge(
-  player: Player,
-  team: Team,
-  opposition: Team,
-  matchDetails: MatchDetails,
-  config: {
-    label: string;
-    foulRange: [number, number];
-    tackleDetails: { injuryHigh: number; injuryLow: number; increment: number };
-  },
-): boolean {
+function handleDefensiveChallenge(challengeConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; config: any; }): boolean {
+    let { player, team, opp: opposition, matchDetails, config } = challengeConfig;
   const { iterationLog, ball } = matchDetails;
 
   iterationLog.push(`${config.label} attempted by: ${player.name}`);
@@ -583,11 +563,11 @@ function resolveTackle(
   opposition: Team,
   matchDetails: MatchDetails,
 ): boolean {
-  return handleDefensiveChallenge(player, team, opposition, matchDetails, {
-    label: 'Tackle',
-    foulRange: [10, 18],
-    tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 1 },
-  });
+  return handleDefensiveChallenge({ player: player, team: team, opp: opposition, matchDetails: matchDetails, config: {
+          label: 'Tackle',
+          foulRange: [10, 18],
+          tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 1 },
+        } });
 }
 
 function resolveSlide(
@@ -596,11 +576,11 @@ function resolveSlide(
   opposition: Team,
   matchDetails: MatchDetails,
 ): boolean {
-  return handleDefensiveChallenge(player, team, opposition, matchDetails, {
-    label: 'Slide tackle',
-    foulRange: [11, 20],
-    tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 3 },
-  });
+  return handleDefensiveChallenge({ player: player, team: team, opp: opposition, matchDetails: matchDetails, config: {
+          label: 'Slide tackle',
+          foulRange: [11, 20],
+          tackleDetails: { injuryHigh: 1500, injuryLow: 1400, increment: 3 },
+        } });
 }
 
 function setFailedTackle(
@@ -628,7 +608,7 @@ function setSuccessTackle(
   thatPlayer: Player,
   tackleDetails: { injuryHigh: number; injuryLow: number; increment: number },
 ): void {
-  setPostTackleBall(matchDetails, team, opposition, player);
+  setPostTackleBall({ matchDetails: matchDetails, team: team, opp: opposition, player: player });
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
 
   if (player.stats.tackles.on === undefined) {
@@ -665,12 +645,8 @@ function calcRetentionScore(
   );
 }
 
-function setPostTackleBall(
-  matchDetails: MatchDetails,
-  team: Team,
-  opposition: Team,
-  player: Player,
-): void {
+function setPostTackleBall(tackleBallConfig: { matchDetails: MatchDetails; team: Team; opp: Team; player: Player; }): void {
+    let { matchDetails, team, opp: opposition, player } = tackleBallConfig;
   player.hasBall = true;
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;

@@ -336,13 +336,7 @@ describe('noBallNotGK2CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK2CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -353,13 +347,7 @@ describe('noBallNotGK2CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
@@ -370,13 +358,7 @@ describe('noBallNotGK2CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 805],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 805], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
@@ -387,13 +369,7 @@ describe('noBallNotGK2CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK2CloseBall(
-      matchDetails,
-      [320, 300],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -404,13 +380,7 @@ describe('noBallNotGK2CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall(
-      matchDetails,
-      [320, 300],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });

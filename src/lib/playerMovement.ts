@@ -203,7 +203,7 @@ function handleBallPlayerActions(
 ): void {
   const { matchDetails, player: thisPlayer, team, opp } = ctx;
 
-  return executeActiveBallAction(matchDetails, thisPlayer, team, opp, action);
+  return executeActiveBallAction({ matchDetails: matchDetails, player: thisPlayer, team: team, opp: opp, action: action });
 }
 
 function ballMoved(

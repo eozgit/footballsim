@@ -305,15 +305,8 @@ function getPlayersInDistance(
   return playersInDistance;
 }
 
-function resolveBallMovement(
-  player: Player,
-  thisPOS: BallPosition,
-  newPOS: BallPosition,
-  power: number,
-  team: Team,
-  opp: Team,
-  matchDetails: MatchDetails,
-): [number, number] {
+function resolveBallMovement(movementConfig: { player: Player; startPos: [number, number]; targetPos: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
+    let { player, startPos: thisPOS, targetPos: newPOS, power, team, opp, matchDetails } = movementConfig;
   return checkInterceptionsOnTrajectory(
     player,
     [thisPOS[0], thisPOS[1]],
@@ -343,12 +336,8 @@ function thisPlayerIsInProximity(
   );
 }
 
-function setBallMovementMatchDetails(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  thisPos: BallPosition,
-  thisTeam: Team,
-): void {
+function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetails; player: Player; startPos: [number, number]; team: Team; }): void {
+    let { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
   matchDetails.ball.withPlayer = true;
@@ -360,14 +349,8 @@ function setBallMovementMatchDetails(
   common.setPlayerXY(thisPlayer, thisPos[0], thisPos[1]);
 }
 
-function resolveDeflection(
-  power: number,
-  thisPOS: [number, number],
-  defPosition: [number, number],
-  defPlayer: Player,
-  defTeam: Team,
-  matchDetails: MatchDetails,
-): BallPosition {
+function resolveDeflection(deflectionConfig: { power: number; startPos: [number, number]; defPosition: [number, number]; player: Player; team: Team; matchDetails: MatchDetails; }): BallPosition {
+    let { power, startPos: thisPOS, defPosition, player: defPlayer, team: defTeam, matchDetails } = deflectionConfig;
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
 
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
@@ -703,15 +686,7 @@ function calcBallMovementOverTime(
   ).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
 
   matchDetails.ball.ballOverIterations = BOIts;
-  const endPos = resolveBallMovement(
-    player,
-    position,
-    BOIts[0],
-    power,
-    kickOffTeam,
-    secondTeam,
-    matchDetails,
-  );
+  const endPos = resolveBallMovement({ player: player, startPos: position, targetPos: BOIts[0], power: power, team: kickOffTeam, opp: secondTeam, matchDetails: matchDetails });
 
   if (matchDetails.endIteration === true) {
     return [matchDetails.ball.position[0], matchDetails.ball.position[1]];

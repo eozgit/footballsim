@@ -286,12 +286,7 @@ describe('testSetPostTackleBall()', function () {
 
     const testOpposition = matchDetails.kickOffTeam;
 
-    actions.setPostTackleBall(
-      matchDetails,
-      testTeam,
-      testOpposition,
-      testPlayer,
-    );
+    actions.setPostTackleBall({ matchDetails: matchDetails, team: testTeam, opp: testOpposition, player: testPlayer });
 
     expect(matchDetails.ball.lastTouch.playerName).to.eql('Emily Smith');
 

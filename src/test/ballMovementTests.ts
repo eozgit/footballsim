@@ -691,14 +691,7 @@ describe('resolveDeflection()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.resolveDeflection(
-      120,
-      [120, 300],
-      [200, 350],
-      defPlayer,
-      defTeam,
-      matchDetails,
-    );
+    bMovement.resolveDeflection({ power: 120, startPos: [120, 300], defPosition: [200, 350], player: defPlayer, team: defTeam, matchDetails: matchDetails });
 
     expect(matchDetails.ball.Player).to.eql('78883930303030207');
 
@@ -716,14 +709,7 @@ describe('resolveDeflection()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    const pos = bMovement.resolveDeflection(
-      220,
-      [120, 300],
-      [200, 350],
-      defPlayer,
-      defTeam,
-      matchDetails,
-    );
+    const pos = bMovement.resolveDeflection({ power: 220, startPos: [120, 300], defPosition: [200, 350], player: defPlayer, team: defTeam, matchDetails: matchDetails });
 
     expect(pos).to.eql([262.830094339717, 287.169905660283]);
 
@@ -751,12 +737,7 @@ describe('setBallMovementMatchDetails()', function () {
 
     const thisTeam = matchDetails.secondTeam;
 
-    bMovement.setBallMovementMatchDetails(
-      matchDetails,
-      thisPlayer,
-      thisPos,
-      thisTeam,
-    );
+    bMovement.setBallMovementMatchDetails({ matchDetails: matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam });
 
     expect(matchDetails.ball.ballOverIterations).to.eql([]);
 

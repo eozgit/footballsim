@@ -708,7 +708,7 @@ function handleGoalieSave(
     const savingSkill = player.skill.saving || 0;
 
     if (savingSkill > common.getRandomNumber(0, power)) {
-      setBallMovementMatchDetails(matchDetails, player, ballPos, team);
+      setBallMovementMatchDetails({ matchDetails: matchDetails, player: player, startPos: ballPos, team: team });
       matchDetails.iterationLog.push(`Ball saved`);
       player.stats.saves = (player.stats.saves || 0) + 1;
 
@@ -738,14 +738,7 @@ function handlePlayerDeflection(
     common.isBetween(posY, ballPos[1] - 3, ballPos[1] + 3);
 
   if (inProx && common.isBetween(ballPos[2], -1, player.skill.jumping + 1)) {
-    const newPOS = resolveDeflection(
-      power,
-      thisPOS,
-      [posX, posY],
-      player,
-      team,
-      matchDetails,
-    );
+    const newPOS = resolveDeflection({ power: power, startPos: thisPOS, defPosition: [posX, posY], player: player, team: team, matchDetails: matchDetails });
 
     matchDetails.iterationLog.push(`Ball deflected`);
 

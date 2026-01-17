@@ -31,15 +31,7 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   // 2. Resolve Physics and Movement
   getBallDirection(matchDetails, nextBallPos);
 
-  const endPos = resolveBallMovement(
-    setBPlayer([nbX, nbY]),
-    ball.position,
-    nextBallPos,
-    nbZ,
-    matchDetails.kickOffTeam,
-    matchDetails.secondTeam,
-    matchDetails,
-  );
+  const endPos = resolveBallMovement({ player: setBPlayer([nbX, nbY]), startPos: ball.position, targetPos: nextBallPos, power: nbZ, team: matchDetails.kickOffTeam, opp: matchDetails.secondTeam, matchDetails: matchDetails });
 
   if (matchDetails.endIteration) {
     return matchDetails;
