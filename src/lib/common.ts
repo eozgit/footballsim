@@ -282,11 +282,17 @@ function setPlayerPos(player: Player, pos: readonly [number | 'NP', number]): vo
 }
 
 function destructPos(position: readonly [number | 'NP', number]): [number, number] {
-  const [x, y] = position;
+  if (!position) {
+    throw new Error('Position is undefined');
+  }
+
+  const x = position[0];
 
   if (x === 'NP') {
     throw new Error('Not playing.');
   }
+
+  const y = position[1];
 
   return [x, y];
 }

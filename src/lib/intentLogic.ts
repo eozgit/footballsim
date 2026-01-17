@@ -439,8 +439,8 @@ function getAttackingThreatWeights(
     return handleDeepBoxThreat({
       oppInfo: oppInfo,
       tmateProx: tmateProximity,
-      currentPOS: player.currentPOS,
-      closeOppPOS: closeOppPOS,
+      currentPOS: common.destructPos(player.currentPOS),
+      closeOppPOS: common.destructPos(closeOppPOS),
       skill: player.skill,
     });
   }
@@ -497,7 +497,7 @@ function handleDeepBoxThreat(deepThreatConfig: {
   tmateProx: [number, number];
   currentPOS: [number, number];
   closeOppPOS: [number, number];
-  skill: number;
+  skill: Skill;
 }): MatchEventWeights {
   const { oppInfo, tmateProx, currentPOS, closeOppPOS, skill } = deepThreatConfig;
 

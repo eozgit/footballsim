@@ -386,14 +386,15 @@ function resolveDeflection(deflectionConfig: {
   team: Team;
   matchDetails: MatchDetails;
 }): BallPosition {
-  let {
+  const {
     power,
     startPos: thisPOS,
     defPosition,
     player: defPlayer,
     team: defTeam,
-    matchDetails,
   } = deflectionConfig;
+
+  let { matchDetails } = deflectionConfig;
 
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
 
@@ -461,6 +462,8 @@ function setDeflectionPlayerHasBall(
   const [posX, posY] = common.destructPos(defPlayer.currentPOS);
 
   matchDetails.ball.position = [posX, posY];
+
+  return undefined;
 }
 
 function setDeflectionPlayerOffside(
@@ -594,7 +597,7 @@ function setTargetPlyPos(targetConfig: {
 
   const closePlyPos: [number, number] = [0, 0];
 
-  const [targetPlayerXPos, targetPlayerYPos] = tplyr;
+  const [targetPlayerXPos, targetPlayerYPos] = common.destructPos(tplyr);
 
   closePlyPos[0] = common.round(targetPlayerXPos + common.getRandomNumber(lowX, highX), 0);
   closePlyPos[1] = common.round(targetPlayerYPos + common.getRandomNumber(lowY, highY), 0);
@@ -620,7 +623,7 @@ function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player): [n
   matchDetails.ball.lastTouch.teamID = team.teamID;
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  const ballIntended = [];
+  const ballIntended: [number, number] = [0, 0];
 
   if (player.originPOS[1] > pitchHeight / 2) {
     ballIntended[1] = common.getRandomNumber(0, pitchHeight / 5);
@@ -659,7 +662,7 @@ function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player): [n
 function calcBallMovementOverTime(
   matchDetails: MatchDetails,
   strength: number,
-  nextPosition: number[],
+  nextPosition: [number, number],
   player: Player,
 ): [number, number] {
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -699,7 +702,7 @@ function calcBallMovementOverTime(
   const endPos = resolveBallMovement({
     player: player,
     startPos: position,
-    targetPos: BOIts[0],
+    targetPos: [BOIts[0][0], BOIts[0][1]],
     power: power,
     team: kickOffTeam,
     opp: secondTeam,
@@ -738,9 +741,9 @@ function mergeArrays(mergeConfig: {
   arrayLength: number;
   oldPos: [number, number];
   newPos: [number, number];
-  array1: unknown[];
-  array2: unknown[];
-  array3: unknown[];
+  array1: number[];
+  array2: number[];
+  array3: number[];
 }): number[][] {
   const { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
 

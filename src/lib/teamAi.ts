@@ -152,13 +152,7 @@ function executePlayerMovement(moveCtx: {
 
   const newPos = completeMovement(matchDetails, player, move);
 
-  const [newX, newY] = newPos;
-
-  if (newX === 'NP') {
-    throw new Error('No player position!');
-  }
-
-  return [newX, newY];
+  return common.destructPos(newPos);
 }
 
 /**
@@ -174,12 +168,7 @@ export function resolveBallInteractions(
 
   const { ball } = matchDetails;
 
-  const [playerX, playerY] = player.currentPOS;
-
-  // 1. Position Validation
-  if (playerX === 'NP') {
-    throw new Error('No player position!');
-  }
+  const [playerX, playerY] = common.destructPos(player.currentPOS);
 
   // 2. Proximity Check (3-unit square radius)
   const isNearBall =

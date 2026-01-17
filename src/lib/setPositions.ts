@@ -5,7 +5,14 @@ import * as setBottomFreekicks from './setBottomFreekicks.js';
 import { executeDeepSetPieceSetup } from './setPieces.js';
 import * as setTopFreekicks from './setTopFreekicks.js';
 import * as setVariables from './setVariables.js';
-import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
+import type {
+  Ball,
+  BallPosition,
+  MatchDetails,
+  Player,
+  PlayerProximityDetails,
+  Team,
+} from './types.js';
 
 function setGoalieHasBall(matchDetails: MatchDetails, thisGoalie: Player): MatchDetails {
   const { kickOffTeam, secondTeam } = matchDetails;
@@ -436,7 +443,7 @@ function closestPlayerToPosition(
   player: Player,
   team: Team,
   position: BallPosition,
-): { thePlayer: Player; proxPOS: [number, number]; proxToBall: number } {
+): PlayerProximityDetails {
   let currentDifference = 1000000;
 
   const playerInformation: {
