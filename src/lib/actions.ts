@@ -578,7 +578,8 @@ function setFailedTackle(
 }
 
 function setSuccessTackle(tackleConfig: { matchDetails: MatchDetails; team: Team; opposition: Team; player: Player; thatPlayer: Player; tackleDetails: TackleDetails; }): void {
-    let { matchDetails, team, opposition, player, thatPlayer, tackleDetails } = tackleConfig;
+    const { matchDetails, team, opposition, player, thatPlayer, tackleDetails } = tackleConfig;
+
   setPostTackleBall({ matchDetails: matchDetails, team: team, opp: opposition, player: player });
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
 

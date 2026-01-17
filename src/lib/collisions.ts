@@ -5,7 +5,8 @@ import * as setPositions from './setPositions.js';
 import type { MatchDetails, Player, Team } from './types.js';
 
 function resolvePlayerBallInteraction(interactionConfig: { matchDetails: MatchDetails; thisPlayer: Player; thisPOS: [number, number]; thisPos: [number, number]; power: number; thisTeam: Team; }): [number, number, number] | [number, number] | undefined {
-    let { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = interactionConfig;
+    const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = interactionConfig;
+
   // 1. Validation
   if (!thisPlayer) {
     throw new Error('Player is undefined!');
@@ -49,6 +50,7 @@ function resolvePlayerBallInteraction(interactionConfig: { matchDetails: MatchDe
  */
 function checkInterceptionsOnTrajectory(trajectoryConfig: { player: Player; thisPOS: [number, number]; newPOS: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
     let { player, thisPOS, newPOS, power, team, opp, matchDetails } = trajectoryConfig;
+
   common.removeBallFromAllPlayers(matchDetails);
 
   // 1. Process Interceptions (Extracted)
@@ -76,8 +78,9 @@ function checkInterceptionsOnTrajectory(trajectoryConfig: { player: Player; this
 /**
  * Iterates through the ball's path to check if any player can intercept the ball.
  */
-function resolvePathInterceptions(pathConfig: { trajectory: any; originPlayer: Player; team: Team; opp: Team; matchDetails: MatchDetails; thisPOS: [number, number]; power: number; }): void {
-    let { trajectory, originPlayer, team, opp, matchDetails, thisPOS, power } = pathConfig;
+function resolvePathInterceptions(pathConfig: { trajectory: unknown; originPlayer: Player; team: Team; opp: Team; matchDetails: MatchDetails; thisPOS: [number, number]; power: number; }): void {
+    const { trajectory, originPlayer, team, opp, matchDetails, thisPOS, power } = pathConfig;
+
   for (const step of trajectory) {
     const checkPos: [number, number] = [
       common.round(step[0], 0),

@@ -313,7 +313,8 @@ function resolveBallMovement(movementConfig: { player: Player; startPos: [number
 }
 
 function thisPlayerIsInProximity(proximityConfig: { matchDetails: MatchDetails; thisPlayer: Player; thisPOS: [number, number]; thisPos: [number, number]; power: number; thisTeam: Team; }): [number, number] | [number, number, number] | undefined {
-    let { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
+    const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
+
   return resolvePlayerBallInteraction({ matchDetails: matchDetails, thisPlayer: thisPlayer, thisPOS: thisPOS, thisPos: thisPos, power: power, thisTeam: thisTeam });
 }
 
@@ -693,8 +694,9 @@ function splitNumberIntoN(num: number, n: number): number[] {
   return splitNumber;
 }
 
-function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number]; newPos: [number, number]; array1: any[]; array2: any[]; array3: any[]; }): number[][] {
-    let { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
+function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number]; newPos: [number, number]; array1: unknown[]; array2: unknown[]; array3: unknown[]; }): number[][] {
+    const { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
+
   let tempPos = [oldPos[0], oldPos[1]];
 
   const arrayN = Array.from(new Array(arrayLength - 1).keys());

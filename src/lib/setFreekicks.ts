@@ -197,7 +197,8 @@ function calculateAttackerY(
 }
 
 function setDeepFreekickBallAndKicker(freekickConfig: { ball: Ball; kickPlayer: Player; teamID: string; pitchWidth: number; isTop: boolean; }): void {
-    let { ball, kickPlayer, teamID, pitchWidth, isTop } = freekickConfig;
+    const { ball, kickPlayer, teamID, pitchWidth, isTop } = freekickConfig;
+
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
   ball.Player = kickPlayer.playerID;
@@ -249,7 +250,8 @@ function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
 }
 
 function alignPlayersForPenalty(penaltyAlignConfig: { isTop: boolean; attack: Team; pitchHeight: number; kickPlayer: Player; matchDetails: MatchDetails; defence: Team; ball: Ball; pitchWidth: number; }) {
-    let { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } = penaltyAlignConfig;
+    const { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } = penaltyAlignConfig;
+
   return setPenaltyPositions(
     isTop,
     attack,
@@ -263,7 +265,8 @@ function alignPlayersForPenalty(penaltyAlignConfig: { isTop: boolean; attack: Te
 }
 
 function setSetPiecePositions(setPieceConfig: { attack: Team; pitchHeight: number; kickPlayer: Player; matchDetails: MatchDetails; ball: Ball; defence: Team; pitchWidth: number; isTop: boolean; }): MatchDetails {
-    let { attack, pitchHeight, kickPlayer, matchDetails, ball, defence, pitchWidth, isTop } = setPieceConfig;
+    const { attack, pitchHeight, kickPlayer, matchDetails, ball, defence, pitchWidth, isTop } = setPieceConfig;
+
   return repositionTeamsForSetPiece(
     attack,
     pitchHeight,
