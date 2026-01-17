@@ -60,8 +60,9 @@ function processTeamTactics(
 /**
  * Stage 1: Action Selection Logic
  */
-function determinePlayerAction(actionConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; ctx: any; closest: any; }): string {
+function determinePlayerAction(actionConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; ctx: unknown; closest: unknown; }): string {
     const { player, team, opp, matchDetails, ctx, closest } = actionConfig;
+
   const possibleActions = actions.findPossActions(
     player,
     matchDetails,
@@ -107,8 +108,9 @@ function checkProvidedAction(
 /**
  * Stage 2: Physical Movement
  */
-function executePlayerMovement(moveCtx: { player: Player; action: string; opp: Team; matchDetails: MatchDetails; ctx: any; }): [number, number] {
+function executePlayerMovement(moveCtx: { player: Player; action: string; opp: Team; matchDetails: MatchDetails; ctx: unknown; }): [number, number] {
     const { player, action, opp, matchDetails, ctx } = moveCtx;
+
   const move = getMovement({ player: player, action: action, opposition: opp, ballX: ctx.x, ballY: ctx.y, matchDetails: matchDetails });
 
   const newPos = completeMovement(matchDetails, player, move);

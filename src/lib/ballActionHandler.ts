@@ -55,7 +55,8 @@ function syncBallToPlayer(
 }
 
 function executeActiveBallAction(ballActionConfig: { matchDetails: MatchDetails; player: Player; team: Team; opp: Team; action: string; }): void {
-    let { matchDetails, player: thisPlayer, team, opp, action } = ballActionConfig;
+    const { matchDetails, player: thisPlayer, team, opp, action } = ballActionConfig;
+
   syncBallToPlayer(matchDetails, thisPlayer);
 
   const executeAction = ACTION_STRATEGIES[action];

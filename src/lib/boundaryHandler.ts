@@ -143,6 +143,7 @@ const BYLINE_CFG = {
 
 function handleByline(bylineConfig: { side: string; matchDetails: MatchDetails; ballX: number; halfMW: number; leftGoalPost: number; rightGoalPost: number; isKOT: boolean; kickOffTS: number; }): MatchDetails {
     const { side, matchDetails, ballX: bXPOS, halfMW, leftGoalPost: leftP, rightGoalPost: rightP, isKOT, kickOffTS } = bylineConfig;
+
   const cfg = BYLINE_CFG[side],
     isT = kickOffTS === 'top';
 

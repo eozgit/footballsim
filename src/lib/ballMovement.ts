@@ -116,6 +116,7 @@ function getBottomKickedPosition(
 
 function newKickedPosition(kickConfig: { pos: [number, number]; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
     const { pos, lowX, highX, lowY, highY } = kickConfig;
+
   const newPosition: [number, number] = [0, 0];
 
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
@@ -306,7 +307,8 @@ function getPlayersInDistance(
 }
 
 function resolveBallMovement(movementConfig: { player: Player; startPos: [number, number]; targetPos: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
-    let { player, startPos: thisPOS, targetPos: newPOS, power, team, opp, matchDetails } = movementConfig;
+    const { player, startPos: thisPOS, targetPos: newPOS, power, team, opp, matchDetails } = movementConfig;
+
   return checkInterceptionsOnTrajectory(
     player,
     [thisPOS[0], thisPOS[1]],
@@ -337,7 +339,8 @@ function thisPlayerIsInProximity(
 }
 
 function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetails; player: Player; startPos: [number, number]; team: Team; }): void {
-    let { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
+    const { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
+
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
   matchDetails.ball.withPlayer = true;
@@ -351,6 +354,7 @@ function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetai
 
 function resolveDeflection(deflectionConfig: { power: number; startPos: [number, number]; defPosition: [number, number]; player: Player; team: Team; matchDetails: MatchDetails; }): BallPosition {
     let { power, startPos: thisPOS, defPosition, player: defPlayer, team: defTeam, matchDetails } = deflectionConfig;
+
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
 
   const yMovement = (thisPOS[1] - defPosition[1]) ** 2;
@@ -566,6 +570,7 @@ function getPassErrorRange(
 
 function setTargetPlyPos(targetConfig: { tplyr: Player; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
     const { tplyr, lowX, highX, lowY, highY } = targetConfig;
+
   const closePlyPos: [number, number] = [0, 0];
 
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
@@ -746,6 +751,7 @@ function mergeArrays(
 
 function calculateShotTarget(shotConfig: { player: Player; onTarget: boolean; width: number; height: number; power: number; }): [number, number] {
     const { player, onTarget, width, height, power } = shotConfig;
+
   const isTopTeam = player.originPOS[1] < height / 2;
 
   const playerY = player.currentPOS[1];

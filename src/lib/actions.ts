@@ -194,6 +194,7 @@ function oppositionNearContext(
 
 function checkTeamMateSpaceClose(spaceConfig: AreaBounds): boolean {
     const { tmateProximity, lowX, highX, lowY, highY } = spaceConfig;
+
   return (
     common.isBetween(tmateProximity[0], lowX, highX) &&
     common.isBetween(tmateProximity[1], lowY, highY)
@@ -291,8 +292,9 @@ function noBallNotGK2CloseBallBottomTeam(
  * Shared logic for non-goalkeeper players near the ball.
  * Handles both proximity ranges and team-specific penalty box checks.
  */
-function resolveNoBallNotGKIntent(intentConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; pitchWidth: number; pitchHeight: number; isBottomTeam: boolean; weights: any; }): MatchEventWeights {
+function resolveNoBallNotGKIntent(intentConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; pitchWidth: number; pitchHeight: number; isBottomTeam: boolean; weights: unknown; }): MatchEventWeights {
     const { matchDetails, currentPOS, pitchWidth, pitchHeight, isBottomTeam, weights } = intentConfig;
+
   const [curX, curY] = currentPOS;
 
   if (curX === 'NP') {
@@ -318,7 +320,8 @@ function resolveNoBallNotGKIntent(intentConfig: { matchDetails: MatchDetails; cu
 }
 
 function noBallNotGK4CloseBall(positionConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; originPOS: [number, number]; pitchWidth: number; pitchHeight: number; }): MatchEventWeights {
-    let { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
+    const { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
+
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
   return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: currentPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: isBottomTeam, weights: {
@@ -328,7 +331,8 @@ function noBallNotGK4CloseBall(positionConfig: { matchDetails: MatchDetails; cur
 }
 
 function noBallNotGK2CloseBall(positionConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; originPOS: [number, number]; pitchWidth: number; pitchHeight: number; }): MatchEventWeights {
-    let { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
+    const { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
+
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
   const [curX, curY] = currentPOS;
@@ -366,7 +370,8 @@ function checkPositionInBottomPenaltyBox(
 }
 
 function checkPositionInBottomPenaltyBoxClose(penaltyBoxConfig: { position: [number, number]; pitchWidth: number; pitchHeight: number; }): boolean {
-    let { position, pitchWidth, pitchHeight } = penaltyBoxConfig;
+    const { position, pitchWidth, pitchHeight } = penaltyBoxConfig;
+
   const yPos = common.isBetween(
     position[0],
     pitchWidth / 3 - 5,
@@ -493,8 +498,9 @@ function populateActionsJSON(): { name: string; points: number }[] {
 /**
  * Unified handler for all defensive challenges (Stand and Slide)
  */
-function handleDefensiveChallenge(challengeConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; config: any; }): boolean {
-    let { player, team, opp: opposition, matchDetails, config } = challengeConfig;
+function handleDefensiveChallenge(challengeConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; config: unknown; }): boolean {
+    const { player, team, opp: opposition, matchDetails, config } = challengeConfig;
+
   const { iterationLog, ball } = matchDetails;
 
   iterationLog.push(`${config.label} attempted by: ${player.name}`);
@@ -557,7 +563,8 @@ function resolveTackle(
 }
 
 function resolveSlide(tackleConfig: { player: Player; team: Team; opposition: Team; matchDetails: MatchDetails; }): boolean {
-    let { player, team, opposition, matchDetails } = tackleConfig;
+    const { player, team, opposition, matchDetails } = tackleConfig;
+
   return handleDefensiveChallenge({ player: player, team: team, opp: opposition, matchDetails: matchDetails, config: {
           label: 'Slide tackle',
           foulRange: [11, 20],
@@ -618,7 +625,8 @@ function calcRetentionScore(
 }
 
 function setPostTackleBall(tackleBallConfig: { matchDetails: MatchDetails; team: Team; opp: Team; player: Player; }): void {
-    let { matchDetails, team, opp: opposition, player } = tackleBallConfig;
+    const { matchDetails, team, opp: opposition, player } = tackleBallConfig;
+
   player.hasBall = true;
   matchDetails.ball.lastTouch.playerName = player.name;
   matchDetails.ball.lastTouch.playerID = player.playerID;
@@ -637,7 +645,8 @@ function setPostTackleBall(tackleBallConfig: { matchDetails: MatchDetails; team:
 }
 
 function setPostTacklePosition(postTackleConfig: { matchDetails: MatchDetails; winningPlayer: Player; losingPlayer: Player; increment: number; }): void {
-    let { matchDetails, winningPlayer: winningPlyr, losingPlayer: losePlayer, increment } = postTackleConfig;
+    const { matchDetails, winningPlayer: winningPlyr, losingPlayer: losePlayer, increment } = postTackleConfig;
+
   const [, pitchHeight] = matchDetails.pitchSize;
 
   if (losePlayer.originPOS[1] > pitchHeight / 2) {
@@ -684,6 +693,7 @@ function setPostTacklePosition(postTackleConfig: { matchDetails: MatchDetails; w
 
 function setInjury(injuryContext: { matchDetails: MatchDetails; thatPlayer: Player; player: Player; tackledInjury: number; tacklerInjury: number; }): void {
     const { matchDetails, thatPlayer, player, tackledInjury, tacklerInjury } = injuryContext;
+
   if (isInjured(tackledInjury)) {
     thatPlayer.injured = true;
     matchDetails.iterationLog.push(`Player Injured - ${thatPlayer.name}`);
@@ -751,7 +761,8 @@ const VALID_ACTIONS = [
  * Resolves illegal actions to a logical alternative.
  */
 function validateAndResolvePlayerAction(actionConfig: { matchDetails: MatchDetails; player: Player; fallbackAction: string; }): string {
-    let { matchDetails, player: thisPlayer, fallbackAction } = actionConfig;
+    const { matchDetails, player: thisPlayer, fallbackAction } = actionConfig;
+
   const providedAction = thisPlayer.action || 'unassigned';
 
   // 1. Handle 'none' or 'unassigned'
