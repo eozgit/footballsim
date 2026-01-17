@@ -30,13 +30,7 @@ function resolvePlayerBallInteraction(interactionConfig: { matchDetails: MatchDe
 
   // 2. Resolve Interaction
   if (thisPlayer.position === 'GK') {
-    return handleGoalieSave(
-      matchDetails,
-      thisPlayer,
-      checkPos,
-      power,
-      thisTeam,
-    );
+    return handleGoalieSave({ matchDetails: matchDetails, player: thisPlayer, ballPos: checkPos, power: power, team: thisTeam });
   }
 
   return handlePlayerDeflection(

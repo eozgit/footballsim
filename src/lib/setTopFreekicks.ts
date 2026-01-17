@@ -114,24 +114,9 @@ function setTopBottomQtrCentreYPos(
     attack,
   );
 
-  setDeepFreekickBallAndKicker(
-    ball,
-    kickPlayer,
-    attack.teamID,
-    pitchWidth,
-    true,
-  );
+  setDeepFreekickBallAndKicker({ ball: ball, kickPlayer: kickPlayer, teamID: attack.teamID, pitchWidth: pitchWidth, isTop: true });
 
-  return alignPlayersForPenalty(
-    true,
-    attack,
-    pitchHeight,
-    kickPlayer,
-    matchDetails,
-    defence,
-    ball,
-    pitchWidth,
-  );
+  return alignPlayersForPenalty({ isTop: true, attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, defence: defence, ball: ball, pitchWidth: pitchWidth });
 }
 
 function setTopLowerFinalQtrBylinePos(
@@ -151,16 +136,7 @@ function setTopLowerFinalQtrBylinePos(
 
   common.setPlayerXY(kickPlayer, ballX, ballY);
 
-  return setSetPiecePositions(
-    attack,
-    pitchHeight,
-    kickPlayer,
-    matchDetails,
-    ball,
-    defence,
-    pitchWidth,
-    true,
-  );
+  return setSetPiecePositions({ attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, ball: ball, defence: defence, pitchWidth: pitchWidth, isTop: true });
 }
 
 export { setTopFreekick };

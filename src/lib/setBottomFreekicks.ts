@@ -136,16 +136,7 @@ function setBottomUpperQtrCentreYPos(
     ball.direction = 'northwest';
   }
 
-  return alignPlayersForPenalty(
-    false,
-    attack,
-    pitchHeight,
-    kickPlayer,
-    details,
-    defence,
-    ball,
-    pitchWidth,
-  );
+  return alignPlayersForPenalty({ isTop: false, attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: details, defence: defence, ball: ball, pitchWidth: pitchWidth });
 }
 
 function setBottomLowerFinalQtrBylinePos(
@@ -160,24 +151,9 @@ function setBottomLowerFinalQtrBylinePos(
 
   const kickPlayer = attack.players[5];
 
-  setDeepFreekickBallAndKicker(
-    ball,
-    kickPlayer,
-    attack.teamID,
-    pitchWidth,
-    false,
-  );
+  setDeepFreekickBallAndKicker({ ball: ball, kickPlayer: kickPlayer, teamID: attack.teamID, pitchWidth: pitchWidth, isTop: false });
 
-  return setSetPiecePositions(
-    attack,
-    pitchHeight,
-    kickPlayer,
-    matchDetails,
-    ball,
-    defence,
-    pitchWidth,
-    false,
-  );
+  return setSetPiecePositions({ attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, ball: ball, defence: defence, pitchWidth: pitchWidth, isTop: false });
 }
 
 export { setBottomFreekick };

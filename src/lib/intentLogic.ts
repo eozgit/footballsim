@@ -185,15 +185,7 @@ function handleInPenaltyBox(penaltyBoxContext: { playerInformation: Player; tmat
     let { playerInformation, tmateProximity, currentPOS, pos, oppCurPos, halfRange, shotRange, pitchHeight } = penaltyBoxContext;
   // 1. Delegation to Pressure logic if opposition is close
   if (oppositionNearContext(playerInformation, 6, 6)) {
-    return handleUnderPressureInBox(
-      tmateProximity,
-      currentPOS,
-      pos,
-      oppCurPos,
-      halfRange,
-      shotRange,
-      pitchHeight,
-    );
+    return handleUnderPressureInBox({ tmateProximity: tmateProximity, currentPOS: currentPOS, pos: pos, oppCurPos: oppCurPos, halfRange: halfRange, shotRange: shotRange, pitchHeight: pitchHeight });
   }
 
   // 2. Default box resolution
@@ -213,15 +205,8 @@ function handleInPenaltyBox(penaltyBoxContext: { playerInformation: Player; tmat
   });
 }
 
-function handleUnderPressureInBox(
-  tmateProximity: [number, number],
-  currentPOS: readonly [number, number],
-  pos: BallPosition,
-  oppCurPos: BallPosition,
-  halfRange: number,
-  shotRange: number,
-  pitchHeight: number,
-): MatchEventWeights {
+function handleUnderPressureInBox(boxPressureContext: { tmateProximity: [number, number]; currentPOS: [number, number]; pos: [number, number]; oppCurPos: [number, number]; halfRange: number; shotRange: number; pitchHeight: number; }): MatchEventWeights {
+    let { tmateProximity, currentPOS, pos, oppCurPos, halfRange, shotRange, pitchHeight } = boxPressureContext;
   const yPos = currentPOS[1];
 
   // 1. Check for specific "Opposition Below" logic
@@ -274,7 +259,7 @@ function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
 
   // 1. Special Cases
   if (position === 'GK') {
-    return handleGKIntent(playerInformation);
+    return handleGKIntent({ playerInfo: playerInformation });
   }
 
   if (onBottomCornerBoundary(pos, pitchWidth, pitchHeight)) {
@@ -315,7 +300,8 @@ function resolveZonePressure(
     : openWeights;
 }
 
-function handleGKIntent(playerInfo: ProximityContext): MatchEventWeights {
+function handleGKIntent(zonePressureConfig: { playerInfo: any; pressureWeights: MatchEventWeights; openWeights: MatchEventWeights; distX: number; distY: number; }): MatchEventWeights {
+    let { playerInfo, pressureWeights, openWeights, distX, distY } = zonePressureConfig;
   return resolveZonePressure(
     playerInfo,
     [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
@@ -392,13 +378,7 @@ function getAttackingThreatWeights(
 
   // 2. Branch 1: Deep inside the penalty box
   if (checkPositionInTopPenaltyBoxClose(curPOS, pitchWidth, pitchHeight)) {
-    return handleDeepBoxThreat(
-      oppInfo,
-      tmateProximity,
-      player.currentPOS,
-      closeOppPOS,
-      player.skill,
-    );
+    return handleDeepBoxThreat({ oppInfo: oppInfo, tmateProx: tmateProximity, currentPOS: player.currentPOS, closeOppPOS: closeOppPOS, skill: player.skill });
   }
 
   // 3. Branch 2: Edge of the box / Long range (shooting skill based)
@@ -450,13 +430,8 @@ function handleOutsidePenaltyBox(
   );
 }
 
-function handleDeepBoxThreat(
-  oppInfo: PlayerProximityDetails,
-  tmateProx: [number, number],
-  currentPOS: readonly [number | 'NP', number],
-  closeOppPOS: readonly [number | 'NP', number],
-  skill: Skill,
-): MatchEventWeights {
+function handleDeepBoxThreat(deepThreatConfig: { oppInfo: any; tmateProx: [number, number]; currentPOS: [number, number]; closeOppPOS: [number, number]; skill: number; }): MatchEventWeights {
+    let { oppInfo, tmateProx, currentPOS, closeOppPOS, skill } = deepThreatConfig;
   // Scenario: Defender is closing in
   if (oppositionNearContext(oppInfo, 20, 20)) {
     return handlePressuredBoxDecision(
@@ -652,13 +627,8 @@ function attemptGoalieSave(
   return false;
 }
 
-function handleGoalieSave(
-  matchDetails: MatchDetails,
-  player: Player,
-  ballPos: [number, number, number],
-  power: number,
-  team: Team,
-): [number, number, number] | undefined {
+function handleGoalieSave(saveConfig: { matchDetails: MatchDetails; player: Player; ballPos: [number, number]; power: number; team: Team; }): [number, number, number] | undefined {
+    let { matchDetails, player, ballPos, power, team } = saveConfig;
   const [posX, posY] = player.currentPOS;
 
   if (posX === 'NP') {
