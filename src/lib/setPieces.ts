@@ -48,16 +48,9 @@ function executePenaltyShot(
 /**
  * Sets player positions for both teams during a penalty set-piece.
  */
-function setPenaltyPositions(
-  isTop: boolean,
-  attack: Team,
-  pitchHeight: number,
-  kickPlayer: Player,
-  matchDetails: MatchDetails,
-  defence: Team,
-  ball: Ball,
-  pitchWidth: number,
-): MatchDetails {
+function setPenaltyPositions(penaltyConfig: ActionContext & { isTop: boolean; pitchHeight: number; ball: Ball; pitchWidth: number; }): MatchDetails {
+  const { isTop, team: attack, pitchHeight, player: kickPlayer, matchDetails, opp: defence, ball, pitchWidth } = penaltyConfig;
+
   const getRandomPenaltyPosition = isTop
     ? common.getRandomBottomPenaltyPosition
     : common.getRandomTopPenaltyPosition;
@@ -160,25 +153,13 @@ function positionDefendingTeam({
       midWayY = Math.floor(ball.position[1] / 2);
     }
 
-    playerSpace = setDefenderSetPiecePosition(
-      player,
-      midWayX,
-      playerSpace,
-      midWayY,
-      matchDetails,
-      getRandomPenaltyPosition,
-    );
+    playerSpace = setDefenderSetPiecePosition({ player: player, midWayFromBalltoGoalX: midWayX, playerSpace: playerSpace, midWayFromBalltoGoalY: midWayY, matchDetails: matchDetails, getRandomPenaltyPosition: getRandomPenaltyPosition });
   }
 }
 
-function setDefenderSetPiecePosition(
-  player: Player,
-  midWayFromBalltoGoalX: number,
-  playerSpace: number,
-  midWayFromBalltoGoalY: number,
-  matchDetails: MatchDetails,
-  getRandomPenaltyPosition: (matchDetails: MatchDetails) => [number, number],
-): number {
+function setDefenderSetPiecePosition(defenderPositionConfig: ActionContext & { midWayFromBalltoGoalX: number; playerSpace: number; midWayFromBalltoGoalY: number; getRandomPenaltyPosition: boolean; }): number {
+  let { player, midWayFromBalltoGoalX, playerSpace, midWayFromBalltoGoalY, matchDetails, getRandomPenaltyPosition } = defenderPositionConfig;
+
   if (player.position === 'GK') {
     const [origX, origY] = player.originPOS;
 
@@ -217,12 +198,9 @@ export function calculateAttackingSetPieceY(
 /**
  * Calculates the Y-coordinate for a defensive player during a deep set piece.
  */
-export function calculateDefensiveSetPieceY(
-  player: Player,
-  isTop: boolean,
-  pitchHeight: number,
-  isGKExecuting: boolean,
-): number {
+export function calculateDefensiveSetPieceY(attackingYConfig: ActionContext & { ballY: number; isTop: boolean; pitchHeight: number; isGKExecuting: boolean; }): number {
+  const { player, ballY, isTop, pitchHeight, isGKExecuting } = attackingYConfig;
+
   if (isGKExecuting) {
     if (player.position === 'GK') {
       return player.originPOS[1];
@@ -267,7 +245,14 @@ function executeDeepSetPieceSetup(
 
   // 3. Position Teams
   repositionAttackers(attack, kickPlayer, ball, isTop, pitchHeight, isGKExecuting);
-  repositionDefenders(defence, isTop, pitchHeight, isGKExecuting);
+  repositionDefenders({
+    attack: defence,
+    kickPlayer,
+    ball,
+    isTop,
+    pitchHeight,
+    isGKExecuting
+  });
 
   matchDetails.endIteration = true;
 
@@ -324,14 +309,17 @@ function repositionAttackers(
 /**
  * Iterates through defensive players to set coordinates.
  */
-function repositionDefenders(
-  defence: Team,
-  isTop: boolean,
-  pitchHeight: number,
-  isGKExecuting: boolean,
-): void {
-  for (const player of defence.players) {
-    const targetY = calculateDefensiveSetPieceY(player, isTop, pitchHeight, isGKExecuting);
+function repositionDefenders(attackerRepositionConfig: { attack: Team; kickPlayer: Player; ball: Ball; isTop: boolean; pitchHeight: number; isGKExecuting: boolean; }): void {
+  const { attack, kickPlayer, ball, isTop, pitchHeight, isGKExecuting } = attackerRepositionConfig;
+
+  for (const player of attack.players) {
+    const targetY = calculateDefensiveSetPieceY({
+      player: player,
+      ballY: ball.position[1], // Use the actual ball Y coordinate
+      isTop: isTop,           // Use the boolean flag
+      pitchHeight: pitchHeight, // Use the actual pitch height
+      isGKExecuting: isGKExecuting
+    });
 
     common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
     common.setPlayerXY(player, player.currentPOS[0], Math.floor(targetY));
@@ -402,16 +390,9 @@ function getAttackerSetPieceY(
   return null;
 }
 
-function repositionTeamsForSetPiece(
-  attack: Team,
-  pitchHeight: number,
-  kickPlayer: Player,
-  matchDetails: MatchDetails,
-  ball: Ball,
-  defence: Team,
-  pitchWidth: number,
-  isTop: boolean,
-): MatchDetails {
+function repositionTeamsForSetPiece(teamRepositionConfig: ActionContext & { pitchHeight: number; ball: Ball; pitchWidth: number; isTop: boolean; }): MatchDetails {
+  const { team: attack, pitchHeight, player: kickPlayer, matchDetails, ball, opp: defence, pitchWidth, isTop } = teamRepositionConfig;
+
   const getRandomPenaltyPosition = isTop
     ? common.getRandomBottomPenaltyPosition
     : common.getRandomTopPenaltyPosition;

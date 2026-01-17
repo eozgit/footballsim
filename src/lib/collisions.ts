@@ -44,7 +44,7 @@ function resolvePlayerBallInteraction(interactionConfig: {
     });
   }
 
-  return handlePlayerDeflection(matchDetails, thisPlayer, thisPOS, checkPos, power, thisTeam);
+  return handlePlayerDeflection({ matchDetails: matchDetails, player: thisPlayer, thisPOS: thisPOS, ballPos: checkPos, power: power, team: thisTeam });
 }
 
 /**
