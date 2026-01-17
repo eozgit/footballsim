@@ -529,14 +529,7 @@ function handleDefensiveChallenge(challengeConfig: { player: Player; team: Team;
     calcRetentionScore(opponentWithBall.skill, 5);
 
   if (isSuccessful) {
-    setSuccessTackle(
-      matchDetails,
-      team,
-      opposition,
-      player,
-      opponentWithBall,
-      config.tackleDetails,
-    );
+    setSuccessTackle({ matchDetails: matchDetails, team: team, opposition: opposition, player: player, thatPlayer: opponentWithBall, tackleDetails: config.tackleDetails });
   } else {
     setFailedTackle(
       matchDetails,
@@ -584,14 +577,8 @@ function setFailedTackle(
   setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: thatPlayer, losingPlayer: player, increment: tackleDetails.increment });
 }
 
-function setSuccessTackle(
-  matchDetails: MatchDetails,
-  team: Team,
-  opposition: Team,
-  player: Player,
-  thatPlayer: Player,
-  tackleDetails: { injuryHigh: number; injuryLow: number; increment: number },
-): void {
+function setSuccessTackle(tackleConfig: { matchDetails: MatchDetails; team: Team; opposition: Team; player: Player; thatPlayer: Player; tackleDetails: TackleDetails; }): void {
+    let { matchDetails, team, opposition, player, thatPlayer, tackleDetails } = tackleConfig;
   setPostTackleBall({ matchDetails: matchDetails, team: team, opp: opposition, player: player });
   matchDetails.iterationLog.push(`Successful tackle by: ${player.name}`);
 

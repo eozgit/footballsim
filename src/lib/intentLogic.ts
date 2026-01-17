@@ -64,16 +64,7 @@ function getAttackingIntentWeights(ctx: ActionContext): MatchEventWeights {
       throw new Error('Not playing');
     }
 
-    return handleInPenaltyBox(
-      oppInfo,
-      tmateProximity,
-      [curX, curY],
-      playerPos,
-      oppPos,
-      halfRange,
-      fullRange,
-      pitchHeight,
-    );
+    return handleInPenaltyBox({ playerInformation: oppInfo, tmateProximity: tmateProximity, currentPOS: [curX, curY], pos: playerPos, oppCurPos: oppPos, halfRange: halfRange, shotRange: fullRange, pitchHeight: pitchHeight });
   }
 
   return handleOutsidePenaltyBox(
@@ -148,17 +139,8 @@ function ensureValidPosition(
 /**
  * Resolves weight based on vertical pitch position (Half, Shot, or Default range).
  */
-function getRangeBasedWeights(
-  yPos: number,
-  halfRange: number,
-  shotRange: number,
-  pitchHeight: number,
-  weightMap: {
-    half: MatchEventWeights;
-    shot: MatchEventWeights;
-    fallback: MatchEventWeights;
-  },
-): MatchEventWeights {
+function getRangeBasedWeights(rangeConfig: { yPos: number; halfRange: number; shotRange: number; pitchHeight: number; weightMap: any; }): MatchEventWeights {
+    let { yPos, halfRange, shotRange, pitchHeight, weightMap } = rangeConfig;
   if (common.isBetween(yPos, halfRange, pitchHeight)) {
     return weightMap.half;
   }
@@ -189,13 +171,7 @@ function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
   // ... rest of the function remains exactly the same
   const useSpaceWeights = checkTeamMateSpaceClose({ tmateProximity: tmateProximity, lowX: spaceConfig[0], highX: spaceConfig[1], lowY: spaceConfig[2], highY: spaceConfig[3] });
 
-  return getRangeBasedWeights(
-    yPos,
-    halfRange,
-    shotRange,
-    pitchHeight,
-    useSpaceWeights ? spaceWeights : defaultWeights,
-  );
+  return getRangeBasedWeights({ yPos: yPos, halfRange: halfRange, shotRange: shotRange, pitchHeight: pitchHeight, weightMap: useSpaceWeights ? spaceWeights : defaultWeights });
 }
 
 // Shared configuration for standard box intentions
@@ -205,16 +181,8 @@ const STANDARD_SPACE_WEIGHTS = {
   fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0] as MatchEventWeights,
 };
 
-function handleInPenaltyBox(
-  playerInformation: ProximityContext,
-  tmateProximity: [number, number],
-  currentPOS: readonly [number, number],
-  pos: readonly [number, number],
-  oppCurPos: BallPosition,
-  halfRange: number,
-  shotRange: number,
-  pitchHeight: number,
-): MatchEventWeights {
+function handleInPenaltyBox(penaltyBoxContext: { playerInformation: Player; tmateProximity: [number, number]; currentPOS: [number, number]; pos: [number, number]; oppCurPos: [number, number]; halfRange: number; shotRange: number; pitchHeight: number; }): MatchEventWeights {
+    let { playerInformation, tmateProximity, currentPOS, pos, oppCurPos, halfRange, shotRange, pitchHeight } = penaltyBoxContext;
   // 1. Delegation to Pressure logic if opposition is close
   if (oppositionNearContext(playerInformation, 6, 6)) {
     return handleUnderPressureInBox(
@@ -262,11 +230,11 @@ function handleUnderPressureInBox(
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
 
-    return getRangeBasedWeights(yPos, halfRange, shotRange, pitchHeight, {
-      half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
-      fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
-    });
+    return getRangeBasedWeights({ yPos: yPos, halfRange: halfRange, shotRange: shotRange, pitchHeight: pitchHeight, weightMap: {
+              half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+              shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
+              fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
+            } });
   }
 
   // 2. Standard pressure resolution

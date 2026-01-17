@@ -14,14 +14,7 @@ describe('ArrayStuffs()', function () {
 
     const pArray = [2, 2, 2, 2, 1, 1, 1, 1, 1, 1];
 
-    const newArray = bMovement.mergeArrays(
-      10,
-      [337, 527, 0],
-      [237, 557],
-      xArray,
-      yArray,
-      pArray,
-    );
+    const newArray = bMovement.mergeArrays({ arrayLength: 10, oldPos: [337, 527, 0], newPos: [237, 557], array1: xArray, array2: yArray, array3: pArray });
 
     expect(newArray[0]).to.eql([327, 532, 2]);
 

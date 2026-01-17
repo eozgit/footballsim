@@ -4,14 +4,8 @@ import { handleGoalieSave, handlePlayerDeflection } from './intentLogic.js';
 import * as setPositions from './setPositions.js';
 import type { MatchDetails, Player, Team } from './types.js';
 
-function resolvePlayerBallInteraction(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  thisPOS: [number, number],
-  thisPos: [number, number, number], // ball current 3D pos
-  power: number,
-  thisTeam: Team,
-): [number, number, number] | [number, number] | undefined {
+function resolvePlayerBallInteraction(interactionConfig: { matchDetails: MatchDetails; thisPlayer: Player; thisPOS: [number, number]; thisPos: [number, number]; power: number; thisTeam: Team; }): [number, number, number] | [number, number] | undefined {
+    let { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = interactionConfig;
   // 1. Validation
   if (!thisPlayer) {
     throw new Error('Player is undefined!');
@@ -59,29 +53,14 @@ function resolvePlayerBallInteraction(
  * Resolves ball movement by checking for player interceptions and pitch boundaries.
  * Refactored to comply with the 50-line limit by extracting the trajectory loop.
  */
-function checkInterceptionsOnTrajectory(
-  player: Player,
-  thisPOS: [number, number],
-  newPOS: [number, number],
-  power: number,
-  team: Team,
-  opp: Team,
-  matchDetails: MatchDetails,
-): [number, number] {
+function checkInterceptionsOnTrajectory(trajectoryConfig: { player: Player; thisPOS: [number, number]; newPOS: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
+    let { player, thisPOS, newPOS, power, team, opp, matchDetails } = trajectoryConfig;
   common.removeBallFromAllPlayers(matchDetails);
 
   // 1. Process Interceptions (Extracted)
   const trajectory = common.getBallTrajectory(thisPOS, newPOS, power);
 
-  resolvePathInterceptions(
-    trajectory,
-    player,
-    team,
-    opp,
-    matchDetails,
-    thisPOS,
-    power,
-  );
+  resolvePathInterceptions({ trajectory: trajectory, originPlayer: player, team: team, opp: opp, matchDetails: matchDetails, thisPOS: thisPOS, power: power });
 
   // 2. Handle Boundaries
   const lastTeam = matchDetails.ball.lastTouch.teamID;
@@ -103,15 +82,8 @@ function checkInterceptionsOnTrajectory(
 /**
  * Iterates through the ball's path to check if any player can intercept the ball.
  */
-function resolvePathInterceptions(
-  trajectory: [number, number, number][],
-  originPlayer: Player,
-  team: Team,
-  opp: Team,
-  matchDetails: MatchDetails,
-  thisPOS: [number, number],
-  power: number,
-): void {
+function resolvePathInterceptions(pathConfig: { trajectory: any; originPlayer: Player; team: Team; opp: Team; matchDetails: MatchDetails; thisPOS: [number, number]; power: number; }): void {
+    let { trajectory, originPlayer, team, opp, matchDetails, thisPOS, power } = pathConfig;
   for (const step of trajectory) {
     const checkPos: [number, number] = [
       common.round(step[0], 0),
@@ -137,14 +109,7 @@ function resolvePathInterceptions(
     const closestTeam = useP1 ? team : opp;
 
     if (closestPlayer) {
-      thisPlayerIsInProximity(
-        matchDetails,
-        closestPlayer,
-        thisPOS,
-        step,
-        power,
-        closestTeam,
-      );
+      thisPlayerIsInProximity({ matchDetails: matchDetails, thisPlayer: closestPlayer, thisPOS: thisPOS, thisPos: step, power: power, thisTeam: closestTeam });
     }
   }
 }

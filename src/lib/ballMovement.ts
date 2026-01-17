@@ -309,33 +309,12 @@ function getPlayersInDistance(
 function resolveBallMovement(movementConfig: { player: Player; startPos: [number, number]; targetPos: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
     const { player, startPos: thisPOS, targetPos: newPOS, power, team, opp, matchDetails } = movementConfig;
 
-  return checkInterceptionsOnTrajectory(
-    player,
-    [thisPOS[0], thisPOS[1]],
-    [newPOS[0], newPOS[1]],
-    power,
-    team,
-    opp,
-    matchDetails,
-  );
+  return checkInterceptionsOnTrajectory({ player: player, thisPOS: [thisPOS[0], thisPOS[1]], newPOS: [newPOS[0], newPOS[1]], power: power, team: team, opp: opp, matchDetails: matchDetails });
 }
 
-function thisPlayerIsInProximity(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  thisPOS: [number, number],
-  thisPos: [number, number, number],
-  power: number,
-  thisTeam: Team,
-): [number, number] | [number, number, number] | undefined {
-  return resolvePlayerBallInteraction(
-    matchDetails,
-    thisPlayer,
-    thisPOS,
-    thisPos,
-    power,
-    thisTeam,
-  );
+function thisPlayerIsInProximity(proximityConfig: { matchDetails: MatchDetails; thisPlayer: Player; thisPOS: [number, number]; thisPos: [number, number]; power: number; thisTeam: Team; }): [number, number] | [number, number, number] | undefined {
+    let { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
+  return resolvePlayerBallInteraction({ matchDetails: matchDetails, thisPlayer: thisPlayer, thisPOS: thisPOS, thisPos: thisPos, power: power, thisTeam: thisTeam });
 }
 
 function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetails; player: Player; startPos: [number, number]; team: Team; }): void {
@@ -681,14 +660,7 @@ function calcBallMovementOverTime(
 
   const yArray = splitNumberIntoN(changeInY, movementIterations);
 
-  const BOIts = mergeArrays(
-    powerArray.length,
-    [matchDetails.ball.position[0], matchDetails.ball.position[1]],
-    nextPosition,
-    xArray,
-    yArray,
-    powerArray,
-  ).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
+  const BOIts = mergeArrays({ arrayLength: powerArray.length, oldPos: [matchDetails.ball.position[0], matchDetails.ball.position[1]], newPos: nextPosition, array1: xArray, array2: yArray, array3: powerArray }).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
 
   matchDetails.ball.ballOverIterations = BOIts;
   const endPos = resolveBallMovement({ player: player, startPos: position, targetPos: BOIts[0], power: power, team: kickOffTeam, opp: secondTeam, matchDetails: matchDetails });
@@ -721,14 +693,8 @@ function splitNumberIntoN(num: number, n: number): number[] {
   return splitNumber;
 }
 
-function mergeArrays(
-  arrayLength: number,
-  oldPos: number[],
-  newPos: number[],
-  array1: number[],
-  array2: number[],
-  array3: number[],
-): number[][] {
+function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number]; newPos: [number, number]; array1: any[]; array2: any[]; array3: any[]; }): number[][] {
+    let { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
   let tempPos = [oldPos[0], oldPos[1]];
 
   const arrayN = Array.from(new Array(arrayLength - 1).keys());
