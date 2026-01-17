@@ -141,16 +141,8 @@ const BYLINE_CFG = {
   },
 };
 
-function handleByline(
-  side: 'top' | 'bottom',
-  matchDetails: MatchDetails,
-  bXPOS: number,
-  halfMW: number,
-  leftP: number,
-  rightP: number,
-  isKOT: boolean,
-  kickOffTS: string,
-): MatchDetails {
+function handleByline(bylineConfig: { side: string; matchDetails: MatchDetails; ballX: number; halfMW: number; leftGoalPost: number; rightGoalPost: number; isKOT: boolean; kickOffTS: number; }): MatchDetails {
+    const { side, matchDetails, ballX: bXPOS, halfMW, leftGoalPost: leftP, rightGoalPost: rightP, isKOT, kickOffTS } = bylineConfig;
   const cfg = BYLINE_CFG[side],
     isT = kickOffTS === 'top';
 
@@ -182,7 +174,7 @@ export const handleTopByline = (
   r: number,
   k: boolean,
   s: string,
-): MatchDetails => handleByline('top', m, x, w, l, r, k, s);
+): MatchDetails => handleByline({ side: 'top', matchDetails: m, ballX: x, halfMW: w, leftGoalPost: l, rightGoalPost: r, isKOT: k, kickOffTS: s });
 
 export const handleBottomByline = (
   m: MatchDetails,
@@ -192,6 +184,6 @@ export const handleBottomByline = (
   r: number,
   k: boolean,
   s: string,
-): MatchDetails => handleByline('bottom', m, x, w, l, r, k, s);
+): MatchDetails => handleByline({ side: 'bottom', matchDetails: m, ballX: x, halfMW: w, leftGoalPost: l, rightGoalPost: r, isKOT: k, kickOffTS: s });
 
 export { resolveBallLocation };
