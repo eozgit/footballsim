@@ -56,7 +56,7 @@ function getAttackingIntentWeights(ctx: ActionContext): MatchEventWeights {
 
   // 3. Delegation based on Pitch Context
   if (
-    checkPositionInBottomPenaltyBoxClose(playerPos, pitchWidth, pitchHeight)
+    checkPositionInBottomPenaltyBoxClose({ position: playerPos, pitchWidth: pitchWidth, pitchHeight: pitchHeight })
   ) {
     const [curX, curY] = player.currentPOS;
 

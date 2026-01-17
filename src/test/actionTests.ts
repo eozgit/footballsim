@@ -147,49 +147,29 @@ describe('testPositionInBottomBox()', function () {
 
 describe('testPositionInBottomBoxClose()', function () {
   it('Inside Bottom Box Test', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose(
-      [345, 1010],
-      680,
-      1050,
-    );
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [345, 1010], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(inPosition).to.be.eql(true);
 
-    inPosition = actions.checkPositionInBottomPenaltyBoxClose(
-      [295, 975],
-      680,
-      1050,
-    );
+    inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [295, 975], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(inPosition).to.be.eql(true);
   });
 
   it('Inside Bottom Box Left', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose(
-      [1, 1010],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [1, 1010], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Right', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose(
-      [677, 1040],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [677, 1040], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Above', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose(
-      [677, 500],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [677, 500], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(inPosition).to.be.eql(false);
   });
@@ -393,13 +373,7 @@ describe('noBallNotGK4CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK4CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -410,13 +384,7 @@ describe('noBallNotGK4CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
@@ -427,13 +395,7 @@ describe('noBallNotGK4CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall(
-      matchDetails,
-      [320, 15],
-      [320, 805],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 805], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
@@ -444,13 +406,7 @@ describe('noBallNotGK4CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK4CloseBall(
-      matchDetails,
-      [320, 300],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -461,13 +417,7 @@ describe('noBallNotGK4CloseBall()', function () {
     );
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall(
-      matchDetails,
-      [320, 300],
-      [320, 5],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });

@@ -101,11 +101,7 @@ function checkProvidedAction(
   thisPlayer: Player,
   newAction: string,
 ): string {
-  return actions.validateAndResolvePlayerAction(
-    matchDetails,
-    thisPlayer,
-    newAction, // We pass the new choice as the fallback
-  );
+  return actions.validateAndResolvePlayerAction({ matchDetails: matchDetails, player: thisPlayer, fallbackAction: newAction });
 }
 
 /**

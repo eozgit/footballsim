@@ -218,7 +218,7 @@ describe('testSetPostTacklePosition()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 3);
+    actions.setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: testPlayer, losingPlayer: thatPlayer, increment: 3 });
 
     expect(matchDetails.secondTeam.players[4].currentPOS).to.eql([600, 967]);
 
@@ -234,7 +234,7 @@ describe('testSetPostTacklePosition()', function () {
 
     const thatPlayer = matchDetails.secondTeam.players[6];
 
-    actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 3);
+    actions.setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: testPlayer, losingPlayer: thatPlayer, increment: 3 });
 
     expect(matchDetails.kickOffTeam.players[4].currentPOS).to.eql([600, 83]);
 
@@ -250,7 +250,7 @@ describe('testSetPostTacklePosition()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 1);
+    actions.setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: testPlayer, losingPlayer: thatPlayer, increment: 1 });
 
     expect(matchDetails.secondTeam.players[4].currentPOS).to.eql([600, 969]);
 
@@ -266,7 +266,7 @@ describe('testSetPostTacklePosition()', function () {
 
     const thatPlayer = matchDetails.secondTeam.players[6];
 
-    actions.setPostTacklePosition(matchDetails, testPlayer, thatPlayer, 1);
+    actions.setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: testPlayer, losingPlayer: thatPlayer, increment: 1 });
 
     expect(matchDetails.kickOffTeam.players[4].currentPOS).to.eql([600, 81]);
 
@@ -377,7 +377,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
+      actions.resolveSlide({ player: testPlayer, team: testTeam, opposition: testOpposition, matchDetails: matchDetails });
 
       expect(
         matchDetails.iterationLog.indexOf(
@@ -422,7 +422,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
+      actions.resolveSlide({ player: testPlayer, team: testTeam, opposition: testOpposition, matchDetails: matchDetails });
 
       expect(
         matchDetails.iterationLog.indexOf(
@@ -473,7 +473,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide(testPlayer, testTeam, testOpposition, matchDetails);
+      actions.resolveSlide({ player: testPlayer, team: testTeam, opposition: testOpposition, matchDetails: matchDetails });
 
       expect(
         matchDetails.iterationLog.indexOf(

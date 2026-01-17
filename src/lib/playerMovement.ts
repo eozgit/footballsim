@@ -53,7 +53,7 @@ function completeSlide(
   team: Team,
   opp: Team,
 ): MatchDetails {
-  const foul = actions.resolveSlide(thisPlayer, team, opp, matchDetails);
+  const foul = actions.resolveSlide({ player: thisPlayer, team: team, opposition: opp, matchDetails: matchDetails });
 
   if (!foul) {
     if (opp.name === matchDetails.kickOffTeam.name) {
@@ -190,11 +190,7 @@ function checkProvidedAction(
   thisPlayer: Player,
   action: string,
 ): string {
-  return actions.validateAndResolvePlayerAction(
-    matchDetails,
-    thisPlayer,
-    action,
-  );
+  return actions.validateAndResolvePlayerAction({ matchDetails: matchDetails, player: thisPlayer, fallbackAction: action });
 }
 
 function handleBallPlayerActions(

@@ -248,13 +248,7 @@ function playerDoesNotHaveBall(
     common.isBetween(ballX, -40, 40) &&
     common.isBetween(ballY, -40, 40)
   ) {
-    return noBallNotGK4CloseBall(
-      matchDetails,
-      currentPOS,
-      originPOS,
-      pitchWidth,
-      pitchHeight,
-    );
+    return noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: currentPOS, originPOS: originPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight });
   } else if (
     common.isBetween(ballX, -80, 80) &&
     common.isBetween(ballY, -80, 80)
@@ -323,13 +317,8 @@ function resolveNoBallNotGKIntent(intentConfig: { matchDetails: MatchDetails; cu
   return weights.fallback;
 }
 
-function noBallNotGK4CloseBall(
-  matchDetails: MatchDetails,
-  currentPOS: readonly [number | 'NP', number],
-  originPOS: readonly [number, number],
-  pitchWidth: number,
-  pitchHeight: number,
-): MatchEventWeights {
+function noBallNotGK4CloseBall(positionConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; originPOS: [number, number]; pitchWidth: number; pitchHeight: number; }): MatchEventWeights {
+    let { matchDetails, currentPOS, originPOS, pitchWidth, pitchHeight } = positionConfig;
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
   return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: currentPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: isBottomTeam, weights: {
@@ -376,11 +365,8 @@ function checkPositionInBottomPenaltyBox(
   return yPos && xPos;
 }
 
-function checkPositionInBottomPenaltyBoxClose(
-  position: BallPosition,
-  pitchWidth: number,
-  pitchHeight: number,
-): boolean {
+function checkPositionInBottomPenaltyBoxClose(penaltyBoxConfig: { position: [number, number]; pitchWidth: number; pitchHeight: number; }): boolean {
+    let { position, pitchWidth, pitchHeight } = penaltyBoxConfig;
   const yPos = common.isBetween(
     position[0],
     pitchWidth / 3 - 5,
@@ -570,12 +556,8 @@ function resolveTackle(
         } });
 }
 
-function resolveSlide(
-  player: Player,
-  team: Team,
-  opposition: Team,
-  matchDetails: MatchDetails,
-): boolean {
+function resolveSlide(tackleConfig: { player: Player; team: Team; opposition: Team; matchDetails: MatchDetails; }): boolean {
+    let { player, team, opposition, matchDetails } = tackleConfig;
   return handleDefensiveChallenge({ player: player, team: team, opp: opposition, matchDetails: matchDetails, config: {
           label: 'Slide tackle',
           foulRange: [11, 20],
@@ -592,12 +574,7 @@ function setFailedTackle(
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
   player.stats.tackles.off++;
   setInjury({ matchDetails: matchDetails, thatPlayer: player, player: thatPlayer, tackledInjury: tackleDetails.injuryHigh, tacklerInjury: tackleDetails.injuryLow });
-  setPostTacklePosition(
-    matchDetails,
-    thatPlayer,
-    player,
-    tackleDetails.increment,
-  );
+  setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: thatPlayer, losingPlayer: player, increment: tackleDetails.increment });
 }
 
 function setSuccessTackle(
@@ -617,12 +594,7 @@ function setSuccessTackle(
 
   player.stats.tackles.on++;
   setInjury({ matchDetails: matchDetails, thatPlayer: thatPlayer, player: player, tackledInjury: tackleDetails.injuryLow, tacklerInjury: tackleDetails.injuryHigh });
-  setPostTacklePosition(
-    matchDetails,
-    player,
-    thatPlayer,
-    tackleDetails.increment,
-  );
+  setPostTacklePosition({ matchDetails: matchDetails, winningPlayer: player, losingPlayer: thatPlayer, increment: tackleDetails.increment });
 }
 
 function calcTackleScore(
@@ -664,12 +636,8 @@ function setPostTackleBall(tackleBallConfig: { matchDetails: MatchDetails; team:
   opposition.intent = 'defend';
 }
 
-function setPostTacklePosition(
-  matchDetails: MatchDetails,
-  winningPlyr: Player,
-  losePlayer: Player,
-  increment: number,
-): void {
+function setPostTacklePosition(postTackleConfig: { matchDetails: MatchDetails; winningPlayer: Player; losingPlayer: Player; increment: number; }): void {
+    let { matchDetails, winningPlayer: winningPlyr, losingPlayer: losePlayer, increment } = postTackleConfig;
   const [, pitchHeight] = matchDetails.pitchSize;
 
   if (losePlayer.originPOS[1] > pitchHeight / 2) {
@@ -782,11 +750,8 @@ const VALID_ACTIONS = [
  * Validates a player's intended action against the current match state (ball possession).
  * Resolves illegal actions to a logical alternative.
  */
-function validateAndResolvePlayerAction(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  fallbackAction: string,
-): string {
+function validateAndResolvePlayerAction(actionConfig: { matchDetails: MatchDetails; player: Player; fallbackAction: string; }): string {
+    let { matchDetails, player: thisPlayer, fallbackAction } = actionConfig;
   const providedAction = thisPlayer.action || 'unassigned';
 
   // 1. Handle 'none' or 'unassigned'
