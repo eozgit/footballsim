@@ -215,12 +215,15 @@ function setDefenderSetPiecePosition(
  * Calculates the Y-coordinate for an attacking player during a deep set piece.
  */
 export function calculateAttackingSetPieceY(
-  player: Player,
-  ballY: number,
-  isTop: boolean,
-  pitchHeight: number,
-  isGKExecuting: boolean,
+  yPositionConfig: BallContext & {
+    player: Player;
+    ballY: number;
+    isTop: boolean;
+    pitchHeight: number;
+    isGKExecuting: boolean;
+  },
 ): number {
+  let { player, ballY, isTopDirection: isTop, pitchHeight, isGKExecuting } = yPositionConfig;
   const offset = isTop ? 300 : -300;
 
   const baseNewY = isGKExecuting
@@ -336,13 +339,13 @@ function repositionAttackers(
     if (player.name === kickPlayer.name) {
       common.setPlayerXY(player, ball.position[0], ball.position[1]);
     } else {
-      const finalY = calculateAttackingSetPieceY(
-        player,
-        ball.position[1],
-        isTop,
-        pitchHeight,
-        isGKExecuting,
-      );
+      const finalY = calculateAttackingSetPieceY({
+        player: player,
+        ballY: ball.position[1],
+        isTopDirection: isTop,
+        pitchHeight: pitchHeight,
+        isGKExecuting: isGKExecuting,
+      });
 
       common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
       common.setPlayerXY(player, player.currentPOS[0], Math.floor(finalY));
