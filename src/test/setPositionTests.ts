@@ -106,14 +106,7 @@ describe('setKickOffTeamGoalScored()', function () {
     }
 
     for (const player of nextJSON.secondTeam.players) {
-      if (player.name === 'Aiden Smith') {
-        expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
-
-        expect(player.currentPOS[0]).to.within(
-          nextJSON.ball.position[0],
-          nextJSON.ball.position[0] + 20,
-        );
-      } else if (player.name === 'Wayne Smith') {
+      if (['Aiden Smith', 'Wayne Smith'].includes(player.name)) {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
 
         expect(player.currentPOS[0]).to.within(
@@ -139,14 +132,7 @@ describe('setSecondTeamGoalScored()', function () {
     }
 
     for (const player of nextJSON.secondTeam.players) {
-      if (player.name === 'Peter Johnson') {
-        expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
-
-        expect(player.currentPOS[0]).to.within(
-          nextJSON.ball.position[0],
-          nextJSON.ball.position[0] + 20,
-        );
-      } else if (player.name === 'Louise Johnson') {
+      if (['Peter Johnson', 'Louise Johnson'].includes(player.name)) {
         expect(player.currentPOS[1]).to.eql(nextJSON.ball.position[1]);
 
         expect(player.currentPOS[0]).to.within(

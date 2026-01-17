@@ -223,7 +223,8 @@ export function calculateAttackingSetPieceY(
     isGKExecuting: boolean;
   },
 ): number {
-  let { player, ballY, isTopDirection: isTop, pitchHeight, isGKExecuting } = yPositionConfig;
+  const { player, ballY, isTopDirection: isTop, pitchHeight, isGKExecuting } = yPositionConfig;
+
   const offset = isTop ? 300 : -300;
 
   const baseNewY = isGKExecuting
@@ -342,7 +343,7 @@ function repositionAttackers(repositionConfig: {
   pitchHeight: number;
   isGKExecuting: boolean;
 }): void {
-  let {
+  const {
     team: attack,
     player: kickPlayer,
     ball,
@@ -350,6 +351,7 @@ function repositionAttackers(repositionConfig: {
     pitchHeight,
     isGKExecuting,
   } = repositionConfig;
+
   for (const player of attack.players) {
     if (player.name === kickPlayer.name) {
       common.setPlayerXY(player, ball.position[0], ball.position[1]);

@@ -251,7 +251,7 @@ function alignPlayersForPenalty(penaltyAlignConfig: {
   defence: Team;
   ball: Ball;
   pitchWidth: number;
-}) {
+}): MatchDetails {
   const { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } =
     penaltyAlignConfig;
 

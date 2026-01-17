@@ -44,14 +44,16 @@ describe('intentPOSitionsDefence()', function () {
     setPos.setIntentPosition(matchDetails, closestPlayer);
     const ballPosition = matchDetails.ball.position;
 
+    const ballZ = ballPosition[2];
+
     expect(ballPosition).to.have.length(3);
 
     assert(ballPosition.length === 3);
 
-    assert(ballPosition[2] === 0);
 
-    assert(ballPosition[2] !== undefined, 'Ball should have a Z-axis');
+    assert(ballZ !== undefined, 'Ball should have a Z-axis');
 
+    assert(ballZ === 0);
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (player.currentPOS[0] === 'NP') {

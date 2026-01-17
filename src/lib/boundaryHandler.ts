@@ -1,17 +1,17 @@
 import * as common from './common.js';
 import {
-  setLeftSecondTeamThrowIn,
-  setLeftKickOffTeamThrowIn,
-  setRightSecondTeamThrowIn,
-  setRightKickOffTeamThrowIn,
-  setSecondTeamGoalScored,
-  setKickOffTeamGoalScored,
-  setTopLeftCornerPositions,
-  setTopGoalKick,
-  setTopRightCornerPositions,
   setBottomGoalKick,
   setBottomLeftCornerPositions,
   setBottomRightCornerPositions,
+  setKickOffTeamGoalScored,
+  setLeftKickOffTeamThrowIn,
+  setLeftSecondTeamThrowIn,
+  setRightKickOffTeamThrowIn,
+  setRightSecondTeamThrowIn,
+  setSecondTeamGoalScored,
+  setTopGoalKick,
+  setTopLeftCornerPositions,
+  setTopRightCornerPositions,
 } from './setPositions.js';
 import type { BallContext, BallPosition, MatchDetails } from './types.js';
 
@@ -47,6 +47,7 @@ function resolveBallLocation(
       rightGoalPost: goalInfo.rightPost,
       isKOT: isKOT,
       side: kickOffTeamSide,
+      ball: {} as BallPosition,
     });
   }
 
@@ -59,6 +60,7 @@ function resolveBallLocation(
       rightGoalPost: goalInfo.rightPost,
       isKOT: isKOT,
       side: kickOffTeamSide,
+      ball: {} as BallPosition,
     });
   }
 
