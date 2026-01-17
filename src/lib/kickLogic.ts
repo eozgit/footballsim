@@ -163,33 +163,33 @@ function calculateThroughBallTarget(
   // Logic Branch 1: Successful skill check
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
     return isAttackingTop
-      ? setTargetPlyPos(pos, 0, 0, -20, -10)
-      : setTargetPlyPos(pos, 0, 0, 10, 30);
+      ? setTargetPlyPos({ tplyr: pos, lowX: 0, highX: 0, lowY: -20, highY: -10 })
+      : setTargetPlyPos({ tplyr: pos, lowX: 0, highX: 0, lowY: 10, highY: 30 });
   }
 
   // Logic Branch 2: Failed skill check
   if (isAttackingTop) {
     if (bottomThird) {
-      return setTargetPlyPos(pos, -10, 10, -10, 10);
+      return setTargetPlyPos({ tplyr: pos, lowX: -10, highX: 10, lowY: -10, highY: 10 });
     }
 
     if (middleThird) {
-      return setTargetPlyPos(pos, -20, 20, -50, 50);
+      return setTargetPlyPos({ tplyr: pos, lowX: -20, highX: 20, lowY: -50, highY: 50 });
     }
 
-    return setTargetPlyPos(pos, -30, 30, -100, 100);
+    return setTargetPlyPos({ tplyr: pos, lowX: -30, highX: 30, lowY: -100, highY: 100 });
   }
 
   // Branch 3: Failed skill check (Bottom team)
   if (bottomThird) {
-    return setTargetPlyPos(pos, -30, 30, -100, 100);
+    return setTargetPlyPos({ tplyr: pos, lowX: -30, highX: 30, lowY: -100, highY: 100 });
   }
 
   if (middleThird) {
-    return setTargetPlyPos(pos, -20, 20, -50, 50);
+    return setTargetPlyPos({ tplyr: pos, lowX: -20, highX: 20, lowY: -50, highY: 50 });
   }
 
-  return setTargetPlyPos(pos, -10, 10, -10, 10);
+  return setTargetPlyPos({ tplyr: pos, lowX: -10, highX: 10, lowY: -10, highY: 10 });
 }
 
 export { executeKickAction, resolvePassDestination };

@@ -15,14 +15,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'run',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'run', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(common.isBetween(movement[0], -3, 1)).to.eql(true);
 
@@ -38,14 +31,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'sprint',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'sprint', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(common.isBetween(movement[0], -5, 5)).to.eql(true);
 
@@ -61,14 +47,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'shoot',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'shoot', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -82,14 +61,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'throughBall',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'throughBall', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -103,14 +75,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'pass',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'pass', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -124,14 +89,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'cross',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'cross', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -145,14 +103,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'cleared',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'cleared', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -166,14 +117,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'boot',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'boot', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -187,14 +131,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.secondTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'penalty',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'penalty', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -208,14 +145,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'tackle',
-      opposition,
-      265,
-      444,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'tackle', opposition: opposition, ballX: 265, ballY: 444, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, -1]);
   });
@@ -229,14 +159,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'tackle',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'tackle', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -250,14 +173,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'tackle',
-      opposition,
-      -10,
-      -10,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'tackle', opposition: opposition, ballX: -10, ballY: -10, matchDetails: matchDetails });
 
     expect(movement).to.eql([1, 1]);
   });
@@ -271,14 +187,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'tackle',
-      opposition,
-      10,
-      -10,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'tackle', opposition: opposition, ballX: 10, ballY: -10, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, 1]);
   });
@@ -292,14 +201,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'slide',
-      opposition,
-      265,
-      444,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'slide', opposition: opposition, ballX: 265, ballY: 444, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, -1]);
   });
@@ -314,14 +216,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], player.currentPOS[1] + 2);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      265,
-      448,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 265, ballY: 448, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, 0]);
   });
@@ -335,14 +230,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      -327,
-      -522,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: -327, ballY: -522, matchDetails: matchDetails });
 
     expect(movement).to.eql([1, 1]);
   });
@@ -357,14 +245,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, 337, player.currentPOS[1]);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      -255,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: -255, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 1]);
   });
@@ -381,14 +262,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], 527);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      0,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: 0, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -405,14 +279,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], 957);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      430,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: 430, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, -1]);
   });
@@ -429,14 +296,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      430,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: 430, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, -1]);
   });
@@ -453,14 +313,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], 1);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      430,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: 430, matchDetails: matchDetails });
 
     expect(movement).to.eql([-1, 1]);
   });
@@ -477,14 +330,7 @@ describe('getMovement()', function () {
     common.setPlayerXY(player, player.currentPOS[0], 1357);
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'intercept',
-      opposition,
-      0,
-      430,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'intercept', opposition: opposition, ballX: 0, ballY: 430, matchDetails: matchDetails });
 
     expect(movement).to.eql([1, -1]);
   });
@@ -498,14 +344,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'run',
-      opposition,
-      265,
-      444,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'run', opposition: opposition, ballX: 265, ballY: 444, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });
@@ -519,14 +358,7 @@ describe('getMovement()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const movement = pMovement.getMovement(
-      player,
-      'sprint',
-      opposition,
-      265,
-      444,
-      matchDetails,
-    );
+    const movement = pMovement.getMovement({ player: player, action: 'sprint', opposition: opposition, ballX: 265, ballY: 444, matchDetails: matchDetails });
 
     expect(movement).to.eql([0, 0]);
   });

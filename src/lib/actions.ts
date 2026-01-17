@@ -281,17 +281,10 @@ function noBallNotGK4CloseBallBottomTeam(
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
-  return resolveNoBallNotGKIntent(
-    matchDetails,
-    currentPOS,
-    pitchWidth,
-    pitchHeight,
-    true,
-    {
-      inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
-      fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
-    },
-  );
+  return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: currentPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: true, weights: {
+            inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
+            fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
+          } });
 }
 
 function noBallNotGK2CloseBallBottomTeam(
@@ -300,31 +293,18 @@ function noBallNotGK2CloseBallBottomTeam(
   pitchWidth: number,
   pitchHeight: number,
 ): MatchEventWeights {
-  return resolveNoBallNotGKIntent(
-    matchDetails,
-    currentPOS,
-    pitchWidth,
-    pitchHeight,
-    true,
-    {
-      inBox: [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0],
-      fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
-    },
-  );
+  return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: currentPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: true, weights: {
+            inBox: [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0],
+            fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
+          } });
 }
 
 /**
  * Shared logic for non-goalkeeper players near the ball.
  * Handles both proximity ranges and team-specific penalty box checks.
  */
-function resolveNoBallNotGKIntent(
-  matchDetails: MatchDetails,
-  currentPOS: readonly [number | 'NP', number],
-  pitchWidth: number,
-  pitchHeight: number,
-  isBottomTeam: boolean,
-  weights: { inBox: MatchEventWeights; fallback: MatchEventWeights },
-): MatchEventWeights {
+function resolveNoBallNotGKIntent(intentConfig: { matchDetails: MatchDetails; currentPOS: [number, number]; pitchWidth: number; pitchHeight: number; isBottomTeam: boolean; weights: any; }): MatchEventWeights {
+    const { matchDetails, currentPOS, pitchWidth, pitchHeight, isBottomTeam, weights } = intentConfig;
   const [curX, curY] = currentPOS;
 
   if (curX === 'NP') {
@@ -358,17 +338,10 @@ function noBallNotGK4CloseBall(
 ): MatchEventWeights {
   const isBottomTeam = originPOS[1] > pitchHeight / 2;
 
-  return resolveNoBallNotGKIntent(
-    matchDetails,
-    currentPOS,
-    pitchWidth,
-    pitchHeight,
-    isBottomTeam,
-    {
-      inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
-      fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
-    },
-  );
+  return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: currentPOS, pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: isBottomTeam, weights: {
+            inBox: [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0],
+            fallback: [0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0],
+          } });
 }
 
 function noBallNotGK2CloseBall(
@@ -388,17 +361,10 @@ function noBallNotGK2CloseBall(
     ? [0, 0, 0, 0, 50, 0, 10, 20, 20, 0, 0] // Original unique value for GK2 Bottom Team
     : [0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0];
 
-  return resolveNoBallNotGKIntent(
-    matchDetails,
-    [curX, curY],
-    pitchWidth,
-    pitchHeight,
-    isBottomTeam,
-    {
-      inBox: inBoxWeights,
-      fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
-    },
-  );
+  return resolveNoBallNotGKIntent({ matchDetails: matchDetails, currentPOS: [curX, curY], pitchWidth: pitchWidth, pitchHeight: pitchHeight, isBottomTeam: isBottomTeam, weights: {
+            inBox: inBoxWeights,
+            fallback: [0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0],
+          } });
 }
 
 function checkPositionInBottomPenaltyBox(

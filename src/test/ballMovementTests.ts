@@ -208,13 +208,13 @@ describe('targetPlayers()', function () {
   }
 
   it('set target player position', async () => {
-    const output = bMovement.setTargetPlyPos([3, 4], 1, 1, 2, 2);
+    const output = bMovement.setTargetPlyPos({ tplyr: [3, 4], lowX: 1, highX: 1, lowY: 2, highY: 2 });
 
     expect(output).to.eql([4, 6]);
   });
 
   it('set target player position - negative', async () => {
-    const output = bMovement.setTargetPlyPos([3, 4], -1, -1, -2, -2);
+    const output = bMovement.setTargetPlyPos({ tplyr: [3, 4], lowX: -1, highX: -1, lowY: -2, highY: -2 });
 
     expect(output).to.eql([2, 2]);
   });

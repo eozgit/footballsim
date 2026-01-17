@@ -239,14 +239,8 @@ function updateInformation(
   common.setBallPosition(ball, bx, by, 0);
 }
 
-function getMovement(
-  player: Player,
-  action: string,
-  opposition: Team,
-  ballX: number,
-  ballY: number,
-  matchDetails: MatchDetails,
-): [number, number] {
+function getMovement(moveConfig: { player: Player; action: string; opposition: Team; ballX: number; ballY: number; matchDetails: MatchDetails; }): [number, number] {
+    const { player, action, opposition, ballX, ballY, matchDetails } = moveConfig;
   const { position } = matchDetails.ball;
 
   const ballActions = [

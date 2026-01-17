@@ -137,7 +137,7 @@ function executePlayerMovement(
   matchDetails: MatchDetails,
   ctx: { x: number; y: number },
 ): [number, number] {
-  const move = getMovement(player, action, opp, ctx.x, ctx.y, matchDetails);
+  const move = getMovement({ player: player, action: action, opposition: opp, ballX: ctx.x, ballY: ctx.y, matchDetails: matchDetails });
 
   const newPos = completeMovement(matchDetails, player, move);
 

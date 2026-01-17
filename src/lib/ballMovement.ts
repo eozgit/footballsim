@@ -555,13 +555,7 @@ function calculatePassDestination(
     pitchHeight,
   );
 
-  return setTargetPlyPos(
-    targetPos,
-    -errorRange,
-    errorRange,
-    -errorRange,
-    errorRange,
-  );
+  return setTargetPlyPos({ tplyr: targetPos, lowX: -errorRange, highX: errorRange, lowY: -errorRange, highY: errorRange });
 }
 
 function getPassErrorRange(
@@ -587,13 +581,8 @@ function getPassErrorRange(
   return playerSide === 'top' ? 10 : 100;
 }
 
-function setTargetPlyPos(
-  tplyr: [number, number],
-  lowX: number,
-  highX: number,
-  lowY: number,
-  highY: number,
-): [number, number] {
+function setTargetPlyPos(targetConfig: { tplyr: Player; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
+    const { tplyr, lowX, highX, lowY, highY } = targetConfig;
   const closePlyPos: [number, number] = [0, 0];
 
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
