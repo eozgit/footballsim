@@ -255,7 +255,16 @@ function alignPlayersForPenalty(penaltyAlignConfig: {
   const { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } =
     penaltyAlignConfig;
 
-  return setPenaltyPositions({ isTop: isTop, team: attack, pitchHeight: pitchHeight, player: kickPlayer, matchDetails: matchDetails, opp: defence, ball: ball, pitchWidth: pitchWidth });
+  return setPenaltyPositions({
+    isTop: isTop,
+    team: attack,
+    pitchHeight: pitchHeight,
+    player: kickPlayer,
+    matchDetails: matchDetails,
+    opp: defence,
+    ball: ball,
+    pitchWidth: pitchWidth,
+  });
 }
 
 function setSetPiecePositions(setPieceConfig: {
@@ -271,7 +280,16 @@ function setSetPiecePositions(setPieceConfig: {
   const { attack, pitchHeight, kickPlayer, matchDetails, ball, defence, pitchWidth, isTop } =
     setPieceConfig;
 
-  return repositionTeamsForSetPiece({ team: attack, pitchHeight: pitchHeight, player: kickPlayer, matchDetails: matchDetails, ball: ball, opp: defence, pitchWidth: pitchWidth, isTop: isTop });
+  return repositionTeamsForSetPiece({
+    team: attack,
+    pitchHeight: pitchHeight,
+    player: kickPlayer,
+    matchDetails: matchDetails,
+    ball: ball,
+    opp: defence,
+    pitchWidth: pitchWidth,
+    isTop: isTop,
+  });
 }
 
 export {

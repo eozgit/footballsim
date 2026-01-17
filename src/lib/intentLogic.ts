@@ -345,7 +345,13 @@ function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
 }
 
 // Utility to handle the "Opposition Close vs Open Space" pattern seen in all zones
-function resolveZonePressure(zonePressureConfig: { playerInfo: unknown; pressureWeights: MatchEventWeights; openWeights: MatchEventWeights; distX: number; distY: number; }): MatchEventWeights {
+function resolveZonePressure(zonePressureConfig: {
+  playerInfo: unknown;
+  pressureWeights: MatchEventWeights;
+  openWeights: MatchEventWeights;
+  distX: number;
+  distY: number;
+}): MatchEventWeights {
   const { playerInfo, pressureWeights, openWeights, distX = 10, distY = 10 } = zonePressureConfig;
 
   return oppositionNearContext(playerInfo, distX, distY) ? pressureWeights : openWeights;
@@ -360,11 +366,21 @@ function handleGKIntent(zonePressureConfig: {
 }): MatchEventWeights {
   const { playerInfo, pressureWeights, openWeights, distX, distY } = zonePressureConfig;
 
-  return resolveZonePressure({ playerInfo: playerInfo, pressureWeights: [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40], openWeights: [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20], distX: 10, distY: 25 });
+  return resolveZonePressure({
+    playerInfo: playerInfo,
+    pressureWeights: [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
+    openWeights: [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20],
+    distX: 10,
+    distY: 25,
+  });
 }
 
 function handleAttackingThirdIntent(playerInfo: ProximityContext, _: unknown): MatchEventWeights {
-  return resolveZonePressure({ playerInfo: playerInfo, pressureWeights: [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0], openWeights: [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0] });
+  return resolveZonePressure({
+    playerInfo: playerInfo,
+    pressureWeights: [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0],
+    openWeights: [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0],
+  });
 }
 
 function handleMiddleThirdIntent(
@@ -468,7 +484,11 @@ function handleOutsidePenaltyBox(
   }
 
   // 2. Resolve based on opposition pressure vs. open space
-  return resolveZonePressure({ playerInfo: playerInformation, pressureWeights: [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0], openWeights: [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0] });
+  return resolveZonePressure({
+    playerInfo: playerInformation,
+    pressureWeights: [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0],
+    openWeights: [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0],
+  });
 }
 
 function handleDeepBoxThreat(deepThreatConfig: {
@@ -719,7 +739,13 @@ function handleGoalieSave(saveConfig: {
   return undefined;
 }
 
-function handlePlayerDeflection(deflectionConfig: ActionContext & { thisPOS: [number, number]; ballPos: BallPosition; power: number; }): [number, number] | undefined {
+function handlePlayerDeflection(
+  deflectionConfig: ActionContext & {
+    thisPOS: [number, number];
+    ballPos: BallPosition;
+    power: number;
+  },
+): [number, number] | undefined {
   const { matchDetails, player, thisPOS, ballPos, power, team } = deflectionConfig;
 
   const [posX, posY] = player.currentPOS;

@@ -57,7 +57,13 @@ function processTeamTactics(
     common.setPlayerXY(player, player.currentPOS[0], pos[1]);
 
     // 3. Resolve Ball Interactions (Possession/Tackles)
-    resolveBallInteractions({ player: player, team: team, opp: opp, matchDetails: matchDetails, action: action });
+    resolveBallInteractions({
+      player: player,
+      team: team,
+      opp: opp,
+      matchDetails: matchDetails,
+      action: action,
+    });
 
     if (player.hasBall) {
       handleBallPlayerActions({ matchDetails, player, team, opp }, action);
@@ -161,8 +167,11 @@ function executePlayerMovement(moveCtx: {
  * Logic preserved: Checks proximity (3-unit radius), team possession,
  * and specific defensive actions (tackle/slide).
  */
-export function resolveBallInteractions(interactionConfig: ActionContext & { action: string }): void {
-    let { player, team, opp, matchDetails, action } = interactionConfig;
+export function resolveBallInteractions(
+  interactionConfig: ActionContext & { action: string },
+): void {
+  const { player, team, opp, matchDetails, action } = interactionConfig;
+
   const { ball } = matchDetails;
 
   const [playerX, playerY] = player.currentPOS;
