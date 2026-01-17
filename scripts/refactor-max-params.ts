@@ -46,13 +46,21 @@ function applyDecisions() {
 
     const body = fnNode.getBody();
     if (body) {
-      const destructureCode = `const { ${decision.paramsToGroup.join(', ')} } = ${decision.contextParamName};`;
+      // IMPROVED: Generate aliased destructuring (e.g., { ballX: bXPOS })
+      const destructureItems = decision.paramsToGroup.map((pName: string) => {
+        const keyName = (decision.mappings && decision.mappings[pName]) || pName;
+        return keyName !== pName ? `${keyName}: ${pName}` : pName;
+      });
+
+      const destructureCode = `const { ${destructureItems.join(', ')} } = ${decision.contextParamName};`;
+
+      // Check if a similar destructuring already exists to avoid duplication
       if (!body.getText().includes(destructureCode)) {
         body.insertStatements(0, destructureCode);
       }
     }
 
-    // 2. UPDATE CALL SITES (Including the elusive actionTests2.ts)
+    // 2. UPDATE CALL SITES
     const nameNode = fnNode.getNameNode();
     if (nameNode) {
       const references = nameNode.findReferencesAsNodes();
