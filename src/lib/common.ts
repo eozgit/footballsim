@@ -237,33 +237,34 @@ function setBallPosition(ball: Ball, x: number, y: number, z?: number): void {
  * Internal helper to bypass readonly constraints and avoid
  * Firefox 'redefine non-configurable' errors.
  */
-function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
+function safeSet<T extends object, K extends keyof T>(obj: T, key: K, value: T[K]): void {
   const descriptor = Object.getOwnPropertyDescriptor(obj, key);
 
-  const objUnknown = obj as unknown;
+  // 1. Narrow the object to a Record to allow indexed access safely
+  const targetObj = obj as Record<K, unknown>;
 
-  // If the property is non-configurable, we CANNOT use defineProperty.
-  // We must hope a forced assignment works, or mutate the internal reference.
   if (descriptor && descriptor.configurable === false) {
     try {
-      objUnknown[key] = value;
-    } catch {
-      // If it's a non-configurable array, mutate its contents instead
-      if (Array.isArray(objUnknown[key]) && Array.isArray(value)) {
-        const target = objUnknown[key];
+      targetObj[key] = value;
+    } catch (error) {
+      // 2. Narrow the error and the target values
+      const targetValue = targetObj[key];
 
-        value.forEach((val, i) => {
-          target[i] = val;
+      if (Array.isArray(targetValue) && Array.isArray(value)) {
+        // Use a typed reference to avoid 'error' member access errors
+        const targetArray = targetValue as unknown[];
+
+        value.forEach((val: unknown, i: number) => {
+          targetArray[i] = val;
         });
       } else {
-        console.error(`Property ${String(key)} is locked (non-configurable).`);
+        console.error(`Property ${String(key)} is locked (non-configurable).`, error);
       }
     }
 
     return;
   }
 
-  // If it IS configurable, or doesn't exist yet, use the standard logic
   Object.defineProperty(obj, key, {
     value,
     writable: true,

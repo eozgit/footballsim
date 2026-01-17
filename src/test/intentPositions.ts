@@ -50,7 +50,6 @@ describe('intentPOSitionsDefence()', function () {
 
     assert(ballPosition.length === 3);
 
-
     assert(ballZ !== undefined, 'Ball should have a Z-axis');
 
     assert(ballZ === 0);

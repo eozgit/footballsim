@@ -7,31 +7,31 @@ import type { MatchDetails, Player, Team } from './types.js';
  * Consolidates logging and standardizes return expectations.
  */
 const ACTION_STRATEGIES: Record<string, (m: MatchDetails, t: Team, p: Player) => [number, number]> =
-{
-  cleared: ballMovement.ballKicked,
-  boot: ballMovement.ballKicked,
-  throughBall: ballMovement.throughBall,
-  shoot: ballMovement.shotMade,
-  penalty: ballMovement.penaltyTaken,
-  pass: (m: MatchDetails, t: Team, p: Player): [number, number] => {
-    const pos = ballMovement.ballPassed(m, t, p);
+  {
+    cleared: ballMovement.ballKicked,
+    boot: ballMovement.ballKicked,
+    throughBall: ballMovement.throughBall,
+    shoot: ballMovement.shotMade,
+    penalty: ballMovement.penaltyTaken,
+    pass: (m: MatchDetails, t: Team, p: Player): [number, number] => {
+      const pos = ballMovement.ballPassed(m, t, p);
 
-    m.iterationLog.push(`passed to new position: ${JSON.stringify(pos)}`);
+      m.iterationLog.push(`passed to new position: ${JSON.stringify(pos)}`);
 
-    if (!Array.isArray(pos)) {
-      throw new Error('No position');
-    }
+      if (!Array.isArray(pos)) {
+        throw new Error('No position');
+      }
 
-    return pos;
-  },
-  cross: (m: MatchDetails, t: Team, p: Player): [number, number] => {
-    const pos = ballMovement.ballCrossed(m, t, p);
+      return pos;
+    },
+    cross: (m: MatchDetails, t: Team, p: Player): [number, number] => {
+      const pos = ballMovement.ballCrossed(m, t, p);
 
-    m.iterationLog.push(`crossed to new position: ${pos[0]} ${pos[1]}`);
+      m.iterationLog.push(`crossed to new position: ${pos[0]} ${pos[1]}`);
 
-    return pos;
-  },
-};
+      return pos;
+    },
+  };
 
 /**
  * Validates player position and synchronizes ball state.
