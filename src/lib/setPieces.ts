@@ -291,7 +291,14 @@ function executeDeepSetPieceSetup(
   ball.direction = isTop ? 'south' : 'north';
 
   // 3. Position Teams
-  repositionAttackers({ team: attack, player: kickPlayer, ball: ball, isTopDirection: isTop, pitchHeight: pitchHeight, isGKExecuting: isGKExecuting });
+  repositionAttackers({
+    team: attack,
+    player: kickPlayer,
+    ball: ball,
+    isTopDirection: isTop,
+    pitchHeight: pitchHeight,
+    isGKExecuting: isGKExecuting,
+  });
   repositionDefenders({
     attack: defence,
     kickPlayer,
@@ -327,8 +334,22 @@ function selectDeepSetPieceKicker(
 /**
  * Iterates through attacking players to set coordinates.
  */
-function repositionAttackers(repositionConfig: { team: Team; player: Player; ball: Ball; isTopDirection: boolean; pitchHeight: number; isGKExecuting: boolean; }): void {
-    let { team: attack, player: kickPlayer, ball, isTopDirection: isTop, pitchHeight, isGKExecuting } = repositionConfig;
+function repositionAttackers(repositionConfig: {
+  team: Team;
+  player: Player;
+  ball: Ball;
+  isTopDirection: boolean;
+  pitchHeight: number;
+  isGKExecuting: boolean;
+}): void {
+  let {
+    team: attack,
+    player: kickPlayer,
+    ball,
+    isTopDirection: isTop,
+    pitchHeight,
+    isGKExecuting,
+  } = repositionConfig;
   for (const player of attack.players) {
     if (player.name === kickPlayer.name) {
       common.setPlayerXY(player, ball.position[0], ball.position[1]);
