@@ -74,17 +74,17 @@ function getTopKickedPosition(
   const pos: [number, number] = [position[0], position[1]];
 
   if (direction === `wait`) {
-    return newKickedPosition(pos, 0, power / 2, 0, power / 2);
+    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: 0, highY: power / 2 });
   } else if (direction === `north`) {
-    return newKickedPosition(pos, -20, 20, -power, -(power / 2));
+    return newKickedPosition({ pos: pos, lowX: -20, highX: 20, lowY: -power, highY: -(power / 2) });
   } else if (direction === `east`) {
-    return newKickedPosition(pos, power / 2, power, -20, 20);
+    return newKickedPosition({ pos: pos, lowX: power / 2, highX: power, lowY: -20, highY: 20 });
   } else if (direction === `west`) {
-    return newKickedPosition(pos, -power, -(power / 2), -20, 20);
+    return newKickedPosition({ pos: pos, lowX: -power, highX: -(power / 2), lowY: -20, highY: 20 });
   } else if (direction === `northeast`) {
-    return newKickedPosition(pos, 0, power / 2, -power, -(power / 2));
+    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: -power, highY: -(power / 2) });
   } else if (direction === `northwest`) {
-    return newKickedPosition(pos, -(power / 2), 0, -power, -(power / 2));
+    return newKickedPosition({ pos: pos, lowX: -(power / 2), highX: 0, lowY: -power, highY: -(power / 2) });
   }
 
   throw new Error('Unexpected direction');
@@ -98,29 +98,24 @@ function getBottomKickedPosition(
   const pos: [number, number] = [position[0], position[1]];
 
   if (direction === `wait`) {
-    return newKickedPosition(pos, 0, power / 2, 0, power / 2);
+    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: 0, highY: power / 2 });
   } else if (direction === `south`) {
-    return newKickedPosition(pos, -20, 20, power / 2, power);
+    return newKickedPosition({ pos: pos, lowX: -20, highX: 20, lowY: power / 2, highY: power });
   } else if (direction === `east`) {
-    return newKickedPosition(pos, power / 2, power, -20, 20);
+    return newKickedPosition({ pos: pos, lowX: power / 2, highX: power, lowY: -20, highY: 20 });
   } else if (direction === `west`) {
-    return newKickedPosition(pos, -power, -(power / 2), -20, 20);
+    return newKickedPosition({ pos: pos, lowX: -power, highX: -(power / 2), lowY: -20, highY: 20 });
   } else if (direction === `southeast`) {
-    return newKickedPosition(pos, 0, power / 2, power / 2, power);
+    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: power / 2, highY: power });
   } else if (direction === `southwest`) {
-    return newKickedPosition(pos, -(power / 2), 0, power / 2, power);
+    return newKickedPosition({ pos: pos, lowX: -(power / 2), highX: 0, lowY: power / 2, highY: power });
   }
 
   throw new Error('Unexpected direction');
 }
 
-function newKickedPosition(
-  pos: [number, number],
-  lowX: number,
-  highX: number,
-  lowY: number,
-  highY: number,
-): [number, number] {
+function newKickedPosition(kickConfig: { pos: [number, number]; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
+    const { pos, lowX, highX, lowY, highY } = kickConfig;
   const newPosition: [number, number] = [0, 0];
 
   newPosition[0] = pos[0] + common.getRandomNumber(lowX, highX);
@@ -146,13 +141,7 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [numb
   recordShotStats(matchDetails, player, isOnTarget);
 
   // 3. Coordinate Resolution
-  const targetCoord = calculateShotTarget(
-    player,
-    isOnTarget,
-    pitchWidth,
-    pitchHeight,
-    shotPower,
-  );
+  const targetCoord = calculateShotTarget({ player: player, onTarget: isOnTarget, width: pitchWidth, height: pitchHeight, power: shotPower });
 
   // 4. Execution
   const endPos = calcBallMovementOverTime(
@@ -791,13 +780,8 @@ function mergeArrays(
   return newArray;
 }
 
-function calculateShotTarget(
-  player: Player,
-  onTarget: boolean,
-  width: number,
-  height: number,
-  power: number,
-): [number, number] {
+function calculateShotTarget(shotConfig: { player: Player; onTarget: boolean; width: number; height: number; power: number; }): [number, number] {
+    const { player, onTarget, width, height, power } = shotConfig;
   const isTopTeam = player.originPOS[1] < height / 2;
 
   const playerY = player.currentPOS[1];

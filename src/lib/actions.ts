@@ -645,13 +645,7 @@ function setFailedTackle(
 ): void {
   matchDetails.iterationLog.push(`Failed tackle by: ${player.name}`);
   player.stats.tackles.off++;
-  setInjury(
-    matchDetails,
-    player,
-    thatPlayer,
-    tackleDetails.injuryHigh,
-    tackleDetails.injuryLow,
-  );
+  setInjury({ matchDetails: matchDetails, thatPlayer: player, player: thatPlayer, tackledInjury: tackleDetails.injuryHigh, tacklerInjury: tackleDetails.injuryLow });
   setPostTacklePosition(
     matchDetails,
     thatPlayer,
@@ -676,13 +670,7 @@ function setSuccessTackle(
   }
 
   player.stats.tackles.on++;
-  setInjury(
-    matchDetails,
-    thatPlayer,
-    player,
-    tackleDetails.injuryLow,
-    tackleDetails.injuryHigh,
-  );
+  setInjury({ matchDetails: matchDetails, thatPlayer: thatPlayer, player: player, tackledInjury: tackleDetails.injuryLow, tacklerInjury: tackleDetails.injuryHigh });
   setPostTacklePosition(
     matchDetails,
     player,
@@ -784,13 +772,8 @@ function setPostTacklePosition(
   }
 }
 
-function setInjury(
-  matchDetails: MatchDetails,
-  thatPlayer: Player,
-  player: Player,
-  tackledInjury: number,
-  tacklerInjury: number,
-): void {
+function setInjury(injuryContext: { matchDetails: MatchDetails; thatPlayer: Player; player: Player; tackledInjury: number; tacklerInjury: number; }): void {
+    const { matchDetails, thatPlayer, player, tackledInjury, tacklerInjury } = injuryContext;
   if (isInjured(tackledInjury)) {
     thatPlayer.injured = true;
     matchDetails.iterationLog.push(`Player Injured - ${thatPlayer.name}`);

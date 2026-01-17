@@ -134,7 +134,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury(matchDetails, thatPlayer, testPlayer, 14000, 15000);
+    actions.setInjury({ matchDetails: matchDetails, thatPlayer: thatPlayer, player: testPlayer, tackledInjury: 14000, tacklerInjury: 15000 });
     if (matchDetails.secondTeam.players[4].injured === true) {
       expect(
         matchDetails.iterationLog.indexOf(
@@ -161,7 +161,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury(matchDetails, thatPlayer, testPlayer, 23, 23);
+    actions.setInjury({ matchDetails: matchDetails, thatPlayer: thatPlayer, player: testPlayer, tackledInjury: 23, tacklerInjury: 23 });
     if (matchDetails.secondTeam.players[4].injured === true) {
       expect(
         matchDetails.iterationLog.indexOf(
@@ -189,7 +189,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury(matchDetails, thatPlayer, testPlayer, 23, 23);
+    actions.setInjury({ matchDetails: matchDetails, thatPlayer: thatPlayer, player: testPlayer, tackledInjury: 23, tacklerInjury: 23 });
     if (matchDetails.secondTeam.players[4].injured === true) {
       expect(
         matchDetails.iterationLog.indexOf(
