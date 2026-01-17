@@ -740,25 +740,25 @@ describe('checkOppositionBelow()', function () {
 
 describe('checkTeamMateProximity()', function () {
   it('Team mate is in proximity 1 - true', async () => {
-    const close = actions.checkTeamMateSpaceClose([1, 1], -3, 3, -5, 5);
+    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [1, 1], lowX: -3, highX: 3, lowY: -5, highY: 5 });
 
     expect(close).to.be.eql(true);
   });
 
   it('Team mate is in proximity 2 - true', async () => {
-    const close = actions.checkTeamMateSpaceClose([-3, 3], -4, 4, -5, 5);
+    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [-3, 3], lowX: -4, highX: 4, lowY: -5, highY: 5 });
 
     expect(close).to.be.eql(true);
   });
 
   it('Team mate is in proximity 3 - false', async () => {
-    const close = actions.checkTeamMateSpaceClose([-8, 1], -7, 3, -5, 5);
+    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [-8, 1], lowX: -7, highX: 3, lowY: -5, highY: 5 });
 
     expect(close).to.be.eql(false);
   });
 
   it('Team mate is in proximity 4 - false', async () => {
-    const close = actions.checkTeamMateSpaceClose([1, 11], -10, 10, -10, 10);
+    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [1, 11], lowX: -10, highX: 10, lowY: -10, highY: 10 });
 
     expect(close).to.be.eql(false);
   });

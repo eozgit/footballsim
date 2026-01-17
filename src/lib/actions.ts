@@ -192,13 +192,8 @@ function oppositionNearContext(
   );
 }
 
-function checkTeamMateSpaceClose(
-  tmateProximity: [number, number],
-  lowX: number,
-  highX: number,
-  lowY: number,
-  highY: number,
-): boolean {
+function checkTeamMateSpaceClose(spaceConfig: AreaBounds): boolean {
+    const { tmateProximity, lowX, highX, lowY, highY } = spaceConfig;
   return (
     common.isBetween(tmateProximity[0], lowX, highX) &&
     common.isBetween(tmateProximity[1], lowY, highY)

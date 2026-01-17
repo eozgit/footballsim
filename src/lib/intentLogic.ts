@@ -187,10 +187,7 @@ function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
   } = ctx;
 
   // ... rest of the function remains exactly the same
-  const useSpaceWeights = checkTeamMateSpaceClose(
-    tmateProximity,
-    ...spaceConfig,
-  );
+  const useSpaceWeights = checkTeamMateSpaceClose({ tmateProximity: tmateProximity, lowX: spaceConfig[0], highX: spaceConfig[1], lowY: spaceConfig[2], highY: spaceConfig[3] });
 
   return getRangeBasedWeights(
     yPos,
@@ -261,7 +258,7 @@ function handleUnderPressureInBox(
 
   // 1. Check for specific "Opposition Below" logic
   if (checkOppositionBelow(oppCurPos, pos)) {
-    if (checkTeamMateSpaceClose(tmateProximity, -10, 10, -10, 10)) {
+    if (checkTeamMateSpaceClose({ tmateProximity: tmateProximity, lowX: -10, highX: 10, lowY: -10, highY: 10 })) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
 
@@ -503,7 +500,7 @@ function handleDeepBoxThreat(
   }
 
   // Scenario: Space available
-  if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
+  if (checkTeamMateSpaceClose({ tmateProximity: tmateProx, lowX: -10, highX: 10, lowY: -4, highY: 10 })) {
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
@@ -534,7 +531,7 @@ function handlePressuredBoxDecision(
   skill: Skill,
 ): MatchEventWeights {
   if (checkOppositionAhead(closeOppPOS, currentPOS)) {
-    if (checkTeamMateSpaceClose(tmateProx, -10, 10, -10, 10)) {
+    if (checkTeamMateSpaceClose({ tmateProximity: tmateProx, lowX: -10, highX: 10, lowY: -10, highY: 10 })) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
 
@@ -549,7 +546,7 @@ function handlePressuredBoxDecision(
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
-  if (checkTeamMateSpaceClose(tmateProx, -10, 10, -4, 10)) {
+  if (checkTeamMateSpaceClose({ tmateProximity: tmateProx, lowX: -10, highX: 10, lowY: -4, highY: 10 })) {
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
