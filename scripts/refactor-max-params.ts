@@ -52,7 +52,7 @@ function applyDecisions() {
         return keyName !== pName ? `${keyName}: ${pName}` : pName;
       });
 
-      const destructureCode = `const { ${destructureItems.join(', ')} } = ${decision.contextParamName};`;
+      const destructureCode = `let { ${destructureItems.join(', ')} } = ${decision.contextParamName};`;
 
       // Check if a similar destructuring already exists to avoid duplication
       if (!body.getText().includes(destructureCode)) {
