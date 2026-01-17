@@ -74,24 +74,20 @@ project.getSourceFiles().forEach((sourceFile) => {
 
   // 3. SUSPECT: Mutable Property Mutation
   // We use the file-level descendants here to avoid scope issues
-  sourceFile
-    .getDescendantsOfKind(SyntaxKind.BinaryExpression)
-    .forEach((bin) => {
-      if (bin.getOperatorToken().getKind() === SyntaxKind.EqualsToken) {
-        const left = bin.getLeft();
-        if (Node.isPropertyAccessExpression(left)) {
-          const name = left.getExpression().getText();
-          const isNamespaceImport = imports.some(
-            (i) => i.getNamespaceImport()?.getText() === name,
+  sourceFile.getDescendantsOfKind(SyntaxKind.BinaryExpression).forEach((bin) => {
+    if (bin.getOperatorToken().getKind() === SyntaxKind.EqualsToken) {
+      const left = bin.getLeft();
+      if (Node.isPropertyAccessExpression(left)) {
+        const name = left.getExpression().getText();
+        const isNamespaceImport = imports.some((i) => i.getNamespaceImport()?.getText() === name);
+        if (isNamespaceImport) {
+          console.warn(
+            `[READ-ONLY VIOLATION] ${fileName}: Mutating imported namespace property "${left.getText()}".`,
           );
-          if (isNamespaceImport) {
-            console.warn(
-              `[READ-ONLY VIOLATION] ${fileName}: Mutating imported namespace property "${left.getText()}".`,
-            );
-          }
         }
       }
-    });
+    }
+  });
 });
 
 console.log('\nAudit Complete.');

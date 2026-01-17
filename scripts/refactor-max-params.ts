@@ -21,22 +21,24 @@ function applyDecisions() {
   const project = new Project({ tsConfigFilePath: path.join(PROJECT_ROOT, 'tsconfig.json') });
 
   // Aggressively load all TS files in the project
-  console.log("🔍 Loading all project files...");
-  project.addSourceFilesAtPaths(["**/*.ts"]);
+  console.log('🔍 Loading all project files...');
+  project.addSourceFilesAtPaths(['**/*.ts']);
 
   for (const decision of decisions) {
     console.log(`\n🚀 Refactoring: ${decision.functionName}`);
 
     // Resolve definition
-    const sourceFile = project.getSourceFile(f => f.getFilePath().endsWith(decision.filePath));
+    const sourceFile = project.getSourceFile((f) => f.getFilePath().endsWith(decision.filePath));
     if (!sourceFile) {
       console.error(`❌ Could not find definition file: ${decision.filePath}`);
       continue;
     }
 
-    const fnNode = sourceFile.getDescendantAtPos(
-      sourceFile.compilerNode.getPositionOfLineAndCharacter(decision.line - 1, 0)
-    )?.getFirstAncestor(n => n.getKind() === SyntaxKind.FunctionDeclaration) as any;
+    const fnNode = sourceFile
+      .getDescendantAtPos(
+        sourceFile.compilerNode.getPositionOfLineAndCharacter(decision.line - 1, 0),
+      )
+      ?.getFirstAncestor((n) => n.getKind() === SyntaxKind.FunctionDeclaration) as any;
 
     if (!fnNode) continue;
 
@@ -71,12 +73,15 @@ function applyDecisions() {
         if (!call) return;
 
         // Skip the declaration itself
-        if (node.getFirstAncestorByKind(SyntaxKind.FunctionDeclaration) === fnNode &&
-          node.getParent()?.getKind() === SyntaxKind.FunctionDeclaration) return;
+        if (
+          node.getFirstAncestorByKind(SyntaxKind.FunctionDeclaration) === fnNode &&
+          node.getParent()?.getKind() === SyntaxKind.FunctionDeclaration
+        )
+          return;
 
         const args = call.getArguments();
         const groupedProps: string[] = [];
-        const spreadArgIdx = args.findIndex(a => a.getText().startsWith('...'));
+        const spreadArgIdx = args.findIndex((a) => a.getText().startsWith('...'));
 
         decision.originalParamOrder.forEach((pName: string, idx: number) => {
           if (!decision.paramsToGroup.includes(pName)) return;
@@ -97,9 +102,9 @@ function applyDecisions() {
     }
   }
 
-  console.log("\n💾 Saving all changes...");
+  console.log('\n💾 Saving all changes...');
   project.saveSync();
-  console.log("✨ Done.");
+  console.log('✨ Done.');
 }
 
 applyDecisions();

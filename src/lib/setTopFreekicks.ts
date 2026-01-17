@@ -18,23 +18,13 @@ function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
 
   const [, ballY] = matchDetails.ball.position;
 
-  const attack =
-    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
-      ? kickOffTeam
-      : secondTeam;
+  const attack = kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? kickOffTeam : secondTeam;
 
-  const defence =
-    kickOffTeam.players[0].originPOS[1] < pitchHeight / 2
-      ? secondTeam
-      : kickOffTeam;
+  const defence = kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? secondTeam : kickOffTeam;
 
   const hundredToHalfway = common.isBetween(ballY, 100, pitchHeight / 2 + 1);
 
-  const halfwayToLastQtr = common.isBetween(
-    ballY,
-    pitchHeight / 2,
-    pitchHeight - pitchHeight / 4,
-  );
+  const halfwayToLastQtr = common.isBetween(ballY, pitchHeight / 2, pitchHeight - pitchHeight / 4);
 
   const upperFinalQtr = common.isBetween(
     ballY,
@@ -42,11 +32,7 @@ function setTopFreekick(matchDetails: MatchDetails): MatchDetails {
     pitchHeight - pitchHeight / 6 - 5,
   );
 
-  const lowerFinalQtr = common.isBetween(
-    ballY,
-    pitchHeight - pitchHeight / 6 - 5,
-    pitchHeight,
-  );
+  const lowerFinalQtr = common.isBetween(ballY, pitchHeight - pitchHeight / 6 - 5, pitchHeight);
 
   if (ballY < 101) {
     return setTopOneHundredYPos(matchDetails, attack, defence);
@@ -114,9 +100,24 @@ function setTopBottomQtrCentreYPos(
     attack,
   );
 
-  setDeepFreekickBallAndKicker({ ball: ball, kickPlayer: kickPlayer, teamID: attack.teamID, pitchWidth: pitchWidth, isTop: true });
+  setDeepFreekickBallAndKicker({
+    ball: ball,
+    kickPlayer: kickPlayer,
+    teamID: attack.teamID,
+    pitchWidth: pitchWidth,
+    isTop: true,
+  });
 
-  return alignPlayersForPenalty({ isTop: true, attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, defence: defence, ball: ball, pitchWidth: pitchWidth });
+  return alignPlayersForPenalty({
+    isTop: true,
+    attack: attack,
+    pitchHeight: pitchHeight,
+    kickPlayer: kickPlayer,
+    matchDetails: matchDetails,
+    defence: defence,
+    ball: ball,
+    pitchWidth: pitchWidth,
+  });
 }
 
 function setTopLowerFinalQtrBylinePos(
@@ -136,7 +137,16 @@ function setTopLowerFinalQtrBylinePos(
 
   common.setPlayerXY(kickPlayer, ballX, ballY);
 
-  return setSetPiecePositions({ attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, ball: ball, defence: defence, pitchWidth: pitchWidth, isTop: true });
+  return setSetPiecePositions({
+    attack: attack,
+    pitchHeight: pitchHeight,
+    kickPlayer: kickPlayer,
+    matchDetails: matchDetails,
+    ball: ball,
+    defence: defence,
+    pitchWidth: pitchWidth,
+    isTop: true,
+  });
 }
 
 export { setTopFreekick };

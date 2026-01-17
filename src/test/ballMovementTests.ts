@@ -14,7 +14,14 @@ describe('ArrayStuffs()', function () {
 
     const pArray = [2, 2, 2, 2, 1, 1, 1, 1, 1, 1];
 
-    const newArray = bMovement.mergeArrays({ arrayLength: 10, oldPos: [337, 527, 0], newPos: [237, 557], array1: xArray, array2: yArray, array3: pArray });
+    const newArray = bMovement.mergeArrays({
+      arrayLength: 10,
+      oldPos: [337, 527, 0],
+      newPos: [237, 557],
+      array1: xArray,
+      array2: yArray,
+      array3: pArray,
+    });
 
     expect(newArray[0]).to.eql([327, 532, 2]);
 
@@ -32,18 +39,11 @@ describe('ArrayStuffs()', function () {
   });
 
   it('calcBallMovementOverTime', async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[9];
 
-    const newPosition = bMovement.calcBallMovementOverTime(
-      matchDetails,
-      30,
-      [200, 300],
-      player,
-    );
+    const newPosition = bMovement.calcBallMovementOverTime(matchDetails, 30, [200, 300], player);
 
     try {
       expect(newPosition).to.eql([335, 523]);
@@ -53,17 +53,11 @@ describe('ArrayStuffs()', function () {
   });
 
   it('ball crossed 1', async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[9];
 
-    const newPosition = bMovement.ballCrossed(
-      matchDetails,
-      matchDetails.kickOffTeam,
-      player,
-    );
+    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 334, 345);
 
@@ -75,17 +69,11 @@ describe('ArrayStuffs()', function () {
   });
 
   it('ball crossed 2', async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[9];
 
-    const newPosition = bMovement.ballCrossed(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.secondTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 334, 345);
 
@@ -97,17 +85,11 @@ describe('ArrayStuffs()', function () {
   });
 
   it('ball crossed 3', async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[4];
 
-    const newPosition = bMovement.ballCrossed(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.secondTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 330, 340);
 
@@ -119,17 +101,11 @@ describe('ArrayStuffs()', function () {
   });
 
   it('ball crossed 4', async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[4];
 
-    const newPosition = bMovement.ballCrossed(
-      matchDetails,
-      matchDetails.kickOffTeam,
-      player,
-    );
+    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 330, 345);
 
@@ -142,18 +118,11 @@ describe('ArrayStuffs()', function () {
 });
 
 describe('targetPlayers()', function () {
-  for (const i of [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ]) {
+  for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) {
     it(`target Players top ${i}`, async () => {
-      const playersArray = (await readFile(
-        './src/test/input/ballMovements/targetPlayersArray.json',
-      ));
+      const playersArray = await readFile('./src/test/input/ballMovements/targetPlayersArray.json');
 
-      const thisPlayer = bMovement.getTargetPlayer(
-        playersArray.thisArray,
-        `top`,
-      );
+      const thisPlayer = bMovement.getTargetPlayer(playersArray.thisArray, `top`);
 
       const { name, currentPOS } = thisPlayer;
 
@@ -171,18 +140,11 @@ describe('targetPlayers()', function () {
     });
   }
 
-  for (const i of [
-    0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-  ]) {
+  for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) {
     it(`target Players bottom ${i}`, async () => {
-      const playersArray = (await readFile(
-        './src/test/input/ballMovements/targetPlayersArray.json',
-      ));
+      const playersArray = await readFile('./src/test/input/ballMovements/targetPlayersArray.json');
 
-      const thisPlayer = bMovement.getTargetPlayer(
-        playersArray.thisArray,
-        `bottom`,
-      );
+      const thisPlayer = bMovement.getTargetPlayer(playersArray.thisArray, `bottom`);
 
       const { name, currentPOS } = thisPlayer;
 
@@ -201,13 +163,25 @@ describe('targetPlayers()', function () {
   }
 
   it('set target player position', async () => {
-    const output = bMovement.setTargetPlyPos({ tplyr: [3, 4], lowX: 1, highX: 1, lowY: 2, highY: 2 });
+    const output = bMovement.setTargetPlyPos({
+      tplyr: [3, 4],
+      lowX: 1,
+      highX: 1,
+      lowY: 2,
+      highY: 2,
+    });
 
     expect(output).to.eql([4, 6]);
   });
 
   it('set target player position - negative', async () => {
-    const output = bMovement.setTargetPlyPos({ tplyr: [3, 4], lowX: -1, highX: -1, lowY: -2, highY: -2 });
+    const output = bMovement.setTargetPlyPos({
+      tplyr: [3, 4],
+      lowX: -1,
+      highX: -1,
+      lowY: -2,
+      highY: -2,
+    });
 
     expect(output).to.eql([2, 2]);
   });
@@ -215,9 +189,7 @@ describe('targetPlayers()', function () {
   it('set B Player', async () => {
     const player = bMovement.createPlayer('CM');
 
-    const bPlayer = (await readFile(
-      './src/test/input/ballMovements/bPlayer.json',
-    ));
+    const bPlayer = await readFile('./src/test/input/ballMovements/bPlayer.json');
 
     const thisPlayer = bMovement.setBPlayer([0, 200]);
 
@@ -227,9 +199,7 @@ describe('targetPlayers()', function () {
 
 describe('ballPassed()', function () {
   it(`ball passed defender`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.kickOffTeam;
 
@@ -239,9 +209,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 330, 355);
@@ -254,9 +222,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed midfielder`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.kickOffTeam;
 
@@ -268,9 +234,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 195, 225);
@@ -283,9 +247,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed forward`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.kickOffTeam;
 
@@ -297,9 +259,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 190, 220);
@@ -312,9 +272,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed defender - second team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.secondTeam;
 
@@ -324,9 +282,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 328, 347);
@@ -339,9 +295,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed midfielder - second team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.secondTeam;
 
@@ -353,9 +307,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 195, 210);
@@ -368,9 +320,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed forward - second team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.secondTeam;
 
@@ -382,9 +332,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 191, 222);
@@ -397,9 +345,7 @@ describe('ballPassed()', function () {
   });
 
   it(`ball passed forward - second team - high shooting`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const teammates = matchDetails.secondTeam;
 
@@ -408,9 +354,7 @@ describe('ballPassed()', function () {
     const newPosition = bMovement.ballPassed(matchDetails, teammates, player);
 
     if (!Array.isArray(newPosition)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(newPosition[0], 330, 345);
@@ -425,9 +369,7 @@ describe('ballPassed()', function () {
 
 describe('direction()', function () {
   it(`south`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [337, 530]);
 
@@ -435,9 +377,7 @@ describe('direction()', function () {
   });
 
   it(`north`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [337, 520]);
 
@@ -445,9 +385,7 @@ describe('direction()', function () {
   });
 
   it(`east`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [340, 527]);
 
@@ -455,9 +393,7 @@ describe('direction()', function () {
   });
 
   it(`west`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [320, 527]);
 
@@ -465,9 +401,7 @@ describe('direction()', function () {
   });
 
   it(`wait`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [337, 527]);
 
@@ -475,9 +409,7 @@ describe('direction()', function () {
   });
 
   it(`northeast`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [340, 520]);
 
@@ -485,9 +417,7 @@ describe('direction()', function () {
   });
 
   it(`northwest`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [320, 520]);
 
@@ -495,9 +425,7 @@ describe('direction()', function () {
   });
 
   it(`southeast`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [340, 530]);
 
@@ -505,9 +433,7 @@ describe('direction()', function () {
   });
 
   it(`southwest`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     bMovement.getBallDirection(matchDetails, [320, 530]);
 
@@ -517,11 +443,7 @@ describe('direction()', function () {
 
 describe('setDeflectionDirectionPos()', function () {
   it(`east`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(
-      `east`,
-      [200, 300],
-      75,
-    );
+    const position = bMovement.setDeflectionDirectionPos(`east`, [200, 300], 75);
 
     const yBetween = common.isBetween(position[1], 296, 304);
 
@@ -531,11 +453,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`west`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(
-      `west`,
-      [200, 300],
-      75,
-    );
+    const position = bMovement.setDeflectionDirectionPos(`west`, [200, 300], 75);
 
     const yBetween = common.isBetween(position[1], 296, 304);
 
@@ -545,11 +463,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`north`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(
-      `north`,
-      [200, 300],
-      75,
-    );
+    const position = bMovement.setDeflectionDirectionPos(`north`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], 196, 204);
 
@@ -559,11 +473,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`south`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(
-      `south`,
-      [200, 300],
-      75,
-    );
+    const position = bMovement.setDeflectionDirectionPos(`south`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], 196, 204);
 
@@ -573,11 +483,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`wait`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(
-      `wait`,
-      [200, 300],
-      75,
-    );
+    const position = bMovement.setDeflectionDirectionPos(`wait`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], -38, 38);
 
@@ -591,9 +497,7 @@ describe('setDeflectionDirectionPos()', function () {
 
 describe('setDeflectionDirectionPos()', function () {
   it(`deflected kickoff team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.kickOffTeam.players[9];
 
@@ -613,9 +517,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`tesdeflected second teamt1`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[9];
 
@@ -637,9 +539,7 @@ describe('setDeflectionDirectionPos()', function () {
 
 describe('setDeflectionPlayerHasBall()', function () {
   it(`not offside`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[1];
 
@@ -655,9 +555,7 @@ describe('setDeflectionPlayerHasBall()', function () {
   });
 
   it(`offside - second team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[1];
 
@@ -676,15 +574,20 @@ describe('setDeflectionPlayerHasBall()', function () {
 
 describe('resolveDeflection()', function () {
   it(`less than 75 new power`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[7];
 
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.resolveDeflection({ power: 120, startPos: [120, 300], defPosition: [200, 350], player: defPlayer, team: defTeam, matchDetails: matchDetails });
+    bMovement.resolveDeflection({
+      power: 120,
+      startPos: [120, 300],
+      defPosition: [200, 350],
+      player: defPlayer,
+      team: defTeam,
+      matchDetails: matchDetails,
+    });
 
     expect(matchDetails.ball.Player).to.eql('78883930303030207');
 
@@ -694,15 +597,20 @@ describe('resolveDeflection()', function () {
   });
 
   it(`over than 75 new power`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[7];
 
     const defTeam = matchDetails.secondTeam;
 
-    const pos = bMovement.resolveDeflection({ power: 220, startPos: [120, 300], defPosition: [200, 350], player: defPlayer, team: defTeam, matchDetails: matchDetails });
+    const pos = bMovement.resolveDeflection({
+      power: 220,
+      startPos: [120, 300],
+      defPosition: [200, 350],
+      player: defPlayer,
+      team: defTeam,
+      matchDetails: matchDetails,
+    });
 
     expect(pos).to.eql([262.830094339717, 287.169905660283]);
 
@@ -720,9 +628,7 @@ describe('resolveDeflection()', function () {
 
 describe('setBallMovementMatchDetails()', function () {
   it(`test1 - Ball Movement`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const thisPlayer = matchDetails.secondTeam.players[7];
 
@@ -730,7 +636,12 @@ describe('setBallMovementMatchDetails()', function () {
 
     const thisTeam = matchDetails.secondTeam;
 
-    bMovement.setBallMovementMatchDetails({ matchDetails: matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam });
+    bMovement.setBallMovementMatchDetails({
+      matchDetails: matchDetails,
+      player: thisPlayer,
+      startPos: thisPos,
+      team: thisTeam,
+    });
 
     expect(matchDetails.ball.ballOverIterations).to.eql([]);
 
@@ -746,9 +657,7 @@ describe('setBallMovementMatchDetails()', function () {
 
 describe('throughBall()', function () {
   it(`high passing skill - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.kickOffTeam;
 
@@ -758,9 +667,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 320, 345);
@@ -773,9 +680,7 @@ describe('throughBall()', function () {
   });
 
   it(`high passing skill - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.secondTeam;
 
@@ -785,9 +690,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -800,9 +703,7 @@ describe('throughBall()', function () {
   });
 
   it(`middle third - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.secondTeam;
 
@@ -812,9 +713,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -827,9 +726,7 @@ describe('throughBall()', function () {
   });
 
   it(`bottom third - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.secondTeam;
 
@@ -845,9 +742,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -860,9 +755,7 @@ describe('throughBall()', function () {
   });
 
   it(`top third - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.secondTeam;
 
@@ -878,9 +771,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -893,9 +784,7 @@ describe('throughBall()', function () {
   });
 
   it(`middle third - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.kickOffTeam;
 
@@ -905,9 +794,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -920,9 +807,7 @@ describe('throughBall()', function () {
   });
 
   it(`bottom third - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.kickOffTeam;
 
@@ -938,9 +823,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -953,9 +836,7 @@ describe('throughBall()', function () {
   });
 
   it(`top third - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const team = matchDetails.kickOffTeam;
 
@@ -971,9 +852,7 @@ describe('throughBall()', function () {
     const endPos = bMovement.throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -988,9 +867,7 @@ describe('throughBall()', function () {
 
 describe('moveBall()', function () {
   it(`no ballOverIterations`, async () => {
-    let matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    let matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     matchDetails = bMovement.moveBall(matchDetails);
 
@@ -998,9 +875,7 @@ describe('moveBall()', function () {
   });
 
   it(`ballOverIterations`, async () => {
-    let matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    let matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     matchDetails.ball.ballOverIterations = [
       [211, 100],
@@ -1020,9 +895,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`wait`, [11, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 10, 17);
@@ -1038,9 +911,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`north`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 20, 62);
@@ -1056,9 +927,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`east`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 45, 52);
@@ -1074,9 +943,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`west`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 30, 37);
@@ -1092,9 +959,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`northeast`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 40, 47);
@@ -1110,9 +975,7 @@ describe('getTopKickedPosition()', function () {
     const endPos = bMovement.getTopKickedPosition(`northwest`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 35, 42);
@@ -1130,9 +993,7 @@ describe('getBottomKickedPosition()', function () {
     const endPos = bMovement.getBottomKickedPosition(`wait`, [11, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 10, 17);
@@ -1148,9 +1009,7 @@ describe('getBottomKickedPosition()', function () {
     const endPos = bMovement.getBottomKickedPosition(`south`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 20, 62);
@@ -1166,9 +1025,7 @@ describe('getBottomKickedPosition()', function () {
     const endPos = bMovement.getBottomKickedPosition(`east`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 45, 52);
@@ -1184,9 +1041,7 @@ describe('getBottomKickedPosition()', function () {
     const endPos = bMovement.getBottomKickedPosition(`west`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 30, 37);
@@ -1199,16 +1054,10 @@ describe('getBottomKickedPosition()', function () {
   });
 
   it(`getBottomKickedPosition - southeast`, async () => {
-    const endPos = bMovement.getBottomKickedPosition(
-      `southeast`,
-      [41, 200],
-      10,
-    );
+    const endPos = bMovement.getBottomKickedPosition(`southeast`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 40, 47);
@@ -1221,16 +1070,10 @@ describe('getBottomKickedPosition()', function () {
   });
 
   it(`getBottomKickedPosition - southwest`, async () => {
-    const endPos = bMovement.getBottomKickedPosition(
-      `southwest`,
-      [41, 200],
-      10,
-    );
+    const endPos = bMovement.getBottomKickedPosition(`southwest`, [41, 200], 10);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 35, 42);
@@ -1245,22 +1088,14 @@ describe('getBottomKickedPosition()', function () {
 
 describe('ballKicked()', function () {
   it(`ball kicked - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.ballKicked(
-      matchDetails,
-      matchDetails.kickOffTeam,
-      player,
-    );
+    const endPos = bMovement.ballKicked(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1273,22 +1108,14 @@ describe('ballKicked()', function () {
   });
 
   it(`ball kicked - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.ballKicked(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.ballKicked(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1303,22 +1130,14 @@ describe('ballKicked()', function () {
 
 describe('shotMade()', function () {
   it(`shot made - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.shotMade(
-      matchDetails,
-      matchDetails.kickOffTeam,
-      player,
-    );
+    const endPos = bMovement.shotMade(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1331,22 +1150,14 @@ describe('shotMade()', function () {
   });
 
   it(`shot made - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.shotMade(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1359,23 +1170,15 @@ describe('shotMade()', function () {
   });
 
   it(`shot made - low skill`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
     player.skill.shooting = 1;
-    const endPos = bMovement.shotMade(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1388,23 +1191,15 @@ describe('shotMade()', function () {
   });
 
   it(`shot made - even half`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
     matchDetails.half = 2;
-    const endPos = bMovement.shotMade(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1417,9 +1212,7 @@ describe('shotMade()', function () {
   });
 
   it(`shot made - bad half input`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
@@ -1436,22 +1229,14 @@ describe('shotMade()', function () {
 
 describe('penaltyTaken()', function () {
   it(`shot made - top team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.penaltyTaken(
-      matchDetails,
-      matchDetails.kickOffTeam,
-      player,
-    );
+    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1464,22 +1249,14 @@ describe('penaltyTaken()', function () {
   });
 
   it(`shot made - bottom team`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.penaltyTaken(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1492,23 +1269,15 @@ describe('penaltyTaken()', function () {
   });
 
   it(`shot made - low skill`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
     player.skill.shooting = 1;
-    const endPos = bMovement.penaltyTaken(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1521,23 +1290,15 @@ describe('penaltyTaken()', function () {
   });
 
   it(`shot made - even half`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
     matchDetails.half = 2;
-    const endPos = bMovement.penaltyTaken(
-      matchDetails,
-      matchDetails.secondTeam,
-      player,
-    );
+    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
-      throw new Error(
-        `Expected [number, number] but received MatchDetails state update.`,
-      );
+      throw new Error(`Expected [number, number] but received MatchDetails state update.`);
     }
 
     const xBetween = common.isBetween(endPos[0], 330, 345);
@@ -1550,9 +1311,7 @@ describe('penaltyTaken()', function () {
   });
 
   it(`shot made - bad half input`, async () => {
-    const matchDetails = await readMatchDetails(
-      './src/test/input/getMovement/matchDetails1.json',
-    );
+    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const player = matchDetails.secondTeam.players[3];
 
@@ -1566,14 +1325,11 @@ describe('penaltyTaken()', function () {
     }
   });
 });
-const checkGoalScored =
-
-  './src/test/input/getMovement/checkGoalScored.json';
+const checkGoalScored = './src/test/input/getMovement/checkGoalScored.json';
 
 describe('checkGoalScored()', function () {
   it(`koteam close to ball`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.kickOffTeam.players[0].skill.saving = 101;
 
@@ -1589,8 +1345,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`steam close to ball`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     const { ball } = matchDetails;
 
@@ -1612,8 +1367,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`second team goal scored`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, -1];
 
@@ -1629,8 +1383,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`kickoff team goal scored`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, 1051];
 
@@ -1646,8 +1399,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`kickoff team goal scored - top`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, -1];
 
@@ -1665,8 +1417,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`second team goal scored - top`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, 1051];
 
@@ -1684,8 +1435,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`top goal scored - bad half`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, -1];
 
@@ -1700,8 +1450,7 @@ describe('checkGoalScored()', function () {
   });
 
   it(`bottom goal scored - bad half`, async () => {
-    const matchDetails = await readMatchDetails(checkGoalScored
-    );
+    const matchDetails = await readMatchDetails(checkGoalScored);
 
     matchDetails.ball.position = [350, 1051];
 

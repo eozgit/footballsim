@@ -1,11 +1,5 @@
 import * as common from './common.js';
-import type {
-  MatchDetails,
-  PitchDetails,
-  Player,
-  Stats,
-  Team,
-} from './types.js';
+import type { MatchDetails, PitchDetails, Player, Stats, Team } from './types.js';
 
 function resetPlayerPositions(matchDetails: MatchDetails): void {
   for (const player of matchDetails.kickOffTeam.players) {
@@ -112,11 +106,7 @@ function koDecider(team1: Team, matchDetails: MatchDetails): Team {
   return team1;
 }
 
-function populateMatchDetails(
-  team1: Team,
-  team2: Team,
-  pitchDetails: PitchDetails,
-): MatchDetails {
+function populateMatchDetails(team1: Team, team2: Team, pitchDetails: PitchDetails): MatchDetails {
   const teamStats = {
     goals: 0,
     shots: {
@@ -134,11 +124,7 @@ function populateMatchDetails(
     matchID: common.getRandomNumber(1000000000000, 999999999999999),
     kickOffTeam: team1,
     secondTeam: team2,
-    pitchSize: [
-      pitchDetails.pitchWidth,
-      pitchDetails.pitchHeight,
-      pitchDetails.goalWidth,
-    ],
+    pitchSize: [pitchDetails.pitchWidth, pitchDetails.pitchHeight, pitchDetails.goalWidth],
     ball: {
       position: [pitchDetails.pitchWidth / 2, pitchDetails.pitchHeight / 2, 0],
       withPlayer: true,
@@ -159,10 +145,4 @@ function populateMatchDetails(
   };
 }
 
-export {
-  resetPlayerPositions,
-  setGameVariables,
-  koDecider,
-  populateMatchDetails,
-  initStats,
-};
+export { resetPlayerPositions, setGameVariables, koDecider, populateMatchDetails, initStats };

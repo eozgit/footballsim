@@ -1,26 +1,14 @@
 import { processBallMomentum } from './ballState.js';
-import {
-  checkInterceptionsOnTrajectory,
-  resolvePlayerBallInteraction,
-} from './collisions.js';
+import { checkInterceptionsOnTrajectory, resolvePlayerBallInteraction } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { executeKickAction, resolvePassDestination } from './kickLogic.js';
-import {
-  calculateDeflectionVector,
-  updateBallCardinalDirection,
-} from './physics.js';
+import { calculateDeflectionVector, updateBallCardinalDirection } from './physics.js';
 import { initializePlayerObject } from './playerDefaults.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
-import type {
-  Ball,
-  BallPosition,
-  MatchDetails,
-  Player,
-  Team,
-} from './types.js';
+import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
 
 export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
 export type PlayerWithProximity = TestPlayer & { proximity: number };
@@ -82,9 +70,21 @@ function getTopKickedPosition(
   } else if (direction === `west`) {
     return newKickedPosition({ pos: pos, lowX: -power, highX: -(power / 2), lowY: -20, highY: 20 });
   } else if (direction === `northeast`) {
-    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: -power, highY: -(power / 2) });
+    return newKickedPosition({
+      pos: pos,
+      lowX: 0,
+      highX: power / 2,
+      lowY: -power,
+      highY: -(power / 2),
+    });
   } else if (direction === `northwest`) {
-    return newKickedPosition({ pos: pos, lowX: -(power / 2), highX: 0, lowY: -power, highY: -(power / 2) });
+    return newKickedPosition({
+      pos: pos,
+      lowX: -(power / 2),
+      highX: 0,
+      lowY: -power,
+      highY: -(power / 2),
+    });
   }
 
   throw new Error('Unexpected direction');
@@ -106,16 +106,34 @@ function getBottomKickedPosition(
   } else if (direction === `west`) {
     return newKickedPosition({ pos: pos, lowX: -power, highX: -(power / 2), lowY: -20, highY: 20 });
   } else if (direction === `southeast`) {
-    return newKickedPosition({ pos: pos, lowX: 0, highX: power / 2, lowY: power / 2, highY: power });
+    return newKickedPosition({
+      pos: pos,
+      lowX: 0,
+      highX: power / 2,
+      lowY: power / 2,
+      highY: power,
+    });
   } else if (direction === `southwest`) {
-    return newKickedPosition({ pos: pos, lowX: -(power / 2), highX: 0, lowY: power / 2, highY: power });
+    return newKickedPosition({
+      pos: pos,
+      lowX: -(power / 2),
+      highX: 0,
+      lowY: power / 2,
+      highY: power,
+    });
   }
 
   throw new Error('Unexpected direction');
 }
 
-function newKickedPosition(kickConfig: { pos: [number, number]; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
-    const { pos, lowX, highX, lowY, highY } = kickConfig;
+function newKickedPosition(kickConfig: {
+  pos: [number, number];
+  lowX: number;
+  highX: number;
+  lowY: number;
+  highY: number;
+}): [number, number] {
+  const { pos, lowX, highX, lowY, highY } = kickConfig;
 
   const newPosition: [number, number] = [0, 0];
 
@@ -133,35 +151,28 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [numb
   const shotPower = common.calculatePower(player.skill.strength);
 
   // 2. Logic Resolution
-  const isOnTarget = setPositions.checkShotAccuracy(
-    player,
-    pitchHeight,
-    shotPower,
-  );
+  const isOnTarget = setPositions.checkShotAccuracy(player, pitchHeight, shotPower);
 
   recordShotStats(matchDetails, player, isOnTarget);
 
   // 3. Coordinate Resolution
-  const targetCoord = calculateShotTarget({ player: player, onTarget: isOnTarget, width: pitchWidth, height: pitchHeight, power: shotPower });
+  const targetCoord = calculateShotTarget({
+    player: player,
+    onTarget: isOnTarget,
+    width: pitchWidth,
+    height: pitchHeight,
+    power: shotPower,
+  });
 
   // 4. Execution
-  const endPos = calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    targetCoord,
-    player,
-  );
+  const endPos = calcBallMovementOverTime(matchDetails, player.skill.strength, targetCoord, player);
 
   checkGoalScored(matchDetails);
 
   return endPos;
 }
 
-function recordShotStats(
-  matchDetails: MatchDetails,
-  player: Player,
-  isOnTarget: boolean,
-): void {
+function recordShotStats(matchDetails: MatchDetails, player: Player, isOnTarget: boolean): void {
   const { half } = matchDetails;
 
   if (half === 0) {
@@ -193,11 +204,7 @@ function recordShotStats(
   }
 }
 
-function updateLastTouchAndLog(
-  matchDetails: MatchDetails,
-  team: Team,
-  player: Player,
-): void {
+function updateLastTouchAndLog(matchDetails: MatchDetails, team: Team, player: Player): void {
   matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
   updateLastTouch(matchDetails.ball, player, team);
 }
@@ -236,11 +243,7 @@ function checkGoalScored(matchDetails: MatchDetails): void {
 
   const goalEdge = goalWidth / 2;
 
-  const withinGoalX = common.isBetween(
-    ballX,
-    centreGoal - goalEdge,
-    centreGoal + goalEdge,
-  );
+  const withinGoalX = common.isBetween(ballX, centreGoal - goalEdge, centreGoal + goalEdge);
 
   if (withinGoalX) {
     if (ballY < 1) {
@@ -306,20 +309,63 @@ function getPlayersInDistance(
   return playersInDistance;
 }
 
-function resolveBallMovement(movementConfig: { player: Player; startPos: [number, number]; targetPos: [number, number]; power: number; team: Team; opp: Team; matchDetails: MatchDetails; }): [number, number] {
-    const { player, startPos: thisPOS, targetPos: newPOS, power, team, opp, matchDetails } = movementConfig;
+function resolveBallMovement(movementConfig: {
+  player: Player;
+  startPos: [number, number];
+  targetPos: [number, number];
+  power: number;
+  team: Team;
+  opp: Team;
+  matchDetails: MatchDetails;
+}): [number, number] {
+  const {
+    player,
+    startPos: thisPOS,
+    targetPos: newPOS,
+    power,
+    team,
+    opp,
+    matchDetails,
+  } = movementConfig;
 
-  return checkInterceptionsOnTrajectory({ player: player, thisPOS: [thisPOS[0], thisPOS[1]], newPOS: [newPOS[0], newPOS[1]], power: power, team: team, opp: opp, matchDetails: matchDetails });
+  return checkInterceptionsOnTrajectory({
+    player: player,
+    thisPOS: [thisPOS[0], thisPOS[1]],
+    newPOS: [newPOS[0], newPOS[1]],
+    power: power,
+    team: team,
+    opp: opp,
+    matchDetails: matchDetails,
+  });
 }
 
-function thisPlayerIsInProximity(proximityConfig: { matchDetails: MatchDetails; thisPlayer: Player; thisPOS: [number, number]; thisPos: [number, number]; power: number; thisTeam: Team; }): [number, number] | [number, number, number] | undefined {
-    const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
+function thisPlayerIsInProximity(proximityConfig: {
+  matchDetails: MatchDetails;
+  thisPlayer: Player;
+  thisPOS: [number, number];
+  thisPos: [number, number];
+  power: number;
+  thisTeam: Team;
+}): [number, number] | [number, number, number] | undefined {
+  const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
 
-  return resolvePlayerBallInteraction({ matchDetails: matchDetails, thisPlayer: thisPlayer, thisPOS: thisPOS, thisPos: thisPos, power: power, thisTeam: thisTeam });
+  return resolvePlayerBallInteraction({
+    matchDetails: matchDetails,
+    thisPlayer: thisPlayer,
+    thisPOS: thisPOS,
+    thisPos: thisPos,
+    power: power,
+    thisTeam: thisTeam,
+  });
 }
 
-function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetails; player: Player; startPos: [number, number]; team: Team; }): void {
-    const { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
+function setBallMovementMatchDetails(proximityConfig: {
+  matchDetails: MatchDetails;
+  player: Player;
+  startPos: [number, number];
+  team: Team;
+}): void {
+  const { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
 
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.Player = thisPlayer.playerID;
@@ -332,8 +378,22 @@ function setBallMovementMatchDetails(proximityConfig: { matchDetails: MatchDetai
   common.setPlayerXY(thisPlayer, thisPos[0], thisPos[1]);
 }
 
-function resolveDeflection(deflectionConfig: { power: number; startPos: [number, number]; defPosition: [number, number]; player: Player; team: Team; matchDetails: MatchDetails; }): BallPosition {
-    let { power, startPos: thisPOS, defPosition, player: defPlayer, team: defTeam, matchDetails } = deflectionConfig;
+function resolveDeflection(deflectionConfig: {
+  power: number;
+  startPos: [number, number];
+  defPosition: [number, number];
+  player: Player;
+  team: Team;
+  matchDetails: MatchDetails;
+}): BallPosition {
+  let {
+    power,
+    startPos: thisPOS,
+    defPosition,
+    player: defPlayer,
+    team: defTeam,
+    matchDetails,
+  } = deflectionConfig;
 
   const xMovement = (thisPOS[0] - defPosition[0]) ** 2;
 
@@ -360,11 +420,7 @@ function resolveDeflection(deflectionConfig: { power: number; startPos: [number,
   tempPosition = setDeflectionDirectionPos(direction, defPosition, newPower);
   const lastTeam = matchDetails.ball.lastTouch.teamID;
 
-  matchDetails = setPositions.keepInBoundaries(
-    matchDetails,
-    `Team: ${lastTeam}`,
-    tempPosition,
-  );
+  matchDetails = setPositions.keepInBoundaries(matchDetails, `Team: ${lastTeam}`, tempPosition);
   const intended = matchDetails.ballIntended;
 
   const lastPOS = structuredClone(intended ?? matchDetails.ball.position);
@@ -404,7 +460,6 @@ function setDeflectionPlayerHasBall(
   matchDetails.ball.withTeam = defTeam.teamID;
   const [posX, posY] = common.destructPos(defPlayer.currentPOS);
 
-
   matchDetails.ball.position = [posX, posY];
 }
 
@@ -418,9 +473,7 @@ function setDeflectionPlayerOffside(
   matchDetails.ball.Player = '';
   matchDetails.ball.withPlayer = false;
   matchDetails.ball.withTeam = '';
-  matchDetails.iterationLog.push(
-    `${defPlayer.name} is offside. Set piece given`,
-  );
+  matchDetails.iterationLog.push(`${defPlayer.name} is offside. Set piece given`);
 
   if (defTeam.name === matchDetails.kickOffTeam.name) {
     matchDetails = setPositions.setSetpieceSecondTeam(matchDetails);
@@ -444,12 +497,7 @@ function ballPassed(
 
   // 1. Update state & identify pass target
   updateLastTouch(ball, player, team);
-  const targetPlayer = getTargetPlayerCandidate(
-    team,
-    player,
-    pitchSize,
-    pitchHeight,
-  );
+  const targetPlayer = getTargetPlayerCandidate(team, player, pitchSize, pitchHeight);
 
   const [curX, curY] = targetPlayer.currentPOS;
 
@@ -458,23 +506,13 @@ function ballPassed(
   }
 
   // 2. Determine destination (with accuracy logic)
-  const destination = calculatePassDestination(
-    player,
-    ball.position,
-    [curX, curY],
-    pitchHeight,
-  );
+  const destination = calculatePassDestination(player, ball.position, [curX, curY], pitchHeight);
 
   // 3. Finalize stats and movement
   iterationLog.push(`ball passed by: ${player.name} to: ${targetPlayer.name}`);
   player.stats.passes.total++;
 
-  return calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    destination,
-    player,
-  );
+  return calcBallMovementOverTime(matchDetails, player.skill.strength, destination, player);
 }
 
 /** HELPER FUNCTIONS **/
@@ -516,24 +554,21 @@ function calculatePassDestination(
   }
 
   // Otherwise, apply error based on pitch zone
-  const errorRange = getPassErrorRange(
-    ballPos[1],
-    player.originPOS[1],
-    pitchHeight,
-  );
+  const errorRange = getPassErrorRange(ballPos[1], player.originPOS[1], pitchHeight);
 
-  return setTargetPlyPos({ tplyr: targetPos, lowX: -errorRange, highX: errorRange, lowY: -errorRange, highY: errorRange });
+  return setTargetPlyPos({
+    tplyr: targetPos,
+    lowX: -errorRange,
+    highX: errorRange,
+    lowY: -errorRange,
+    highY: errorRange,
+  });
 }
 
-function getPassErrorRange(
-  ballY: number,
-  playerOriginY: number,
-  pitchHeight: number,
-): number {
+function getPassErrorRange(ballY: number, playerOriginY: number, pitchHeight: number): number {
   const isBottomThird = ballY > pitchHeight - pitchHeight / 3;
 
-  const isMiddleThird =
-    ballY > pitchHeight / 3 && ballY < pitchHeight - pitchHeight / 3;
+  const isMiddleThird = ballY > pitchHeight / 3 && ballY < pitchHeight - pitchHeight / 3;
 
   const playerSide = playerOriginY > pitchHeight / 2 ? 'bottom' : 'top';
 
@@ -548,21 +583,21 @@ function getPassErrorRange(
   return playerSide === 'top' ? 10 : 100;
 }
 
-function setTargetPlyPos(targetConfig: { tplyr: Player; lowX: number; highX: number; lowY: number; highY: number; }): [number, number] {
-    const { tplyr, lowX, highX, lowY, highY } = targetConfig;
+function setTargetPlyPos(targetConfig: {
+  tplyr: Player;
+  lowX: number;
+  highX: number;
+  lowY: number;
+  highY: number;
+}): [number, number] {
+  const { tplyr, lowX, highX, lowY, highY } = targetConfig;
 
   const closePlyPos: [number, number] = [0, 0];
 
   const [targetPlayerXPos, targetPlayerYPos] = tplyr;
 
-  closePlyPos[0] = common.round(
-    targetPlayerXPos + common.getRandomNumber(lowX, highX),
-    0,
-  );
-  closePlyPos[1] = common.round(
-    targetPlayerYPos + common.getRandomNumber(lowY, highY),
-    0,
-  );
+  closePlyPos[0] = common.round(targetPlayerXPos + common.getRandomNumber(lowX, highX), 0);
+  closePlyPos[1] = common.round(targetPlayerYPos + common.getRandomNumber(lowY, highY), 0);
 
   return closePlyPos;
 }
@@ -575,11 +610,7 @@ function getTargetPlayer(
   return resolveBestPassOption(playersArray, side, pitchHeight);
 }
 
-function ballCrossed(
-  matchDetails: MatchDetails,
-  team: Team,
-  player: Player,
-): [number, number] {
+function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   if (player.currentPOS[0] === 'NP') {
     throw new Error('Player no position!');
   }
@@ -600,10 +631,7 @@ function ballCrossed(
       ballIntended[0] = common.getRandomNumber(0, pitchWidth - pitchWidth / 3);
     }
   } else {
-    ballIntended[1] = common.getRandomNumber(
-      pitchHeight - pitchHeight / 5,
-      pitchHeight,
-    );
+    ballIntended[1] = common.getRandomNumber(pitchHeight - pitchHeight / 5, pitchHeight);
 
     if (player.currentPOS[0] < pitchWidth / 2) {
       ballIntended[0] = common.getRandomNumber(pitchWidth / 3, pitchWidth);
@@ -646,10 +674,7 @@ function calcBallMovementOverTime(
 
   const totalChange = Math.max(Math.abs(changeInX), Math.abs(changeInY));
 
-  let movementIterations = common.round(
-    totalChange / common.getRandomNumber(2, 3),
-    0,
-  );
+  let movementIterations = common.round(totalChange / common.getRandomNumber(2, 3), 0);
 
   if (movementIterations < 1) {
     movementIterations = 1;
@@ -661,10 +686,25 @@ function calcBallMovementOverTime(
 
   const yArray = splitNumberIntoN(changeInY, movementIterations);
 
-  const BOIts = mergeArrays({ arrayLength: powerArray.length, oldPos: [matchDetails.ball.position[0], matchDetails.ball.position[1]], newPos: nextPosition, array1: xArray, array2: yArray, array3: powerArray }).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
+  const BOIts = mergeArrays({
+    arrayLength: powerArray.length,
+    oldPos: [matchDetails.ball.position[0], matchDetails.ball.position[1]],
+    newPos: nextPosition,
+    array1: xArray,
+    array2: yArray,
+    array3: powerArray,
+  }).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
 
   matchDetails.ball.ballOverIterations = BOIts;
-  const endPos = resolveBallMovement({ player: player, startPos: position, targetPos: BOIts[0], power: power, team: kickOffTeam, opp: secondTeam, matchDetails: matchDetails });
+  const endPos = resolveBallMovement({
+    player: player,
+    startPos: position,
+    targetPos: BOIts[0],
+    power: power,
+    team: kickOffTeam,
+    opp: secondTeam,
+    matchDetails: matchDetails,
+  });
 
   if (matchDetails.endIteration === true) {
     return [matchDetails.ball.position[0], matchDetails.ball.position[1]];
@@ -694,8 +734,15 @@ function splitNumberIntoN(num: number, n: number): number[] {
   return splitNumber;
 }
 
-function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number]; newPos: [number, number]; array1: unknown[]; array2: unknown[]; array3: unknown[]; }): number[][] {
-    const { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
+function mergeArrays(mergeConfig: {
+  arrayLength: number;
+  oldPos: [number, number];
+  newPos: [number, number];
+  array1: unknown[];
+  array2: unknown[];
+  array3: unknown[];
+}): number[][] {
+  const { arrayLength, oldPos, newPos, array1, array2, array3 } = mergeConfig;
 
   let tempPos = [oldPos[0], oldPos[1]];
 
@@ -704,11 +751,7 @@ function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number
   const newArray = [];
 
   for (const thisn of arrayN) {
-    newArray.push([
-      tempPos[0] + array1[thisn],
-      tempPos[1] + array2[thisn],
-      array3[thisn],
-    ]);
+    newArray.push([tempPos[0] + array1[thisn], tempPos[1] + array2[thisn], array3[thisn]]);
     tempPos = [tempPos[0] + array1[thisn], tempPos[1] + array2[thisn]];
   }
 
@@ -717,8 +760,14 @@ function mergeArrays(mergeConfig: { arrayLength: number; oldPos: [number, number
   return newArray;
 }
 
-function calculateShotTarget(shotConfig: { player: Player; onTarget: boolean; width: number; height: number; power: number; }): [number, number] {
-    const { player, onTarget, width, height, power } = shotConfig;
+function calculateShotTarget(shotConfig: {
+  player: Player;
+  onTarget: boolean;
+  width: number;
+  height: number;
+  power: number;
+}): [number, number] {
+  const { player, onTarget, width, height, power } = shotConfig;
 
   const isTopTeam = player.originPOS[1] < height / 2;
 

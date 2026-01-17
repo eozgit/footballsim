@@ -15,20 +15,14 @@ const typeChecker = project.getTypeChecker();
  * Robustly identifies names for functions, including those reached via exports/imports.
  */
 function getFunctionName(node) {
-  if (
-    Node.isExportSpecifier(node) ||
-    Node.isImportSpecifier(node) ||
-    Node.isBindingElement(node)
-  ) {
+  if (Node.isExportSpecifier(node) || Node.isImportSpecifier(node) || Node.isBindingElement(node)) {
     return node.getName();
   }
   if (Node.isFunctionDeclaration(node) || Node.isMethodDeclaration(node)) {
     return node.getName() || '[Anonymous]';
   }
   if (Node.isArrowFunction(node) || Node.isFunctionExpression(node)) {
-    const variableDeclaration = node.getFirstAncestorByKind(
-      SyntaxKind.VariableDeclaration,
-    );
+    const variableDeclaration = node.getFirstAncestorByKind(SyntaxKind.VariableDeclaration);
     if (variableDeclaration) return variableDeclaration.getName();
   }
   return '[Anonymous]';
@@ -48,9 +42,7 @@ function resolveToDefinition(node) {
   // Prioritize actual code blocks
   const implementation = decls.find(
     (d) =>
-      Node.isFunctionDeclaration(d) ||
-      Node.isMethodDeclaration(d) ||
-      Node.isVariableDeclaration(d),
+      Node.isFunctionDeclaration(d) || Node.isMethodDeclaration(d) || Node.isVariableDeclaration(d),
   );
 
   if (implementation) return implementation;
@@ -63,8 +55,7 @@ const finalMap = {};
 // 1. Process engine.ts and src/lib/ (excluding tests)
 const sourceFiles = project.getSourceFiles().filter((sf) => {
   const filePath = sf.getFilePath();
-  const isTarget =
-    filePath.endsWith('engine.ts') || filePath.includes('/src/lib/');
+  const isTarget = filePath.endsWith('engine.ts') || filePath.includes('/src/lib/');
   return isTarget && !filePath.includes('/test/');
 });
 
@@ -91,9 +82,7 @@ sourceFiles.forEach((sf) => {
       const symbol = typeChecker.getSymbolAtLocation(call.getExpression());
       if (!symbol) return;
 
-      const effectiveSymbol = symbol.isAlias()
-        ? typeChecker.getAliasedSymbol(symbol)
-        : symbol;
+      const effectiveSymbol = symbol.isAlias() ? typeChecker.getAliasedSymbol(symbol) : symbol;
       const decls = effectiveSymbol?.getDeclarations();
       if (!decls) return;
 
@@ -148,11 +137,6 @@ Object.values(result).forEach((data) => {
 
 // 3. Output - JSON Only
 const outputDir = path.join(projectRoot, 'scripts');
-fs.writeFileSync(
-  path.join(outputDir, 'fn-graph.json'),
-  JSON.stringify(result, null, 2),
-);
+fs.writeFileSync(path.join(outputDir, 'fn-graph.json'), JSON.stringify(result, null, 2));
 
-console.log(
-  `Success! Logic map generated with ${Object.keys(result).length} nodes.`,
-);
+console.log(`Success! Logic map generated with ${Object.keys(result).length} nodes.`);

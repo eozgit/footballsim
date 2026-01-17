@@ -38,9 +38,9 @@ export default tseslint.config(
       'sonarjs/no-identical-functions': 'error',
 
       // --- THE GOOD PARTS: CLEAN ENGINE ---
-      'complexity': ['error', 10], // Stricter than demo
-      'max-depth': ['error', 3],   // Prevent deep nesting (if/else/loop hell)
-      'max-params': ['error', 4],  // Use objects/interfaces for > 4 params
+      complexity: ['error', 10], // Stricter than demo
+      'max-depth': ['error', 3], // Prevent deep nesting (if/else/loop hell)
+      'max-params': ['error', 4], // Use objects/interfaces for > 4 params
 
       // --- MODERN SAFETY (Unicorn) ---
       'unicorn/no-array-reduce': 'warn', // Prefer for-of for engine performance
@@ -60,7 +60,7 @@ export default tseslint.config(
         { name: 'Buffer', message: 'Use Uint8Array instead for WinterCG compliance.' },
         { name: 'process', message: 'Use environment detection or globalThis instead.' },
         { name: '__dirname', message: 'Use import.meta.url instead.' },
-        { name: '__filename', message: 'Use import.meta.url instead.' }
+        { name: '__filename', message: 'Use import.meta.url instead.' },
       ],
       'no-var': 'error',
       'prefer-const': 'error',
@@ -69,7 +69,10 @@ export default tseslint.config(
       curly: ['error', 'all'],
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
-      'unused-imports/no-unused-vars': ['error', { vars: 'all', args: 'after-used', argsIgnorePattern: '^_' }],
+      'unused-imports/no-unused-vars': [
+        'error',
+        { vars: 'all', args: 'after-used', argsIgnorePattern: '^_' },
+      ],
       '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
@@ -88,7 +91,8 @@ export default tseslint.config(
         // 1. Ban for..in (Iterates over prototypes, slow, often causes bugs)
         {
           selector: 'ForInStatement',
-          message: 'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
+          message:
+            'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
         },
         // 2. Ban Labels/GOTO (Makes execution flow unpredictable)
         {
@@ -99,7 +103,8 @@ export default tseslint.config(
         // This prevents: return x++, y++, z; (which is a nightmare to debug)
         {
           selector: 'SequenceExpression',
-          message: 'The comma operator is confusing and obscures return values. Use multiple statements.',
+          message:
+            'The comma operator is confusing and obscures return values. Use multiple statements.',
         },
         // 4. Ban TypeScript Enums (Optional but Recommended for WinterCG)
         // Enums have weird runtime behavior. Const objects + Union types are safer.
@@ -111,7 +116,8 @@ export default tseslint.config(
         // Unless you really need #private, standard private/protected is better for sim-engines.
         {
           selector: 'PropertyDefinition[accessible="private"]',
-          message: 'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
+          message:
+            'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
         },
       ],
     },
@@ -127,11 +133,11 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       'max-lines-per-function': 'off',
-    }
+    },
   },
   // Ensure the config file itself doesn't try to use type-checked rules
   {
     files: ['*.mjs', '*.js'],
     extends: [tseslint.configs.disableTypeChecked],
-  }
+  },
 );

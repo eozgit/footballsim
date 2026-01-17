@@ -17,9 +17,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(1);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(1);
 
     expect(matchDetails.secondTeam.players[9].offside).to.eql(true);
   });
@@ -35,9 +33,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(2);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(2);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(true);
 
@@ -55,9 +51,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -75,9 +69,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -95,9 +87,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -115,9 +105,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -135,9 +123,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(2);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(2);
 
     expect(matchDetails.secondTeam.players[9].offside).to.eql(true);
 
@@ -165,9 +151,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(1);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(1);
 
     expect(matchDetails.secondTeam.players[9].offside).to.eql(false);
 
@@ -185,9 +169,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(2);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(2);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -205,9 +187,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(2);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(2);
 
     expect(matchDetails.kickOffTeam.players[9].offside).to.eql(false);
 
@@ -225,9 +205,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.secondTeam.players[9].offside).to.eql(false);
 
@@ -245,9 +223,7 @@ describe('checkOffside()', function () {
 
     pMovement.checkOffside(team, opposition, matchDetails);
 
-    expect(
-      JSON.stringify(matchDetails).split(`"offside":true`).length - 1,
-    ).to.eql(0);
+    expect(JSON.stringify(matchDetails).split(`"offside":true`).length - 1).to.eql(0);
 
     expect(matchDetails.secondTeam.players[9].offside).to.eql(false);
 

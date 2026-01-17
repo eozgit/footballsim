@@ -112,10 +112,7 @@ async function setSecondTeamGoalScored(iterationFile: string) {
   return matchDetails;
 }
 
-async function setLeftKickOffTeamThrowIn(
-  iterationFile: string,
-  ballIntended: BallPosition,
-) {
+async function setLeftKickOffTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
   setPos.setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
@@ -123,10 +120,7 @@ async function setLeftKickOffTeamThrowIn(
   return matchDetails;
 }
 
-async function setLeftSecondTeamThrowIn(
-  iterationFile: string,
-  ballIntended: BallPosition,
-) {
+async function setLeftSecondTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
   setPos.setLeftSecondTeamThrowIn(matchDetails, ballIntended);
@@ -134,10 +128,7 @@ async function setLeftSecondTeamThrowIn(
   return matchDetails;
 }
 
-async function setRightKickOffTeamThrowIn(
-  iterationFile: string,
-  ballIntended: BallPosition,
-) {
+async function setRightKickOffTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
   setPos.setRightKickOffTeamThrowIn(matchDetails, ballIntended);
@@ -145,10 +136,7 @@ async function setRightKickOffTeamThrowIn(
   return matchDetails;
 }
 
-async function setRightSecondTeamThrowIn(
-  iterationFile: string,
-  ballIntended: BallPosition,
-) {
+async function setRightSecondTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
   setPos.setRightSecondTeamThrowIn(matchDetails, ballIntended);
@@ -171,10 +159,7 @@ async function inBottomPenalty(iterationFile: string) {
 async function goalieHasBall(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setGoalieHasBall(
-    matchDetails,
-    matchDetails.kickOffTeam.players[0],
-  );
+  return setPos.setGoalieHasBall(matchDetails, matchDetails.kickOffTeam.players[0]);
 }
 
 export default {

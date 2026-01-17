@@ -12,7 +12,7 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    
+
     "allowJs": true,
     "declaration": true,
     "declarationMap": true,

@@ -21,18 +21,13 @@ async function refactor() {
     // We process BinaryExpressions (assignments using '=')
     file
       .getDescendantsOfKind(SyntaxKind.BinaryExpression)
-      .filter(
-        (be) => be.getOperatorToken().getKind() === SyntaxKind.EqualsToken,
-      )
+      .filter((be) => be.getOperatorToken().getKind() === SyntaxKind.EqualsToken)
       .forEach((assignment) => {
         const left = assignment.getLeft();
         const right = assignment.getRight();
 
         // --- CASE A: Full property assignment (p.currentPOS = ...) ---
-        if (
-          Node.isPropertyAccessExpression(left) &&
-          left.getName() === 'currentPOS'
-        ) {
+        if (Node.isPropertyAccessExpression(left) && left.getName() === 'currentPOS') {
           const playerObj = left.getExpression().getText();
 
           // Smarter RHS check: Is it an array literal [x, y]?
@@ -41,9 +36,7 @@ async function refactor() {
             if (elements.length === 2) {
               const x = elements[0].getText();
               const y = elements[1].getText();
-              assignment.replaceWithText(
-                `common.setPlayerXY(${playerObj}, ${x}, ${y})`,
-              );
+              assignment.replaceWithText(`common.setPlayerXY(${playerObj}, ${x}, ${y})`);
               changed = true;
               return;
             }
@@ -51,9 +44,7 @@ async function refactor() {
 
           // Fallback: Use setPlayerPos for variables or spreads
           const newValue = right.getText();
-          assignment.replaceWithText(
-            `common.setPlayerPos(${playerObj}, ${newValue})`,
-          );
+          assignment.replaceWithText(`common.setPlayerPos(${playerObj}, ${newValue})`);
           changed = true;
         }
 
@@ -72,21 +63,12 @@ async function refactor() {
             const newValue = right.getText();
 
             // We handle both numerical index [1] and string index ['1'] if it exists
-            if (
-              index === '0' ||
-              index === '1' ||
-              index === '"0"' ||
-              index === '"1"'
-            ) {
+            if (index === '0' || index === '1' || index === '"0"' || index === '"1"') {
               const cleanIdx = index.replace(/"/g, '');
-              const xVal =
-                cleanIdx === '0' ? newValue : `${playerObj}.currentPOS[0]`;
-              const yVal =
-                cleanIdx === '1' ? newValue : `${playerObj}.currentPOS[1]`;
+              const xVal = cleanIdx === '0' ? newValue : `${playerObj}.currentPOS[0]`;
+              const yVal = cleanIdx === '1' ? newValue : `${playerObj}.currentPOS[1]`;
 
-              assignment.replaceWithText(
-                `common.setPlayerXY(${playerObj}, ${xVal}, ${yVal})`,
-              );
+              assignment.replaceWithText(`common.setPlayerXY(${playerObj}, ${xVal}, ${yVal})`);
               changed = true;
             }
           }
@@ -94,9 +76,7 @@ async function refactor() {
       });
 
     if (changed) {
-      console.log(
-        `✅ Refactored: ${file.getFilePath().replace(process.cwd(), '')}`,
-      );
+      console.log(`✅ Refactored: ${file.getFilePath().replace(process.cwd(), '')}`);
       await file.save();
       if (BAIL) {
         console.log('Bailing after first file as requested.');

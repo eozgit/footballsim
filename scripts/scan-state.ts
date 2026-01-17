@@ -37,9 +37,7 @@ project.getSourceFiles().forEach((sourceFile) => {
       const localDeclaration = sourceFile.getVariableDeclaration(name);
 
       if (localDeclaration) {
-        const statement = localDeclaration.getFirstAncestorByKind(
-          SyntaxKind.VariableStatement,
-        );
+        const statement = localDeclaration.getFirstAncestorByKind(SyntaxKind.VariableStatement);
         const kind = statement?.getDeclarationKind();
 
         if (kind && kind !== 'const') {
@@ -55,9 +53,7 @@ project.getSourceFiles().forEach((sourceFile) => {
 
 if (dangerCount === 0) {
   console.log('✅ No exported mutable variables found via direct exports.');
-  console.log(
-    'If tests still fail, check if you are mutating properties on exported objects.',
-  );
+  console.log('If tests still fail, check if you are mutating properties on exported objects.');
 } else {
   console.log(`\nFound ${dangerCount} potential state issues.`);
   console.log('Consider converting these to get/set functions or constants.');

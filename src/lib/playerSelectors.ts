@@ -2,8 +2,6 @@ import type { PlayerWithProximity } from './ballMovement.js';
 import * as common from './common.js';
 import type { Player, MatchDetails, Team } from './types.js';
 
-
-
 /**
  * Selects the best pass option by filtering for advanced players
  * and performing weighted random sampling.
@@ -14,12 +12,9 @@ function resolveBestPassOption(
   pitchHeight: number = 1050,
 ): PlayerWithProximity {
   // 1. Filter candidates (favoring those in the attacking half)
-  const attackingHalfCandidates = playersArray.filter(
-    (p) => p.proximity < pitchHeight / 2,
-  );
+  const attackingHalfCandidates = playersArray.filter((p) => p.proximity < pitchHeight / 2);
 
-  const tempArray =
-    attackingHalfCandidates.length > 0 ? attackingHalfCandidates : playersArray;
+  const tempArray = attackingHalfCandidates.length > 0 ? attackingHalfCandidates : playersArray;
 
   // 2. Initial selection
   let currentRand = common.getRandomNumber(0, tempArray.length - 1);
@@ -54,12 +49,15 @@ function resolveBestPassOption(
   return bestPlayer;
 }
 
-export function getPlayerTeam(player: Player, matchDetails: MatchDetails): { team: Team; opp: Team } {
-  const isKickOff = matchDetails.kickOffTeam.players.some(p => p.playerID === player.playerID);
+export function getPlayerTeam(
+  player: Player,
+  matchDetails: MatchDetails,
+): { team: Team; opp: Team } {
+  const isKickOff = matchDetails.kickOffTeam.players.some((p) => p.playerID === player.playerID);
 
   return {
     team: isKickOff ? matchDetails.kickOffTeam : matchDetails.secondTeam,
-    opp: isKickOff ? matchDetails.secondTeam : matchDetails.kickOffTeam
+    opp: isKickOff ? matchDetails.secondTeam : matchDetails.kickOffTeam,
   };
 }
 

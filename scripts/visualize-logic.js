@@ -71,8 +71,7 @@ function generateReverseFlow(rootId, depth = 0, seen = new Set()) {
   let mmd = '';
   reverseGraph[rootId].forEach((callerId) => {
     mmd += `  ${sanitize(callerId)}["${fmtLabel(callerId)}"] --> ${sanitize(rootId)}["${fmtLabel(rootId)}"]\n`;
-    if (!seen.has(callerId))
-      mmd += generateReverseFlow(callerId, depth + 1, seen);
+    if (!seen.has(callerId)) mmd += generateReverseFlow(callerId, depth + 1, seen);
   });
   return mmd;
 }
@@ -194,6 +193,4 @@ app.get('/', (req, res) => {
   `);
 });
 
-app.listen(PORT, () =>
-  console.log(`Dashboard active at http://localhost:${PORT}`),
-);
+app.listen(PORT, () => console.log(`Dashboard active at http://localhost:${PORT}`));

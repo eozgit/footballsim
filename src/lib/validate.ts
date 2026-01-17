@@ -36,14 +36,7 @@ function validateNumberOfPlayers(players: Player[]): void {
 }
 
 function validatePlayerObjects(player: Player): void {
-  const playerObjects = [
-    `name`,
-    `position`,
-    `rating`,
-    `currentPOS`,
-    `injured`,
-    `fitness`,
-  ];
+  const playerObjects = [`name`, `position`, `rating`, `currentPOS`, `injured`, `fitness`];
 
   for (const obj of playerObjects) {
     if (!Object.prototype.hasOwnProperty.call(player, obj)) {
@@ -65,14 +58,7 @@ function validatePlayerObjectsIteration(player: Player): void {
     `fitness`,
   ];
 
-  playerObjects.push(
-    `originPOS`,
-    `intentPOS`,
-    `action`,
-    `offside`,
-    `hasBall`,
-    `stats`,
-  );
+  playerObjects.push(`originPOS`, `intentPOS`, `action`, `offside`, `hasBall`, `stats`);
 
   for (const obj of playerObjects) {
     if (!Object.prototype.hasOwnProperty.call(player, obj)) {
@@ -153,14 +139,7 @@ function validateArguments(a: unknown, b: unknown, c: unknown): void {
 }
 
 function validateMatchDetails(matchDetails: MatchDetails): void {
-  const matchObjects = [
-    `matchID`,
-    `kickOffTeam`,
-    `secondTeam`,
-    `pitchSize`,
-    `ball`,
-    `half`,
-  ];
+  const matchObjects = [`matchID`, `kickOffTeam`, `secondTeam`, `pitchSize`, `ball`, `half`];
 
   Array.prototype.push.apply(matchObjects, [
     `kickOffTeamStatistics`,
@@ -205,36 +184,22 @@ function validateBall(ball: unknown): void {
   }
 
   if (badObjects > 0) {
-    throw new Error(
-      `Provide: position,withPlayer,Player,withTeam,direction,ballOverIterations`,
-    );
+    throw new Error(`Provide: position,withPlayer,Player,withTeam,direction,ballOverIterations`);
   }
 }
 
-function isPlayerInBounds(
-  player: Player,
-  pitchWidth: number,
-  pitchHeight: number,
-): void {
+function isPlayerInBounds(player: Player, pitchWidth: number, pitchHeight: number): void {
   if (player.currentPOS[0] !== 'NP') {
     const onPitchX = common.isBetween(player.currentPOS[0], -1, pitchWidth + 1);
 
-    const onPitchY = common.isBetween(
-      player.currentPOS[1],
-      -1,
-      pitchHeight + 1,
-    );
+    const onPitchY = common.isBetween(player.currentPOS[1], -1, pitchHeight + 1);
 
     if (onPitchX === false) {
-      throw new Error(
-        `Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`,
-      );
+      throw new Error(`Player ${player.name} not on the pitch X: ${player.currentPOS[0]}`);
     }
 
     if (onPitchY === false) {
-      throw new Error(
-        `Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`,
-      );
+      throw new Error(`Player ${player.name} not on the pitch Y: ${player.currentPOS[1]}`);
     }
   }
 }

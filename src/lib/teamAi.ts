@@ -35,10 +35,23 @@ function processTeamTactics(
     // 1. Determine Intent and Action
     const tacticalContext = getPlayerTacticalContext(player, [ballX, ballY]);
 
-    const action = determinePlayerAction({ player: player, team: team, opp: opp, matchDetails: matchDetails, ctx: tacticalContext, closest: closestPlayer });
+    const action = determinePlayerAction({
+      player: player,
+      team: team,
+      opp: opp,
+      matchDetails: matchDetails,
+      ctx: tacticalContext,
+      closest: closestPlayer,
+    });
 
     // 2. Execute Movement
-    const pos = executePlayerMovement({ player: player, action: action, opp: opp, matchDetails: matchDetails, ctx: tacticalContext });
+    const pos = executePlayerMovement({
+      player: player,
+      action: action,
+      opp: opp,
+      matchDetails: matchDetails,
+      ctx: tacticalContext,
+    });
 
     common.setPlayerXY(player, pos[0], player.currentPOS[1]);
     common.setPlayerXY(player, player.currentPOS[0], pos[1]);
@@ -47,10 +60,7 @@ function processTeamTactics(
     resolveBallInteractions(player, team, opp, matchDetails, action);
 
     if (player.hasBall) {
-      handleBallPlayerActions(
-        { matchDetails, player, team, opp },
-        action
-      );
+      handleBallPlayerActions({ matchDetails, player, team, opp }, action);
     }
   }
 
@@ -60,13 +70,17 @@ function processTeamTactics(
 /**
  * Stage 1: Action Selection Logic
  */
-function determinePlayerAction(actionConfig: { player: Player; team: Team; opp: Team; matchDetails: MatchDetails; ctx: unknown; closest: unknown; }): string {
-    const { player, team, opp, matchDetails, ctx, closest } = actionConfig;
+function determinePlayerAction(actionConfig: {
+  player: Player;
+  team: Team;
+  opp: Team;
+  matchDetails: MatchDetails;
+  ctx: unknown;
+  closest: unknown;
+}): string {
+  const { player, team, opp, matchDetails, ctx, closest } = actionConfig;
 
-  const possibleActions = actions.findPossActions(
-    player,
-    matchDetails,
-  );
+  const possibleActions = actions.findPossActions(player, matchDetails);
 
   // 1. Get the new intended action from the AI weights
   const aiAction = actions.selectAction(possibleActions);
@@ -102,16 +116,33 @@ function checkProvidedAction(
   thisPlayer: Player,
   newAction: string,
 ): string {
-  return actions.validateAndResolvePlayerAction({ matchDetails: matchDetails, player: thisPlayer, fallbackAction: newAction });
+  return actions.validateAndResolvePlayerAction({
+    matchDetails: matchDetails,
+    player: thisPlayer,
+    fallbackAction: newAction,
+  });
 }
 
 /**
  * Stage 2: Physical Movement
  */
-function executePlayerMovement(moveCtx: { player: Player; action: string; opp: Team; matchDetails: MatchDetails; ctx: unknown; }): [number, number] {
-    const { player, action, opp, matchDetails, ctx } = moveCtx;
+function executePlayerMovement(moveCtx: {
+  player: Player;
+  action: string;
+  opp: Team;
+  matchDetails: MatchDetails;
+  ctx: unknown;
+}): [number, number] {
+  const { player, action, opp, matchDetails, ctx } = moveCtx;
 
-  const move = getMovement({ player: player, action: action, opposition: opp, ballX: ctx.x, ballY: ctx.y, matchDetails: matchDetails });
+  const move = getMovement({
+    player: player,
+    action: action,
+    opposition: opp,
+    ballX: ctx.x,
+    ballY: ctx.y,
+    matchDetails: matchDetails,
+  });
 
   const newPos = completeMovement(matchDetails, player, move);
 

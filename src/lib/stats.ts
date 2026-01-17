@@ -4,11 +4,7 @@ import type { MatchDetails, Player, TeamStatistics } from './types.js';
 /**
  * Updates both team and player shot statistics
  */
-function recordShotStats(
-  matchDetails: MatchDetails,
-  player: Player,
-  isOnTarget: boolean,
-): void {
+function recordShotStats(matchDetails: MatchDetails, player: Player, isOnTarget: boolean): void {
   const getStats = (half: number): TeamStatistics => {
     if (half === 0) {
       throw new Error(`You cannot supply 0 as a half`);

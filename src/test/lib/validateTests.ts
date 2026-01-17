@@ -6,11 +6,11 @@ import * as validate from '../../lib/validate.js';
 import { readMatchDetails } from './utils.js';
 
 async function initGame(t1: string, t2: string, p: string) {
-  const team1: Team = (await readFile(t1));
+  const team1: Team = await readFile(t1);
 
-  const team2: Team = (await readFile(t2));
+  const team2: Team = await readFile(t2);
 
-  const pitch: PitchDetails = (await readFile(p));
+  const pitch: PitchDetails = await readFile(p);
 
   return initiateGame(team1, team2, pitch);
 }
@@ -22,7 +22,7 @@ async function playIter(inputIteration: string): Promise<MatchDetails> {
 }
 
 async function setupSecondHalf(inputIteration: string) {
-  const inputJson: MatchDetails = (await readFile(inputIteration));
+  const inputJson: MatchDetails = await readFile(inputIteration);
 
   return startSecondHalf(inputJson);
 }

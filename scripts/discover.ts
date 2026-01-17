@@ -17,7 +17,7 @@ function getCallExpression(node: Node): CallExpression | undefined {
 function getDiscovery() {
   const jsonPath = path.join(PROJECT_ROOT, 'max-params.json');
   if (!fs.existsSync(jsonPath)) {
-    console.error("❌ Error: max-params.json not found.");
+    console.error('❌ Error: max-params.json not found.');
     process.exit(1);
   }
 
@@ -25,13 +25,13 @@ function getDiscovery() {
   const project = new Project({ tsConfigFilePath: path.join(PROJECT_ROOT, 'tsconfig.json') });
 
   // Ensure tests are included for call site detection
-  project.addSourceFilesAtPaths(["src/**/*.ts", "src/test/**/*.ts"]);
+  project.addSourceFilesAtPaths(['src/**/*.ts', 'src/test/**/*.ts']);
   project.resolveSourceFileDependencies();
 
   const discoveryData: any[] = [];
 
   // Parse Limit (Measure in unique functions identified)
-  const limitArg = process.argv.find(arg => arg.startsWith('--limit='));
+  const limitArg = process.argv.find((arg) => arg.startsWith('--limit='));
   const limit = limitArg ? parseInt(limitArg.split('=')[1]) : Infinity;
 
   // Track processed functions to handle --limit correctly across multiple files
@@ -48,18 +48,23 @@ function getDiscovery() {
     for (const error of errors) {
       if (functionsProcessedCount >= limit) break;
 
-      const pos = sourceFile.compilerNode.getPositionOfLineAndCharacter(error.line - 1, error.column - 1);
+      const pos = sourceFile.compilerNode.getPositionOfLineAndCharacter(
+        error.line - 1,
+        error.column - 1,
+      );
       const nodeAtPos = sourceFile.getDescendantAtPos(pos);
 
-      const fnNode = nodeAtPos?.getFirstAncestor(n =>
-        n.getKind() === SyntaxKind.FunctionDeclaration ||
-        n.getKind() === SyntaxKind.VariableDeclaration
+      const fnNode = nodeAtPos?.getFirstAncestor(
+        (n) =>
+          n.getKind() === SyntaxKind.FunctionDeclaration ||
+          n.getKind() === SyntaxKind.VariableDeclaration,
       );
 
       if (fnNode) {
         let actualFn: any = fnNode;
         if (Node.isVariableDeclaration(fnNode)) {
-          actualFn = fnNode.getInitializerIfKind(SyntaxKind.ArrowFunction) ||
+          actualFn =
+            fnNode.getInitializerIfKind(SyntaxKind.ArrowFunction) ||
             fnNode.getInitializerIfKind(SyntaxKind.FunctionExpression);
         }
 
@@ -88,7 +93,7 @@ function getDiscovery() {
                 callSites.push({
                   filePath: refNode.getSourceFile().getFilePath(),
                   line: refNode.getStartLineNumber(),
-                  argCount: call.getArguments().length
+                  argCount: call.getArguments().length,
                 });
               }
             }
@@ -101,17 +106,21 @@ function getDiscovery() {
           functionName: name || 'anonymous',
           line: error.line,
           currentParams: actualFn.getParameters().map((p: ParameterDeclaration) => p.getName()),
-          callSites: callSites
+          callSites: callSites,
         });
 
         functionsProcessedCount++;
-        console.log(`✅ [${functionsProcessedCount}/${limit}] Collected: ${name} (${callSites.length} call sites)`);
+        console.log(
+          `✅ [${functionsProcessedCount}/${limit}] Collected: ${name} (${callSites.length} call sites)`,
+        );
       }
     }
   }
 
   fs.writeFileSync('discovery.json', JSON.stringify(discoveryData, null, 2));
-  console.log(`\n📂 Discovery complete. Results for ${discoveryData.length} functions saved to discovery.json`);
+  console.log(
+    `\n📂 Discovery complete. Results for ${discoveryData.length} functions saved to discovery.json`,
+  );
 }
 
 getDiscovery();

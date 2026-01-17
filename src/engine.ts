@@ -10,20 +10,12 @@ import * as validate from './lib/validate.js';
 //------------------------
 //    Functions
 //------------------------
-function initiateGame(
-  team1: Team,
-  team2: Team,
-  pitchDetails: PitchDetails,
-): MatchDetails {
+function initiateGame(team1: Team, team2: Team, pitchDetails: PitchDetails): MatchDetails {
   validate.validateArguments(team1, team2, pitchDetails);
   validate.validateTeam(team1);
   validate.validateTeam(team2);
   validate.validatePitch(pitchDetails);
-  const matchDetails = setVariables.populateMatchDetails(
-    team1,
-    team2,
-    pitchDetails,
-  );
+  const matchDetails = setVariables.populateMatchDetails(team1, team2, pitchDetails);
 
   let kickOffTeam = setVariables.setGameVariables(matchDetails.kickOffTeam);
 
@@ -39,9 +31,7 @@ function initiateGame(
   return matchDetails;
 }
 
-function playIteration(
-  matchDetails: MatchDetails,
-): MatchDetails {
+function playIteration(matchDetails: MatchDetails): MatchDetails {
   const closestPlayerA = {
     name: '',
     position: 100000,
@@ -77,28 +67,18 @@ function playIteration(
     secondTeam,
     matchDetails,
   );
-  secondTeam = playerMovement.decideMovement(
-    closestPlayerB,
-    secondTeam,
-    kickOffTeam,
-    matchDetails,
-  );
+  secondTeam = playerMovement.decideMovement(closestPlayerB, secondTeam, kickOffTeam, matchDetails);
   matchDetails.kickOffTeam = kickOffTeam;
   matchDetails.secondTeam = secondTeam;
 
-  if (
-    matchDetails.ball.ballOverIterations.length === 0 ||
-    matchDetails.ball.withTeam !== ''
-  ) {
+  if (matchDetails.ball.ballOverIterations.length === 0 || matchDetails.ball.withTeam !== '') {
     playerMovement.checkOffside(kickOffTeam, secondTeam, matchDetails);
   }
 
   return matchDetails;
 }
 
-function startSecondHalf(
-  matchDetails: MatchDetails,
-): MatchDetails {
+function startSecondHalf(matchDetails: MatchDetails): MatchDetails {
   validate.validateMatchDetails(matchDetails);
   validate.validateTeamSecondHalf(matchDetails.kickOffTeam);
   validate.validateTeamSecondHalf(matchDetails.secondTeam);
@@ -109,13 +89,8 @@ function startSecondHalf(
   setPositions.switchSide(matchDetails, secondTeam);
   common.removeBallFromAllPlayers(matchDetails);
   setVariables.resetPlayerPositions(matchDetails);
-  setPositions.setBallSpecificGoalScoreValue(
-    matchDetails,
-    matchDetails.secondTeam,
-  );
-  matchDetails.iterationLog = [
-    `Second Half Started: ${matchDetails.secondTeam.name} to kick offs`,
-  ];
+  setPositions.setBallSpecificGoalScoreValue(matchDetails, matchDetails.secondTeam);
+  matchDetails.iterationLog = [`Second Half Started: ${matchDetails.secondTeam.name} to kick offs`];
   matchDetails.kickOffTeam.intent = `defend`;
   matchDetails.secondTeam.intent = `attack`;
   matchDetails.half++;

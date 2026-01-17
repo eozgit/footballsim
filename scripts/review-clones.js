@@ -9,9 +9,7 @@ if (!fs.existsSync(reportPath)) {
 }
 
 const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
-const duplicates = (report.duplicates || [])
-  .sort((a, b) => b.lines - a.lines)
-  .slice(0, 3);
+const duplicates = (report.duplicates || []).sort((a, b) => b.lines - a.lines).slice(0, 3);
 
 duplicates.forEach((clone, index) => {
   const f1 = clone.firstFile;

@@ -21,17 +21,12 @@ function executePenaltyShot(
   });
 
   // 2. Determine Outcome and Record Stats
-  const isOnTarget =
-    player.skill.penalty_taking > common.getRandomNumber(0, 100);
+  const isOnTarget = player.skill.penalty_taking > common.getRandomNumber(0, 100);
 
   recordShotStats(matchDetails, player, isOnTarget);
 
   // 3. Calculate Target Position
-  const shotPosition = calculatePenaltyTarget(
-    matchDetails.pitchSize,
-    player,
-    isOnTarget,
-  );
+  const shotPosition = calculatePenaltyTarget(matchDetails.pitchSize, player, isOnTarget);
 
   matchDetails.iterationLog.push(
     `Shot ${isOnTarget ? 'On' : 'Off'} Target at X: ${shotPosition[0]}`,
@@ -119,19 +114,11 @@ function positionAttackingTeam({
     const { position, name, originPOS } = player;
 
     if (position === 'GK') {
-      common.setPlayerXY(
-        player,
-        originPOS[0],
-        Math.floor(pitchHeight * factorGK),
-      );
+      common.setPlayerXY(player, originPOS[0], Math.floor(pitchHeight * factorGK));
     } else if (position === 'CB') {
       common.setPlayerXY(player, originPOS[0], Math.floor(pitchHeight * 0.5));
     } else if (position === 'LB' || position === 'RB') {
-      common.setPlayerXY(
-        player,
-        originPOS[0],
-        Math.floor(pitchHeight * factorWB),
-      );
+      common.setPlayerXY(player, originPOS[0], Math.floor(pitchHeight * factorWB));
     } else if (name !== kickPlayer.name) {
       common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
     }
@@ -160,9 +147,7 @@ function positionDefendingTeam({
 }): void {
   let playerSpace = -3;
 
-  const midWayX = Math.floor(
-    (ball.position[0] - (ball.position[0] - pitchWidth / 2)) / 2,
-  );
+  const midWayX = Math.floor((ball.position[0] - (ball.position[0] - pitchWidth / 2)) / 2);
 
   for (const player of defence.players) {
     let midWayY: number;
@@ -199,11 +184,7 @@ function setDefenderSetPiecePosition(
 
     common.setPlayerXY(player, origX, origY);
   } else if (['CB', 'LB', 'RB'].includes(player.position)) {
-    common.setPlayerXY(
-      player,
-      midWayFromBalltoGoalX + playerSpace,
-      midWayFromBalltoGoalY,
-    );
+    common.setPlayerXY(player, midWayFromBalltoGoalX + playerSpace, midWayFromBalltoGoalY);
     playerSpace += 2;
   } else {
     common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
@@ -230,9 +211,7 @@ export function calculateAttackingSetPieceY(
 
   const limit = getAttackingLimit(player.position, isTop, pitchHeight);
 
-  return isTop
-    ? common.upToMax(baseNewY, limit)
-    : common.upToMin(baseNewY, limit);
+  return isTop ? common.upToMax(baseNewY, limit) : common.upToMin(baseNewY, limit);
 }
 
 /**
@@ -287,14 +266,7 @@ function executeDeepSetPieceSetup(
   ball.direction = isTop ? 'south' : 'north';
 
   // 3. Position Teams
-  repositionAttackers(
-    attack,
-    kickPlayer,
-    ball,
-    isTop,
-    pitchHeight,
-    isGKExecuting,
-  );
+  repositionAttackers(attack, kickPlayer, ball, isTop, pitchHeight, isGKExecuting);
   repositionDefenders(defence, isTop, pitchHeight, isGKExecuting);
 
   matchDetails.endIteration = true;
@@ -311,9 +283,7 @@ function selectDeepSetPieceKicker(
   isTop: boolean,
   pitchHeight: number,
 ): Player {
-  const goalieAreaLimit = isTop
-    ? pitchHeight * 0.25 + 1
-    : pitchHeight * 0.75 - 1;
+  const goalieAreaLimit = isTop ? pitchHeight * 0.25 + 1 : pitchHeight * 0.75 - 1;
 
   const goalieToKick = isTop
     ? ball.position[1] <= goalieAreaLimit
@@ -361,12 +331,7 @@ function repositionDefenders(
   isGKExecuting: boolean,
 ): void {
   for (const player of defence.players) {
-    const targetY = calculateDefensiveSetPieceY(
-      player,
-      isTop,
-      pitchHeight,
-      isGKExecuting,
-    );
+    const targetY = calculateDefensiveSetPieceY(player, isTop, pitchHeight, isGKExecuting);
 
     common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
     common.setPlayerXY(player, player.currentPOS[0], Math.floor(targetY));
@@ -376,11 +341,7 @@ function repositionDefenders(
 /**
  * Helper: Defines the furthest forward a player can move during a set piece
  */
-function getAttackingLimit(
-  pos: string,
-  isTop: boolean,
-  pitchHeight: number,
-): number {
+function getAttackingLimit(pos: string, isTop: boolean, pitchHeight: number): number {
   if (pos === 'GK') {
     return isTop ? pitchHeight * 0.25 : pitchHeight * 0.75;
   }
@@ -399,11 +360,7 @@ function getAttackingLimit(
 /**
  * Helper: Defines target lines for the defending team
  */
-function getDefensiveTargetY(
-  pos: string,
-  isTop: boolean,
-  pitchHeight: number,
-): number {
+function getDefensiveTargetY(pos: string, isTop: boolean, pitchHeight: number): number {
   const isMid = ['CM', 'LM', 'RM'].includes(pos);
 
   if (isMid) {

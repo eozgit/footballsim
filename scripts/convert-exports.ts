@@ -9,10 +9,7 @@ project.addSourceFilesAtPaths('src/**/*.ts');
 const sourceFiles = project.getSourceFiles();
 
 // 1. Map out every file that provides a default export
-const defaultExportMap = new Map<
-  string,
-  { members: string[]; filePath: string }
->();
+const defaultExportMap = new Map<string, { members: string[]; filePath: string }>();
 
 for (const sourceFile of sourceFiles) {
   const defaultExportSymbol = sourceFile.getDefaultExportSymbol();
@@ -57,17 +54,15 @@ for (const sourceFile of sourceFiles) {
       const localAlias = defaultImport.getText();
 
       // 3. Replace usages in function bodies: alias.member -> member
-      sourceFile
-        .getDescendantsOfKind(SyntaxKind.PropertyAccessExpression)
-        .forEach((pa) => {
-          if (pa.getExpression().getText() === localAlias) {
-            const propertyName = pa.getName();
-            console.log(
-              `[REPLACE] In ${sourceFile.getBaseName()}: ${pa.getText()} -> ${propertyName}`,
-            );
-            pa.replaceWithText(propertyName);
-          }
-        });
+      sourceFile.getDescendantsOfKind(SyntaxKind.PropertyAccessExpression).forEach((pa) => {
+        if (pa.getExpression().getText() === localAlias) {
+          const propertyName = pa.getName();
+          console.log(
+            `[REPLACE] In ${sourceFile.getBaseName()}: ${pa.getText()} -> ${propertyName}`,
+          );
+          pa.replaceWithText(propertyName);
+        }
+      });
 
       // 4. Update the import statement cleanly
       // First, add the named imports
@@ -76,9 +71,7 @@ for (const sourceFile of sourceFiles) {
       // Second, remove the default import (this handles the comma correctly)
       importDecl.removeDefaultImport();
 
-      console.log(
-        `[IMPORT] Successfully migrated "${localAlias}" in ${sourceFile.getBaseName()}`,
-      );
+      console.log(`[IMPORT] Successfully migrated "${localAlias}" in ${sourceFile.getBaseName()}`);
     }
   }
 }
@@ -95,9 +88,7 @@ for (const [path, data] of defaultExportMap) {
         .flatMap((d) => d.getNamedExports().map((n) => n.getName())),
     );
     // Include inline exported functions
-    sourceFile
-      .getFunctions()
-      .forEach((f) => f.isExported() && existingExports.add(f.getName()!));
+    sourceFile.getFunctions().forEach((f) => f.isExported() && existingExports.add(f.getName()!));
 
     const uniqueMembers = data.members.filter((m) => !existingExports.has(m));
 
@@ -105,9 +96,7 @@ for (const [path, data] of defaultExportMap) {
       sourceFile.addExportDeclaration({ namedExports: uniqueMembers });
     }
     declaration.remove();
-    console.log(
-      `[EXPORT] Converted default export in ${sourceFile.getBaseName()}`,
-    );
+    console.log(`[EXPORT] Converted default export in ${sourceFile.getBaseName()}`);
   }
 }
 

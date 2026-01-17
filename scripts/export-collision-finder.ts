@@ -44,9 +44,7 @@ let conflictCount = 0;
 symbolMap.forEach((files, symbolName) => {
   if (files.length > 1) {
     conflictCount++;
-    console.warn(
-      `[CONFLICT] "${symbolName}" is declared in ${files.length} files:`,
-    );
+    console.warn(`[CONFLICT] "${symbolName}" is declared in ${files.length} files:`);
     files.forEach((file) => console.log(`  - ${file}`));
     console.log('');
   }

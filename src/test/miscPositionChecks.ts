@@ -7,7 +7,6 @@ const itlocation = './src/init_config/iteration.json';
 
 describe('removeBallFromAllPlayers()', function () {
   it('check no player has the ball after its been removed from all players', async (): Promise<void> => {
-
     const nextJSON = await setpieces.removeBallFromAllPlayers(itlocation);
 
     expect(nextJSON).to.be.an('object');
@@ -23,15 +22,11 @@ describe('removeBallFromAllPlayers()', function () {
 
 describe('switchTeamSides()', function () {
   it('check players sides are switched kickoff team', async () => {
-
     const matchDetails = await readMatchDetails(itlocation);
 
     const testTeam = JSON.parse(JSON.stringify(matchDetails.kickOffTeam));
 
-    const nextJSON = await setpieces.switchSide(
-      matchDetails,
-      matchDetails.kickOffTeam,
-    );
+    const nextJSON = await setpieces.switchSide(matchDetails, matchDetails.kickOffTeam);
 
     for (const playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
@@ -41,15 +36,11 @@ describe('switchTeamSides()', function () {
   });
 
   it('check players sides are switched second team', async () => {
-
     const matchDetails = await readMatchDetails(itlocation);
 
     const testTeam = JSON.parse(JSON.stringify(matchDetails.secondTeam));
 
-    const nextJSON = await setpieces.switchSide(
-      matchDetails,
-      matchDetails.secondTeam,
-    );
+    const nextJSON = await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
 
     for (const playerNum of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]) {
       expect(testTeam.players[playerNum].originPOS).to.not.eql(
@@ -59,7 +50,6 @@ describe('switchTeamSides()', function () {
   });
 
   it('no origin POS set', async () => {
-
     const matchDetails = await readMatchDetails(itlocation);
 
     // Force the invalid state
@@ -73,21 +63,15 @@ describe('switchTeamSides()', function () {
     } catch (err: unknown) {
       assert(err instanceof Error);
 
-      expect(err.message).to.contain(
-        'Each player must have an origin position set',
-      );
+      expect(err.message).to.contain('Each player must have an origin position set');
     }
   });
 
   it('low fitness level', async () => {
-
     const matchDetails = await readMatchDetails(itlocation);
 
     matchDetails.secondTeam.players[0].fitness = 10;
-    const nextJSON = await setpieces.switchSide(
-      matchDetails,
-      matchDetails.secondTeam,
-    );
+    const nextJSON = await setpieces.switchSide(matchDetails, matchDetails.secondTeam);
 
     expect(nextJSON.secondTeam.players[0].fitness).to.eql(60);
   });

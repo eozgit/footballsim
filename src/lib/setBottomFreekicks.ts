@@ -17,33 +17,15 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
 
   const [, ballY] = matchDetails.ball.position;
 
-  const attack =
-    kickOffTeam.players[0].originPOS[1] > pitchHeight / 2
-      ? kickOffTeam
-      : secondTeam;
+  const attack = kickOffTeam.players[0].originPOS[1] > pitchHeight / 2 ? kickOffTeam : secondTeam;
 
-  const defence =
-    kickOffTeam.players[0].originPOS[1] > pitchHeight / 2
-      ? secondTeam
-      : kickOffTeam;
+  const defence = kickOffTeam.players[0].originPOS[1] > pitchHeight / 2 ? secondTeam : kickOffTeam;
 
-  const hundredToHalfway = common.isBetween(
-    ballY,
-    pitchHeight / 2 - 1,
-    pitchHeight - 100,
-  );
+  const hundredToHalfway = common.isBetween(ballY, pitchHeight / 2 - 1, pitchHeight - 100);
 
-  const halfwayToLastQtr = common.isBetween(
-    ballY,
-    pitchHeight / 4,
-    pitchHeight / 2,
-  );
+  const halfwayToLastQtr = common.isBetween(ballY, pitchHeight / 4, pitchHeight / 2);
 
-  const upperFinalQtr = common.isBetween(
-    ballY,
-    pitchHeight / 6 - 5,
-    pitchHeight / 4,
-  );
+  const upperFinalQtr = common.isBetween(ballY, pitchHeight / 6 - 5, pitchHeight / 4);
 
   const lowerFinalQtr = common.isBetween(ballY, 0, pitchHeight / 6 - 5);
 
@@ -68,7 +50,7 @@ function setBottomFreekick(matchDetails: MatchDetails): MatchDetails {
   }
 
   throw new Error(
-    `Unhandled freekick position: ball at [${matchDetails.ball.position.join(', ')}]`
+    `Unhandled freekick position: ball at [${matchDetails.ball.position.join(', ')}]`,
   );
 }
 
@@ -136,7 +118,16 @@ function setBottomUpperQtrCentreYPos(
     ball.direction = 'northwest';
   }
 
-  return alignPlayersForPenalty({ isTop: false, attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: details, defence: defence, ball: ball, pitchWidth: pitchWidth });
+  return alignPlayersForPenalty({
+    isTop: false,
+    attack: attack,
+    pitchHeight: pitchHeight,
+    kickPlayer: kickPlayer,
+    matchDetails: details,
+    defence: defence,
+    ball: ball,
+    pitchWidth: pitchWidth,
+  });
 }
 
 function setBottomLowerFinalQtrBylinePos(
@@ -151,9 +142,24 @@ function setBottomLowerFinalQtrBylinePos(
 
   const kickPlayer = attack.players[5];
 
-  setDeepFreekickBallAndKicker({ ball: ball, kickPlayer: kickPlayer, teamID: attack.teamID, pitchWidth: pitchWidth, isTop: false });
+  setDeepFreekickBallAndKicker({
+    ball: ball,
+    kickPlayer: kickPlayer,
+    teamID: attack.teamID,
+    pitchWidth: pitchWidth,
+    isTop: false,
+  });
 
-  return setSetPiecePositions({ attack: attack, pitchHeight: pitchHeight, kickPlayer: kickPlayer, matchDetails: matchDetails, ball: ball, defence: defence, pitchWidth: pitchWidth, isTop: false });
+  return setSetPiecePositions({
+    attack: attack,
+    pitchHeight: pitchHeight,
+    kickPlayer: kickPlayer,
+    matchDetails: matchDetails,
+    ball: ball,
+    defence: defence,
+    pitchWidth: pitchWidth,
+    isTop: false,
+  });
 }
 
 export { setBottomFreekick };

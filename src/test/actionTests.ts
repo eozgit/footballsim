@@ -19,31 +19,19 @@ describe('testPositionInTopBox()', function () {
   });
 
   it('Outside Top Box Left', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBox(
-      [10, 10],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBox([10, 10], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Outside Top Box Right', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBox(
-      [660, 100],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBox([660, 100], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Outside Top Box Below', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBox(
-      [300, 1000],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBox([300, 1000], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
@@ -51,49 +39,29 @@ describe('testPositionInTopBox()', function () {
 
 describe('testPositionInTopClose()', function () {
   it('Inside Top Box Close Test', async () => {
-    let inPosition = actions.checkPositionInTopPenaltyBoxClose(
-      [330, 10],
-      680,
-      1050,
-    );
+    let inPosition = actions.checkPositionInTopPenaltyBoxClose([330, 10], 680, 1050);
 
     expect(inPosition).to.be.eql(true);
 
-    inPosition = actions.checkPositionInTopPenaltyBoxClose(
-      [300, 50],
-      680,
-      1050,
-    );
+    inPosition = actions.checkPositionInTopPenaltyBoxClose([300, 50], 680, 1050);
 
     expect(inPosition).to.be.eql(true);
   });
 
   it('Outside Top Box Close Left', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBoxClose(
-      [10, 10],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBoxClose([10, 10], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Outside Top Box Close Right', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBoxClose(
-      [660, 100],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBoxClose([660, 100], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Outside Top Box Close Below', async () => {
-    const inPosition = actions.checkPositionInTopPenaltyBoxClose(
-      [300, 1000],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInTopPenaltyBoxClose([300, 1000], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
@@ -101,11 +69,7 @@ describe('testPositionInTopClose()', function () {
 
 describe('testPositionInBottomBox()', function () {
   it('Inside Bottom Box Close Test', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBox(
-      [345, 1010],
-      680,
-      1050,
-    );
+    let inPosition = actions.checkPositionInBottomPenaltyBox([345, 1010], 680, 1050);
 
     expect(inPosition).to.be.eql(true);
 
@@ -115,31 +79,19 @@ describe('testPositionInBottomBox()', function () {
   });
 
   it('Inside Bottom Box Close Left', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBox(
-      [1, 1010],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBox([1, 1010], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Close Right', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBox(
-      [677, 1040],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBox([677, 1040], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Close Above', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBox(
-      [677, 500],
-      680,
-      1050,
-    );
+    const inPosition = actions.checkPositionInBottomPenaltyBox([677, 500], 680, 1050);
 
     expect(inPosition).to.be.eql(false);
   });
@@ -147,41 +99,60 @@ describe('testPositionInBottomBox()', function () {
 
 describe('testPositionInBottomBoxClose()', function () {
   it('Inside Bottom Box Test', async () => {
-    let inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [345, 1010], pitchWidth: 680, pitchHeight: 1050 });
+    let inPosition = actions.checkPositionInBottomPenaltyBoxClose({
+      position: [345, 1010],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(inPosition).to.be.eql(true);
 
-    inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [295, 975], pitchWidth: 680, pitchHeight: 1050 });
+    inPosition = actions.checkPositionInBottomPenaltyBoxClose({
+      position: [295, 975],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(inPosition).to.be.eql(true);
   });
 
   it('Inside Bottom Box Left', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [1, 1010], pitchWidth: 680, pitchHeight: 1050 });
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({
+      position: [1, 1010],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Right', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [677, 1040], pitchWidth: 680, pitchHeight: 1050 });
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({
+      position: [677, 1040],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(inPosition).to.be.eql(false);
   });
 
   it('Inside Bottom Box Above', async () => {
-    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({ position: [677, 500], pitchWidth: 680, pitchHeight: 1050 });
+    const inPosition = actions.checkPositionInBottomPenaltyBoxClose({
+      position: [677, 500],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(inPosition).to.be.eql(false);
   });
 });
 
-const bottomTeamHasBallInTopPenaltyBox = './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json';
+const bottomTeamHasBallInTopPenaltyBox =
+  './src/test/input/actionInputs/bottomTeamHasBallInTopPenaltyBox.json';
 
 describe('noBallNotGK2CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
@@ -195,9 +166,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
   });
 
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK2CloseBallBottomTeam(
@@ -211,33 +180,19 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
   });
 
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK2CloseBallBottomTeam(
-      matchDetails,
-      [15, 500],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [15, 500], 680, 1050);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle, intercept and slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBallBottomTeam(
-      matchDetails,
-      [604, 485],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK2CloseBallBottomTeam(matchDetails, [604, 485], 680, 1050);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
@@ -245,9 +200,7 @@ describe('noBallNotGK2CloseBallBottomTeam()', function () {
 
 describe('noBallNotGK4CloseBallBottomTeam()', function () {
   it('Nobody has the ball, not GK, in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
@@ -261,9 +214,7 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
   });
 
   it('A Player has the ball, not GK, in bottom Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
     const parameters = actions.noBallNotGK4CloseBallBottomTeam(
@@ -277,33 +228,19 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
   });
 
   it('A Player has the ball, not GK, not in bottom Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK4CloseBallBottomTeam(
-      matchDetails,
-      [15, 500],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [15, 500], 680, 1050);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('A Player has the ball, not GK, not in bottom Goal (own), tackle slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBallBottomTeam(
-      matchDetails,
-      [604, 485],
-      680,
-      1050,
-    );
+    const parameters = actions.noBallNotGK4CloseBallBottomTeam(matchDetails, [604, 485], 680, 1050);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
@@ -311,56 +248,76 @@ describe('noBallNotGK4CloseBallBottomTeam()', function () {
 
 describe('noBallNotGK2CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK2CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK2CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
 
   it('Player has the ball, not GK, in top Goal (not own), tackle, intercept and slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 805], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK2CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 805],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
 
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK2CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 300],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('Player has the ball, not GK, not in top Goal (own), tackle, intercept and slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK2CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK2CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 300],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 70, 10, 20, 0, 0, 0, 0]);
   });
@@ -368,56 +325,76 @@ describe('noBallNotGK2CloseBall()', function () {
 
 describe('noBallNotGK4CloseBall()', function () {
   it('Nobody has the ball, not GK, in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK4CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('Player has the ball, not GK, in top Goal (own), tackle, slide, run or sprint', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK4CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
 
   it('Player has the ball, not GK, in top Goal (not own), tackle slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 15], originPOS: [320, 805], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK4CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 15],
+      originPOS: [320, 805],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
 
   it('Nobody has the ball, not GK, not in top Goal (own), run or sprint towards the ball', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK4CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 300],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
 
   it('Player has the ball, not GK, not in top Goal (own), tackle slide', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.noBallNotGK4CloseBall({ matchDetails: matchDetails, currentPOS: [320, 300], originPOS: [320, 5], pitchWidth: 680, pitchHeight: 1050 });
+    const parameters = actions.noBallNotGK4CloseBall({
+      matchDetails: matchDetails,
+      currentPOS: [320, 300],
+      originPOS: [320, 5],
+      pitchWidth: 680,
+      pitchHeight: 1050,
+    });
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 50, 0, 50, 0, 0, 0, 0]);
   });
@@ -427,20 +404,13 @@ describe('playerDoesNotHaveBall()', function () {
   it('Goalkeeper - run, sprint', async () => {
     const player: Player = createPlayer('GK');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
 
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      0,
-      1,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0]);
   });
@@ -448,19 +418,12 @@ describe('playerDoesNotHaveBall()', function () {
   it('Defender - within 2', async () => {
     const player = createPlayer('LB');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      0,
-      1,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -468,19 +431,12 @@ describe('playerDoesNotHaveBall()', function () {
   it('Midfielder - within 4', async () => {
     const player = createPlayer('CM');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      3,
-      3,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 3, 3, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -488,19 +444,12 @@ describe('playerDoesNotHaveBall()', function () {
   it('Midfielder - within 20 - No Player has ball - run sprint', async () => {
     const player = createPlayer('CM');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      15,
-      12,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -508,19 +457,12 @@ describe('playerDoesNotHaveBall()', function () {
   it('Midfielder - within 20 - No Player has ball - intercept run sprint', async () => {
     const player = createPlayer('CM');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      15,
-      12,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
@@ -528,19 +470,12 @@ describe('playerDoesNotHaveBall()', function () {
   it('Striker - over 20 - No Player has ball - intercept run sprint', async () => {
     const player = createPlayer('ST');
 
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.playerDoesNotHaveBall(
-      player,
-      105,
-      88,
-      matchDetails,
-    );
+    const parameters = actions.playerDoesNotHaveBall(player, 105, 88, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0]);
   });
@@ -660,25 +595,49 @@ describe('checkOppositionBelow()', function () {
 
 describe('checkTeamMateProximity()', function () {
   it('Team mate is in proximity 1 - true', async () => {
-    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [1, 1], lowX: -3, highX: 3, lowY: -5, highY: 5 });
+    const close = actions.checkTeamMateSpaceClose({
+      tmateProximity: [1, 1],
+      lowX: -3,
+      highX: 3,
+      lowY: -5,
+      highY: 5,
+    });
 
     expect(close).to.be.eql(true);
   });
 
   it('Team mate is in proximity 2 - true', async () => {
-    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [-3, 3], lowX: -4, highX: 4, lowY: -5, highY: 5 });
+    const close = actions.checkTeamMateSpaceClose({
+      tmateProximity: [-3, 3],
+      lowX: -4,
+      highX: 4,
+      lowY: -5,
+      highY: 5,
+    });
 
     expect(close).to.be.eql(true);
   });
 
   it('Team mate is in proximity 3 - false', async () => {
-    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [-8, 1], lowX: -7, highX: 3, lowY: -5, highY: 5 });
+    const close = actions.checkTeamMateSpaceClose({
+      tmateProximity: [-8, 1],
+      lowX: -7,
+      highX: 3,
+      lowY: -5,
+      highY: 5,
+    });
 
     expect(close).to.be.eql(false);
   });
 
   it('Team mate is in proximity 4 - false', async () => {
-    const close = actions.checkTeamMateSpaceClose({ tmateProximity: [1, 11], lowX: -10, highX: 10, lowY: -10, highY: 10 });
+    const close = actions.checkTeamMateSpaceClose({
+      tmateProximity: [1, 11],
+      lowX: -10,
+      highX: 10,
+      lowY: -10,
+      highY: 10,
+    });
 
     expect(close).to.be.eql(false);
   });
@@ -738,9 +697,7 @@ describe('checkPlayerIsDistanceFromPosition()', function () {
 
 describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   it('Top Box Close, not within space of goal, no opposition, no team mate, half/shooting skill from goal', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 
@@ -759,9 +716,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   });
 
   it('Top Box Close, not within space of goal, no opposition, no team mate, 0/half skill from goal', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 
@@ -787,9 +742,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   });
 
   it('In Top Box Close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 
@@ -809,9 +762,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   });
 
   it('In Top Box Not close, No opposition ahead, no close team mate, further than shooting skill distance from goal', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 
@@ -838,9 +789,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   });
 
   it('In Top Box Not close, No opposition ahead, no close team mate, within shooting skill distance from goal', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 
@@ -867,9 +816,7 @@ describe('bottomTeamPlayerHasBallInTopPenaltyBox()', function () {
   });
 
   it('In Top Box Not Close, no close team mate, player ahead', async () => {
-    const matchDetails = await readMatchDetails(
-      bottomTeamHasBallInTopPenaltyBox,
-    );
+    const matchDetails = await readMatchDetails(bottomTeamHasBallInTopPenaltyBox);
 
     const player = matchDetails.secondTeam.players[9];
 

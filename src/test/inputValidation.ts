@@ -14,11 +14,7 @@ describe('testValidationOfInputData()', function () {
 
     const plocation = './src/init_config/pitch.json';
 
-    const initJSON = await validation.initGame(
-      t1location,
-      t2location,
-      plocation,
-    );
+    const initJSON = await validation.initGame(t1location, t2location, plocation);
 
     expect(initJSON).to.be.an('object');
   });
@@ -49,11 +45,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/test/input/badInput/badPitchHeight.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -61,9 +53,7 @@ describe('testValidationOfBadInitInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide pitchWidth and pitchHeight',
-      );
+      expect(err.toString()).to.have.string('Please provide pitchWidth and pitchHeight');
     }
   });
 
@@ -75,11 +65,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/test/input/badInput/badPitchWidth.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -87,9 +73,7 @@ describe('testValidationOfBadInitInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide pitchWidth and pitchHeight',
-      );
+      expect(err.toString()).to.have.string('Please provide pitchWidth and pitchHeight');
     }
   });
 
@@ -101,11 +85,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/init_config/pitch.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -125,11 +105,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/init_config/pitch.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -137,9 +113,7 @@ describe('testValidationOfBadInitInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'There must be 11 players in a team',
-      );
+      expect(err.toString()).to.have.string('There must be 11 players in a team');
     }
   });
 
@@ -151,11 +125,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/init_config/pitch.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -177,11 +147,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/init_config/pitch.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -189,9 +155,7 @@ describe('testValidationOfBadInitInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: injured',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: injured');
     }
   });
 
@@ -203,11 +167,7 @@ describe('testValidationOfBadInitInputData()', function () {
     const plocation = './src/init_config/pitch.json';
 
     try {
-      const output = await validation.initGame(
-        t1location,
-        t2location,
-        plocation,
-      );
+      const output = await validation.initGame(t1location, t2location, plocation);
 
       expect(output).to.be.an('Error');
     } catch (err) {
@@ -215,17 +175,14 @@ describe('testValidationOfBadInitInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: fitness',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: fitness');
     }
   });
 });
 
 describe('testValidationOfBadIterationInputData()', function () {
   it('playIteration no player name', async () => {
-    const providedItJson =
-      './src/test/input/badInput/noPlayerNameIteration.json';
+    const providedItJson = './src/test/input/badInput/noPlayerNameIteration.json';
 
     try {
       const outputIteration = await validation.playIter(providedItJson);
@@ -236,9 +193,7 @@ describe('testValidationOfBadIterationInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: name',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: name');
     }
   });
 
@@ -254,9 +209,7 @@ describe('testValidationOfBadIterationInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide valid match details JSON',
-      );
+      expect(err.toString()).to.have.string('Please provide valid match details JSON');
     }
   });
 
@@ -290,9 +243,7 @@ describe('testValidationOfBadIterationInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: currentPOS',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: currentPOS');
     }
   });
 
@@ -308,9 +259,7 @@ describe('testValidationOfBadIterationInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide valid match details JSON',
-      );
+      expect(err.toString()).to.have.string('Please provide valid match details JSON');
     }
   });
 });
@@ -333,8 +282,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
   });
 
   it('start second half no kick off team', async () => {
-    const providedItJson =
-      './src/test/input/badInput/secondHalfNoKickoffTeam.json';
+    const providedItJson = './src/test/input/badInput/secondHalfNoKickoffTeam.json';
 
     try {
       const shJSON = await validation.setupSecondHalf(providedItJson);
@@ -345,9 +293,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide valid match details JSON',
-      );
+      expect(err.toString()).to.have.string('Please provide valid match details JSON');
     }
   });
 
@@ -363,9 +309,7 @@ describe('testValidationOfSecondHalfInputData()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: stats',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: stats');
     }
   });
 });
@@ -453,9 +397,7 @@ describe('testObjectIDsIteration()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Please provide valid match details JSON',
-      );
+      expect(err.toString()).to.have.string('Please provide valid match details JSON');
     }
   });
 
@@ -487,9 +429,7 @@ describe('testObjectIDsIteration()', function () {
 
       assert(err instanceof Error);
 
-      expect(err.toString()).to.have.string(
-        'Player must contain JSON variable: playerID',
-      );
+      expect(err.toString()).to.have.string('Player must contain JSON variable: playerID');
     }
   });
 });
@@ -510,27 +450,21 @@ describe('otherValidationTests()', function () {
   });
 
   it('validate team even if not in JSON format', async () => {
-    const team = (await readFile('./src/init_config/team1.json'));
+    const team = await readFile('./src/init_config/team1.json');
 
     expect(validation.validateTeam(team)).to.not.be.an('Error');
   });
 
   it('validate team in second half even if not in JSON format', async () => {
-    const iteration = await readMatchDetails(
-      './src/init_config/iteration.json',
-    );
+    const iteration = await readMatchDetails('./src/init_config/iteration.json');
 
-    expect(
-      validation.validateTeamSecondHalf(iteration.kickOffTeam),
-    ).to.not.be.an('Error');
+    expect(validation.validateTeamSecondHalf(iteration.kickOffTeam)).to.not.be.an('Error');
   });
 
   // Skip: TypeScript ensures the Team interface has a name.
   // This is only relevant if iteration.json is manually edited incorrectly.
   it.skip('validate team in second half with no team name', async () => {
-    const iteration = await readMatchDetails(
-      './src/init_config/iteration.json',
-    );
+    const iteration = await readMatchDetails('./src/init_config/iteration.json');
 
     // 1. Force the invalid state (bypassing TS required check)
     (iteration.kickOffTeam as any).name = undefined;
@@ -541,9 +475,7 @@ describe('otherValidationTests()', function () {
       validation.validateTeamSecondHalf(iteration.kickOffTeam);
 
       // 3. Fail the test if no error was thrown
-      assert.fail(
-        'Validation should have thrown an error for missing team name',
-      );
+      assert.fail('Validation should have thrown an error for missing team name');
     } catch (err: unknown) {
       // 4. Standardize error check and type narrowing
       assert(err instanceof Error);

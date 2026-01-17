@@ -84,9 +84,7 @@ function getBallTrajectory(
     effectivePower = Math.floor(power) + Math.floor(movementDistance);
   }
 
-  const height = Math.sqrt(
-    Math.abs((movementDistance / 2) ** 2 - (effectivePower / 2) ** 2),
-  );
+  const height = Math.sqrt(Math.abs((movementDistance / 2) ** 2 - (effectivePower / 2) ** 2));
 
   if (arraySize < 1) {
     arraySize = 1;
@@ -157,28 +155,17 @@ function sumFrom1toX(x: number): number {
 function inTopPenalty(matchDetails: MatchDetails, item: BallPosition): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
 
-  const ballInPenalyBoxX = isBetween(
-    item[0],
-    matchWidth / 4 + 5,
-    matchWidth - matchWidth / 4 - 5,
-  );
+  const ballInPenalyBoxX = isBetween(item[0], matchWidth / 4 + 5, matchWidth - matchWidth / 4 - 5);
 
   const ballInTopPenalyBoxY = isBetween(item[1], -1, matchHeight / 6 + 7);
 
   return ballInPenalyBoxX && ballInTopPenalyBoxY;
 }
 
-function inBottomPenalty(
-  matchDetails: MatchDetails,
-  item: BallPosition,
-): boolean {
+function inBottomPenalty(matchDetails: MatchDetails, item: BallPosition): boolean {
   const [matchWidth, matchHeight] = matchDetails.pitchSize;
 
-  const ballInPenalyBoxX = isBetween(
-    item[0],
-    matchWidth / 4 + 5,
-    matchWidth - matchWidth / 4 - 5,
-  );
+  const ballInPenalyBoxX = isBetween(item[0], matchWidth / 4 + 5, matchWidth - matchWidth / 4 - 5);
 
   const ballInBottomPenalyBoxY = isBetween(
     item[1],
@@ -189,34 +176,24 @@ function inBottomPenalty(
   return ballInPenalyBoxX && ballInBottomPenalyBoxY;
 }
 
-function getRandomTopPenaltyPosition(
-  matchDetails: MatchDetails,
-): [number, number] {
+function getRandomTopPenaltyPosition(matchDetails: MatchDetails): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
 
   const boundaryY = [0, pitchHeight / 6 + 6];
 
-  return [
-    getRandomNumber(boundaryX[0], boundaryX[1]),
-    getRandomNumber(boundaryY[0], boundaryY[1]),
-  ];
+  return [getRandomNumber(boundaryX[0], boundaryX[1]), getRandomNumber(boundaryY[0], boundaryY[1])];
 }
 
-function getRandomBottomPenaltyPosition(
-  matchDetails: MatchDetails,
-): [number, number] {
+function getRandomBottomPenaltyPosition(matchDetails: MatchDetails): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   const boundaryX = [pitchWidth / 4 + 6, pitchWidth - pitchWidth / 4 - 6];
 
   const boundaryY = [pitchHeight - pitchHeight / 6 + 6, pitchHeight];
 
-  return [
-    getRandomNumber(boundaryX[0], boundaryX[1]),
-    getRandomNumber(boundaryY[0], boundaryY[1]),
-  ];
+  return [getRandomNumber(boundaryX[0], boundaryX[1]), getRandomNumber(boundaryY[0], boundaryY[1])];
 }
 
 function isEven(n: number): boolean {
@@ -275,7 +252,9 @@ function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
       if (Array.isArray(objUnknown[key]) && Array.isArray(value)) {
         const target = objUnknown[key];
 
-        value.forEach((val, i) => { target[i] = val; });
+        value.forEach((val, i) => {
+          target[i] = val;
+        });
       } else {
         console.error(`Property ${String(key)} is locked (non-configurable).`);
       }
@@ -296,10 +275,7 @@ function safeSet<T, K extends keyof T>(obj: T, key: K, value: T[K]): void {
 /**
  * Updates player position using an existing tuple.
  */
-function setPlayerPos(
-  player: Player,
-  pos: readonly [number | 'NP', number],
-): void {
+function setPlayerPos(player: Player, pos: readonly [number | 'NP', number]): void {
   // We call our internal XY setter to keep the 'any' cast in one place
   setPlayerXY(player, pos[0], pos[1]);
 }

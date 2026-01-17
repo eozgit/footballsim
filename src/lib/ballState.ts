@@ -31,7 +31,15 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
   // 2. Resolve Physics and Movement
   getBallDirection(matchDetails, nextBallPos);
 
-  const endPos = resolveBallMovement({ player: setBPlayer([nbX, nbY]), startPos: ball.position, targetPos: nextBallPos, power: nbZ, team: matchDetails.kickOffTeam, opp: matchDetails.secondTeam, matchDetails: matchDetails });
+  const endPos = resolveBallMovement({
+    player: setBPlayer([nbX, nbY]),
+    startPos: ball.position,
+    targetPos: nextBallPos,
+    power: nbZ,
+    team: matchDetails.kickOffTeam,
+    opp: matchDetails.secondTeam,
+    matchDetails: matchDetails,
+  });
 
   if (matchDetails.endIteration) {
     return matchDetails;
@@ -44,14 +52,9 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
 /**
  * Helper to update match state after a successful momentum calculation.
  */
-function finalizeMomentumStep(
-  matchDetails: MatchDetails,
-  endPos: [number, number],
-): MatchDetails {
+function finalizeMomentumStep(matchDetails: MatchDetails, endPos: [number, number]): MatchDetails {
   matchDetails.ball.ballOverIterations.shift();
-  matchDetails.iterationLog.push(
-    `ball still moving from previous kick: ${endPos[0]} ${endPos[1]}`,
-  );
+  matchDetails.iterationLog.push(`ball still moving from previous kick: ${endPos[0]} ${endPos[1]}`);
   matchDetails.ball.position = endPos;
 
   checkGoalScored(matchDetails);

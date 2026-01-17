@@ -35,12 +35,7 @@ function resolveBallLocation(
 
   // 2. Delegate to boundary handlers
   if (isOutOfBoundsX(bXPOS, pitchWidth)) {
-    return handleTouchline(
-      matchDetails,
-      ballIntended,
-      bXPOS,
-      isKOT,
-    );
+    return handleTouchline(matchDetails, ballIntended, bXPOS, isKOT);
   }
 
   if (bYPOS < 0) {
@@ -79,7 +74,11 @@ function resolveBallLocation(
 function getBallResolutionContext(
   matchDetails: MatchDetails,
   kickteamID: string | number,
-): { isKOT: boolean; kickOffTeamSide: string; goalInfo: { halfMWidth: number; leftPost: number; rightPost: number; }; } {
+): {
+  isKOT: boolean;
+  kickOffTeamSide: string;
+  goalInfo: { halfMWidth: number; leftPost: number; rightPost: number };
+} {
   const { pitchSize, kickOffTeam } = matchDetails;
 
   const [pitchWidth, pitchHeight, goalWidth] = pitchSize;
@@ -88,8 +87,7 @@ function getBallResolutionContext(
 
   return {
     isKOT: String(kickteamID) === String(kickOffTeam.teamID),
-    kickOffTeamSide:
-      kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom',
+    kickOffTeamSide: kickOffTeam.players[0].originPOS[1] < pitchHeight / 2 ? 'top' : 'bottom',
     goalInfo: {
       halfMWidth,
       leftPost: halfMWidth - goalWidth / 2,
@@ -141,8 +139,26 @@ const BYLINE_CFG = {
   },
 };
 
-function handleByline(bylineConfig: { side: string; matchDetails: MatchDetails; ballX: number; halfMW: number; leftGoalPost: number; rightGoalPost: number; isKOT: boolean; kickOffTS: number; }): MatchDetails {
-    const { side, matchDetails, ballX: bXPOS, halfMW, leftGoalPost: leftP, rightGoalPost: rightP, isKOT, kickOffTS } = bylineConfig;
+function handleByline(bylineConfig: {
+  side: string;
+  matchDetails: MatchDetails;
+  ballX: number;
+  halfMW: number;
+  leftGoalPost: number;
+  rightGoalPost: number;
+  isKOT: boolean;
+  kickOffTS: number;
+}): MatchDetails {
+  const {
+    side,
+    matchDetails,
+    ballX: bXPOS,
+    halfMW,
+    leftGoalPost: leftP,
+    rightGoalPost: rightP,
+    isKOT,
+    kickOffTS,
+  } = bylineConfig;
 
   const cfg = BYLINE_CFG[side],
     isT = kickOffTS === 'top';
@@ -175,7 +191,17 @@ export const handleTopByline = (
   r: number,
   k: boolean,
   s: string,
-): MatchDetails => handleByline({ side: 'top', matchDetails: m, ballX: x, halfMW: w, leftGoalPost: l, rightGoalPost: r, isKOT: k, kickOffTS: s });
+): MatchDetails =>
+  handleByline({
+    side: 'top',
+    matchDetails: m,
+    ballX: x,
+    halfMW: w,
+    leftGoalPost: l,
+    rightGoalPost: r,
+    isKOT: k,
+    kickOffTS: s,
+  });
 
 export const handleBottomByline = (
   m: MatchDetails,
@@ -185,6 +211,16 @@ export const handleBottomByline = (
   r: number,
   k: boolean,
   s: string,
-): MatchDetails => handleByline({ side: 'bottom', matchDetails: m, ballX: x, halfMW: w, leftGoalPost: l, rightGoalPost: r, isKOT: k, kickOffTS: s });
+): MatchDetails =>
+  handleByline({
+    side: 'bottom',
+    matchDetails: m,
+    ballX: x,
+    halfMW: w,
+    leftGoalPost: l,
+    rightGoalPost: r,
+    isKOT: k,
+    kickOffTS: s,
+  });
 
 export { resolveBallLocation };

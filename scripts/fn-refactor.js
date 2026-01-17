@@ -113,20 +113,13 @@ class FnRefactorEngine {
 
       // Remove spy imports
       ast.program.body = ast.program.body.filter(
-        (node) =>
-          !(
-            n.ImportDeclaration.check(node) &&
-            node.source.value.includes('typeSpy')
-          ),
+        (node) => !(n.ImportDeclaration.check(node) && node.source.value.includes('typeSpy')),
       );
 
       // Remove spy calls
       visit(ast, {
         visitCallExpression(path) {
-          if (
-            n.Identifier.check(path.node.callee) &&
-            path.node.callee.name === '__typeSpy'
-          ) {
+          if (n.Identifier.check(path.node.callee) && path.node.callee.name === '__typeSpy') {
             path.prune();
           }
           return false;
@@ -166,12 +159,8 @@ class FnRefactorEngine {
             if (n.Identifier.check(p)) {
               const key = `${file}:${line}:${p.name}`;
               if (self.runtimeStats[key]) {
-                const tsType = self.getTSString(
-                  Array.from(self.runtimeStats[key]),
-                );
-                p.typeAnnotation = b.tsTypeAnnotation(
-                  b.tsTypeReference(b.identifier(tsType)),
-                );
+                const tsType = self.getTSString(Array.from(self.runtimeStats[key]));
+                p.typeAnnotation = b.tsTypeAnnotation(b.tsTypeReference(b.identifier(tsType)));
                 self.stats.patchesApplied++;
                 changed = true;
               }

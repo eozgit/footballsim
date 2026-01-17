@@ -1,40 +1,22 @@
 import * as common from './common.js';
 import type { MatchDetails, BallPosition } from './types.js';
 
-type DeflectionHandler = (
-  pos: [number, number],
-  power: number,
-) => [number, number];
+type DeflectionHandler = (pos: [number, number], power: number) => [number, number];
 
 /**
  * Strategy map to handle coordinate offsets based on direction.
  * Preserves the exact logic of the original function.
  */
 const deflectionStrategies: Record<string, DeflectionHandler> = {
-  east: (pos, p) => [
-    pos[0] - p / 2,
-    common.getRandomNumber(pos[1] - 3, pos[1] + 3),
-  ],
-  west: (pos, p) => [
-    pos[0] + p / 2,
-    common.getRandomNumber(pos[1] - 3, pos[1] + 3),
-  ],
-  north: (pos, p) => [
-    common.getRandomNumber(pos[0] - 3, pos[0] + 3),
-    pos[1] + p / 2,
-  ],
-  south: (pos, p) => [
-    common.getRandomNumber(pos[0] - 3, pos[0] + 3),
-    pos[1] - p / 2,
-  ],
+  east: (pos, p) => [pos[0] - p / 2, common.getRandomNumber(pos[1] - 3, pos[1] + 3)],
+  west: (pos, p) => [pos[0] + p / 2, common.getRandomNumber(pos[1] - 3, pos[1] + 3)],
+  north: (pos, p) => [common.getRandomNumber(pos[0] - 3, pos[0] + 3), pos[1] + p / 2],
+  south: (pos, p) => [common.getRandomNumber(pos[0] - 3, pos[0] + 3), pos[1] - p / 2],
   northeast: (pos, p) => [pos[0] - p / 2, pos[1] + p / 2],
   northwest: (pos, p) => [pos[0] + p / 2, pos[1] + p / 2],
   southeast: (pos, p) => [pos[0] - p / 2, pos[1] - p / 2],
   southwest: (pos, p) => [pos[0] + p / 2, pos[1] - p / 2],
-  wait: (_, p) => [
-    common.getRandomNumber(-p / 2, p / 2),
-    common.getRandomNumber(-p / 2, p / 2),
-  ],
+  wait: (_, p) => [common.getRandomNumber(-p / 2, p / 2), common.getRandomNumber(-p / 2, p / 2)],
 };
 
 /**
@@ -56,10 +38,7 @@ function calculateDeflectionVector(
  * Updates the ball's cardinal direction based on movement vector.
  * Refactored to use a lookup map to reduce complexity.
  */
-function updateBallCardinalDirection(
-  matchDetails: MatchDetails,
-  nextPOS: BallPosition,
-): void {
+function updateBallCardinalDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
   const [currX, currY] = matchDetails.ball.position;
 
   const [nextX, nextY] = nextPOS;
@@ -96,8 +75,7 @@ function updateBallCardinalDirection(
 
   const key = `${sigX}${sigY}`;
 
-  matchDetails.ball.direction =
-    directionMap[key] || matchDetails.ball.direction;
+  matchDetails.ball.direction = directionMap[key] || matchDetails.ball.direction;
 }
 
 export { calculateDeflectionVector, updateBallCardinalDirection };

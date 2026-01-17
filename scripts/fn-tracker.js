@@ -35,9 +35,7 @@ export default {};`;
   }
 
   setup() {
-    console.log(
-      'Stage 1: Preparing scripts/ directory and deploying bridge...',
-    );
+    console.log('Stage 1: Preparing scripts/ directory and deploying bridge...');
     // Create bridge file in src/lib so it can be resolved by imports
     fs.writeFileSync(this.bridgePath, this.getBridgeCode());
     // Clear any stale logs
@@ -72,10 +70,7 @@ export default {};`;
       });
 
       // Inject the bridge import at the top of the file
-      const bridgeImport = b.importDeclaration(
-        [],
-        b.literal('./telemetry-bridge.js'),
-      );
+      const bridgeImport = b.importDeclaration([], b.literal('./telemetry-bridge.js'));
       ast.program.body.unshift(bridgeImport);
       fs.writeFileSync(filePath, print(ast).code);
     });
@@ -94,10 +89,7 @@ export default {};`;
 
     const instrumentation = b.expressionStatement(
       b.callExpression(
-        b.memberExpression(
-          b.identifier('globalThis.__fnTracker'),
-          b.identifier('call'),
-        ),
+        b.memberExpression(b.identifier('globalThis.__fnTracker'), b.identifier('call')),
         [b.literal(file), b.literal(name), b.literal(line)],
       ),
     );
@@ -105,15 +97,9 @@ export default {};`;
     // Inject at the beginning of the function body
     if (node.body && node.body.type === 'BlockStatement') {
       node.body.body.unshift(instrumentation);
-    } else if (
-      node.type === 'ArrowFunctionExpression' &&
-      node.body.type !== 'BlockStatement'
-    ) {
+    } else if (node.type === 'ArrowFunctionExpression' && node.body.type !== 'BlockStatement') {
       // Wrap implicit return arrows: () => x becomes () => { tracker(); return x; }
-      node.body = b.blockStatement([
-        instrumentation,
-        b.returnStatement(node.body),
-      ]);
+      node.body = b.blockStatement([instrumentation, b.returnStatement(node.body)]);
     }
   }
 
@@ -123,13 +109,9 @@ export default {};`;
       if (fs.existsSync(this.bridgePath)) fs.unlinkSync(this.bridgePath);
       // Revert all instrumentation changes and injected imports
       execSync('git restore src/lib');
-      console.log(
-        'Source code restored. Data preserved in scripts/ directory.',
-      );
+      console.log('Source code restored. Data preserved in scripts/ directory.');
     } catch (e) {
-      console.error(
-        "Cleanup failed. Manual 'git restore src/lib' may be required.",
-      );
+      console.error("Cleanup failed. Manual 'git restore src/lib' may be required.");
     }
   }
 
@@ -142,17 +124,12 @@ export default {};`;
       try {
         execSync('npm test', { stdio: 'inherit' });
       } catch (testError) {
-        console.log(
-          'Tests finished (some may have failed). Proceeding to report generation...',
-        );
+        console.log('Tests finished (some may have failed). Proceeding to report generation...');
       }
 
       // Process the telemetry log into the final JSON map
       if (fs.existsSync(this.logFile)) {
-        const hits = fs
-          .readFileSync(this.logFile, 'utf8')
-          .split('\n')
-          .filter(Boolean);
+        const hits = fs.readFileSync(this.logFile, 'utf8').split('\n').filter(Boolean);
         hits.forEach((key) => {
           if (this.manifest[key]) {
             this.manifest[key].calls = (this.manifest[key].calls || 0) + 1;

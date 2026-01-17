@@ -27,10 +27,7 @@ describe('intentPOSitionsDefence()', function () {
       if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition.slice(0, 2));
       } else {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          player.currentPOS[1] - 20,
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
       }
     }
   });
@@ -76,10 +73,7 @@ describe('intentPOSitionsDefence()', function () {
       } else if (xPosProx && yPosProx) {
         expect(player.intentPOS).to.eql(ballPosition.slice(0, 2));
       } else {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          player.currentPOS[1] - 20,
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
       }
     }
   });
@@ -103,10 +97,7 @@ describe('intentPOSitionsDefence()', function () {
       if (player.playerID === closestPlayer.playerID) {
         expect(player.intentPOS).to.eql(ballPosition.slice(0, 2));
       } else {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          player.currentPOS[1] - 20,
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
       }
     }
   });
@@ -178,10 +169,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.kickOffTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] + 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] + 20]);
     }
   });
 
@@ -196,10 +184,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.kickOffTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] + 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] + 20]);
     }
   });
 
@@ -214,10 +199,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.kickOffTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] + 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] + 20]);
     }
   });
 
@@ -232,10 +214,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.secondTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] - 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
     }
   });
 
@@ -250,10 +229,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.secondTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] - 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
     }
   });
 
@@ -268,10 +244,7 @@ describe('intentPOSitionsAttacking()', function () {
 
     setPos.setIntentPosition(matchDetails, closestPlayer);
     for (const player of matchDetails.secondTeam.players) {
-      expect(player.intentPOS).to.eql([
-        player.originPOS[0],
-        player.currentPOS[1] - 20,
-      ]);
+      expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] - 20]);
     }
   });
 
@@ -289,10 +262,7 @@ describe('intentPOSitionsAttacking()', function () {
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (!player.hasBall) {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          player.currentPOS[1] + 20,
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], player.currentPOS[1] + 20]);
       }
     }
   });
@@ -313,25 +283,13 @@ describe('intentPOSitionsAttacking()', function () {
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.kickOffTeam.players) {
       if (player.position === 'GK') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.15),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.15)]);
       } else if (player.position === 'CB') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.25),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.25)]);
       } else if (player.position === 'LB' || player.position === 'RB') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.66),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.66)]);
       } else if (player.position === 'CM') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.75),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.75)]);
       } else {
         expect(player.intentPOS).to.eql([player.originPOS[0], 985]);
       }
@@ -354,25 +312,13 @@ describe('intentPOSitionsAttacking()', function () {
     expect(matchDetails).to.be.an('object');
     for (const player of matchDetails.secondTeam.players) {
       if (player.position === 'GK') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.85),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.85)]);
       } else if (player.position === 'CB') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.75),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.75)]);
       } else if (player.position === 'LB' || player.position === 'RB') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.33),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.33)]);
       } else if (player.position === 'CM') {
-        expect(player.intentPOS).to.eql([
-          player.originPOS[0],
-          Math.floor(pitchHeight * 0.25),
-        ]);
+        expect(player.intentPOS).to.eql([player.originPOS[0], Math.floor(pitchHeight * 0.25)]);
       } else {
         expect(player.intentPOS).to.eql([player.originPOS[0], 30]);
       }
@@ -396,57 +342,27 @@ describe('intentPOSitionsLooseBall()', function () {
 
     expect(matchDetails).to.be.an('object');
 
-    expect(kickOffTeam.players[0].intentPOS).to.eql([
-      kickOffTeam.players[0].originPOS[0],
-      20,
-    ]);
+    expect(kickOffTeam.players[0].intentPOS).to.eql([kickOffTeam.players[0].originPOS[0], 20]);
 
     expect(kickOffTeam.players[1].intentPOS).to.eql([380, 1000]);
 
-    expect(kickOffTeam.players[2].intentPOS).to.eql([
-      kickOffTeam.players[2].originPOS[0],
-      101,
-    ]);
+    expect(kickOffTeam.players[2].intentPOS).to.eql([kickOffTeam.players[2].originPOS[0], 101]);
 
-    expect(kickOffTeam.players[3].intentPOS).to.eql([
-      kickOffTeam.players[3].originPOS[0],
-      101,
-    ]);
+    expect(kickOffTeam.players[3].intentPOS).to.eql([kickOffTeam.players[3].originPOS[0], 101]);
 
-    expect(kickOffTeam.players[4].intentPOS).to.eql([
-      kickOffTeam.players[4].originPOS[0],
-      287,
-    ]);
+    expect(kickOffTeam.players[4].intentPOS).to.eql([kickOffTeam.players[4].originPOS[0], 287]);
 
-    expect(kickOffTeam.players[5].intentPOS).to.eql([
-      kickOffTeam.players[5].originPOS[0],
-      465,
-    ]);
+    expect(kickOffTeam.players[5].intentPOS).to.eql([kickOffTeam.players[5].originPOS[0], 465]);
 
-    expect(kickOffTeam.players[6].intentPOS).to.eql([
-      kickOffTeam.players[6].originPOS[0],
-      484,
-    ]);
+    expect(kickOffTeam.players[6].intentPOS).to.eql([kickOffTeam.players[6].originPOS[0], 484]);
 
-    expect(kickOffTeam.players[7].intentPOS).to.eql([
-      kickOffTeam.players[7].originPOS[0],
-      482,
-    ]);
+    expect(kickOffTeam.players[7].intentPOS).to.eql([kickOffTeam.players[7].originPOS[0], 482]);
 
-    expect(kickOffTeam.players[8].intentPOS).to.eql([
-      kickOffTeam.players[8].originPOS[0],
-      481,
-    ]);
+    expect(kickOffTeam.players[8].intentPOS).to.eql([kickOffTeam.players[8].originPOS[0], 481]);
 
-    expect(kickOffTeam.players[9].intentPOS).to.eql([
-      kickOffTeam.players[9].originPOS[0],
-      724,
-    ]);
+    expect(kickOffTeam.players[9].intentPOS).to.eql([kickOffTeam.players[9].originPOS[0], 724]);
 
-    expect(kickOffTeam.players[10].intentPOS).to.eql([
-      kickOffTeam.players[10].originPOS[0],
-      733,
-    ]);
+    expect(kickOffTeam.players[10].intentPOS).to.eql([kickOffTeam.players[10].originPOS[0], 733]);
   });
 
   it('second team moves towards ball', async () => {
@@ -464,57 +380,27 @@ describe('intentPOSitionsLooseBall()', function () {
 
     expect(matchDetails).to.be.an('object');
 
-    expect(secondTeam.players[0].intentPOS).to.eql([
-      secondTeam.players[0].originPOS[0],
-      1030,
-    ]);
+    expect(secondTeam.players[0].intentPOS).to.eql([secondTeam.players[0].originPOS[0], 1030]);
 
     expect(secondTeam.players[1].intentPOS).to.eql([80, 485]);
 
-    expect(secondTeam.players[2].intentPOS).to.eql([
-      secondTeam.players[2].originPOS[0],
-      950,
-    ]);
+    expect(secondTeam.players[2].intentPOS).to.eql([secondTeam.players[2].originPOS[0], 950]);
 
-    expect(secondTeam.players[3].intentPOS).to.eql([
-      secondTeam.players[3].originPOS[0],
-      950,
-    ]);
+    expect(secondTeam.players[3].intentPOS).to.eql([secondTeam.players[3].originPOS[0], 950]);
 
-    expect(secondTeam.players[4].intentPOS).to.eql([
-      secondTeam.players[4].originPOS[0],
-      537,
-    ]);
+    expect(secondTeam.players[4].intentPOS).to.eql([secondTeam.players[4].originPOS[0], 537]);
 
-    expect(secondTeam.players[5].intentPOS).to.eql([
-      secondTeam.players[5].originPOS[0],
-      415,
-    ]);
+    expect(secondTeam.players[5].intentPOS).to.eql([secondTeam.players[5].originPOS[0], 415]);
 
-    expect(secondTeam.players[6].intentPOS).to.eql([
-      secondTeam.players[6].originPOS[0],
-      414,
-    ]);
+    expect(secondTeam.players[6].intentPOS).to.eql([secondTeam.players[6].originPOS[0], 414]);
 
-    expect(secondTeam.players[7].intentPOS).to.eql([
-      secondTeam.players[7].originPOS[0],
-      412,
-    ]);
+    expect(secondTeam.players[7].intentPOS).to.eql([secondTeam.players[7].originPOS[0], 412]);
 
-    expect(secondTeam.players[8].intentPOS).to.eql([
-      secondTeam.players[8].originPOS[0],
-      455,
-    ]);
+    expect(secondTeam.players[8].intentPOS).to.eql([secondTeam.players[8].originPOS[0], 455]);
 
-    expect(secondTeam.players[9].intentPOS).to.eql([
-      secondTeam.players[9].originPOS[0],
-      205,
-    ]);
+    expect(secondTeam.players[9].intentPOS).to.eql([secondTeam.players[9].originPOS[0], 205]);
 
-    expect(secondTeam.players[10].intentPOS).to.eql([
-      secondTeam.players[10].originPOS[0],
-      205,
-    ]);
+    expect(secondTeam.players[10].intentPOS).to.eql([secondTeam.players[10].originPOS[0], 205]);
   });
 
   it('second team moves towards ball player near ball', async () => {
@@ -532,55 +418,25 @@ describe('intentPOSitionsLooseBall()', function () {
 
     expect(matchDetails).to.be.an('object');
 
-    expect(secondTeam.players[0].intentPOS).to.eql([
-      secondTeam.players[0].originPOS[0],
-      1030,
-    ]);
+    expect(secondTeam.players[0].intentPOS).to.eql([secondTeam.players[0].originPOS[0], 1030]);
 
-    expect(secondTeam.players[1].intentPOS).to.eql([
-      secondTeam.players[1].originPOS[0],
-      485,
-    ]);
+    expect(secondTeam.players[1].intentPOS).to.eql([secondTeam.players[1].originPOS[0], 485]);
 
-    expect(secondTeam.players[2].intentPOS).to.eql([
-      secondTeam.players[2].originPOS[0],
-      950,
-    ]);
+    expect(secondTeam.players[2].intentPOS).to.eql([secondTeam.players[2].originPOS[0], 950]);
 
-    expect(secondTeam.players[3].intentPOS).to.eql([
-      secondTeam.players[3].originPOS[0],
-      950,
-    ]);
+    expect(secondTeam.players[3].intentPOS).to.eql([secondTeam.players[3].originPOS[0], 950]);
 
-    expect(secondTeam.players[4].intentPOS).to.eql([
-      secondTeam.players[4].originPOS[0],
-      537,
-    ]);
+    expect(secondTeam.players[4].intentPOS).to.eql([secondTeam.players[4].originPOS[0], 537]);
 
-    expect(secondTeam.players[5].intentPOS).to.eql([
-      secondTeam.players[5].originPOS[0],
-      415,
-    ]);
+    expect(secondTeam.players[5].intentPOS).to.eql([secondTeam.players[5].originPOS[0], 415]);
 
-    expect(secondTeam.players[6].intentPOS).to.eql([
-      secondTeam.players[6].originPOS[0],
-      414,
-    ]);
+    expect(secondTeam.players[6].intentPOS).to.eql([secondTeam.players[6].originPOS[0], 414]);
 
-    expect(secondTeam.players[7].intentPOS).to.eql([
-      secondTeam.players[7].originPOS[0],
-      412,
-    ]);
+    expect(secondTeam.players[7].intentPOS).to.eql([secondTeam.players[7].originPOS[0], 412]);
 
-    expect(secondTeam.players[8].intentPOS).to.eql([
-      secondTeam.players[8].originPOS[0],
-      455,
-    ]);
+    expect(secondTeam.players[8].intentPOS).to.eql([secondTeam.players[8].originPOS[0], 455]);
 
-    expect(secondTeam.players[9].intentPOS).to.eql([
-      secondTeam.players[9].originPOS[0],
-      205,
-    ]);
+    expect(secondTeam.players[9].intentPOS).to.eql([secondTeam.players[9].originPOS[0], 205]);
 
     expect(secondTeam.players[10].intentPOS).to.eql([341, 10]);
   });

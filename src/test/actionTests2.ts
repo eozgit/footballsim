@@ -118,12 +118,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([10, 10, 30, 0, 0, 0, 0, 50, 0, 0, 0]);
   });
@@ -139,12 +134,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
@@ -163,12 +153,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0]);
   });
@@ -186,12 +171,7 @@ describe('bottomTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[7], 385, 70);
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40]);
   });
@@ -208,12 +188,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20]);
   });
@@ -229,12 +204,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
@@ -251,12 +221,7 @@ describe('bottomTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[7], 385, 205);
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0]);
   });
@@ -273,12 +238,7 @@ describe('bottomTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[4], 385, 982);
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20]);
   });
@@ -295,12 +255,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0]);
   });
@@ -317,12 +272,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10]);
   });
@@ -339,12 +289,7 @@ describe('bottomTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.bottomTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.bottomTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
@@ -821,12 +766,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     player.position = 'GK';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20]);
   });
@@ -845,12 +785,7 @@ describe('topTeamPlayerHasBall()', function () {
     player.position = 'GK';
 
     common.setPlayerXY(opposition.players[3], 380, 999);
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40]);
   });
@@ -869,12 +804,7 @@ describe('topTeamPlayerHasBall()', function () {
     common.setPlayerXY(player, 0, 1050);
 
     matchDetails.ball.position = [0, 1050];
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 20, 80, 0, 0, 0, 0, 0, 0, 0]);
   });
@@ -890,12 +820,7 @@ describe('topTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0]);
   });
@@ -911,12 +836,7 @@ describe('topTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0]);
   });
@@ -933,12 +853,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 815);
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0]);
   });
@@ -955,12 +870,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 532);
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10]);
   });
@@ -976,12 +886,7 @@ describe('topTeamPlayerHasBall()', function () {
 
     const opposition = matchDetails.kickOffTeam;
 
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0]);
   });
@@ -1000,12 +905,7 @@ describe('topTeamPlayerHasBall()', function () {
     player.skill.shooting = 50;
 
     player.position = 'LM';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0]);
   });
@@ -1022,12 +922,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     player.skill.shooting = 50;
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
@@ -1046,12 +941,7 @@ describe('topTeamPlayerHasBall()', function () {
     player.skill.shooting = 50;
 
     player.position = 'LB';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10]);
   });
@@ -1068,12 +958,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     common.setPlayerXY(matchDetails.kickOffTeam.players[6], 378, 182);
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20]);
   });
@@ -1090,12 +975,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     player.position = 'LM';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0]);
   });
@@ -1112,12 +992,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     player.position = 'ST';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0]);
   });
@@ -1134,12 +1009,7 @@ describe('topTeamPlayerHasBall()', function () {
     const opposition = matchDetails.kickOffTeam;
 
     player.position = 'RB';
-    const parameters = actions.topTeamPlayerHasBall(
-      matchDetails,
-      player,
-      team,
-      opposition,
-    );
+    const parameters = actions.topTeamPlayerHasBall(matchDetails, player, team, opposition);
 
     expect(parameters).to.eql([0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10]);
   });
@@ -1157,10 +1027,7 @@ describe('findPossActions()', function () {
     matchDetails.ball.position = [10, 10];
 
     // CLEAN CALL: Only pass the essential objects
-    const output = actions.findPossActions(
-      player,
-      matchDetails,
-    );
+    const output = actions.findPossActions(player, matchDetails);
 
     expect(output).to.eql([
       { name: 'shoot', points: 60 },
@@ -1189,10 +1056,7 @@ describe('findPossActions()', function () {
     matchDetails.ball.position = [10, 10];
 
     // Clean call: Only pass the essential actor and the world state
-    const output = actions.findPossActions(
-      player,
-      matchDetails,
-    );
+    const output = actions.findPossActions(player, matchDetails);
 
     expect(output).to.eql([
       { name: 'shoot', points: 0 },

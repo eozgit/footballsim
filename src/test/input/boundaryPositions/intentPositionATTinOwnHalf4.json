@@ -633,8 +633,5 @@
     "penalties": 0,
     "fouls": 1
   },
-  "iterationLog": [
-    "Closest Player to ball: Peter Johnson",
-    "Closest Player to ball: Gill Johnson"
-  ]
+  "iterationLog": ["Closest Player to ball: Peter Johnson", "Closest Player to ball: Gill Johnson"]
 }

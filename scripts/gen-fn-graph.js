@@ -41,8 +41,7 @@ sourceFiles.forEach((sourceFile) => {
           const declFilePath = declSourceFile.getFilePath();
 
           // Apply core library filter based on config
-          const isInternal =
-            declFilePath.includes('/lib/') && !declFilePath.endsWith('.d.ts');
+          const isInternal = declFilePath.includes('/lib/') && !declFilePath.endsWith('.d.ts');
 
           if (!CONFIG.filterCoreLibs || isInternal) {
             const declName = symbol.getName();

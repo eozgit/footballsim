@@ -17,8 +17,7 @@ Object.entries(graphData).forEach(([callerId, data]) => {
   if (!network[callerId]) network[callerId] = { in: new Set(), out: new Set() };
   data.calls.forEach((calleeId) => {
     network[callerId].out.add(calleeId);
-    if (!network[calleeId])
-      network[calleeId] = { in: new Set(), out: new Set() };
+    if (!network[calleeId]) network[calleeId] = { in: new Set(), out: new Set() };
     network[calleeId].in.add(callerId);
   });
 });
@@ -37,9 +36,7 @@ function getTopHubs() {
 const sanitize = (id) => id.replace(/[^a-zA-Z0-9]/g, '_');
 const fmtLabel = (id) => {
   const d = graphData[id];
-  return d
-    ? `<b>${d.name}</b><br/><i style='font-size:10px'>${d.file}</i>`
-    : id;
+  return d ? `<b>${d.name}</b><br/><i style='font-size:10px'>${d.file}</i>` : id;
 };
 
 // --- MERMAID GENERATORS ---
@@ -60,8 +57,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     network[currentId]?.out.forEach((nextId) => {
       edges.add(`${sanitize(currentId)} --> ${sanitize(nextId)}`);
       if (graphData[nextId]) {
-        if (!nodesByFile[graphData[nextId].file])
-          nodesByFile[graphData[nextId].file] = new Set();
+        if (!nodesByFile[graphData[nextId].file]) nodesByFile[graphData[nextId].file] = new Set();
         nodesByFile[graphData[nextId].file].add(nextId);
       }
       walk(nextId, currentDepth + 1);
@@ -70,8 +66,7 @@ function generateNeighborhood(rootId, depthLimit = 2) {
     network[currentId]?.in.forEach((prevId) => {
       edges.add(`${sanitize(prevId)} --> ${sanitize(currentId)}`);
       if (graphData[prevId]) {
-        if (!nodesByFile[graphData[prevId].file])
-          nodesByFile[graphData[prevId].file] = new Set();
+        if (!nodesByFile[graphData[prevId].file]) nodesByFile[graphData[prevId].file] = new Set();
         nodesByFile[graphData[prevId].file].add(prevId);
       }
       walk(prevId, currentDepth + 1);

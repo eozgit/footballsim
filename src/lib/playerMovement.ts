@@ -37,7 +37,6 @@ function setClosePlayerTakesBall(
     matchDetails.ball.ballOverIterations = [];
     const [posX, posY] = common.destructPos(thisPlayer.currentPOS);
 
-
     matchDetails.ball.position = [posX, posY];
     matchDetails.ball.Player = thisPlayer.playerID;
     matchDetails.ball.withPlayer = true;
@@ -53,7 +52,12 @@ function completeSlide(
   team: Team,
   opp: Team,
 ): MatchDetails {
-  const foul = actions.resolveSlide({ player: thisPlayer, team: team, opposition: opp, matchDetails: matchDetails });
+  const foul = actions.resolveSlide({
+    player: thisPlayer,
+    team: team,
+    opposition: opp,
+    matchDetails: matchDetails,
+  });
 
   if (!foul) {
     if (opp.name === matchDetails.kickOffTeam.name) {
@@ -151,9 +155,13 @@ function completeMovement(
   let newY = oldY + dy;
 
   // Validate bounds (Correcting the logic to use the new values)
-  if (newX > matchDetails.pitchSize[0] || newX < 0) { newX = oldX; }
+  if (newX > matchDetails.pitchSize[0] || newX < 0) {
+    newX = oldX;
+  }
 
-  if (newY > matchDetails.pitchSize[1] || newY < 0) { newY = oldY; }
+  if (newY > matchDetails.pitchSize[1] || newY < 0) {
+    newY = oldY;
+  }
 
   // Apply the update
   common.setPlayerXY(player, newX, newY);
@@ -190,24 +198,26 @@ function checkProvidedAction(
   thisPlayer: Player,
   action: string,
 ): string {
-  return actions.validateAndResolvePlayerAction({ matchDetails: matchDetails, player: thisPlayer, fallbackAction: action });
+  return actions.validateAndResolvePlayerAction({
+    matchDetails: matchDetails,
+    player: thisPlayer,
+    fallbackAction: action,
+  });
 }
 
-function handleBallPlayerActions(
-  ctx: ActionContext,
-  action: string,
-): void {
+function handleBallPlayerActions(ctx: ActionContext, action: string): void {
   const { matchDetails, player: thisPlayer, team, opp } = ctx;
 
-  return executeActiveBallAction({ matchDetails: matchDetails, player: thisPlayer, team: team, opp: opp, action: action });
+  return executeActiveBallAction({
+    matchDetails: matchDetails,
+    player: thisPlayer,
+    team: team,
+    opp: opp,
+    action: action,
+  });
 }
 
-function ballMoved(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  team: Team,
-  opp: Team,
-): void {
+function ballMoved(matchDetails: MatchDetails, thisPlayer: Player, team: Team, opp: Team): void {
   thisPlayer.hasBall = false;
   matchDetails.ball.withPlayer = false;
   team.intent = `attack`;
@@ -216,10 +226,7 @@ function ballMoved(
   matchDetails.ball.withTeam = ``;
 }
 
-function updateInformation(
-  matchDetails: MatchDetails,
-  newPosition: BallPosition,
-): void {
+function updateInformation(matchDetails: MatchDetails, newPosition: BallPosition): void {
   if (matchDetails.endIteration === true) {
     return;
   }
@@ -235,32 +242,26 @@ function updateInformation(
   common.setBallPosition(ball, bx, by, 0);
 }
 
-function getMovement(moveConfig: { player: Player; action: string; opposition: Team; ballX: number; ballY: number; matchDetails: MatchDetails; }): [number, number] {
-    const { player, action, opposition, ballX, ballY, matchDetails } = moveConfig;
+function getMovement(moveConfig: {
+  player: Player;
+  action: string;
+  opposition: Team;
+  ballX: number;
+  ballY: number;
+  matchDetails: MatchDetails;
+}): [number, number] {
+  const { player, action, opposition, ballX, ballY, matchDetails } = moveConfig;
 
   const { position } = matchDetails.ball;
 
-  const ballActions = [
-    `shoot`,
-    `throughBall`,
-    `pass`,
-    `cross`,
-    `cleared`,
-    `boot`,
-    `penalty`,
-  ];
+  const ballActions = [`shoot`, `throughBall`, `pass`, `cross`, `cleared`, `boot`, `penalty`];
 
   if (action === `wait` || ballActions.includes(action)) {
     return [0, 0];
   } else if (action === `tackle` || action === `slide`) {
     return getTackleMovement(ballX, ballY);
   } else if (action === `intercept`) {
-    return getInterceptMovement(
-      player,
-      opposition,
-      position,
-      matchDetails.pitchSize,
-    );
+    return getInterceptMovement(player, opposition, position, matchDetails.pitchSize);
   } else if (action === `run`) {
     return getRunMovement(matchDetails, player, ballX, ballY);
   } else if (action === `sprint`) {
@@ -304,14 +305,8 @@ function getInterceptMovement(
 ): [number, number] {
   const [x, y] = common.destructPos(player.currentPOS);
 
-
   // 2. Determine the target coordinates for interception
-  const [targetX, targetY] = getInterceptPosition(
-    [x, y],
-    opposition,
-    ballPosition,
-    pitchSize,
-  );
+  const [targetX, targetY] = getInterceptPosition([x, y], opposition, ballPosition, pitchSize);
 
   /**
    * 3. Calculate movement direction
@@ -334,11 +329,7 @@ function getInterceptPosition(
   ballPosition: BallPosition,
   pitchSize: [number, number, number],
 ): BallPosition {
-  const BallPlyTraj = getInterceptTrajectory(
-    opposition,
-    ballPosition,
-    pitchSize,
-  );
+  const BallPlyTraj = getInterceptTrajectory(opposition, ballPosition, pitchSize);
 
   let closestPos: BallPosition = BallPlyTraj[0] || [0, 0];
 
@@ -350,9 +341,9 @@ function getInterceptPosition(
   for (let i = 0; i < BallPlyTraj.length; i++) {
     const thisPos = BallPlyTraj[i];
 
-    const xDiff = Math.abs((currentPOS[0]) - (thisPos[0]));
+    const xDiff = Math.abs(currentPOS[0] - thisPos[0]);
 
-    const yDiff = Math.abs((currentPOS[1]) - (thisPos[1]));
+    const yDiff = Math.abs(currentPOS[1] - thisPos[1]);
 
     const totalDiff = xDiff + yDiff;
 
@@ -364,8 +355,7 @@ function getInterceptPosition(
   }
 
   // Exact same logic: if already at intercept, step back one in the trajectory
-  const isAtIntercept =
-    closestPos[0] === currentPOS[0] && closestPos[1] === currentPOS[1];
+  const isAtIntercept = closestPos[0] === currentPOS[0] && closestPos[1] === currentPOS[1];
 
   if (isAtIntercept && closestIndex > 0) {
     return BallPlyTraj[closestIndex - 1];
@@ -418,8 +408,7 @@ function getInterceptTrajectory(
 
   const targetX = pitchWidth / 2;
 
-  const targetY =
-    interceptPlayer.originPOS[1] < pitchHeight / 2 ? pitchHeight : 0;
+  const targetY = interceptPlayer.originPOS[1] < pitchHeight / 2 ? pitchHeight : 0;
 
   if (interceptPlayer.currentPOS[0] === 'NP') {
     throw new Error('Player no position!');
@@ -429,16 +418,13 @@ function getInterceptTrajectory(
 
   const moveY = targetY - interceptPlayer.currentPOS[1];
 
-  const highNum =
-    Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
+  const highNum = Math.abs(moveX) <= Math.abs(moveY) ? Math.abs(moveY) : Math.abs(moveX);
 
   const xDiff = moveX / highNum;
 
   const yDiff = moveY / highNum;
 
-  const POI: BallPosition[] = [
-    [...interceptPlayer.currentPOS] as [number, number, number?],
-  ];
+  const POI: BallPosition[] = [[...interceptPlayer.currentPOS] as [number, number, number?]];
 
   for (let i = 0; i < Math.round(highNum); i++) {
     const lastArrayPOS = POI.length - 1;
@@ -447,10 +433,7 @@ function getInterceptTrajectory(
 
     const lastYPOS = POI[lastArrayPOS][1];
 
-    POI.push([
-      common.round(lastXPOS + xDiff, 0),
-      common.round(lastYPOS + yDiff, 0),
-    ]);
+    POI.push([common.round(lastXPOS + xDiff, 0), common.round(lastYPOS + yDiff, 0)]);
   }
 
   return POI;
@@ -468,8 +451,7 @@ function getRunMovement(
   }
 
   // 2. Immediate random movement if player has ball
-  const side =
-    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
+  const side = player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
 
   if (player.hasBall) {
     return side === 'bottom'
@@ -517,20 +499,14 @@ function calculateProximityMovement(
 }
 
 // Helper: Handle movement toward formation position
-function calculateFormationMovement(
-  player: Player,
-  runOptions: number[],
-): [number, number] {
+function calculateFormationMovement(player: Player, runOptions: number[]): [number, number] {
   const [x, y] = player.currentPOS;
 
   if (x === 'NP') {
     throw new Error('No player position!');
   }
 
-  const direction = setPositions.formationCheck(player.intentPOS, [
-    Number(x),
-    Number(y),
-  ]);
+  const direction = setPositions.formationCheck(player.intentPOS, [Number(x), Number(y)]);
 
   const getMove = (dir: number): number => {
     if (dir === 0) {
@@ -557,8 +533,7 @@ function getSprintMovement(
   }
 
   // 2. Ball Carrier Logic (Aggressive forward movement)
-  const side =
-    player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
+  const side = player.originPOS[1] > matchDetails.pitchSize[1] / 2 ? 'bottom' : 'top';
 
   if (player.hasBall) {
     return side === 'bottom'
@@ -605,20 +580,14 @@ function calculateSprintProximity(
 }
 
 // Helper: Sprinting toward formation intent
-function calculateSprintFormation(
-  player: Player,
-  sprintOptions: number[],
-): [number, number] {
+function calculateSprintFormation(player: Player, sprintOptions: number[]): [number, number] {
   const [x, y] = player.currentPOS;
 
   if (x === 'NP') {
     throw new Error('No player position!');
   }
 
-  const direction = setPositions.formationCheck(player.intentPOS, [
-    Number(x),
-    Number(y),
-  ]);
+  const direction = setPositions.formationCheck(player.intentPOS, [Number(x), Number(y)]);
 
   const getMove = (dir: number): number => {
     if (dir === 0) {
@@ -649,9 +618,7 @@ function closestPlayerToBall(
       );
     }
 
-    const ballToPlayerX: number = Math.abs(
-      thisPlayer.currentPOS[0] - position[0],
-    );
+    const ballToPlayerX: number = Math.abs(thisPlayer.currentPOS[0] - position[0]);
 
     const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
 
@@ -670,19 +637,19 @@ function closestPlayerToBall(
 
   setPositions.setIntentPosition(matchDetails, closestPlayerDetails);
 
-
-  matchDetails.iterationLog.push(
-    `Closest Player to ball: ${closestPlayerDetails.name}`,
-  );
+  matchDetails.iterationLog.push(`Closest Player to ball: ${closestPlayerDetails.name}`);
 }
 
-function checkOffside(team1: Team, team2: Team, matchDetails: MatchDetails): MatchDetails | undefined {
+function checkOffside(
+  team1: Team,
+  team2: Team,
+  matchDetails: MatchDetails,
+): MatchDetails | undefined {
   const { ball } = matchDetails;
 
   const { pitchSize } = matchDetails;
 
-  const team1side =
-    team1.players[0].originPOS[1] < pitchSize[1] / 2 ? `top` : `bottom`;
+  const team1side = team1.players[0].originPOS[1] < pitchSize[1] / 2 ? `top` : `bottom`;
 
   if (!ball.withTeam) {
     return matchDetails;
@@ -731,12 +698,7 @@ function getBottomMostPlayer(team: Team): Player | undefined {
 
 type Side = 'top' | 'bottom';
 
-function updateOffside(
-  team: Team,
-  opponent: Team,
-  attackSide: Side,
-  pitchHeight: number,
-): boolean {
+function updateOffside(team: Team, opponent: Team, attackSide: Side, pitchHeight: number): boolean {
   const offsideLines = offsideYPOS(opponent, attackSide, pitchHeight);
 
   // Original logic uses pos1/pos2 vs pos2/pos1 based on side
@@ -746,21 +708,14 @@ function updateOffside(
       : [offsideLines.pos2, offsideLines.pos1];
 
   const leadPlayer =
-    attackSide === 'top'
-      ? getTopMostPlayer(team, pitchHeight)
-      : getBottomMostPlayer(team);
+    attackSide === 'top' ? getTopMostPlayer(team, pitchHeight) : getBottomMostPlayer(team);
 
   if (!leadPlayer) {
-    throw new Error(
-      `${attackSide === 'top' ? 'Top' : 'Bottom'} player is undefined`,
-    );
+    throw new Error(`${attackSide === 'top' ? 'Top' : 'Bottom'} player is undefined`);
   }
 
   // Early return: If the player furthest forward is in an offside position AND has the ball
-  if (
-    common.isBetween(leadPlayer.currentPOS[1], min, max) &&
-    leadPlayer.hasBall
-  ) {
+  if (common.isBetween(leadPlayer.currentPOS[1], min, max) && leadPlayer.hasBall) {
     return true;
   }
 
@@ -787,7 +742,11 @@ export function team1atTop(team1: Team, team2: Team, pitchHeight: number): void 
   updateOffside(team2, team1, 'top', pitchHeight);
 }
 
-function offsideYPOS(team: Team, side: unknown, pitchHeight: number): { pos1: number; pos2: number; } {
+function offsideYPOS(
+  team: Team,
+  side: unknown,
+  pitchHeight: number,
+): { pos1: number; pos2: number } {
   const offsideYPOS = {
     pos1: 0,
     pos2: pitchHeight / 2,

@@ -126,8 +126,7 @@ class RefactorEngine {
 
                 const parentValue = stmtPath.parentPath.value;
                 const isList =
-                  Array.isArray(parentValue) ||
-                  (parentValue && Array.isArray(parentValue.body));
+                  Array.isArray(parentValue) || (parentValue && Array.isArray(parentValue.body));
 
                 if (isList) {
                   stmtPath.insertBefore(safeSpy);
@@ -184,19 +183,13 @@ class RefactorEngine {
   }
 
   async stopCollector() {
-    this.log(
-      3,
-      'Simulation finished. Waiting 1.5s for final network packets...',
-    );
+    this.log(3, 'Simulation finished. Waiting 1.5s for final network packets...');
     await new Promise((r) => setTimeout(r, 1500));
 
     const count = Object.keys(this.runtimeStats).length;
     this.stats.capturedVariants = count;
 
-    fs.writeFileSync(
-      'scripts/type-runtime-stats.json',
-      JSON.stringify(this.runtimeStats, null, 2),
-    );
+    fs.writeFileSync('scripts/type-runtime-stats.json', JSON.stringify(this.runtimeStats, null, 2));
     return new Promise((r) => this.server.close(r));
   }
 
@@ -204,17 +197,12 @@ class RefactorEngine {
   traceAndPatch() {
     this.log(4, 'Reverting & Surgical Patching');
     const self = this;
-    this.execute(
-      'git checkout src/lib/ src/engine.ts',
-      'Restoring Original Line Numbers',
-    );
+    this.execute('git checkout src/lib/ src/engine.ts', 'Restoring Original Line Numbers');
 
     if (!fs.existsSync('type-runtime-stats.json')) {
       return;
     }
-    const runtimeData = JSON.parse(
-      fs.readFileSync('type-runtime-stats.json', 'utf8'),
-    );
+    const runtimeData = JSON.parse(fs.readFileSync('type-runtime-stats.json', 'utf8'));
 
     const fileGroups = {};
     for (const [_, data] of Object.entries(runtimeData)) {
@@ -231,10 +219,7 @@ class RefactorEngine {
 
       dataset.forEach((data) => {
         const variants = Object.keys(data.variants);
-        const totalHits = Object.values(data.variants).reduce(
-          (a, b) => a + b,
-          0,
-        );
+        const totalHits = Object.values(data.variants).reduce((a, b) => a + b, 0);
 
         // --- IMPROVED BREADCRUMBS ---
         if (VERBOSE) {
@@ -294,9 +279,7 @@ class RefactorEngine {
               const isParam =
                 n.FunctionDeclaration.check(path.parentPath.parentPath.value) ||
                 n.FunctionExpression.check(path.parentPath.parentPath.value) ||
-                n.ArrowFunctionExpression.check(
-                  path.parentPath.parentPath.value,
-                );
+                n.ArrowFunctionExpression.check(path.parentPath.parentPath.value);
               const isVar = n.VariableDeclarator.check(path.parentPath.value);
 
               if (isParam || isVar) {

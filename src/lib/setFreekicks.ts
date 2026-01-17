@@ -1,8 +1,5 @@
 import * as common from './common.js';
-import {
-  repositionTeamsForSetPiece,
-  setPenaltyPositions,
-} from './setPieces.js';
+import { repositionTeamsForSetPiece, setPenaltyPositions } from './setPieces.js';
 import { repositionForDeepSetPiece } from './setPositions.js';
 import type { Ball, MatchDetails, Player, Team } from './types.js';
 
@@ -116,9 +113,7 @@ function setHalfwayToOppositeQtrYPos(
     } else {
       const wallY = isTop ? pitchHeight * 0.75 : pitchHeight * 0.25;
 
-      const targetY = ['CM', 'LM', 'RM'].includes(player.position)
-        ? wallY
-        : pitchHeight * 0.5;
+      const targetY = ['CM', 'LM', 'RM'].includes(player.position) ? wallY : pitchHeight * 0.5;
 
       common.setPlayerXY(player, player.originPOS[0], player.currentPOS[1]);
       common.setPlayerXY(player, player.currentPOS[0], Math.floor(targetY));
@@ -132,16 +127,8 @@ function setHalfwayToOppositeQtrYPos(
 
 /** * Logic to determine ball direction based on lateral pitch position
  */
-function getBallDirection(
-  ballX: number,
-  pitchWidth: number,
-  isTop: boolean,
-): string {
-  const ballInCentre = common.isBetween(
-    ballX,
-    pitchWidth / 4 + 5,
-    pitchWidth - pitchWidth / 4 - 5,
-  );
+function getBallDirection(ballX: number, pitchWidth: number, isTop: boolean): string {
+  const ballInCentre = common.isBetween(ballX, pitchWidth / 4 + 5, pitchWidth - pitchWidth / 4 - 5);
 
   const ballLeft = common.isBetween(ballX, 0, pitchWidth / 4 + 4);
 
@@ -196,8 +183,14 @@ function calculateAttackerY(
     : common.upToMin(ball.position[1] + signedPush, pitchHeight * limitFactor);
 }
 
-function setDeepFreekickBallAndKicker(freekickConfig: { ball: Ball; kickPlayer: Player; teamID: string; pitchWidth: number; isTop: boolean; }): void {
-    const { ball, kickPlayer, teamID, pitchWidth, isTop } = freekickConfig;
+function setDeepFreekickBallAndKicker(freekickConfig: {
+  ball: Ball;
+  kickPlayer: Player;
+  teamID: string;
+  pitchWidth: number;
+  isTop: boolean;
+}): void {
+  const { ball, kickPlayer, teamID, pitchWidth, isTop } = freekickConfig;
 
   kickPlayer.hasBall = true;
   ball.lastTouch.playerName = kickPlayer.name;
@@ -249,8 +242,18 @@ function setBallPossession(kickPlayer: Player, ball: Ball, attack: Team): void {
   ball.withTeam = attack.teamID;
 }
 
-function alignPlayersForPenalty(penaltyAlignConfig: { isTop: boolean; attack: Team; pitchHeight: number; kickPlayer: Player; matchDetails: MatchDetails; defence: Team; ball: Ball; pitchWidth: number; }) {
-    const { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } = penaltyAlignConfig;
+function alignPlayersForPenalty(penaltyAlignConfig: {
+  isTop: boolean;
+  attack: Team;
+  pitchHeight: number;
+  kickPlayer: Player;
+  matchDetails: MatchDetails;
+  defence: Team;
+  ball: Ball;
+  pitchWidth: number;
+}) {
+  const { isTop, attack, pitchHeight, kickPlayer, matchDetails, defence, ball, pitchWidth } =
+    penaltyAlignConfig;
 
   return setPenaltyPositions(
     isTop,
@@ -264,8 +267,18 @@ function alignPlayersForPenalty(penaltyAlignConfig: { isTop: boolean; attack: Te
   );
 }
 
-function setSetPiecePositions(setPieceConfig: { attack: Team; pitchHeight: number; kickPlayer: Player; matchDetails: MatchDetails; ball: Ball; defence: Team; pitchWidth: number; isTop: boolean; }): MatchDetails {
-    const { attack, pitchHeight, kickPlayer, matchDetails, ball, defence, pitchWidth, isTop } = setPieceConfig;
+function setSetPiecePositions(setPieceConfig: {
+  attack: Team;
+  pitchHeight: number;
+  kickPlayer: Player;
+  matchDetails: MatchDetails;
+  ball: Ball;
+  defence: Team;
+  pitchWidth: number;
+  isTop: boolean;
+}): MatchDetails {
+  const { attack, pitchHeight, kickPlayer, matchDetails, ball, defence, pitchWidth, isTop } =
+    setPieceConfig;
 
   return repositionTeamsForSetPiece(
     attack,

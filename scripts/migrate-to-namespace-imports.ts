@@ -44,16 +44,12 @@ for (const sourceFile of sourceFiles) {
                 moduleSpecifier: moduleSpecifier,
                 namespaceImport: name,
               });
-              console.log(
-                `[SPLIT] Handled mixed import in ${cf.getBaseName()}: * as ${name}`,
-              );
+              console.log(`[SPLIT] Handled mixed import in ${cf.getBaseName()}: * as ${name}`);
             } else {
               // SAFE: No named imports. Just convert in place.
               id.removeDefaultImport();
               id.setNamespaceImport(name);
-              console.log(
-                `[SAFE] Migrated ${cf.getBaseName()} to namespace import: ${name}`,
-              );
+              console.log(`[SAFE] Migrated ${cf.getBaseName()} to namespace import: ${name}`);
             }
           }
         }

@@ -37,11 +37,7 @@ async function gameOfTenIterations(): Promise<MatchDetails> {
   return nextIteration;
 }
 
-async function initGame(
-  t1: string,
-  t2: string,
-  p: string,
-): Promise<MatchDetails> {
+async function initGame(t1: string, t2: string, p: string): Promise<MatchDetails> {
   const team1 = (await readDataFile(t1)) as Team;
 
   const team2 = (await readDataFile(t2)) as Team;
@@ -57,15 +53,11 @@ async function initGame(
   return matchDetails;
 }
 
-function invokePlayIteration(
-  inputIteration: MatchDetails,
-): MatchDetails {
+function invokePlayIteration(inputIteration: MatchDetails): MatchDetails {
   return playIteration(inputIteration);
 }
 
-function setupSecondHalf(
-  inputIteration: MatchDetails,
-): MatchDetails {
+function setupSecondHalf(inputIteration: MatchDetails): MatchDetails {
   return startSecondHalf(inputIteration);
 }
 

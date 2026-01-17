@@ -17,35 +17,13 @@ function getRandomKickDirection(side: 'top' | 'bottom'): string {
 
   const baseTop = ['wait', 'north', 'north', 'north', 'north', ...horizontal];
 
-  const diagTop = [
-    'northeast',
-    'northeast',
-    'northeast',
-    'northwest',
-    'northwest',
-    'northwest',
-  ];
+  const diagTop = ['northeast', 'northeast', 'northeast', 'northwest', 'northwest', 'northwest'];
 
-  const baseBottom = [
-    'wait',
-    'south',
-    'south',
-    'south',
-    'south',
-    ...horizontal,
-  ];
+  const baseBottom = ['wait', 'south', 'south', 'south', 'south', ...horizontal];
 
-  const diagBottom = [
-    'southeast',
-    'southeast',
-    'southeast',
-    'southwest',
-    'southwest',
-    'southwest',
-  ];
+  const diagBottom = ['southeast', 'southeast', 'southeast', 'southwest', 'southwest', 'southwest'];
 
-  const pool =
-    side === 'top' ? baseTop.concat(diagTop) : baseBottom.concat(diagBottom);
+  const pool = side === 'top' ? baseTop.concat(diagTop) : baseBottom.concat(diagBottom);
 
   return pool[common.getRandomNumber(0, pool.length - 1)];
 }
@@ -85,12 +63,7 @@ function executeKickAction(
       : getBottomKickedPosition(direction, ball.position, power);
 
   // 4. Calculate Movement
-  return calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    newPos,
-    player,
-  );
+  return calcBallMovementOverTime(matchDetails, player.skill.strength, newPos, player);
 }
 
 /**
@@ -118,21 +91,14 @@ function resolvePassDestination(
 
   const tPlyr = playersInDistance[randIdx];
 
-  matchDetails.iterationLog.push(
-    `through ball passed by: ${player.name} to: ${tPlyr.name}`,
-  );
+  matchDetails.iterationLog.push(`through ball passed by: ${player.name} to: ${tPlyr.name}`);
   player.stats.passes.total++;
 
   // 2. Calculate Target Position (Extracted)
   const closePlyPos = calculateThroughBallTarget(player, tPlyr, matchDetails);
 
   // 3. Execute Movement
-  return calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    closePlyPos,
-    player,
-  );
+  return calcBallMovementOverTime(matchDetails, player.skill.strength, closePlyPos, player);
 }
 
 /**
@@ -149,16 +115,13 @@ function calculateThroughBallTarget(
 
   const [tpX, tpY] = common.destructPos(targetPlayer.currentPOS);
 
-
   const pos: [number, number] = [tpX, tpY];
 
   const isAttackingTop = player.originPOS[1] > pitchHeight / 2;
 
   const bottomThird = position[1] > pitchHeight - pitchHeight / 3;
 
-  const middleThird =
-    position[1] > pitchHeight / 3 &&
-    position[1] < pitchHeight - pitchHeight / 3;
+  const middleThird = position[1] > pitchHeight / 3 && position[1] < pitchHeight - pitchHeight / 3;
 
   // Logic Branch 1: Successful skill check
   if (player.skill.passing > common.getRandomNumber(0, 100)) {
