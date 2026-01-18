@@ -1,4 +1,5 @@
 import * as common from './common.js';
+import { logger } from './logger.js';
 import type { MatchDetails, PitchDetails, Player, Team } from './types.js';
 
 function validateTeam(team: Team): void {
@@ -77,7 +78,7 @@ function validateStats(stats: unknown): void {
 
   for (const type of statsObject) {
     if (!Object.prototype.hasOwnProperty.call(stats, type)) {
-      console.error(`Player must have set stats: ${type}`);
+      logger.error(`Player must have set stats: ${type}`);
       badObjects++;
     }
   }
@@ -103,7 +104,7 @@ function validatePlayerSkills(skills: unknown): void {
 
   for (const type of skillType) {
     if (!Object.prototype.hasOwnProperty.call(skills, type)) {
-      console.error(`Player must contain skill: ${type}`);
+      logger.error(`Player must contain skill: ${type}`);
       badObjects++;
     }
   }
@@ -122,7 +123,7 @@ function validatePitch(pitchDetails: PitchDetails): void {
 
   for (const obj of pitchObjects) {
     if (!Object.prototype.hasOwnProperty.call(pitchDetails, obj)) {
-      console.error(`Pitch Must contain: ${obj}`);
+      logger.error(`Pitch Must contain: ${obj}`);
       badObjects++;
     }
   }
@@ -151,7 +152,7 @@ function validateMatchDetails(matchDetails: MatchDetails): void {
   for (const obj of matchObjects) {
     if (matchDetails) {
       if (!Object.prototype.hasOwnProperty.call(matchDetails, obj)) {
-        console.error(`Match Details must contain: ${obj}`);
+        logger.error(`Match Details must contain: ${obj}`);
         badObjects++;
       }
     }
@@ -178,7 +179,7 @@ function validateBall(ball: unknown): void {
 
   for (const prop of ballProps) {
     if (!Object.prototype.hasOwnProperty.call(ball, prop)) {
-      console.error(`Ball JSON must have property: ${prop}`);
+      logger.error(`Ball JSON must have property: ${prop}`);
       badObjects++;
     }
   }

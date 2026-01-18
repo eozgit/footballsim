@@ -319,4 +319,5 @@ export {
   upToMax,
   upToMin,
   destructPos,
+  setMatchSeed,
 };

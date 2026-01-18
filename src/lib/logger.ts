@@ -11,5 +11,5 @@ export const logger = {
   },
   error: (...args: unknown[]) => {
     console.error('[Sim:Error]', ...args);
-  }
+  },
 };

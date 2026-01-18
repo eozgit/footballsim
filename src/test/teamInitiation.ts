@@ -1,12 +1,12 @@
 import { expect, it, describe } from 'vitest';
 
-import initteams from './lib/initiateTeam.js';
+import { setTeam } from './lib/initiateTeam.js';
 
 describe('testTeamSetup()', function () {
   it('check all players origin positions are the same as the start positions', async () => {
     const t1location = './src/init_config/team1.json';
 
-    const teamOutput = await initteams.setTeam(t1location);
+    const teamOutput = await setTeam(t1location);
 
     expect(teamOutput).to.be.an('object');
 
@@ -36,7 +36,7 @@ describe('testTeamSetup()', function () {
   it('check all players relative positions are the same as the start positions', async () => {
     const t1location = './src/init_config/team1.json';
 
-    const teamOutput = await initteams.setTeam(t1location);
+    const teamOutput = await setTeam(t1location);
 
     expect(teamOutput).to.be.an('object');
 

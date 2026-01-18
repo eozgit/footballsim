@@ -1,13 +1,13 @@
-import js from '@eslint/js'
-import globals from 'globals'
-import importPlugin from 'eslint-plugin-import'
-import tseslint from 'typescript-eslint'
-import unusedImports from 'eslint-plugin-unused-imports'
-import sonarjs from 'eslint-plugin-sonarjs'
-import unicorn from 'eslint-plugin-unicorn'
-import n from 'eslint-plugin-n'
-import stylistic from '@stylistic/eslint-plugin'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import js from '@eslint/js';
+import globals from 'globals';
+import importPlugin from 'eslint-plugin-import';
+import tseslint from 'typescript-eslint';
+import unusedImports from 'eslint-plugin-unused-imports';
+import sonarjs from 'eslint-plugin-sonarjs';
+import unicorn from 'eslint-plugin-unicorn';
+import n from 'eslint-plugin-n';
+import stylistic from '@stylistic/eslint-plugin';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default tseslint.config(
   {
@@ -21,7 +21,7 @@ export default tseslint.config(
     files: ['src/**/*.ts'],
     extends: [...tseslint.configs.recommendedTypeChecked],
     plugins: {
-      'import': importPlugin,
+      import: importPlugin,
       'unused-imports': unusedImports,
       n,
       unicorn,
@@ -43,7 +43,7 @@ export default tseslint.config(
       'sonarjs/no-identical-functions': 'error',
 
       // --- THE GOOD PARTS: CLEAN ENGINE ---
-      'complexity': ['error', 10],
+      complexity: ['error', 10],
       'max-depth': ['error', 3],
       'max-params': ['error', 4],
       'max-lines': ['warn', { max: 300, skipBlankLines: true, skipComments: true }],
@@ -52,8 +52,8 @@ export default tseslint.config(
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
-      'eqeqeq': ['error', 'always'],
-      'curly': ['error', 'all'],
+      eqeqeq: ['error', 'always'],
+      curly: ['error', 'all'],
 
       // --- UNUSED CODE ---
       '@typescript-eslint/no-unused-vars': 'off',
@@ -71,16 +71,19 @@ export default tseslint.config(
         'error',
         {
           'newlines-between': 'always',
-          'alphabetize': { order: 'asc' }
-        }
+          alphabetize: { order: 'asc' },
+        },
       ],
 
       // --- STYLISTIC (Synced with Prettier) ---
       '@stylistic/semi': ['error', 'always'],
-      '@stylistic/member-delimiter-style': ['error', {
-        multiline: { delimiter: 'semi', requireLast: true },
-        singleline: { delimiter: 'semi', requireLast: false },
-      }],
+      '@stylistic/member-delimiter-style': [
+        'error',
+        {
+          multiline: { delimiter: 'semi', requireLast: true },
+          singleline: { delimiter: 'semi', requireLast: false },
+        },
+      ],
       '@stylistic/padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },
@@ -94,16 +97,23 @@ export default tseslint.config(
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
       '@typescript-eslint/no-explicit-any': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'error',
-      '@typescript-eslint/explicit-function-return-type': ['warn', {
-        allowExpressions: true
-      }],
+      '@typescript-eslint/explicit-function-return-type': [
+        'warn',
+        {
+          allowExpressions: true,
+        },
+      ],
 
       // --- AI-READY NAMING ---
       '@typescript-eslint/naming-convention': [
         'error',
         { selector: 'variable', format: ['camelCase', 'UPPER_CASE'] },
         { selector: 'typeLike', format: ['PascalCase'] },
-        { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: false } }
+        {
+          selector: 'interface',
+          format: ['PascalCase'],
+          custom: { regex: '^I[A-Z]', match: false },
+        },
       ],
 
       // --- ENGINE PITFALL PREVENTION ---
@@ -112,7 +122,8 @@ export default tseslint.config(
         'error',
         {
           selector: 'ForInStatement',
-          message: 'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
+          message:
+            'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
         },
         {
           selector: 'LabeledStatement',
@@ -120,7 +131,8 @@ export default tseslint.config(
         },
         {
           selector: 'SequenceExpression',
-          message: 'The comma operator is confusing and obscures return values. Use multiple statements.',
+          message:
+            'The comma operator is confusing and obscures return values. Use multiple statements.',
         },
         {
           selector: 'TSEnumDeclaration',
@@ -128,7 +140,8 @@ export default tseslint.config(
         },
         {
           selector: 'PropertyDefinition[accessible="private"]',
-          message: 'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
+          message:
+            'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
         },
       ],
     },
@@ -152,4 +165,4 @@ export default tseslint.config(
     extends: [tseslint.configs.disableTypeChecked],
   },
   eslintConfigPrettier,
-)
+);

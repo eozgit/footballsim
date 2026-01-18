@@ -10,6 +10,4 @@ async function setTeam(teamLocation: string): Promise<Team> {
   return setVariables.setGameVariables(team);
 }
 
-export default {
-  setTeam,
-};
+export { setTeam };

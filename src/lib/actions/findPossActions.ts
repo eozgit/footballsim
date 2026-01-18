@@ -1,8 +1,12 @@
-import { bottomTeamPlayerHasBall, noBallNotGK2CloseBall, noBallNotGK4CloseBall } from "../actions.js";
-import * as common from '../common.js'
-import { getPlayerActionWeights } from "../intentLogic.js";
-import { getPlayerTeam } from "../playerSelectors.js";
-import type { Player, MatchDetails, MatchEventWeights, Team } from "../types.js";
+import {
+  bottomTeamPlayerHasBall,
+  noBallNotGK2CloseBall,
+  noBallNotGK4CloseBall,
+} from '../actions.js';
+import * as common from '../common.js';
+import { getPlayerActionWeights } from '../intentLogic.js';
+import { getPlayerTeam } from '../playerSelectors.js';
+import type { Player, MatchDetails, MatchEventWeights, Team } from '../types.js';
 
 export function findPossActions(
   player: Player,
@@ -84,7 +88,6 @@ export function playerDoesNotHaveBall(
   return [0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0];
 }
 
-
 function populatePossibleActions(
   possibleActions: { name: string; points: number }[],
   weights: MatchEventWeights,
@@ -98,8 +101,6 @@ function populatePossibleActions(
 
   return possibleActions;
 }
-
-
 
 function populateActionsJSON(): { name: string; points: number }[] {
   return [

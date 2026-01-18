@@ -42,10 +42,6 @@ function selectAction(possibleActions: { name: string; points: number }[]): stri
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
 }
 
-
-
-
-
 function topTeamPlayerHasBallInBottomPenaltyBox(
   matchDetails: MatchDetails,
   player: Player,
@@ -173,8 +169,6 @@ function checkOppositionBelow(
 
   return closePlyX && closePlayerPosition[1] > currentPOS[1];
 }
-
-
 
 function noBallNotGK4CloseBallBottomTeam(
   matchDetails: MatchDetails,
@@ -367,10 +361,6 @@ function onBottomCornerBoundary(
 function onTopCornerBoundary(position: BallPosition, pitchWidth: number): boolean {
   return position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth);
 }
-
-
-
-
 
 /**
  * Unified handler for all defensive challenges (Stand and Slide)
@@ -753,6 +743,5 @@ export {
   oppositionNearContext,
   validateAndResolvePlayerAction,
 };
-
 
 export { findPossActions } from './actions/findPossActions.js';

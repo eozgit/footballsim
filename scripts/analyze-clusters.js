@@ -24,12 +24,17 @@ const functionRegistry = new Map(); // Key: "filepath:funcName"
 console.log('--- Phase 1: Registering functions ---');
 project.getSourceFiles().forEach((sourceFile) => {
   const relPath = path.relative(process.cwd(), sourceFile.getFilePath());
-  if (CONFIG.ignoreFiles.some(f => relPath.includes(f))) return;
+  if (CONFIG.ignoreFiles.some((f) => relPath.includes(f))) return;
 
   const functions = [
     ...sourceFile.getFunctions(),
-    ...sourceFile.getVariableDeclarations()
-      .filter(v => v.getInitializerIfKind(SyntaxKind.ArrowFunction) || v.getInitializerIfKind(SyntaxKind.FunctionExpression))
+    ...sourceFile
+      .getVariableDeclarations()
+      .filter(
+        (v) =>
+          v.getInitializerIfKind(SyntaxKind.ArrowFunction) ||
+          v.getInitializerIfKind(SyntaxKind.FunctionExpression),
+      ),
   ];
 
   functions.forEach((fn) => {
@@ -45,10 +50,10 @@ project.getSourceFiles().forEach((sourceFile) => {
       name,
       file: relPath,
       line: start,
-      lineCount: (end - start) + 1,
+      lineCount: end - start + 1,
       callers: new Set(),
       helpers: [],
-      node: fn
+      node: fn,
     });
   });
 });
@@ -96,7 +101,7 @@ functionRegistry.forEach((data) => {
       parent.helpers.push({
         name: data.name,
         lines: data.lineCount,
-        location: `${data.file}:${data.line}`
+        location: `${data.file}:${data.line}`,
       });
     }
   }
@@ -110,13 +115,13 @@ functionRegistry.forEach((data) => {
     const totalLines = data.lineCount + data.helpers.reduce((sum, h) => sum + h.lines, 0);
     clusters.push({
       mainFunction: data.name,
-      helpers: data.helpers.map(h => h.name),
+      helpers: data.helpers.map((h) => h.name),
       totalLines,
       details: {
         file: data.file,
         line: data.line,
-        helperDetails: data.helpers
-      }
+        helperDetails: data.helpers,
+      },
     });
   }
 });
@@ -130,10 +135,15 @@ console.log(`\nResults saved to ${CONFIG.outputJson}`);
 
 // Print Table
 console.log('\n' + ''.padEnd(100, '-'));
-console.log(`${'Main Function'.padEnd(25)} | ${'Exclusive Helpers'.padEnd(40)} | ${'Lines'.padEnd(6)} | ${'Location'}`);
+console.log(
+  `${'Main Function'.padEnd(25)} | ${'Exclusive Helpers'.padEnd(40)} | ${'Lines'.padEnd(6)} | ${'Location'}`,
+);
 console.log(''.padEnd(100, '-'));
 
-clusters.forEach(c => {
-  const helpersStr = c.helpers.join(', ').substring(0, 38) + (c.helpers.join(', ').length > 38 ? '...' : '');
-  console.log(`${c.mainFunction.padEnd(25)} | ${helpersStr.padEnd(40)} | ${String(c.totalLines).padEnd(6)} | ${c.details.file}:${c.details.line}`);
+clusters.forEach((c) => {
+  const helpersStr =
+    c.helpers.join(', ').substring(0, 38) + (c.helpers.join(', ').length > 38 ? '...' : '');
+  console.log(
+    `${c.mainFunction.padEnd(25)} | ${helpersStr.padEnd(40)} | ${String(c.totalLines).padEnd(6)} | ${c.details.file}:${c.details.line}`,
+  );
 });

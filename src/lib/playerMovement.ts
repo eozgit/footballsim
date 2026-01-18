@@ -329,17 +329,17 @@ function getInterceptPosition(
   ballPosition: BallPosition,
   pitchSize: [number, number, number],
 ): BallPosition {
-  const BallPlyTraj = getInterceptTrajectory(opposition, ballPosition, pitchSize);
+  const ballPlyTraj = getInterceptTrajectory(opposition, ballPosition, pitchSize);
 
-  let closestPos: BallPosition = BallPlyTraj[0] || [0, 0];
+  let closestPos: BallPosition = ballPlyTraj[0] || [0, 0];
 
   let shortestDiff = Infinity;
 
   let closestIndex = 0;
 
   // Single loop to find both the closest position and its index
-  for (let i = 0; i < BallPlyTraj.length; i++) {
-    const thisPos = BallPlyTraj[i];
+  for (let i = 0; i < ballPlyTraj.length; i++) {
+    const thisPos = ballPlyTraj[i];
 
     const xDiff = Math.abs(currentPOS[0] - thisPos[0]);
 
@@ -358,7 +358,7 @@ function getInterceptPosition(
   const isAtIntercept = closestPos[0] === currentPOS[0] && closestPos[1] === currentPOS[1];
 
   if (isAtIntercept && closestIndex > 0) {
-    return BallPlyTraj[closestIndex - 1];
+    return ballPlyTraj[closestIndex - 1];
   }
 
   return closestPos;
