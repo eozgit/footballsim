@@ -1,6 +1,13 @@
-import { calcRetentionScore, setFoul, setPostTacklePosition, wasFoul } from '../actions.js';
+import {
+  calcRetentionScore,
+  foulIntensity,
+  setFoul,
+  setPostTacklePosition,
+  wasFoul,
+} from '../actions.js';
 import * as common from '../common.js';
 import { isInjured } from '../injury.js';
+import { setSetpieceKickOffTeam, setSetpieceSecondTeam } from '../setPositions.js';
 import type {
   DefensiveActionConfig,
   MatchDetails,
@@ -246,4 +253,56 @@ export function attemptGoalieSave(
   }
 
   return false;
+}
+
+export function completeSlide(
+  matchDetails: MatchDetails,
+  thisPlayer: Player,
+  team: Team,
+  opp: Team,
+): MatchDetails {
+  const foul = resolveSlide({
+    player: thisPlayer,
+    team: team,
+    opposition: opp,
+    matchDetails: matchDetails,
+  });
+
+  if (!foul) {
+    if (opp.name === matchDetails.kickOffTeam.name) {
+      return setSetpieceKickOffTeam(matchDetails);
+    }
+
+    return setSetpieceSecondTeam(matchDetails);
+  }
+
+  const intensity = foulIntensity();
+
+  if (common.isBetween(intensity, 65, 90)) {
+    thisPlayer.stats.cards.yellow++;
+
+    if (thisPlayer.stats.cards.yellow === 2) {
+      thisPlayer.stats.cards.red++;
+      Object.defineProperty(thisPlayer, 'currentPOS', {
+        value: ['NP', 'NP'],
+        writable: false,
+        enumerable: true,
+        configurable: false,
+      });
+    }
+  } else if (common.isBetween(intensity, 85, 100)) {
+    thisPlayer.stats.cards.red++;
+    Object.defineProperty(thisPlayer, 'currentPOS', {
+      value: ['NP', 'NP'],
+      writable: false,
+      enumerable: true,
+      configurable: false,
+    });
+  }
+
+  if (opp.name === matchDetails.kickOffTeam.name) {
+    return setSetpieceKickOffTeam(matchDetails);
+  }
+
+  return setSetpieceSecondTeam(matchDetails);
 }

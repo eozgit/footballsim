@@ -1,4 +1,4 @@
-import { resolveSlide, resolveTackle } from './actions/defensiveActions.js';
+import { resolveTackle } from './actions/defensiveActions.js';
 import * as actions from './actions.js';
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
@@ -14,58 +14,6 @@ function decideMovement(
   matchDetails: MatchDetails,
 ): Team {
   return processTeamTactics(closestPlayer, team, opp, matchDetails);
-}
-
-function completeSlide(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  team: Team,
-  opp: Team,
-): MatchDetails {
-  const foul = resolveSlide({
-    player: thisPlayer,
-    team: team,
-    opposition: opp,
-    matchDetails: matchDetails,
-  });
-
-  if (!foul) {
-    if (opp.name === matchDetails.kickOffTeam.name) {
-      return setPositions.setSetpieceKickOffTeam(matchDetails);
-    }
-
-    return setPositions.setSetpieceSecondTeam(matchDetails);
-  }
-
-  const intensity = actions.foulIntensity();
-
-  if (common.isBetween(intensity, 65, 90)) {
-    thisPlayer.stats.cards.yellow++;
-
-    if (thisPlayer.stats.cards.yellow === 2) {
-      thisPlayer.stats.cards.red++;
-      Object.defineProperty(thisPlayer, 'currentPOS', {
-        value: ['NP', 'NP'],
-        writable: false,
-        enumerable: true,
-        configurable: false,
-      });
-    }
-  } else if (common.isBetween(intensity, 85, 100)) {
-    thisPlayer.stats.cards.red++;
-    Object.defineProperty(thisPlayer, 'currentPOS', {
-      value: ['NP', 'NP'],
-      writable: false,
-      enumerable: true,
-      configurable: false,
-    });
-  }
-
-  if (opp.name === matchDetails.kickOffTeam.name) {
-    return setPositions.setSetpieceKickOffTeam(matchDetails);
-  }
-
-  return setPositions.setSetpieceSecondTeam(matchDetails);
 }
 
 function completeTackleWhenCloseNoBall(
@@ -612,7 +560,6 @@ export {
   checkProvidedAction,
   closestPlayerActionBallX,
   closestPlayerActionBallY,
-  completeSlide,
   completeTackleWhenCloseNoBall,
   decideMovement,
   getMovement,
@@ -626,3 +573,5 @@ export {
 export { setClosePlayerTakesBall, closestPlayerToBall } from './position/proximity.js';
 
 export { completeMovement } from './position/movement.js';
+
+export { completeSlide } from './actions/defensiveActions.js';
