@@ -1,5 +1,6 @@
 import { expect, it, describe } from 'vitest';
 
+import * as findPossActions from '../lib/actions/findPossActions.js';
 import * as actions from '../lib/actions.js';
 import { createPlayer } from '../lib/ballMovement.js';
 import * as common from '../lib/common.js';
@@ -410,7 +411,7 @@ describe('playerDoesNotHaveBall()', function () {
 
     matchDetails.ball.withPlayer = false;
 
-    const parameters = actions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 60, 40, 0, 0]);
   });
@@ -423,7 +424,7 @@ describe('playerDoesNotHaveBall()', function () {
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 0, 1, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -436,7 +437,7 @@ describe('playerDoesNotHaveBall()', function () {
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(player, 3, 3, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 3, 3, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -449,7 +450,7 @@ describe('playerDoesNotHaveBall()', function () {
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = false;
-    const parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 0, 0, 20, 80, 0, 0]);
   });
@@ -462,7 +463,7 @@ describe('playerDoesNotHaveBall()', function () {
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 15, 12, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 40, 0, 20, 10, 30, 0, 0]);
   });
@@ -475,7 +476,7 @@ describe('playerDoesNotHaveBall()', function () {
     matchDetails.pitchSize = [680, 1050, 90];
 
     matchDetails.ball.withPlayer = true;
-    const parameters = actions.playerDoesNotHaveBall(player, 105, 88, matchDetails);
+    const parameters = findPossActions.playerDoesNotHaveBall(player, 105, 88, matchDetails);
 
     expect(parameters).to.be.eql([0, 0, 0, 0, 0, 10, 0, 50, 30, 0, 0]);
   });
