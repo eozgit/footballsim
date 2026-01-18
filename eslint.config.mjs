@@ -1,11 +1,13 @@
-import js from '@eslint/js';
-import globals from 'globals';
-import importPlugin from 'eslint-plugin-import';
-import tseslint from 'typescript-eslint';
-import unusedImports from 'eslint-plugin-unused-imports';
-import sonarjs from 'eslint-plugin-sonarjs';
-import unicorn from 'eslint-plugin-unicorn';
-import n from 'eslint-plugin-n';
+import js from '@eslint/js'
+import globals from 'globals'
+import importPlugin from 'eslint-plugin-import'
+import tseslint from 'typescript-eslint'
+import unusedImports from 'eslint-plugin-unused-imports'
+import sonarjs from 'eslint-plugin-sonarjs'
+import unicorn from 'eslint-plugin-unicorn'
+import n from 'eslint-plugin-n'
+import stylistic from '@stylistic/eslint-plugin'
+import eslintConfigPrettier from 'eslint-config-prettier'
 
 export default tseslint.config(
   {
@@ -13,14 +15,17 @@ export default tseslint.config(
   },
   js.configs.recommended,
   sonarjs.configs.recommended,
+  stylistic.configs['disable-legacy'], // Pre-emptively turn off old rules
+  stylistic.configs.recommended,
   {
     files: ['src/**/*.ts'],
     extends: [...tseslint.configs.recommendedTypeChecked],
     plugins: {
-      import: importPlugin,
+      'import': importPlugin,
       'unused-imports': unusedImports,
       n,
       unicorn,
+      '@stylistic': stylistic,
     },
     languageOptions: {
       ecmaVersion: 'latest',
@@ -38,7 +43,7 @@ export default tseslint.config(
       'sonarjs/no-identical-functions': 'error',
 
       // --- THE GOOD PARTS: CLEAN ENGINE ---
-      complexity: ['error', 10], // Stricter than demo
+      'complexity': ['error', 10], // Stricter than demo
       'max-depth': ['error', 3], // Prevent deep nesting (if/else/loop hell)
       'max-params': ['error', 4], // Use objects/interfaces for > 4 params
 
@@ -65,8 +70,8 @@ export default tseslint.config(
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
-      eqeqeq: ['error', 'always'],
-      curly: ['error', 'all'],
+      'eqeqeq': ['error', 'always'],
+      'curly': ['error', 'all'],
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
@@ -77,7 +82,7 @@ export default tseslint.config(
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
       '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
       'import/no-cycle': 'error',
-      'import/order': ['error', { 'newlines-between': 'always', alphabetize: { order: 'asc' } }],
+      'import/order': ['error', { 'newlines-between': 'always', 'alphabetize': { order: 'asc' } }],
       'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
       'padding-line-between-statements': [
         'error',
@@ -120,6 +125,42 @@ export default tseslint.config(
             'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
         },
       ],
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
+      '@stylistic/semi': ['error', 'always'],
+      '@stylistic/member-delimiter-style': ['error', {
+        multiline: { delimiter: 'semi', requireLast: true },
+        singleline: { delimiter: 'semi', requireLast: false },
+      }],
+      '@stylistic/semi': ['error', 'always'],
+      '@stylistic/padding-line-between-statements': [
+        'error',
+        { blankLine: 'always', prev: '*', next: 'return' },
+      ],
+      // 1. HARDENED: Prevent the most common TS bugs
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/await-thenable': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': 'error',
+
+      // 2. DISCIPLINED: Named exports are easier for AI and refactoring
+      'import/no-default-export': 'error',
+
+      // 3. AI-READY: Ensure types are always explicit for Agent processing
+      '@typescript-eslint/explicit-function-return-type': ['warn', {
+        allowExpressions: true
+      }],
+
+      // 4. PITFALL PREVENTION: Ban "any" and unsafe "as"
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      '@typescript-eslint/naming-convention': [
+        'error',
+        { selector: 'variable', format: ['camelCase', 'UPPER_CASE'] },
+        { selector: 'typeLike', format: ['PascalCase'] },
+        { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: false } } // Bans 'I' prefix
+      ]
     },
   },
   {
@@ -140,4 +181,5 @@ export default tseslint.config(
     files: ['*.mjs', '*.js'],
     extends: [tseslint.configs.disableTypeChecked],
   },
-);
+  eslintConfigPrettier,
+)
