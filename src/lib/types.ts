@@ -157,14 +157,6 @@ interface AreaBounds {
   lowY: number;
   highY: number;
 }
-interface InteractionContext extends ActionContext {
-  targetPlayer: Player;
-}
-interface Trajectory {
-  origin: [number, number];
-  target: [number, number];
-  power?: number;
-}
 /**
  * A tuple representing a range for foul probability [min, max].
  */

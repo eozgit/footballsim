@@ -20,24 +20,6 @@ import type {
   TacticalWeighting,
 } from './types.js';
 
-function selectAction(possibleActions: { name: string; points: number }[]): string {
-  let goodActions: string[] = [];
-
-  for (const thisAction of possibleActions) {
-    const tempArray = new Array(thisAction.points).fill(thisAction.name);
-
-    goodActions = goodActions.concat(tempArray);
-  }
-
-  // If the linter knows it can't be null, simplify to a truthiness check
-  // or check specifically for undefined.
-  if (!goodActions[0]) {
-    return 'run';
-  }
-
-  return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
-}
-
 function topTeamPlayerHasBallInBottomPenaltyBox(
   matchDetails: MatchDetails,
   player: Player,
@@ -401,7 +383,6 @@ function foulIntensity(): number {
  */
 
 export {
-  selectAction,
   topTeamPlayerHasBallInBottomPenaltyBox,
   bottomTeamPlayerHasBall,
   bottomTeamPlayerHasBallInMiddle,
@@ -426,7 +407,7 @@ export {
   foulIntensity,
   oppositionNearContext,
 };
-export { findPossActions } from './actions/findPossActions.js';
+export { selectAction, findPossActions } from './actions/findPossActions.js';
 export { setPostTacklePosition } from './actions/tackle.js';
 
 export { validateAndResolvePlayerAction } from './validation/action.js';

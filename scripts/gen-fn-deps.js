@@ -66,7 +66,7 @@ project.getSourceFiles().forEach((sourceFile) => {
       lineCount: end - start + 1,
       fileTotalLines,
       internalCalls: new Set(), // Functions this one calls
-      calledByCount: 0,        // How many times this is called in-file
+      calledByCount: 0, // How many times this is called in-file
       node: nodeToAnalyze,
     });
   });
@@ -88,7 +88,7 @@ functionData.forEach((data) => {
           if (declName !== data.name) {
             data.internalCalls.add(declName);
 
-            const targetFn = functionData.find(f => f.name === declName && f.file === data.file);
+            const targetFn = functionData.find((f) => f.name === declName && f.file === data.file);
             if (targetFn) targetFn.calledByCount++;
           }
         }
@@ -120,11 +120,11 @@ const processedOutput = functionData
       callCount: d.internalCalls.size,
       isCalledInFile,
       callsInFile: Array.from(d.internalCalls),
-      refactorScore
+      refactorScore,
     };
   })
   // Apply the max dependency filter
-  .filter(item => item.callCount <= maxDeps);
+  .filter((item) => item.callCount <= maxDeps);
 
 // Sort by Refactor Score (Descending)
 processedOutput.sort((a, b) => b.refactorScore - a.refactorScore);
@@ -139,7 +139,7 @@ if (format === 'json') {
 } else {
   console.log(''.padEnd(155, '-'));
   console.log(
-    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'File (T)'.padEnd(10)} | ${'Local?'.padEnd(6)} | ${'Deps'.padEnd(5)} | ${'File'.padEnd(30)} | ${'Internal Dependency Names'}`
+    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'File (T)'.padEnd(10)} | ${'Local?'.padEnd(6)} | ${'Deps'.padEnd(5)} | ${'File'.padEnd(30)} | ${'Internal Dependency Names'}`,
   );
   console.log(''.padEnd(155, '-'));
 
@@ -149,17 +149,19 @@ if (format === 'json') {
 
     console.log(
       `${item.function.padEnd(30)} | ` +
-      `${String(item.lineCount).padEnd(6)} | ` +
-      `${fileLabel} | ` +
-      `${localFlag.padEnd(6)} | ` +
-      `${String(item.callCount).padEnd(5)} | ` +
-      `${item.file.padEnd(30)} | ` +
-      `${item.callsInFile.join(', ')}`
+        `${String(item.lineCount).padEnd(6)} | ` +
+        `${fileLabel} | ` +
+        `${localFlag.padEnd(6)} | ` +
+        `${String(item.callCount).padEnd(5)} | ` +
+        `${item.file.padEnd(30)} | ` +
+        `${item.callsInFile.join(', ')}`,
     );
   });
 
   if (processedOutput.length > limit) {
     console.log(''.padEnd(155, '-'));
-    console.log(`... shown ${limit} of ${processedOutput.length} functions (filtered by max-deps=${maxDeps}).`);
+    console.log(
+      `... shown ${limit} of ${processedOutput.length} functions (filtered by max-deps=${maxDeps}).`,
+    );
   }
 }

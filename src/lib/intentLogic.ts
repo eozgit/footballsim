@@ -365,7 +365,7 @@ function handleGKIntent(zonePressureConfig: {
   distX: number;
   distY: number;
 }): MatchEventWeights {
-  const { playerInfo, pressureWeights, openWeights, distX, distY } = zonePressureConfig;
+  const { playerInfo } = zonePressureConfig;
 
   return resolveZonePressure({
     playerInfo: playerInfo,

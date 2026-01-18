@@ -185,13 +185,14 @@ function setDefenderSetPiecePosition(
     midWayFromBalltoGoalX: number;
     playerSpace: number;
     midWayFromBalltoGoalY: number;
-    getRandomPenaltyPosition: boolean;
+    getRandomPenaltyPosition: Function;
   },
 ): number {
-  let {
+  let { playerSpace } = defenderPositionConfig;
+
+  const {
     player,
     midWayFromBalltoGoalX,
-    playerSpace,
     midWayFromBalltoGoalY,
     matchDetails,
     getRandomPenaltyPosition,
@@ -247,7 +248,7 @@ function calculateDefensiveSetPieceY(
     isGKExecuting: boolean;
   },
 ): number {
-  const { player, ballY, isTop, pitchHeight, isGKExecuting } = attackingYConfig;
+  const { player, isTop, pitchHeight, isGKExecuting } = attackingYConfig;
 
   if (isGKExecuting) {
     if (player.position === 'GK') {
@@ -381,7 +382,7 @@ function repositionDefenders(attackerRepositionConfig: {
   pitchHeight: number;
   isGKExecuting: boolean;
 }): void {
-  const { attack, kickPlayer, ball, isTop, pitchHeight, isGKExecuting } = attackerRepositionConfig;
+  const { attack, ball, isTop, pitchHeight, isGKExecuting } = attackerRepositionConfig;
 
   for (const player of attack.players) {
     const targetY = calculateDefensiveSetPieceY({

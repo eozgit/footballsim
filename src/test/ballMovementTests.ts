@@ -497,13 +497,13 @@ describe('setDeflectionDirectionPos()', function () {
 
 describe('setDeflectionDirectionPos()', function () {
   it(`deflected kickoff team`, async () => {
-    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
+    let matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.kickOffTeam.players[9];
 
     const defTeam = matchDetails.kickOffTeam;
 
-    bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
+    matchDetails = bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
 
     expect(defPlayer.offside).to.eql(false);
 
@@ -517,13 +517,13 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`tesdeflected second teamt1`, async () => {
-    const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
+    let matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
     const defPlayer = matchDetails.secondTeam.players[9];
 
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
+    matchDetails = bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
 
     expect(defPlayer.offside).to.eql(false);
 

@@ -84,7 +84,7 @@ function determinePlayerAction(actionConfig: {
   ctx: unknown;
   closest: unknown;
 }): string {
-  const { player, team, opp, matchDetails, ctx, closest } = actionConfig;
+  const { player, team, matchDetails, ctx, closest } = actionConfig;
 
   const possibleActions = actions.findPossActions(player, matchDetails);
 

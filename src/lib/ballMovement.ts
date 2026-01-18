@@ -222,20 +222,20 @@ function checkGoalScored(matchDetails: MatchDetails): void {
   const [ballX, ballY] = ball.position;
 
   // 1. Position Safety Checks
-  const KOGoalie = kickOffTeam.players[0];
+  const koTeamGk = kickOffTeam.players[0];
 
-  const STGoalie = secondTeam.players[0];
+  const sndTeamGk = secondTeam.players[0];
 
-  if (KOGoalie.currentPOS[0] === 'NP' || STGoalie.currentPOS[0] === 'NP') {
+  if (koTeamGk.currentPOS[0] === 'NP' || sndTeamGk.currentPOS[0] === 'NP') {
     throw new Error('Goalie position missing!');
   }
 
   // 2. Phase 1: Goalkeeper Saves (Prevents Goal)
-  if (attemptGoalieSave(matchDetails, KOGoalie, kickOffTeam.name)) {
+  if (attemptGoalieSave(matchDetails, koTeamGk, kickOffTeam.name)) {
     return;
   }
 
-  if (attemptGoalieSave(matchDetails, STGoalie, secondTeam.name)) {
+  if (attemptGoalieSave(matchDetails, sndTeamGk, secondTeam.name)) {
     return;
   }
 
@@ -307,25 +307,6 @@ function thisPlayerIsInProximity(proximityConfig: {
     power: power,
     thisTeam: thisTeam,
   });
-}
-
-function setBallMovementMatchDetails(proximityConfig: {
-  matchDetails: MatchDetails;
-  player: Player;
-  startPos: [number, number];
-  team: Team;
-}): void {
-  const { matchDetails, player: thisPlayer, startPos: thisPos, team: thisTeam } = proximityConfig;
-
-  matchDetails.ball.ballOverIterations = [];
-  matchDetails.ball.Player = thisPlayer.playerID;
-  matchDetails.ball.withPlayer = true;
-  matchDetails.ball.lastTouch.playerName = thisPlayer.name;
-  matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
-  matchDetails.ball.lastTouch.teamID = thisTeam.teamID;
-  matchDetails.ball.withTeam = thisTeam.teamID;
-  matchDetails.ball.position = [...thisPos];
-  common.setPlayerXY(thisPlayer, thisPos[0], thisPos[1]);
 }
 
 function resolveDeflection(deflectionConfig: {
@@ -400,7 +381,7 @@ function setDeflectionPlayerHasBall(
   matchDetails.ball.lastTouch.teamID = defTeam.teamID;
 
   if (defPlayer.offside === true) {
-    setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
+    matchDetails = setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
 
     return matchDetails.ball.position;
   }
@@ -420,7 +401,7 @@ function setDeflectionPlayerOffside(
   matchDetails: MatchDetails,
   defTeam: Team,
   defPlayer: Player,
-): void {
+): MatchDetails {
   defPlayer.offside = false;
   defPlayer.hasBall = false;
   matchDetails.ball.Player = '';
@@ -433,6 +414,8 @@ function setDeflectionPlayerOffside(
   } else {
     matchDetails = setPositions.setSetpieceKickOffTeam(matchDetails);
   }
+
+  return matchDetails;
 }
 
 function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
@@ -639,7 +622,7 @@ function calcBallMovementOverTime(
 
   const yArray = splitNumberIntoN(changeInY, movementIterations);
 
-  const BOIts = mergeArrays({
+  const ballOverIters = mergeArrays({
     arrayLength: powerArray.length,
     oldPos: [matchDetails.ball.position[0], matchDetails.ball.position[1]],
     newPos: nextPosition,
@@ -648,11 +631,11 @@ function calcBallMovementOverTime(
     array3: powerArray,
   }).map((i) => [i[0], i[1], i[2] ?? 0] as [number, number, number?]);
 
-  matchDetails.ball.ballOverIterations = BOIts;
+  matchDetails.ball.ballOverIterations = ballOverIters;
   const endPos = resolveBallMovement({
     player: player,
     startPos: position,
-    targetPos: [BOIts[0][0], BOIts[0][1]],
+    targetPos: [ballOverIters[0][0], ballOverIters[0][1]],
     power: power,
     team: kickOffTeam,
     opp: secondTeam,
@@ -759,7 +742,6 @@ export {
   moveBall,
   penaltyTaken,
   resolveDeflection,
-  setBallMovementMatchDetails,
   setBPlayer,
   setDeflectionDirectionPos,
   setDeflectionPlayerHasBall,
@@ -773,3 +755,5 @@ export {
   createPlayer,
   getPlayersInDistance,
 };
+
+export { setBallMovementMatchDetails } from './actions/ball.js';
