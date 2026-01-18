@@ -1,8 +1,22 @@
-import { calcRetentionScore, calcTackleScore, setFoul, setInjury, setPostTackleBall, setPostTacklePosition, wasFoul } from "../actions.js";
+import {
+  calcRetentionScore,
+  calcTackleScore,
+  setFoul,
+  setInjury,
+  setPostTackleBall,
+  setPostTacklePosition,
+  wasFoul,
+} from '../actions.js';
 import * as common from '../common.js';
-import { isInjured } from "../injury.js";
-import type { DefensiveActionConfig, MatchDetails, Player, Skill, TackleImpact, Team } from "../types.js";
-
+import { isInjured } from '../injury.js';
+import type {
+  DefensiveActionConfig,
+  MatchDetails,
+  Player,
+  Skill,
+  TackleImpact,
+  Team,
+} from '../types.js';
 
 function handleDefensiveChallenge(challengeConfig: {
   player: Player;
@@ -53,7 +67,6 @@ function handleDefensiveChallenge(challengeConfig: {
   return false;
 }
 
-
 export function resolveTackle(
   player: Player,
   team: Team,
@@ -72,7 +85,6 @@ export function resolveTackle(
     },
   });
 }
-
 
 export function resolveSlide(tackleConfig: {
   player: Player;
@@ -151,7 +163,6 @@ function setFailedTackle(
   });
 }
 
-
 /** @internal - Exported for testing purposes only. Do not use in production. */
 export function calcTackleScore(skill: Pick<Skill, 'tackling' | 'strength'>, diff: number): number {
   return (
@@ -159,8 +170,6 @@ export function calcTackleScore(skill: Pick<Skill, 'tackling' | 'strength'>, dif
     common.getRandomNumber(-diff, diff)
   );
 }
-
-
 
 /** @internal - Exported for testing purposes only. Do not use in production. */
 export function setPostTackleBall(tackleBallConfig: {
@@ -188,8 +197,6 @@ export function setPostTackleBall(tackleBallConfig: {
   opposition.intent = 'defend';
 }
 
-
-
 /** @internal - Exported for testing purposes only. Do not use in production. */
 export function setInjury(injuryContext: {
   matchDetails: MatchDetails;
@@ -210,6 +217,3 @@ export function setInjury(injuryContext: {
     matchDetails.iterationLog.push(`Player Injured - ${player.name}`);
   }
 }
-
-
-

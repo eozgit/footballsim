@@ -6,7 +6,13 @@ import * as playerMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import { calcTackleScore, resolveSlide, resolveTackle, setInjury, setPostTackleBall } from '@/lib/actions/defensiveActions.js';
+import {
+  calcTackleScore,
+  resolveSlide,
+  resolveTackle,
+  setInjury,
+  setPostTackleBall,
+} from '@/lib/actions/defensiveActions.js';
 
 const swJson = './src/test/input/opposite/iterationSwitch.json';
 

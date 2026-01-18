@@ -39,10 +39,6 @@ function selectAction(possibleActions: { name: string; points: number }[]): stri
   return goodActions[common.getRandomNumber(0, goodActions.length - 1)];
 }
 
-
-
-
-
 function topTeamPlayerHasBallInBottomPenaltyBox(
   matchDetails: MatchDetails,
   player: Player,
@@ -170,8 +166,6 @@ function checkOppositionBelow(
 
   return closePlyX && closePlayerPosition[1] > currentPOS[1];
 }
-
-
 
 function noBallNotGK4CloseBallBottomTeam(
   matchDetails: MatchDetails,
@@ -365,24 +359,9 @@ function onTopCornerBoundary(position: BallPosition, pitchWidth: number): boolea
   return position[1] === 0 && (position[0] === 0 || position[0] === pitchWidth);
 }
 
-
-
-
-
 /**
  * Unified handler for all defensive challenges (Stand and Slide)
  */
-
-
-
-
-
-
-
-
-
-
-
 
 function calcRetentionScore(skill: Pick<Skill, 'agility' | 'strength'>, diff: number): number {
   return (
@@ -390,64 +369,6 @@ function calcRetentionScore(skill: Pick<Skill, 'agility' | 'strength'>, diff: nu
     common.getRandomNumber(-diff, diff)
   );
 }
-
-
-
-function setPostTacklePosition(postTackleConfig: {
-  matchDetails: MatchDetails;
-  winningPlayer: Player;
-  losingPlayer: Player;
-  increment: number;
-}): void {
-  const {
-    matchDetails,
-    winningPlayer: winningPlyr,
-    losingPlayer: losePlayer,
-    increment,
-  } = postTackleConfig;
-
-  const [, pitchHeight] = matchDetails.pitchSize;
-
-  if (losePlayer.originPOS[1] > pitchHeight / 2) {
-    common.setPlayerXY(
-      losePlayer,
-      losePlayer.currentPOS[0],
-      common.upToMin(losePlayer.currentPOS[1] - increment, 0),
-    );
-    const { ball } = matchDetails;
-
-    const [bx, , bz] = ball.position;
-
-    const by = common.upToMin(matchDetails.ball.position[1] - increment, 0);
-
-    common.setBallPosition(ball, bx, by, bz);
-    common.setPlayerXY(
-      winningPlyr,
-      winningPlyr.currentPOS[0],
-      common.upToMax(winningPlyr.currentPOS[1] + increment, pitchHeight),
-    );
-  } else {
-    common.setPlayerXY(
-      losePlayer,
-      losePlayer.currentPOS[0],
-      common.upToMax(losePlayer.currentPOS[1] + increment, pitchHeight),
-    );
-    const { ball } = matchDetails;
-
-    const [bx, , bz] = ball.position;
-
-    const by = common.upToMax(matchDetails.ball.position[1] + increment, pitchHeight);
-
-    common.setBallPosition(ball, bx, by, bz);
-    common.setPlayerXY(
-      winningPlyr,
-      winningPlyr.currentPOS[0],
-      common.upToMin(winningPlyr.currentPOS[1] - increment, 0),
-    );
-  }
-}
-
-
 
 function setFoul(matchDetails: MatchDetails, team: Team, player: Player, thatPlayer: Player): void {
   matchDetails.iterationLog.push(`Foul against: ${thatPlayer.name}`);
@@ -557,11 +478,11 @@ export {
   checkPositionInBottomPenaltyBox,
   checkPositionInBottomPenaltyBoxClose,
   calcRetentionScore,
-  setPostTacklePosition,
   setFoul,
   wasFoul,
   foulIntensity,
   oppositionNearContext,
   validateAndResolvePlayerAction,
-}
+};
 export { findPossActions } from './actions/findPossActions.js';
+export { setPostTacklePosition } from './actions/tackle.js';

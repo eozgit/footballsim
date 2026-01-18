@@ -6,6 +6,7 @@ import { executeKickAction, resolvePassDestination } from './kickLogic.js';
 import { calculateDeflectionVector, updateBallCardinalDirection } from './physics.js';
 import { initializePlayerObject } from './playerDefaults.js';
 import { resolveBestPassOption } from './playerSelectors.js';
+import { getPlayersInDistance } from './position/proximity.js';
 import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -256,57 +257,6 @@ function checkGoalScored(matchDetails: MatchDetails): void {
 
 function throughBall(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   return resolvePassDestination(matchDetails, team, player);
-}
-
-function getPlayersInDistance(
-  team: Team,
-  player: Player,
-  pitchSize: [number, number, number?],
-): PlayerWithProximity[] {
-  const [curX, curY] = player.currentPOS;
-
-  if (curX === 'NP') {
-    throw new Error('Player no position!');
-  }
-
-  const [pitchWidth, pitchHeight] = pitchSize;
-
-  const playersInDistance: PlayerWithProximity[] = [];
-
-  for (const teamPlayer of team.players) {
-    const [tpX, tpY] = teamPlayer.currentPOS;
-
-    if (teamPlayer.name !== player.name) {
-      if (tpX === 'NP') {
-        throw new Error('Team player no position!');
-      }
-
-      const onPitchX = common.isBetween(tpX, -1, pitchWidth + 1);
-
-      const onPitchY = common.isBetween(tpY, -1, pitchHeight + 1);
-
-      if (onPitchX && onPitchY) {
-        const playerToPlayerX = curX - tpX;
-
-        const playerToPlayerY = curY - tpY;
-
-        const proximityToBall = Math.abs(playerToPlayerX + playerToPlayerY);
-
-        playersInDistance.push({
-          // position: [tpX, tpY] as [number, number],
-          currentPOS: [tpX, tpY] as [number, number],
-          proximity: proximityToBall,
-          name: teamPlayer.name,
-        });
-      }
-    }
-  }
-
-  playersInDistance.sort(function (a, b) {
-    return a.proximity - b.proximity;
-  });
-
-  return playersInDistance;
 }
 
 function resolveBallMovement(movementConfig: {
@@ -819,7 +769,7 @@ export {
   splitNumberIntoN,
   throughBall,
   resolveBallMovement,
-  getPlayersInDistance,
   thisPlayerIsInProximity,
   createPlayer,
+  getPlayersInDistance,
 };
