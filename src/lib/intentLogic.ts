@@ -23,6 +23,7 @@ import type {
   ResolveBoxContext,
   BallPosition,
   Weights,
+  AreaBounds,
 } from './types.js';
 
 /**
@@ -190,10 +191,10 @@ function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
 }
 
 // Shared configuration for standard box intentions
-const STANDARD_SPACE_WEIGHTS = {
-  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0] as MatchEventWeights,
-  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0] as MatchEventWeights,
-  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0] as MatchEventWeights,
+const STANDARD_SPACE_WEIGHTS: Weights = {
+  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
+  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
 };
 
 function handleInPenaltyBox(penaltyBoxContext: {
@@ -247,6 +248,18 @@ function handleInPenaltyBox(penaltyBoxContext: {
   });
 }
 
+const rangeBasedWeights: Weights = {
+  half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
+  fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
+};
+
+const boxWeights: Weights = {
+  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
+  shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
+  fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
+};
+
 function handleUnderPressureInBox(boxPressureContext: {
   tmateProximity: [number, number];
   currentPOS: [number, number];
@@ -280,11 +293,7 @@ function handleUnderPressureInBox(boxPressureContext: {
       halfRange: halfRange,
       shotRange: shotRange,
       pitchHeight: pitchHeight,
-      weightMap: {
-        half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
-        fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
-      },
+      weightMap: rangeBasedWeights,
     });
   }
 
@@ -297,11 +306,7 @@ function handleUnderPressureInBox(boxPressureContext: {
     pitchHeight,
     spaceConfig: [-10, 10, -4, 10],
     spaceWeights: STANDARD_SPACE_WEIGHTS,
-    defaultWeights: {
-      half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-      shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
-      fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
-    },
+    defaultWeights: boxWeights,
   });
 }
 
@@ -540,6 +545,29 @@ function handleDeepBoxThreat(deepThreatConfig: {
   return [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0];
 }
 
+function getSpaceConfig(
+  tmateProx: [number, number],
+  isOppositionAhead: boolean,
+): AreaBounds & { tmateProximity: number[] } {
+  if (isOppositionAhead) {
+    return {
+      tmateProximity: tmateProx,
+      lowX: -10,
+      highX: 10,
+      lowY: -10,
+      highY: 10,
+    };
+  }
+
+  return {
+    tmateProximity: tmateProx,
+    lowX: -10,
+    highX: 10,
+    lowY: -4,
+    highY: 10,
+  };
+}
+
 function handlePressuredBoxDecision(
   tmateProx: [number, number],
   currentPOS: readonly [number | 'NP', number],
@@ -547,15 +575,7 @@ function handlePressuredBoxDecision(
   skill: Skill,
 ): MatchEventWeights {
   if (checkOppositionAhead(closeOppPOS, currentPOS)) {
-    if (
-      checkTeamMateSpaceClose({
-        tmateProximity: tmateProx,
-        lowX: -10,
-        highX: 10,
-        lowY: -10,
-        highY: 10,
-      })
-    ) {
+    if (checkTeamMateSpaceClose(getSpaceConfig(tmateProx, true))) {
       return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
     }
 
@@ -570,15 +590,7 @@ function handlePressuredBoxDecision(
     return [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0];
   }
 
-  if (
-    checkTeamMateSpaceClose({
-      tmateProximity: tmateProx,
-      lowX: -10,
-      highX: 10,
-      lowY: -4,
-      highY: 10,
-    })
-  ) {
+  if (checkTeamMateSpaceClose(getSpaceConfig(tmateProx, false))) {
     if (common.isBetween(currentPOS[1], 0, skill.shooting / 2)) {
       return [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0];
     }
@@ -601,8 +613,6 @@ function handlePressuredBoxDecision(
 
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
-
-// src/lib/intentLogic.ts
 
 function handleBottomGKIntent(playerInformation: {
   thePlayer?: Player;

@@ -81,7 +81,7 @@ function determinePlayerAction(actionConfig: {
   team: Team;
   opp: Team;
   matchDetails: MatchDetails;
-  ctx: { x: number; y: number; };
+  ctx: { x: number; y: number };
   closest: { name: string; position: number };
 }): string {
   const { player, team, matchDetails, ctx, closest } = actionConfig;
@@ -137,7 +137,7 @@ function executePlayerMovement(moveCtx: {
   action: string;
   opp: Team;
   matchDetails: MatchDetails;
-  ctx: { x: number, y: number };
+  ctx: { x: number; y: number };
 }): [number, number] {
   const { player, action, opp, matchDetails, ctx } = moveCtx;
 
@@ -207,7 +207,7 @@ function resolveBallInteractions(interactionConfig: ActionContext & { action: st
   }
 }
 
-function getPlayerTacticalContext(player: Player, ballPos: number[]): { x: number; y: number; } {
+function getPlayerTacticalContext(player: Player, ballPos: number[]): { x: number; y: number } {
   const [curX, curY] = player.currentPOS;
 
   if (curX === 'NP') {

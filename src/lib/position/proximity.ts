@@ -126,3 +126,16 @@ export function setClosePlayerTakesBall(
     opp.intent = `defend`;
   }
 }
+
+export function oppositionNearPlayer(
+  oppositionPlayer: { proxPOS: [number, number] },
+  spaceX: number,
+  spaceY: number,
+): boolean {
+  const oppositionProximity = [
+    Math.abs(oppositionPlayer.proxPOS[0]),
+    Math.abs(oppositionPlayer.proxPOS[1]),
+  ];
+
+  return oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY;
+}

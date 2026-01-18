@@ -6,6 +6,10 @@ import {
   handleBottomDefensiveThirdIntent,
   handleBottomGKIntent,
 } from './intentLogic.js';
+import {
+  checkPositionInTopPenaltyBox,
+  checkPositionInBottomPenaltyBox,
+} from './position/penaltyArea.js';
 import * as setPositions from './setPositions.js';
 import type {
   BallPosition,
@@ -98,19 +102,6 @@ function bottomTeamPlayerHasBallInTopPenaltyBox(
   opposition: Team,
 ): MatchEventWeights {
   return getAttackingThreatWeights(matchDetails, player, team, opposition);
-}
-
-function oppositionNearPlayer(
-  oppositionPlayer: { proxPOS: [number, number] },
-  spaceX: number,
-  spaceY: number,
-): boolean {
-  const oppositionProximity = [
-    Math.abs(oppositionPlayer.proxPOS[0]),
-    Math.abs(oppositionPlayer.proxPOS[1]),
-  ];
-
-  return oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY;
 }
 
 function oppositionNearContext(context: ProximityContext, distX: number, distY: number): boolean {
@@ -278,56 +269,6 @@ function noBallNotGK2CloseBall(positionConfig: {
   });
 }
 
-function checkPositionInBottomPenaltyBox(
-  position: BallPosition,
-  pitchWidth: number,
-  pitchHeight: number,
-): boolean {
-  const yPos = common.isBetween(position[0], pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 5);
-
-  const xPos = common.isBetween(position[1], pitchHeight - pitchHeight / 6 + 5, pitchHeight);
-
-  return yPos && xPos;
-}
-
-function checkPositionInBottomPenaltyBoxClose(penaltyBoxConfig: {
-  position: [number, number];
-  pitchWidth: number;
-  pitchHeight: number;
-}): boolean {
-  const { position, pitchWidth, pitchHeight } = penaltyBoxConfig;
-
-  const yPos = common.isBetween(position[0], pitchWidth / 3 - 5, pitchWidth - pitchWidth / 3 + 5);
-
-  const xPos = common.isBetween(position[1], pitchHeight - pitchHeight / 12 + 5, pitchHeight);
-
-  return yPos && xPos;
-}
-
-function checkPositionInTopPenaltyBox(
-  position: BallPosition,
-  pitchWidth: number,
-  pitchHeight: number,
-): boolean {
-  const xPos = common.isBetween(position[0], pitchWidth / 4 - 5, pitchWidth - pitchWidth / 4 + 5);
-
-  const yPos = common.isBetween(position[1], 0, pitchHeight / 6 - 5);
-
-  return yPos && xPos;
-}
-
-function checkPositionInTopPenaltyBoxClose(
-  position: BallPosition,
-  pitchWidth: number,
-  pitchHeight: number,
-): boolean {
-  const xPos = common.isBetween(position[0], pitchWidth / 3 - 5, pitchWidth - pitchWidth / 3 + 5);
-
-  const yPos = common.isBetween(position[1], 0, pitchHeight / 12 - 5);
-
-  return yPos && xPos;
-}
-
 function onBottomCornerBoundary(
   position: BallPosition,
   pitchWidth: number,
@@ -349,22 +290,6 @@ function calcRetentionScore(skill: Pick<Skill, 'agility' | 'strength'>, diff: nu
     (Math.floor(skill.agility) + Math.floor(skill.strength)) / 2 +
     common.getRandomNumber(-diff, diff)
   );
-}
-
-function setFoul(matchDetails: MatchDetails, team: Team, player: Player, thatPlayer: Player): void {
-  matchDetails.iterationLog.push(`Foul against: ${thatPlayer.name}`);
-
-  if (player.stats.tackles.fouls === undefined) {
-    player.stats.tackles.fouls = 0;
-  }
-
-  player.stats.tackles.fouls++;
-
-  if (team.teamID === matchDetails.kickOffTeam.teamID) {
-    matchDetails.kickOffTeamStatistics.fouls++;
-  } else {
-    matchDetails.secondTeamStatistics.fouls++;
-  }
 }
 
 function wasFoul(x: number, y: number): boolean {
@@ -391,23 +316,26 @@ export {
   noBallNotGK2CloseBallBottomTeam,
   noBallNotGK4CloseBall,
   noBallNotGK4CloseBallBottomTeam,
-  oppositionNearPlayer,
   checkTeamMateSpaceClose,
   checkOppositionAhead,
   checkOppositionBelow,
-  checkPositionInTopPenaltyBox,
-  checkPositionInTopPenaltyBoxClose,
   onBottomCornerBoundary,
   onTopCornerBoundary,
-  checkPositionInBottomPenaltyBox,
-  checkPositionInBottomPenaltyBoxClose,
   calcRetentionScore,
-  setFoul,
   wasFoul,
   foulIntensity,
   oppositionNearContext,
+  checkPositionInTopPenaltyBox,
+  checkPositionInBottomPenaltyBox,
 };
 export { selectAction, findPossActions } from './actions/findPossActions.js';
 export { setPostTacklePosition } from './actions/tackle.js';
 
 export { validateAndResolvePlayerAction } from './validation/action.js';
+export { setFoul } from './actions/booking.js';
+export { oppositionNearPlayer } from './position/proximity.js';
+
+export {
+  checkPositionInTopPenaltyBoxClose,
+  checkPositionInBottomPenaltyBoxClose,
+} from './position/penaltyArea.js';

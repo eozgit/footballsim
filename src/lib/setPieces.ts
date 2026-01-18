@@ -219,7 +219,7 @@ function calculateAttackingSetPieceY(
   yPositionConfig: BallContext & {
     player: Player;
     ballY: number;
-    isTop: boolean;
+    isTopDirection: boolean;
     pitchHeight: number;
     isGKExecuting: boolean;
   },
@@ -462,68 +462,98 @@ function getAttackerSetPieceY(
   return null;
 }
 
+/**
+ * Orchestrates team repositioning for set pieces.
+ * Adheres to 4-parameter limit per function.
+ */
 function repositionTeamsForSetPiece(
-  teamRepositionConfig: ActionContext & {
+  config: ActionContext & {
     pitchHeight: number;
     ball: Ball;
     pitchWidth: number;
     isTop: boolean;
   },
 ): MatchDetails {
-  const {
-    team: attack,
-    pitchHeight,
-    player: kickPlayer,
-    matchDetails,
-    ball,
-    opp: defence,
-    pitchWidth,
-    isTop,
-  } = teamRepositionConfig;
+  const { team, player, matchDetails, isTop } = config;
 
-  const getRandomPenaltyPosition = isTop
+  const getRandomPos = isTop
     ? common.getRandomBottomPenaltyPosition
     : common.getRandomTopPenaltyPosition;
 
-  const isBackLine = (pos: string): boolean => ['CB', 'LB', 'RB'].includes(pos);
-
   // 1. POSITION ATTACK
-  for (const player of attack.players) {
-    const { playerID, position, originPOS } = player;
-
-    const targetY = getAttackerSetPieceY(position, pitchHeight, isTop);
-
-    if (targetY !== null) {
-      common.setPlayerXY(player, originPOS[0], targetY);
-    } else if (playerID !== kickPlayer.playerID) {
-      common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
-    }
-  }
+  applyAttackerPositions(team, player, config.pitchHeight, isTop);
+  fillRemainingAttackers(team, player, matchDetails, getRandomPos);
 
   // 2. POSITION DEFENCE
-  let playerSpace = isTop
-    ? common.upToMax(ball.position[1] + 3, pitchHeight)
-    : common.upToMin(ball.position[1] - 3, 0);
-
-  const wallX = calculateDefensiveWallX(ball.position[0], pitchWidth);
-
-  for (const player of defence.players) {
-    const { position, originPOS } = player;
-
-    if (position === 'GK') {
-      // Must use spread to match original's new array reference
-      common.setPlayerPos(player, [...originPOS]);
-    } else if (isBackLine(position)) {
-      common.setPlayerXY(player, wallX, playerSpace);
-      playerSpace = isTop ? playerSpace - 2 : playerSpace + 2;
-    } else {
-      common.setPlayerPos(player, getRandomPenaltyPosition(matchDetails));
-    }
-  }
+  applyDefenderPositions(config, matchDetails, getRandomPos);
 
   matchDetails.endIteration = true;
 
   return matchDetails;
+}
+
+/**
+ * Handles fixed-positioning for attacking backline players.
+ */
+function applyAttackerPositions(
+  team: Team,
+  kicker: Player,
+  pitchHeight: number,
+  isTop: boolean,
+): void {
+  for (const p of team.players) {
+    const targetY = getAttackerSetPieceY(p.position, pitchHeight, isTop);
+
+    if (targetY !== null) {
+      common.setPlayerXY(p, p.originPOS[0], targetY);
+    }
+  }
+}
+
+/**
+ * Places non-backline attackers (excluding the kicker) into random penalty positions.
+ */
+function fillRemainingAttackers(
+  team: Team,
+  kicker: Player,
+  state: MatchDetails,
+  getRandomPos: (s: MatchDetails) => [number, number],
+): void {
+  for (const p of team.players) {
+    const isBackLine = getAttackerSetPieceY(p.position, 0, false) !== null;
+
+    if (!isBackLine && p.playerID !== kicker.playerID) {
+      common.setPlayerPos(p, getRandomPos(state));
+    }
+  }
+}
+
+/**
+ * Handles defensive positioning, including the goalkeeper and the defensive wall.
+ */
+function applyDefenderPositions(
+  config: { opp: Team; ball: Ball; pitchHeight: number; pitchWidth: number; isTop: boolean },
+  state: MatchDetails,
+  getRandomPos: (s: MatchDetails) => [number, number],
+): void {
+  const { opp, ball, pitchHeight, pitchWidth, isTop } = config;
+
+  const wallX = calculateDefensiveWallX(ball.position[0], pitchWidth);
+
+  let pSpace = isTop
+    ? common.upToMax(ball.position[1] + 3, pitchHeight)
+    : common.upToMin(ball.position[1] - 3, 0);
+
+  for (const p of opp.players) {
+    if (p.position === 'GK') {
+      common.setPlayerPos(p, [...p.originPOS]); // Reference preservation
+    } else if (['CB', 'LB', 'RB'].includes(p.position)) {
+      common.setPlayerXY(p, wallX, pSpace);
+      pSpace = isTop ? pSpace - 2 : pSpace + 2; // Logic preservation
+    } else {
+      common.setPlayerPos(p, getRandomPos(state));
+    }
+  }
 }
 
 export {
