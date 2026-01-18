@@ -1,6 +1,5 @@
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
-import { offsideYPOS } from './position/offside.js';
 import { getInterceptTrajectory } from './position/trajectory.js';
 import * as setPositions from './setPositions.js';
 import { processTeamTactics } from './teamAi.js';
@@ -312,110 +311,14 @@ function calculateSprintFormation(player: Player, sprintOptions: number[]): [num
   return [getMove(direction[0]), getMove(direction[1])];
 }
 
-function checkOffside(
-  team1: Team,
-  team2: Team,
-  matchDetails: MatchDetails,
-): MatchDetails | undefined {
-  const { ball } = matchDetails;
 
-  const { pitchSize } = matchDetails;
 
-  const team1side = team1.players[0].originPOS[1] < pitchSize[1] / 2 ? `top` : `bottom`;
 
-  if (!ball.withTeam) {
-    return matchDetails;
-  }
 
-  if (team1side === `bottom`) {
-    team1atBottom(team1, team2, pitchSize[1]);
-  } else {
-    team1atTop(team1, team2, pitchSize[1]);
-  }
-}
 
-function getTopMostPlayer(team: Team, pitchHeight: number): Player | undefined {
-  let player;
 
-  for (const thisPlayer of team.players) {
-    let topMostPosition: number = pitchHeight;
-
-    const [, plyrX] = thisPlayer.currentPOS;
-
-    if (thisPlayer.currentPOS[1] < topMostPosition) {
-      topMostPosition = plyrX;
-      player = thisPlayer;
-    }
-  }
-
-  return player;
-}
-
-function getBottomMostPlayer(team: Team): Player | undefined {
-  let player;
-
-  for (const thisPlayer of team.players) {
-    let topMostPosition = 0;
-
-    const [, plyrX] = thisPlayer.currentPOS;
-
-    if (thisPlayer.currentPOS[1] > topMostPosition) {
-      topMostPosition = plyrX;
-      player = thisPlayer;
-    }
-  }
-
-  return player;
-}
-
-type Side = 'top' | 'bottom';
-
-function updateOffside(team: Team, opponent: Team, attackSide: Side, pitchHeight: number): boolean {
-  const offsideLines = offsideYPOS(opponent, attackSide, pitchHeight);
-
-  // Original logic uses pos1/pos2 vs pos2/pos1 based on side
-  const [min, max] =
-    attackSide === 'top'
-      ? [offsideLines.pos1, offsideLines.pos2]
-      : [offsideLines.pos2, offsideLines.pos1];
-
-  const leadPlayer =
-    attackSide === 'top' ? getTopMostPlayer(team, pitchHeight) : getBottomMostPlayer(team);
-
-  if (!leadPlayer) {
-    throw new Error(`${attackSide === 'top' ? 'Top' : 'Bottom'} player is undefined`);
-  }
-
-  // Early return: If the player furthest forward is in an offside position AND has the ball
-  if (common.isBetween(leadPlayer.currentPOS[1], min, max) && leadPlayer.hasBall) {
-    return true;
-  }
-
-  for (const p of team.players) {
-    p.offside = !p.hasBall && common.isBetween(p.currentPOS[1], min, max);
-  }
-
-  return false;
-}
-
-function team1atBottom(team1: Team, team2: Team, pitchHeight: number): void {
-  if (updateOffside(team1, team2, 'top', pitchHeight)) {
-    return;
-  }
-
-  updateOffside(team2, team1, 'bottom', pitchHeight);
-}
-
-function team1atTop(team1: Team, team2: Team, pitchHeight: number): void {
-  if (updateOffside(team1, team2, 'bottom', pitchHeight)) {
-    return;
-  }
-
-  updateOffside(team2, team1, 'top', pitchHeight);
-}
 
 export {
-  checkOffside,
   decideMovement,
   getMovement,
   getRunMovement,
@@ -437,3 +340,9 @@ export { closestPlayerActionBallX, closestPlayerActionBallY } from './position/p
 export { checkProvidedAction } from './validation/action.js';
 
 export { ballMoved } from './actions/ball.js';
+
+
+export {
+
+  checkOffside,
+} from './position/offside.js'
