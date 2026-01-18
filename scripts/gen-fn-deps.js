@@ -2,11 +2,21 @@ import { Project, SyntaxKind, Node } from 'ts-morph';
 import path from 'path';
 
 /**
- * --- CONFIGURATION ---
+ * --- CONFIGURATION & ARGUMENTS ---
  */
 const args = process.argv.slice(2);
+
+// Format Switch: --format=json or --format=text (default)
 const formatArg = args.find((arg) => arg.startsWith('--format='));
-const format = formatArg ? formatArg.split('=')[1] : 'text'; // Default to text
+const format = formatArg ? formatArg.split('=')[1] : 'text';
+
+// Limit Switch: --limit=number or --limit=all (default: 20)
+const limitArg = args.find((arg) => arg.startsWith('--limit='));
+let limit = 20;
+if (limitArg) {
+  const val = limitArg.split('=')[1];
+  limit = val === 'all' ? Number.MAX_SAFE_INTEGER : parseInt(val, 10);
+}
 
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 project.addSourceFilesAtPaths('src/**/*.ts');
@@ -19,7 +29,6 @@ const functionData = [];
 project.getSourceFiles().forEach((sourceFile) => {
   const filePath = path.relative(process.cwd(), sourceFile.getFilePath());
 
-  // Detect standard functions and variable-based arrow functions
   const allFunctions = [
     ...sourceFile.getFunctions(),
     ...sourceFile
@@ -60,15 +69,12 @@ project.getSourceFiles().forEach((sourceFile) => {
  * PHASE 2: TRACK SAME-FILE DEPENDENCIES
  */
 functionData.forEach((data) => {
-  // Get all call expressions within the function body
   data.node.getDescendantsOfKind(SyntaxKind.CallExpression).forEach((call) => {
     const symbol = call.getExpression().getSymbol();
     if (symbol) {
       const declarations = symbol.getDeclarations();
       declarations.forEach((decl) => {
         const declFile = path.relative(process.cwd(), decl.getSourceFile().getFilePath());
-
-        // Filter: only include calls to functions within the same file
         if (declFile === data.file) {
           const declName = symbol.getName();
           if (declName !== data.name) {
@@ -81,33 +87,49 @@ functionData.forEach((data) => {
 });
 
 /**
- * PHASE 3: OUTPUT
+ * PHASE 3: WEIGHTED SORTING & OUTPUT
+ * Sort Priority:
+ * 1. Internal Call Count (Ascending) - Find functions that don't depend on much
+ * 2. Line Count (Descending) - Find the biggest ones among those
  */
-const output = functionData.map(({ name, file, lineCount, internalCalls }) => ({
+const processedOutput = functionData.map(({ name, file, lineCount, internalCalls }) => ({
   function: name,
   file,
   lineCount,
+  callCount: internalCalls.size,
   callsInFile: Array.from(internalCalls),
 }));
 
-if (format === 'json') {
-  console.log(JSON.stringify(output, null, 2));
-} else {
-  // Table View
-  console.log(''.padEnd(120, '-'));
-  console.log(
-    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'File'.padEnd(30)} | ${'Internal Calls'}`,
-  );
-  console.log(''.padEnd(120, '-'));
+processedOutput.sort((a, b) => {
+  if (a.callCount !== b.callCount) {
+    return a.callCount - b.callCount; // Lower call count first
+  }
+  return b.lineCount - a.lineCount; // Then higher line count
+});
 
-  output
-    .sort((a, b) => b.lineCount - a.lineCount)
-    .forEach((item) => {
-      console.log(
-        `${item.function.padEnd(30)} | ` +
-          `${String(item.lineCount).padEnd(6)} | ` +
-          `${item.file.padEnd(30)} | ` +
-          `${item.callsInFile.join(', ')}`,
-      );
-    });
+const finalOutput = processedOutput.slice(0, limit);
+
+if (format === 'json') {
+  console.log(JSON.stringify(finalOutput, null, 2));
+} else {
+  console.log(''.padEnd(140, '-'));
+  console.log(
+    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'Calls'.padEnd(5)} | ${'File'.padEnd(30)} | ${'Internal Dependency Names'}`
+  );
+  console.log(''.padEnd(140, '-'));
+
+  finalOutput.forEach((item) => {
+    console.log(
+      `${item.function.padEnd(30)} | ` +
+      `${String(item.lineCount).padEnd(6)} | ` +
+      `${String(item.callCount).padEnd(5)} | ` +
+      `${item.file.padEnd(30)} | ` +
+      `${item.callsInFile.join(', ')}`
+    );
+  });
+
+  if (processedOutput.length > limit) {
+    console.log(''.padEnd(140, '-'));
+    console.log(`... shown ${limit} of ${processedOutput.length} functions. Use --limit=all to see all.`);
+  }
 }
