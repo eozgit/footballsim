@@ -22,6 +22,7 @@ import type {
   ActionContext,
   ResolveBoxContext,
   BallPosition,
+  Weights,
 } from './types.js';
 
 /**
@@ -139,7 +140,7 @@ function getRangeBasedWeights(rangeConfig: {
   halfRange: number;
   shotRange: number;
   pitchHeight: number;
-  weightMap: unknown;
+  weightMap: Weights;
 }): MatchEventWeights {
   const { yPos, halfRange, shotRange, pitchHeight, weightMap } = rangeConfig;
 

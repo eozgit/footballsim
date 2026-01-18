@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /**
  * Internal logger to satisfy no-console and provide
  * a single toggle for engine debugging.

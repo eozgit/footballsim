@@ -185,7 +185,7 @@ function setDefenderSetPiecePosition(
     midWayFromBalltoGoalX: number;
     playerSpace: number;
     midWayFromBalltoGoalY: number;
-    getRandomPenaltyPosition: Function;
+    getRandomPenaltyPosition: (state: MatchDetails) => [number, number];
   },
 ): number {
   let { playerSpace } = defenderPositionConfig;
