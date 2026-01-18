@@ -726,7 +726,7 @@ function updateOffside(team: Team, opponent: Team, attackSide: Side, pitchHeight
   return false;
 }
 
-export function team1atBottom(team1: Team, team2: Team, pitchHeight: number): void {
+function team1atBottom(team1: Team, team2: Team, pitchHeight: number): void {
   if (updateOffside(team1, team2, 'top', pitchHeight)) {
     return;
   }
@@ -734,7 +734,7 @@ export function team1atBottom(team1: Team, team2: Team, pitchHeight: number): vo
   updateOffside(team2, team1, 'bottom', pitchHeight);
 }
 
-export function team1atTop(team1: Team, team2: Team, pitchHeight: number): void {
+function team1atTop(team1: Team, team2: Team, pitchHeight: number): void {
   if (updateOffside(team1, team2, 'bottom', pitchHeight)) {
     return;
   }

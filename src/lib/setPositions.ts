@@ -954,7 +954,7 @@ function moveTowardsBall(
  * Updates defensive players' intent positions based on ball location and team side.
  * Refactored to separate proximity logic from tactical positioning.
  */
-export function setDefenceRelativePos(
+function setDefenceRelativePos(
   matchDetails: MatchDetails,
   defendingTeam: Team,
   closestPlayer: Player,

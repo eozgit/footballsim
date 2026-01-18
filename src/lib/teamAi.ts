@@ -161,7 +161,7 @@ function executePlayerMovement(moveCtx: {
  * Logic preserved: Checks proximity (3-unit radius), team possession,
  * and specific defensive actions (tackle/slide).
  */
-export function resolveBallInteractions(
+function resolveBallInteractions(
   interactionConfig: ActionContext & { action: string },
 ): void {
   const { player, team, opp, matchDetails, action } = interactionConfig;

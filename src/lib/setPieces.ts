@@ -214,7 +214,7 @@ function setDefenderSetPiecePosition(
 /**
  * Calculates the Y-coordinate for an attacking player during a deep set piece.
  */
-export function calculateAttackingSetPieceY(
+function calculateAttackingSetPieceY(
   yPositionConfig: BallContext & {
     player: Player;
     ballY: number;
@@ -239,7 +239,7 @@ export function calculateAttackingSetPieceY(
 /**
  * Calculates the Y-coordinate for a defensive player during a deep set piece.
  */
-export function calculateDefensiveSetPieceY(
+function calculateDefensiveSetPieceY(
   attackingYConfig: ActionContext & {
     ballY: number;
     isTop: boolean;

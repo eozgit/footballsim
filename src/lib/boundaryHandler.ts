@@ -199,7 +199,7 @@ function handleByline(bylineConfig: {
   return cfg.kick(matchDetails);
 }
 
-export function handleTopByline(
+function handleTopByline(
   bylineConfig: BallContext & {
     ballX: number;
     pitchWidth: number;
@@ -231,7 +231,7 @@ export function handleTopByline(
   });
 }
 
-export function handleBottomByline(
+function handleBottomByline(
   bylineConfig: BallContext & {
     ballX: number;
     pitchWidth: number;

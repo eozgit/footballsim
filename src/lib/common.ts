@@ -313,7 +313,6 @@ export {
   removeBallFromAllPlayers,
   round,
   setBallPosition,
-  setMatchSeed,
   setPlayerPos,
   setPlayerXY,
   sumFrom1toX,
