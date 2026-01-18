@@ -1,7 +1,6 @@
-import { resolveTackle } from './actions/defensiveActions.js';
-import * as actions from './actions.js';
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
+import { offsideYPOS } from './position/offside.js';
 import { getInterceptTrajectory } from './position/trajectory.js';
 import * as setPositions from './setPositions.js';
 import { processTeamTactics } from './teamAi.js';
@@ -16,83 +15,6 @@ function decideMovement(
   return processTeamTactics(closestPlayer, team, opp, matchDetails);
 }
 
-function completeTackleWhenCloseNoBall(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  team: Team,
-  opp: Team,
-): MatchDetails {
-  const foul = resolveTackle(thisPlayer, team, opp, matchDetails);
-
-  if (foul) {
-    const intensity = actions.foulIntensity();
-
-    if (common.isBetween(intensity, 75, 90)) {
-      thisPlayer.stats.cards.yellow++;
-
-      if (thisPlayer.stats.cards.yellow === 2) {
-        thisPlayer.stats.cards.red++;
-        Object.defineProperty(thisPlayer, 'currentPOS', {
-          value: ['NP', 'NP'],
-          writable: false,
-          enumerable: true,
-          configurable: false,
-        });
-      }
-    } else if (common.isBetween(intensity, 90, 100)) {
-      thisPlayer.stats.cards.red++;
-      Object.defineProperty(thisPlayer, 'currentPOS', {
-        value: ['NP', 'NP'],
-        writable: false,
-        enumerable: true,
-        configurable: false,
-      });
-    }
-  }
-
-  if (opp.name === matchDetails.kickOffTeam.name) {
-    return setPositions.setSetpieceKickOffTeam(matchDetails);
-  }
-
-  return setPositions.setSetpieceSecondTeam(matchDetails);
-}
-
-function closestPlayerActionBallX(ballToPlayerX: number): number {
-  if (common.isBetween(ballToPlayerX, -30, 30) === false) {
-    if (ballToPlayerX > 29) {
-      return 29;
-    }
-
-    return -29;
-  }
-
-  return ballToPlayerX;
-}
-
-function closestPlayerActionBallY(ballToPlayerY: number): number {
-  if (common.isBetween(ballToPlayerY, -30, 30) === false) {
-    if (ballToPlayerY > 29) {
-      return 29;
-    }
-
-    return -29;
-  }
-
-  return ballToPlayerY;
-}
-
-function checkProvidedAction(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  action: string,
-): string {
-  return actions.validateAndResolvePlayerAction({
-    matchDetails: matchDetails,
-    player: thisPlayer,
-    fallbackAction: action,
-  });
-}
-
 function handleBallPlayerActions(ctx: ActionContext, action: string): void {
   const { matchDetails, player: thisPlayer, team, opp } = ctx;
 
@@ -103,31 +25,6 @@ function handleBallPlayerActions(ctx: ActionContext, action: string): void {
     opp: opp,
     action: action,
   });
-}
-
-function ballMoved(matchDetails: MatchDetails, thisPlayer: Player, team: Team, opp: Team): void {
-  thisPlayer.hasBall = false;
-  matchDetails.ball.withPlayer = false;
-  team.intent = `attack`;
-  opp.intent = `attack`;
-  matchDetails.ball.Player = ``;
-  matchDetails.ball.withTeam = ``;
-}
-
-function updateInformation(matchDetails: MatchDetails, newPosition: BallPosition): void {
-  if (matchDetails.endIteration === true) {
-    return;
-  }
-
-  const [posX, posY] = newPosition;
-
-  matchDetails.ball.position = [posX, posY];
-
-  const { ball } = matchDetails;
-
-  const [bx, by] = ball.position;
-
-  common.setBallPosition(ball, bx, by, 0);
 }
 
 function getMovement(moveConfig: {
@@ -517,56 +414,13 @@ function team1atTop(team1: Team, team2: Team, pitchHeight: number): void {
   updateOffside(team2, team1, 'top', pitchHeight);
 }
 
-function offsideYPOS(
-  team: Team,
-  side: unknown,
-  pitchHeight: number,
-): { pos1: number; pos2: number } {
-  const offsideYPOS = {
-    pos1: 0,
-    pos2: pitchHeight / 2,
-  };
-
-  for (const thisPlayer of team.players) {
-    if (thisPlayer.position === `GK`) {
-      const [, position1] = thisPlayer.currentPOS;
-
-      offsideYPOS.pos1 = position1;
-
-      if (thisPlayer.hasBall) {
-        offsideYPOS.pos2 = position1;
-
-        return offsideYPOS;
-      }
-    } else if (side === `top`) {
-      if (thisPlayer.currentPOS[1] < offsideYPOS.pos2) {
-        const [, position2] = thisPlayer.currentPOS;
-
-        offsideYPOS.pos2 = position2;
-      }
-    } else if (thisPlayer.currentPOS[1] > offsideYPOS.pos2) {
-      const [, position2] = thisPlayer.currentPOS;
-
-      offsideYPOS.pos2 = position2;
-    }
-  }
-
-  return offsideYPOS;
-}
-
 export {
-  ballMoved,
   checkOffside,
-  checkProvidedAction,
-  closestPlayerActionBallX,
-  closestPlayerActionBallY,
-  completeTackleWhenCloseNoBall,
   decideMovement,
   getMovement,
   getRunMovement,
   getSprintMovement,
   handleBallPlayerActions,
-  updateInformation,
   getInterceptTrajectory,
 };
 
@@ -574,4 +428,12 @@ export { setClosePlayerTakesBall, closestPlayerToBall } from './position/proximi
 
 export { completeMovement } from './position/movement.js';
 
-export { completeSlide } from './actions/defensiveActions.js';
+export { completeTackleWhenCloseNoBall, completeSlide } from './actions/defensiveActions.js';
+
+export { updateInformation } from './position/ball.js';
+
+export { closestPlayerActionBallX, closestPlayerActionBallY } from './position/proximity.js';
+
+export { checkProvidedAction } from './validation/action.js';
+
+export { ballMoved } from './actions/ball.js';

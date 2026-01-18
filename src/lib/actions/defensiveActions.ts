@@ -306,3 +306,44 @@ export function completeSlide(
 
   return setSetpieceSecondTeam(matchDetails);
 }
+
+export function completeTackleWhenCloseNoBall(
+  matchDetails: MatchDetails,
+  thisPlayer: Player,
+  team: Team,
+  opp: Team,
+): MatchDetails {
+  const foul = resolveTackle(thisPlayer, team, opp, matchDetails);
+
+  if (foul) {
+    const intensity = foulIntensity();
+
+    if (common.isBetween(intensity, 75, 90)) {
+      thisPlayer.stats.cards.yellow++;
+
+      if (thisPlayer.stats.cards.yellow === 2) {
+        thisPlayer.stats.cards.red++;
+        Object.defineProperty(thisPlayer, 'currentPOS', {
+          value: ['NP', 'NP'],
+          writable: false,
+          enumerable: true,
+          configurable: false,
+        });
+      }
+    } else if (common.isBetween(intensity, 90, 100)) {
+      thisPlayer.stats.cards.red++;
+      Object.defineProperty(thisPlayer, 'currentPOS', {
+        value: ['NP', 'NP'],
+        writable: false,
+        enumerable: true,
+        configurable: false,
+      });
+    }
+  }
+
+  if (opp.name === matchDetails.kickOffTeam.name) {
+    return setSetpieceKickOffTeam(matchDetails);
+  }
+
+  return setSetpieceSecondTeam(matchDetails);
+}

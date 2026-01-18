@@ -57,3 +57,15 @@ export function validateAndResolvePlayerAction(actionConfig: {
 
   return providedAction;
 }
+
+export function checkProvidedAction(
+  matchDetails: MatchDetails,
+  thisPlayer: Player,
+  action: string,
+): string {
+  return validateAndResolvePlayerAction({
+    matchDetails: matchDetails,
+    player: thisPlayer,
+    fallbackAction: action,
+  });
+}

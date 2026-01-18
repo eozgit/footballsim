@@ -139,3 +139,27 @@ export function oppositionNearPlayer(
 
   return oppositionProximity[0] < spaceX && oppositionProximity[1] < spaceY;
 }
+
+export function closestPlayerActionBallX(ballToPlayerX: number): number {
+  if (common.isBetween(ballToPlayerX, -30, 30) === false) {
+    if (ballToPlayerX > 29) {
+      return 29;
+    }
+
+    return -29;
+  }
+
+  return ballToPlayerX;
+}
+
+export function closestPlayerActionBallY(ballToPlayerY: number): number {
+  if (common.isBetween(ballToPlayerY, -30, 30) === false) {
+    if (ballToPlayerY > 29) {
+      return 29;
+    }
+
+    return -29;
+  }
+
+  return ballToPlayerY;
+}
