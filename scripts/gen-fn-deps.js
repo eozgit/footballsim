@@ -18,6 +18,10 @@ if (limitArg) {
   limit = val === 'all' ? Number.MAX_SAFE_INTEGER : parseInt(val, 10);
 }
 
+// Max Dependencies Switch: --max-deps=number (default: 1)
+const maxDepsArg = args.find((arg) => arg.startsWith('--max-deps='));
+const maxDeps = maxDepsArg ? parseInt(maxDepsArg.split('=')[1], 10) : 1;
+
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
 project.addSourceFilesAtPaths('src/**/*.ts');
 
@@ -61,8 +65,8 @@ project.getSourceFiles().forEach((sourceFile) => {
       file: filePath,
       lineCount: end - start + 1,
       fileTotalLines,
-      internalCalls: new Set(), // What this function calls
-      calledByCount: 0, // How many times this is called in-file
+      internalCalls: new Set(), // Functions this one calls
+      calledByCount: 0,        // How many times this is called in-file
       node: nodeToAnalyze,
     });
   });
@@ -79,14 +83,12 @@ functionData.forEach((data) => {
       declarations.forEach((decl) => {
         const declFile = path.relative(process.cwd(), decl.getSourceFile().getFilePath());
 
-        // Filter: only interested in relationships within the same file
         if (declFile === data.file) {
           const declName = symbol.getName();
           if (declName !== data.name) {
             data.internalCalls.add(declName);
 
-            // Increment the 'calledByCount' for the target function
-            const targetFn = functionData.find((f) => f.name === declName && f.file === data.file);
+            const targetFn = functionData.find(f => f.name === declName && f.file === data.file);
             if (targetFn) targetFn.calledByCount++;
           }
         }
@@ -98,30 +100,31 @@ functionData.forEach((data) => {
 /**
  * PHASE 3: REFACTOR PRIORITY CALCULATION
  */
-const processedOutput = functionData.map((d) => {
-  const isCalledInFile = d.calledByCount > 0;
+const processedOutput = functionData
+  .map((d) => {
+    const isCalledInFile = d.calledByCount > 0;
 
-  // SMARTER WEIGHTED SORT:
-  // We want functions in bloated files (>300) to bubble up.
-  // We want functions that are EASY to move (isCalledInFile = false) to bubble up.
-  // We want functions that have NO internal dependencies to bubble up.
-  const fileBloatFactor = Math.max(1, d.fileTotalLines / 300);
-  const extractionEase = isCalledInFile ? 1 : 10; // 10x priority for "loose" functions
-  const dependencyPenalty = d.internalCalls.size + 1;
+    // Nudge: Use exponential weight for lineCount to prioritize larger extractions
+    const lineImpact = Math.pow(d.lineCount, 1.2);
+    const fileBloatFactor = Math.max(1, d.fileTotalLines / 300);
+    const extractionEase = isCalledInFile ? 1 : 10; // High priority for un-called entry points
+    const dependencyPenalty = d.internalCalls.size + 1;
 
-  const refactorScore = (d.lineCount * fileBloatFactor * extractionEase) / dependencyPenalty;
+    const refactorScore = (lineImpact * fileBloatFactor * extractionEase) / dependencyPenalty;
 
-  return {
-    function: d.name,
-    file: d.file,
-    lineCount: d.lineCount,
-    fileLines: d.fileTotalLines,
-    callCount: d.internalCalls.size,
-    isCalledInFile,
-    callsInFile: Array.from(d.internalCalls),
-    refactorScore,
-  };
-});
+    return {
+      function: d.name,
+      file: d.file,
+      lineCount: d.lineCount,
+      fileLines: d.fileTotalLines,
+      callCount: d.internalCalls.size,
+      isCalledInFile,
+      callsInFile: Array.from(d.internalCalls),
+      refactorScore
+    };
+  })
+  // Apply the max dependency filter
+  .filter(item => item.callCount <= maxDeps);
 
 // Sort by Refactor Score (Descending)
 processedOutput.sort((a, b) => b.refactorScore - a.refactorScore);
@@ -136,7 +139,7 @@ if (format === 'json') {
 } else {
   console.log(''.padEnd(155, '-'));
   console.log(
-    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'File (T)'.padEnd(10)} | ${'Local?'.padEnd(6)} | ${'Deps'.padEnd(5)} | ${'File'.padEnd(30)} | ${'Internal Dependency Names'}`,
+    `${'Function'.padEnd(30)} | ${'Lines'.padEnd(6)} | ${'File (T)'.padEnd(10)} | ${'Local?'.padEnd(6)} | ${'Deps'.padEnd(5)} | ${'File'.padEnd(30)} | ${'Internal Dependency Names'}`
   );
   console.log(''.padEnd(155, '-'));
 
@@ -146,19 +149,17 @@ if (format === 'json') {
 
     console.log(
       `${item.function.padEnd(30)} | ` +
-        `${String(item.lineCount).padEnd(6)} | ` +
-        `${fileLabel} | ` +
-        `${localFlag.padEnd(6)} | ` +
-        `${String(item.callCount).padEnd(5)} | ` +
-        `${item.file.padEnd(30)} | ` +
-        `${item.callsInFile.join(', ')}`,
+      `${String(item.lineCount).padEnd(6)} | ` +
+      `${fileLabel} | ` +
+      `${localFlag.padEnd(6)} | ` +
+      `${String(item.callCount).padEnd(5)} | ` +
+      `${item.file.padEnd(30)} | ` +
+      `${item.callsInFile.join(', ')}`
     );
   });
 
   if (processedOutput.length > limit) {
     console.log(''.padEnd(155, '-'));
-    console.log(
-      `... shown ${limit} of ${processedOutput.length} functions. Use --limit=all to see all.`,
-    );
+    console.log(`... shown ${limit} of ${processedOutput.length} functions (filtered by max-deps=${maxDeps}).`);
   }
 }

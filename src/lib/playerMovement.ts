@@ -16,37 +16,6 @@ function decideMovement(
   return processTeamTactics(closestPlayer, team, opp, matchDetails);
 }
 
-function setClosePlayerTakesBall(
-  matchDetails: MatchDetails,
-  thisPlayer: Player,
-  team: Team,
-  opp: Team,
-): void {
-  if (thisPlayer.offside) {
-    matchDetails.iterationLog.push(`${thisPlayer.name} is offside`);
-
-    if (team.name === matchDetails.kickOffTeam.name) {
-      setPositions.setSetpieceKickOffTeam(matchDetails);
-    } else {
-      setPositions.setSetpieceSecondTeam(matchDetails);
-    }
-  } else {
-    thisPlayer.hasBall = true;
-    matchDetails.ball.lastTouch.playerName = thisPlayer.name;
-    matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
-    matchDetails.ball.lastTouch.teamID = team.teamID;
-    matchDetails.ball.ballOverIterations = [];
-    const [posX, posY] = common.destructPos(thisPlayer.currentPOS);
-
-    matchDetails.ball.position = [posX, posY];
-    matchDetails.ball.Player = thisPlayer.playerID;
-    matchDetails.ball.withPlayer = true;
-    matchDetails.ball.withTeam = team.teamID;
-    team.intent = `attack`;
-    opp.intent = `defend`;
-  }
-}
-
 function completeSlide(
   matchDetails: MatchDetails,
   thisPlayer: Player,
@@ -138,36 +107,6 @@ function completeTackleWhenCloseNoBall(
   }
 
   return setPositions.setSetpieceSecondTeam(matchDetails);
-}
-
-function completeMovement(
-  matchDetails: MatchDetails,
-  player: Player,
-  move: number[],
-): readonly [number, number] {
-  const { currentPOS } = player;
-
-  const [oldX, oldY] = common.destructPos(currentPOS);
-
-  const [dx, dy] = move;
-
-  let newX = oldX + dx;
-
-  let newY = oldY + dy;
-
-  // Validate bounds (Correcting the logic to use the new values)
-  if (newX > matchDetails.pitchSize[0] || newX < 0) {
-    newX = oldX;
-  }
-
-  if (newY > matchDetails.pitchSize[1] || newY < 0) {
-    newY = oldY;
-  }
-
-  // Apply the update
-  common.setPlayerXY(player, newX, newY);
-
-  return [newX, newY];
 }
 
 function closestPlayerActionBallX(ballToPlayerX: number): number {
@@ -673,7 +612,6 @@ export {
   checkProvidedAction,
   closestPlayerActionBallX,
   closestPlayerActionBallY,
-  completeMovement,
   completeSlide,
   completeTackleWhenCloseNoBall,
   decideMovement,
@@ -681,9 +619,10 @@ export {
   getRunMovement,
   getSprintMovement,
   handleBallPlayerActions,
-  setClosePlayerTakesBall,
   updateInformation,
   getInterceptTrajectory,
 };
 
-export { closestPlayerToBall } from './position/proximity.js';
+export { setClosePlayerTakesBall, closestPlayerToBall } from './position/proximity.js';
+
+export { completeMovement } from './position/movement.js';

@@ -1,6 +1,10 @@
 import type { PlayerWithProximity } from '../ballMovement.js';
 import * as common from '../common.js';
-import { setIntentPosition } from '../setPositions.js';
+import {
+  setIntentPosition,
+  setSetpieceKickOffTeam,
+  setSetpieceSecondTeam,
+} from '../setPositions.js';
 import type { Team, Player, MatchDetails } from '../types.js';
 
 export function getPlayersInDistance(
@@ -90,4 +94,35 @@ export function closestPlayerToBall(
   setIntentPosition(matchDetails, closestPlayerDetails);
 
   matchDetails.iterationLog.push(`Closest Player to ball: ${closestPlayerDetails.name}`);
+}
+
+export function setClosePlayerTakesBall(
+  matchDetails: MatchDetails,
+  thisPlayer: Player,
+  team: Team,
+  opp: Team,
+): void {
+  if (thisPlayer.offside) {
+    matchDetails.iterationLog.push(`${thisPlayer.name} is offside`);
+
+    if (team.name === matchDetails.kickOffTeam.name) {
+      setSetpieceKickOffTeam(matchDetails);
+    } else {
+      setSetpieceSecondTeam(matchDetails);
+    }
+  } else {
+    thisPlayer.hasBall = true;
+    matchDetails.ball.lastTouch.playerName = thisPlayer.name;
+    matchDetails.ball.lastTouch.playerID = thisPlayer.playerID;
+    matchDetails.ball.lastTouch.teamID = team.teamID;
+    matchDetails.ball.ballOverIterations = [];
+    const [posX, posY] = common.destructPos(thisPlayer.currentPOS);
+
+    matchDetails.ball.position = [posX, posY];
+    matchDetails.ball.Player = thisPlayer.playerID;
+    matchDetails.ball.withPlayer = true;
+    matchDetails.ball.withTeam = team.teamID;
+    team.intent = `attack`;
+    opp.intent = `defend`;
+  }
 }
