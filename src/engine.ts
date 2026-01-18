@@ -7,9 +7,9 @@ import * as setVariables from './lib/setVariables.js';
 import type { MatchDetails, PitchDetails, Team } from './lib/types.js';
 import * as validate from './lib/validate.js';
 
-//------------------------
+// ------------------------
 //    Functions
-//------------------------
+// ------------------------
 function initiateGame(team1: Team, team2: Team, pitchDetails: PitchDetails): MatchDetails {
   validate.validateArguments(team1, team2, pitchDetails);
   validate.validateTeam(team1);

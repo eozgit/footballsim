@@ -1,4 +1,4 @@
-//example implementation application
+// example implementation application
 import { readFile } from 'fs';
 
 import * as common from '../lib/common.js';

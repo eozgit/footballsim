@@ -1,9 +1,9 @@
 import * as common from './common.js';
 import type { MatchDetails, Team } from './types.js';
 
-//---------------
-//Injury Functions
-//---------------
+// ---------------
+// Injury Functions
+// ---------------
 function isInjured(x: number): boolean {
   if (x === 23) {
     return true;

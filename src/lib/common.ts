@@ -1,8 +1,9 @@
+import { logger } from './logger.js';
 import type { Ball, BallPosition, MatchDetails, Player } from './types.js';
 
-//-------------------------
+// -------------------------
 // Seedable RNG (Mulberry32)
-//-------------------------
+// -------------------------
 
 // Default to Math.random until a seed is provided
 let matchRNG: () => number = Math.random;
@@ -22,9 +23,9 @@ function setMatchSeed(seed: number): void {
   };
 }
 
-//--------------
-//Maths Functions
-//--------------
+// --------------
+// Maths Functions
+// --------------
 
 function getRandomNumber(min: number, max: number): number {
   // Now uses the seedable matchRNG instead of Math.random()
@@ -258,7 +259,7 @@ function safeSet<T extends object, K extends keyof T>(obj: T, key: K, value: T[K
           targetArray[i] = val;
         });
       } else {
-        console.error(`Property ${String(key)} is locked (non-configurable).`, error);
+        logger.error(`Property ${String(key)} is locked (non-configurable).`, error);
       }
     }
 
@@ -297,14 +298,9 @@ function destructPos(position: readonly [number | 'NP', number]): [number, numbe
   return [x, y];
 }
 
-function debug(label: string, ...args: unknown[]): void {
-  console.log(`[DEBUG:${label}]`, ...args);
-}
-
 export {
   aTimesbDividedByC,
   calculatePower,
-  debug,
   getBallTrajectory,
   getRandomBottomPenaltyPosition,
   getRandomNumber,

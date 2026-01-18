@@ -293,7 +293,7 @@ function getPlayersInDistance(
         const proximityToBall = Math.abs(playerToPlayerX + playerToPlayerY);
 
         playersInDistance.push({
-          //position: [tpX, tpY] as [number, number],
+          // position: [tpX, tpY] as [number, number],
           currentPOS: [tpX, tpY] as [number, number],
           proximity: proximityToBall,
           name: teamPlayer.name,

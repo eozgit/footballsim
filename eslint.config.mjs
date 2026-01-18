@@ -38,129 +38,99 @@ export default tseslint.config(
     },
     rules: {
       // --- THE GOOD PARTS: LOGIC SAFETY ---
-      'sonarjs/cognitive-complexity': ['error', 15], // Hard limit on "unreadable" logic
+      'sonarjs/cognitive-complexity': ['error', 15],
       'sonarjs/no-duplicate-string': 'warn',
       'sonarjs/no-identical-functions': 'error',
 
       // --- THE GOOD PARTS: CLEAN ENGINE ---
-      'complexity': ['error', 10], // Stricter than demo
-      'max-depth': ['error', 3], // Prevent deep nesting (if/else/loop hell)
-      'max-params': ['error', 4], // Use objects/interfaces for > 4 params
-
-      // --- MODERN SAFETY (Unicorn) ---
-      'unicorn/no-array-reduce': 'warn', // Prefer for-of for engine performance
-      'unicorn/prefer-module': 'error',
-      'unicorn/no-null': 'warn', // Discourages null, encourages undefined/optional
-      'unicorn/filename-case': ['error', { case: 'camelCase' }],
-
-      // --- WINTERCG / TC55 COMPLIANCE ---
-      'n/no-deprecated-api': 'error',
-      'n/no-extraneous-import': 'error',
-      'n/prefer-global/buffer': ['error', 'never'], // Forces TextEncoder/Uint8Array
-      'n/prefer-global/process': ['error', 'never'], // Forces feature detection
-
-      // Force Web Standards
-      'no-restricted-globals': [
-        'error',
-        { name: 'Buffer', message: 'Use Uint8Array instead for WinterCG compliance.' },
-        { name: 'process', message: 'Use environment detection or globalThis instead.' },
-        { name: '__dirname', message: 'Use import.meta.url instead.' },
-        { name: '__filename', message: 'Use import.meta.url instead.' },
-      ],
+      'complexity': ['error', 10],
+      'max-depth': ['error', 3],
+      'max-params': ['error', 4],
+      'max-lines': ['warn', { max: 300, skipBlankLines: true, skipComments: true }],
+      'no-console': 'error',
+      'no-debugger': 'error',
       'no-var': 'error',
       'prefer-const': 'error',
       'prefer-template': 'error',
       'eqeqeq': ['error', 'always'],
       'curly': ['error', 'all'],
+
+      // --- UNUSED CODE ---
       '@typescript-eslint/no-unused-vars': 'off',
       'unused-imports/no-unused-imports': 'error',
       'unused-imports/no-unused-vars': [
         'error',
-        { vars: 'all', args: 'after-used', argsIgnorePattern: '^_' },
+        { vars: 'all', varsIgnorePattern: '^_', args: 'after-used', argsIgnorePattern: '^_' },
       ],
-      '@typescript-eslint/no-explicit-any': ['error', { fixToUnknown: true }],
+
+      // --- IMPORT DISCIPLINE ---
       '@typescript-eslint/consistent-type-imports': ['error', { prefer: 'type-imports' }],
-      '@typescript-eslint/explicit-function-return-type': ['error', { allowExpressions: true }],
       'import/no-cycle': 'error',
-      'import/order': ['error', { 'newlines-between': 'always', 'alphabetize': { order: 'asc' } }],
-      'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
-      'padding-line-between-statements': [
+      'import/no-default-export': 'error', // 2. DISCIPLINED: AI-ready named exports
+      'import/order': [
         'error',
-        { blankLine: 'always', prev: '*', next: 'return' },
-        { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
-        { blankLine: 'always', prev: 'block-like', next: '*' },
+        {
+          'newlines-between': 'always',
+          'alphabetize': { order: 'asc' }
+        }
       ],
-      // Add this to your rules block
-      'no-restricted-syntax': [
-        'error',
-        // 1. Ban for..in (Iterates over prototypes, slow, often causes bugs)
-        {
-          selector: 'ForInStatement',
-          message:
-            'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
-        },
-        // 2. Ban Labels/GOTO (Makes execution flow unpredictable)
-        {
-          selector: 'LabeledStatement',
-          message: 'Labels are GOTO in disguise. Refactor logic into smaller, pure functions.',
-        },
-        // 3. Ban Sequence Expressions (The comma operator: a, b, c)
-        // This prevents: return x++, y++, z; (which is a nightmare to debug)
-        {
-          selector: 'SequenceExpression',
-          message:
-            'The comma operator is confusing and obscures return values. Use multiple statements.',
-        },
-        // 4. Ban TypeScript Enums (Optional but Recommended for WinterCG)
-        // Enums have weird runtime behavior. Const objects + Union types are safer.
-        {
-          selector: 'TSEnumDeclaration',
-          message: 'Use const objects with "as const" or union types instead of Enums.',
-        },
-        // 5. Ban Class Private Fields (Optional)
-        // Unless you really need #private, standard private/protected is better for sim-engines.
-        {
-          selector: 'PropertyDefinition[accessible="private"]',
-          message:
-            'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
-        },
-      ],
-      '@stylistic/padding-line-between-statements': [
-        'error',
-        { blankLine: 'always', prev: '*', next: 'return' },
-      ],
+
+      // --- STYLISTIC (Synced with Prettier) ---
       '@stylistic/semi': ['error', 'always'],
       '@stylistic/member-delimiter-style': ['error', {
         multiline: { delimiter: 'semi', requireLast: true },
         singleline: { delimiter: 'semi', requireLast: false },
       }],
-      '@stylistic/semi': ['error', 'always'],
       '@stylistic/padding-line-between-statements': [
         'error',
         { blankLine: 'always', prev: '*', next: 'return' },
+        { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
+        { blankLine: 'always', prev: 'block-like', next: '*' },
       ],
-      // 1. HARDENED: Prevent the most common TS bugs
+
+      // --- HARDENED TYPE SAFETY ---
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/switch-exhaustiveness-check': 'error',
-
-      // 2. DISCIPLINED: Named exports are easier for AI and refactoring
-      'import/no-default-export': 'error',
-
-      // 3. AI-READY: Ensure types are always explicit for Agent processing
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
       '@typescript-eslint/explicit-function-return-type': ['warn', {
         allowExpressions: true
       }],
 
-      // 4. PITFALL PREVENTION: Ban "any" and unsafe "as"
-      '@typescript-eslint/no-explicit-any': 'error',
-      '@typescript-eslint/no-unnecessary-type-assertion': 'error',
+      // --- AI-READY NAMING ---
       '@typescript-eslint/naming-convention': [
         'error',
         { selector: 'variable', format: ['camelCase', 'UPPER_CASE'] },
         { selector: 'typeLike', format: ['PascalCase'] },
-        { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: false } } // Bans 'I' prefix
-      ]
+        { selector: 'interface', format: ['PascalCase'], custom: { regex: '^I[A-Z]', match: false } }
+      ],
+
+      // --- ENGINE PITFALL PREVENTION ---
+      'max-lines-per-function': ['warn', { max: 50, skipBlankLines: true }],
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector: 'ForInStatement',
+          message: 'for..in iterates over the prototype chain. Use for..of or Object.keys/entries().',
+        },
+        {
+          selector: 'LabeledStatement',
+          message: 'Labels are GOTO in disguise. Refactor logic into smaller, pure functions.',
+        },
+        {
+          selector: 'SequenceExpression',
+          message: 'The comma operator is confusing and obscures return values. Use multiple statements.',
+        },
+        {
+          selector: 'TSEnumDeclaration',
+          message: 'Use const objects with "as const" or union types instead of Enums.',
+        },
+        {
+          selector: 'PropertyDefinition[accessible="private"]',
+          message: 'Use TypeScript "private" keyword instead of "#" for better readability and sim performance.',
+        },
+      ],
     },
   },
   {

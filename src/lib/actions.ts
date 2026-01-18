@@ -8,6 +8,7 @@ import {
   handleBottomDefensiveThirdIntent,
   handleBottomGKIntent,
 } from './intentLogic.js';
+import { logger } from './logger.js';
 import { getPlayerTeam } from './playerSelectors.js';
 import * as setPositions from './setPositions.js';
 import type {
@@ -827,7 +828,7 @@ function validateAndResolvePlayerAction(actionConfig: {
   // 3. Logic: Player DOES NOT have the ball
   if (!hasBall) {
     if (BALL_ACTIONS.includes(providedAction)) {
-      console.error(
+      logger.error(
         `${thisPlayer.name} doesnt have the ball so cannot ${providedAction} -action: run`,
       );
 
@@ -842,7 +843,7 @@ function validateAndResolvePlayerAction(actionConfig: {
   if (DEFENSIVE_ACTIONS.includes(providedAction)) {
     const randomBallAction = BALL_ACTIONS[common.getRandomNumber(0, 5)];
 
-    console.error(
+    logger.error(
       `${thisPlayer.name} has the ball so cannot ${providedAction} -action: ${randomBallAction}`,
     );
 

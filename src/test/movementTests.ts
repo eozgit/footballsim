@@ -5,6 +5,8 @@ import * as pMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import { logger } from '@/lib/logger.js';
+
 describe('getMovement()', function () {
   it('Has Ball - runs', async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
@@ -777,7 +779,7 @@ describe('misc()', function () {
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
 
-      common.debug('action', action);
+      logger.info('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
 
@@ -796,7 +798,7 @@ describe('misc()', function () {
     try {
       action = pMovement.checkProvidedAction(matchDetails, thisPlayer, action);
 
-      common.debug('action', action);
+      logger.info('action', action);
     } catch (err) {
       expect(err).to.be.an('Error');
 

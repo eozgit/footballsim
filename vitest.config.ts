@@ -1,3 +1,4 @@
+import path from 'path';
 import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
@@ -13,5 +14,8 @@ export default defineConfig({
       reportsDirectory: './test/coverage',
     },
     setupFiles: ['./src/vitestSetup.ts'],
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
   },
 });
