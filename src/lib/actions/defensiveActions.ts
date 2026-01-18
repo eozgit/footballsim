@@ -1,12 +1,4 @@
-import {
-  calcRetentionScore,
-  calcTackleScore,
-  setFoul,
-  setInjury,
-  setPostTackleBall,
-  setPostTacklePosition,
-  wasFoul,
-} from '../actions.js';
+import { calcRetentionScore, setFoul, setPostTacklePosition, wasFoul } from '../actions.js';
 import * as common from '../common.js';
 import { isInjured } from '../injury.js';
 import type {
@@ -17,6 +9,8 @@ import type {
   TackleImpact,
   Team,
 } from '../types.js';
+
+import { setGoalieHasBall } from './possession.js';
 
 function handleDefensiveChallenge(challengeConfig: {
   player: Player;
@@ -216,4 +210,40 @@ export function setInjury(injuryContext: {
     player.injured = true;
     matchDetails.iterationLog.push(`Player Injured - ${player.name}`);
   }
+}
+
+export function attemptGoalieSave(
+  matchDetails: MatchDetails,
+  goalie: Player,
+  teamName: string,
+): boolean {
+  const [ballX, ballY] = matchDetails.ball.position;
+
+  const ballProx = 8;
+
+  const [goalieX, goalieY] = goalie.currentPOS;
+
+  if (goalieX === 'NP') {
+    throw new Error('No player position!');
+  }
+
+  const isNear =
+    common.isBetween(ballX, goalieX - ballProx, goalieX + ballProx) &&
+    common.isBetween(ballY, goalieY - ballProx, goalieY + ballProx);
+
+  if (isNear && goalie.skill.saving > common.getRandomNumber(0, 100)) {
+    setGoalieHasBall(matchDetails, goalie);
+
+    if (
+      common.inTopPenalty(matchDetails, [ballX, ballY]) ||
+      common.inBottomPenalty(matchDetails, [ballX, ballY])
+    ) {
+      matchDetails.iterationLog.push(`ball saved by ${goalie.name} possession to ${teamName}`);
+      goalie.stats.saves = (goalie.stats.saves || 0) + 1;
+    }
+
+    return true;
+  }
+
+  return false;
 }

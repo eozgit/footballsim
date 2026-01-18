@@ -14,34 +14,6 @@ import type {
   Team,
 } from './types.js';
 
-function setGoalieHasBall(matchDetails: MatchDetails, thisGoalie: Player): MatchDetails {
-  const { kickOffTeam, secondTeam } = matchDetails;
-
-  const team = kickOffTeam.players[0].playerID === thisGoalie.playerID ? kickOffTeam : secondTeam;
-
-  const opposition =
-    kickOffTeam.players[0].playerID === thisGoalie.playerID ? secondTeam : kickOffTeam;
-
-  thisGoalie.hasBall = true;
-  matchDetails.ball.lastTouch.playerName = thisGoalie.name;
-  matchDetails.ball.lastTouch.playerID = thisGoalie.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-
-  const [x, y] = thisGoalie.currentPOS as [number, number];
-
-  matchDetails.ball.position = [x, y, 0];
-  common.setPlayerXY(thisGoalie, x, y);
-
-  matchDetails.ball.Player = thisGoalie.playerID;
-  matchDetails.ball.withPlayer = true;
-  matchDetails.ball.withTeam = team.teamID;
-  team.intent = 'attack';
-  opposition.intent = 'defend';
-  matchDetails.ball.ballOverIterations = [];
-
-  return matchDetails;
-}
-
 function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
 
@@ -1131,34 +1103,6 @@ function checkShotAccuracy(player: Player, pitchHeight: number, power: number): 
 /**
  * Calculates the X and Y target coordinates for a penalty shot
  */
-function calculatePenaltyTarget(
-  pitchSize: [number, number, number],
-  player: Player,
-  isOnTarget: boolean,
-): [number, number] {
-  const [pitchWidth, pitchHeight] = pitchSize;
-
-  const shotPower = common.calculatePower(player.skill.strength);
-
-  const target: [number, number] = [0, 0];
-
-  if (isOnTarget) {
-    target[0] = common.getRandomNumber(pitchWidth / 2 - 50, pitchWidth / 2 + 50);
-  } else {
-    const isLeft = common.getRandomNumber(0, 10) > 5;
-
-    target[0] = isLeft
-      ? common.getRandomNumber(0, pitchWidth / 2 - 55)
-      : common.getRandomNumber(pitchWidth / 2 + 55, pitchWidth);
-  }
-
-  // Determine Y direction based on which half the player started in
-  const isAttackingDown = player.originPOS[1] > pitchHeight / 2;
-
-  target[1] = isAttackingDown ? player.currentPOS[1] - shotPower : player.currentPOS[1] + shotPower;
-
-  return target;
-}
 
 /**
  * Orchestrates team positioning for goal kicks and deep free kicks.
@@ -1174,7 +1118,6 @@ function repositionForDeepSetPiece(
 }
 
 export {
-  calculatePenaltyTarget,
   checkShotAccuracy,
   closestPlayerToPosition,
   formationCheck,
@@ -1186,7 +1129,6 @@ export {
   setBottomLeftCornerPositions,
   setBottomPenalty,
   setBottomRightCornerPositions,
-  setGoalieHasBall,
   setIntentPosition,
   setKickOffTeamGoalScored,
   setLeftKickOffTeamThrowIn,
@@ -1202,3 +1144,7 @@ export {
   setTopRightCornerPositions,
   switchSide,
 };
+
+export { calculatePenaltyTarget } from './actions/penalty.js';
+
+export { setGoalieHasBall } from './actions/possession.js';

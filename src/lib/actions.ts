@@ -395,12 +395,10 @@ function foulIntensity(): number {
   return common.getRandomNumber(1, 99);
 }
 
-
 /**
  * Validates a player's intended action against the current match state (ball possession).
  * Resolves illegal actions to a logical alternative.
  */
-
 
 export {
   selectAction,
@@ -431,8 +429,4 @@ export {
 export { findPossActions } from './actions/findPossActions.js';
 export { setPostTacklePosition } from './actions/tackle.js';
 
-export {
-
-
-  validateAndResolvePlayerAction,
-} from './validation/action.js';
+export { validateAndResolvePlayerAction } from './validation/action.js';

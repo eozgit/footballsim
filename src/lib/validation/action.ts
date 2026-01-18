@@ -1,6 +1,6 @@
 import * as common from '../common.js';
-import { logger } from "../logger.js";
-import type { MatchDetails, Player } from "../types.js";
+import { logger } from '../logger.js';
+import type { MatchDetails, Player } from '../types.js';
 const BALL_ACTIONS = ['shoot', 'throughBall', 'pass', 'cross', 'cleared', 'boot', 'penalty'];
 
 const DEFENSIVE_ACTIONS = ['tackle', 'intercept', 'slide'];

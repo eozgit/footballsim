@@ -1,5 +1,5 @@
 import * as common from '../common.js';
-import type { MatchDetails, Team } from "../types.js";
+import type { MatchDetails, Team } from '../types.js';
 export function setOneHundredYPos(
   matchDetails: MatchDetails,
   attack: Team,

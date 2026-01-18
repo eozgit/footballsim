@@ -528,44 +528,6 @@ function calculateSprintFormation(player: Player, sprintOptions: number[]): [num
   return [getMove(direction[0]), getMove(direction[1])];
 }
 
-function closestPlayerToBall(
-  closestPlayer: { name: string; position: number },
-  team: Team,
-  matchDetails: MatchDetails,
-): void {
-  let closestPlayerDetails;
-
-  const { position } = matchDetails.ball;
-
-  for (const thisPlayer of team.players) {
-    if (thisPlayer.currentPOS[0] === 'NP') {
-      throw new Error(
-        `Player ${thisPlayer.name} (ID: ${thisPlayer.playerID}) is 'NP' at an active logic gate!`,
-      );
-    }
-
-    const ballToPlayerX: number = Math.abs(thisPlayer.currentPOS[0] - position[0]);
-
-    const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
-
-    const proximityToBall = ballToPlayerX + ballToPlayerY;
-
-    if (proximityToBall < closestPlayer.position) {
-      closestPlayer.name = thisPlayer.name;
-      closestPlayer.position = proximityToBall;
-      closestPlayerDetails = thisPlayer;
-    }
-  }
-
-  if (closestPlayerDetails === undefined) {
-    throw new Error('Player undefined!');
-  }
-
-  setPositions.setIntentPosition(matchDetails, closestPlayerDetails);
-
-  matchDetails.iterationLog.push(`Closest Player to ball: ${closestPlayerDetails.name}`);
-}
-
 function checkOffside(
   team1: Team,
   team2: Team,
@@ -711,7 +673,6 @@ export {
   checkProvidedAction,
   closestPlayerActionBallX,
   closestPlayerActionBallY,
-  closestPlayerToBall,
   completeMovement,
   completeSlide,
   completeTackleWhenCloseNoBall,
@@ -725,4 +686,4 @@ export {
   getInterceptTrajectory,
 };
 
-
+export { closestPlayerToBall } from './position/proximity.js';

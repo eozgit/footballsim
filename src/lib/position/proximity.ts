@@ -1,6 +1,7 @@
 import type { PlayerWithProximity } from '../ballMovement.js';
 import * as common from '../common.js';
-import type { Team, Player } from '../types.js';
+import { setIntentPosition } from '../setPositions.js';
+import type { Team, Player, MatchDetails } from '../types.js';
 
 export function getPlayersInDistance(
   team: Team,
@@ -51,4 +52,42 @@ export function getPlayersInDistance(
   });
 
   return playersInDistance;
+}
+
+export function closestPlayerToBall(
+  closestPlayer: { name: string; position: number },
+  team: Team,
+  matchDetails: MatchDetails,
+): void {
+  let closestPlayerDetails;
+
+  const { position } = matchDetails.ball;
+
+  for (const thisPlayer of team.players) {
+    if (thisPlayer.currentPOS[0] === 'NP') {
+      throw new Error(
+        `Player ${thisPlayer.name} (ID: ${thisPlayer.playerID}) is 'NP' at an active logic gate!`,
+      );
+    }
+
+    const ballToPlayerX: number = Math.abs(thisPlayer.currentPOS[0] - position[0]);
+
+    const ballToPlayerY = Math.abs(thisPlayer.currentPOS[1] - position[1]);
+
+    const proximityToBall = ballToPlayerX + ballToPlayerY;
+
+    if (proximityToBall < closestPlayer.position) {
+      closestPlayer.name = thisPlayer.name;
+      closestPlayer.position = proximityToBall;
+      closestPlayerDetails = thisPlayer;
+    }
+  }
+
+  if (closestPlayerDetails === undefined) {
+    throw new Error('Player undefined!');
+  }
+
+  setIntentPosition(matchDetails, closestPlayerDetails);
+
+  matchDetails.iterationLog.push(`Closest Player to ball: ${closestPlayerDetails.name}`);
 }

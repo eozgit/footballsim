@@ -1,9 +1,7 @@
 import * as common from '../common.js';
 import { closestPlayerToPosition } from '../setPositions.js';
 import { initStats } from '../setVariables.js';
-import type { Team, BallPosition, Player } from "../types.js";
-
-
+import type { Team, BallPosition, Player } from '../types.js';
 
 const mockPlayer: Player = {
   name: 'George Johnson',
@@ -32,10 +30,6 @@ const mockPlayer: Player = {
   stats: initStats(),
 };
 
-
-
-
-
 export function getInterceptTrajectory(
   opposition: Team,
   ballPosition: BallPosition,
@@ -43,11 +37,7 @@ export function getInterceptTrajectory(
 ): BallPosition[] {
   const [pitchWidth, pitchHeight] = pitchSize;
 
-  const playerInformation = closestPlayerToPosition(
-    mockPlayer,
-    opposition,
-    ballPosition,
-  );
+  const playerInformation = closestPlayerToPosition(mockPlayer, opposition, ballPosition);
 
   const interceptPlayer = playerInformation.thePlayer;
 

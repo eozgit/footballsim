@@ -8,7 +8,6 @@ import type { Ball, MatchDetails, Player, Team } from './types.js';
  * Handles both Top and Bottom starts via the 'side' parameter.
  */
 
-
 /**
  * Unified logic for freekicks between the 100-mark and the halfway line.
  */
@@ -255,8 +254,4 @@ export {
   setSetPiecePositions,
 };
 
-export {
-
-
-  setOneHundredYPos
-} from './position/freekick.js';
+export { setOneHundredYPos } from './position/freekick.js';
