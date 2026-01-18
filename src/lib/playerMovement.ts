@@ -1,3 +1,4 @@
+import { resolveSlide, resolveTackle } from './actions/defensiveActions.js';
 import * as actions from './actions.js';
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
@@ -52,7 +53,7 @@ function completeSlide(
   team: Team,
   opp: Team,
 ): MatchDetails {
-  const foul = actions.resolveSlide({
+  const foul = resolveSlide({
     player: thisPlayer,
     team: team,
     opposition: opp,
@@ -104,7 +105,7 @@ function completeTackleWhenCloseNoBall(
   team: Team,
   opp: Team,
 ): MatchDetails {
-  const foul = actions.resolveTackle(thisPlayer, team, opp, matchDetails);
+  const foul = resolveTackle(thisPlayer, team, opp, matchDetails);
 
   if (foul) {
     const intensity = actions.foulIntensity();

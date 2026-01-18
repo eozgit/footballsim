@@ -6,6 +6,8 @@ import * as playerMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import { calcTackleScore, resolveSlide, resolveTackle, setInjury, setPostTackleBall } from '@/lib/actions/defensiveActions.js';
+
 const swJson = './src/test/input/opposite/iterationSwitch.json';
 
 describe('testFoulIntensity()', function () {
@@ -128,7 +130,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury({
+    setInjury({
       matchDetails: matchDetails,
       thatPlayer: thatPlayer,
       player: testPlayer,
@@ -155,7 +157,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury({
+    setInjury({
       matchDetails: matchDetails,
       thatPlayer: thatPlayer,
       player: testPlayer,
@@ -183,7 +185,7 @@ describe('testSettingOfFoul()', function () {
 
     const thatPlayer = matchDetails.kickOffTeam.players[6];
 
-    actions.setInjury({
+    setInjury({
       matchDetails: matchDetails,
       thatPlayer: thatPlayer,
       player: testPlayer,
@@ -292,7 +294,7 @@ describe('testSetPostTackleBall()', function () {
 
     const testOpposition = matchDetails.kickOffTeam;
 
-    actions.setPostTackleBall({
+    setPostTackleBall({
       matchDetails: matchDetails,
       team: testTeam,
       opp: testOpposition,
@@ -316,7 +318,7 @@ describe('testCalculationOfTackleScores()', function () {
       strength: 50,
     };
 
-    const tackleScore = actions.calcTackleScore(skills, 5);
+    const tackleScore = calcTackleScore(skills, 5);
 
     expect(common.isBetween(tackleScore, 44, 56)).to.eql(true);
   });
@@ -343,7 +345,7 @@ describe('testCalculationOfTackleScores()', function () {
       strength: 65,
     };
 
-    const tackleScore = actions.calcTackleScore(tacklerSkills, 5);
+    const tackleScore = calcTackleScore(tacklerSkills, 5);
 
     const retentionScore = actions.calcRetentionScore(retentionSkills, 5);
 
@@ -363,7 +365,7 @@ describe('testCalculationOfTackleScores()', function () {
       strength: 43,
     };
 
-    const tackleScore = actions.calcTackleScore(tacklerSkills, 5);
+    const tackleScore = calcTackleScore(tacklerSkills, 5);
 
     const retentionScore = actions.calcRetentionScore(retentionSkills, 5);
 
@@ -386,7 +388,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide({
+      resolveSlide({
         player: testPlayer,
         team: testTeam,
         opposition: testOpposition,
@@ -425,7 +427,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide({
+      resolveSlide({
         player: testPlayer,
         team: testTeam,
         opposition: testOpposition,
@@ -471,7 +473,7 @@ describe('testSlideTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveSlide({
+      resolveSlide({
         player: testPlayer,
         team: testTeam,
         opposition: testOpposition,
@@ -518,7 +520,7 @@ describe('testTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
+      resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
 
       expect(
         matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`),
@@ -552,7 +554,7 @@ describe('testTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
+      resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
 
       expect(
         matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`),
@@ -593,7 +595,7 @@ describe('testTackle()', function () {
 
       const testOpposition = matchDetails.kickOffTeam;
 
-      actions.resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
+      resolveTackle(testPlayer, testTeam, testOpposition, matchDetails);
 
       expect(
         matchDetails.iterationLog.indexOf(`Tackle attempted by: ${testPlayer.name}`),
