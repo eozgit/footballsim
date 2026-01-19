@@ -1,7 +1,6 @@
 import * as actions from './actions.js';
 import * as common from './common.js';
 import {
-  checkProvidedAction,
   closestPlayerActionBallX,
   closestPlayerActionBallY,
   completeMovement,

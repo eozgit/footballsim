@@ -6,7 +6,7 @@ import { attemptGoalieSave } from './intentLogic.js';
 import { setTargetPlyPos } from './kickLogic.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
-import type { BallPosition, MatchDetails, Player, Team } from './types.js';
+import type { Player, MatchDetails, Team, BallPosition } from './types.js';
 
 export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
 export type PlayerWithProximity = TestPlayer & { proximity: number };

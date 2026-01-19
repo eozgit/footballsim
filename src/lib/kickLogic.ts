@@ -1,13 +1,12 @@
 import type { TestPlayer } from './ballMovement.js';
 import {
-  calcBallMovementOverTime,
-  getBottomKickedPosition,
-  getPlayersInDistance,
   getTopKickedPosition,
-  setTargetPlyPos,
+  getBottomKickedPosition,
+  calcBallMovementOverTime,
+  getPlayersInDistance,
 } from './ballMovement.js';
 import * as common from './common.js';
-import type { MatchDetails, Player, Team } from './types.js';
+import type { MatchDetails, Team, Player } from './types.js';
 
 /**
  * Provides a random cardinal direction based on which half the player is attacking.
