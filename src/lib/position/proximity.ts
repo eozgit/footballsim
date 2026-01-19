@@ -11,11 +11,8 @@ export function getPlayersInDistance(
   player: Player,
   pitchSize: [number, number, number?],
 ): PlayerWithProximity[] {
-  const [curX, curY] = player.currentPOS;
+  const [curX, curY] = common.destructPos(player.currentPOS);
 
-  if (curX === 'NP') {
-    throw new Error('Player no position!');
-  }
 
   const [pitchWidth, pitchHeight] = pitchSize;
 

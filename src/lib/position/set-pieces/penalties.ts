@@ -1,7 +1,6 @@
 import type { MatchDetails, Team } from '@/engine.js';
 import * as common from '@/lib/common.js';
 import { setBottomFreekick } from '@/lib/setBottomFreekicks.js';
-import { setBottomPenalty } from '@/lib/setPositions.js';
 import { setTopFreekick } from '@/lib/setTopFreekicks.js';
 
 export function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
@@ -81,7 +80,7 @@ export function setSetpieceSecondTeam(matchDetails: MatchDetails): MatchDetails 
 
   matchDetails.iterationLog.push(`freekick to: ${matchDetails.secondTeam.name} [${bx} ${by}]`);
 
-  return setTopFreekicks.setTopFreekick(matchDetails);
+  return setTopFreekick(matchDetails);
 }
 
 export function setTopPenalty(matchDetails: MatchDetails): MatchDetails {

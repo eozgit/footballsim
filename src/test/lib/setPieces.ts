@@ -5,6 +5,8 @@ import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 
+import { setTopLeftCornerPositions, setTopRightCornerPositions, setBottomLeftCornerPositions, setBottomRightCornerPositions } from '@/lib/position/set-pieces/corners.js';
+
 async function setupTopPenalty(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
@@ -20,25 +22,25 @@ async function setupBottomPenalty(iterationFile: string) {
 async function setupTopLeftCorner(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setTopLeftCornerPositions(matchDetails);
+  return setTopLeftCornerPositions(matchDetails);
 }
 
 async function setupTopRightCorner(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setTopRightCornerPositions(matchDetails);
+  return setTopRightCornerPositions(matchDetails);
 }
 
 async function setupBottomLeftCorner(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setBottomLeftCornerPositions(matchDetails);
+  return setBottomLeftCornerPositions(matchDetails);
 }
 
 async function setupBottomRightCorner(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setBottomRightCornerPositions(matchDetails);
+  return setBottomRightCornerPositions(matchDetails);
 }
 
 async function keepInBoundaries(
