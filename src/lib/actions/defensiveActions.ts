@@ -7,7 +7,7 @@ import {
 } from '../actions.js';
 import * as common from '../common.js';
 import { isInjured } from '../injury.js';
-import { setSetpieceKickOffTeam, setSetpieceSecondTeam } from '../setPositions.js';
+import { setSetpieceKickOffTeam, setSetpieceSecondTeam } from '../position/set-pieces/penalties.js';
 import type {
   DefensiveActionConfig,
   MatchDetails,

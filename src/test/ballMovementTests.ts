@@ -6,7 +6,12 @@ import { readFile } from '../lib/fileReader.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import { resolveDeflection, setDeflectionDirectionPos, setDeflectionPlayerHasBall, setDeflectionPlayerOffside } from '@/lib/actions/deflections.js';
+import {
+  resolveDeflection,
+  setDeflectionDirectionPos,
+  setDeflectionPlayerHasBall,
+  setDeflectionPlayerOffside,
+} from '@/lib/actions/deflections.js';
 import { moveBall } from '@/lib/ballState.js';
 import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
 

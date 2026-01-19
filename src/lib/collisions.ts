@@ -1,9 +1,16 @@
-import { resolveDeflection, setBallMovementMatchDetails } from './ballMovement.js';
+import { resolveDeflection } from './actions/deflections.js';
+import { setBallMovementMatchDetails } from './ballMovement.js';
 import * as common from './common.js';
-import { handleGoalieSave, handlePlayerDeflection } from './intentLogic.js';
 import { closestPlayerToPosition } from './position/proximity.js';
 import * as setPositions from './setPositions.js';
-import type { ActionContext, BallPosition, MatchDetails, Player, Team } from './types.js';
+import type {
+  ActionContext,
+  BallPosition,
+  MatchDetails,
+  Player,
+  PlayerProximityDetails,
+  Team,
+} from './types.js';
 
 export function handleGoalieSave(saveConfig: {
   matchDetails: MatchDetails;
@@ -48,11 +55,13 @@ export function thisPlayerIsInProximity(proximityConfig: {
 }): [number, number] | [number, number, number] | undefined {
   const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
 
+  const pos: [number, number, number] = [thisPos[0], thisPos[1], 0];
+
   return resolvePlayerBallInteraction({
     matchDetails: matchDetails,
     thisPlayer: thisPlayer,
     thisPOS: thisPOS,
-    thisPos: thisPos,
+    thisPos: pos,
     power: power,
     thisTeam: thisTeam,
   });
@@ -65,7 +74,7 @@ function resolvePlayerBallInteraction(interactionConfig: {
   thisPos: [number, number, number];
   power: number;
   thisTeam: Team;
-}): [number, number, number] | [number, number] | undefined {
+}): BallPosition | void {
   const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = interactionConfig;
 
   // 1. Validation
@@ -181,7 +190,7 @@ function resolvePathInterceptions(pathConfig: {
 
     const p2 = closestPlayerToPosition(originPlayer, opp, checkPos);
 
-    const useP1 = p1.proxToBall >= p2.proxToBall;
+    const useP1 = compareProximity(p1, p2);
 
     const closestPlayer = useP1 ? p1.thePlayer : p2.thePlayer;
 
@@ -198,6 +207,18 @@ function resolvePathInterceptions(pathConfig: {
       });
     }
   }
+}
+
+function compareProximity(p1: PlayerProximityDetails, p2: PlayerProximityDetails): boolean {
+  if (p2.proxToBall === undefined) {
+    return true;
+  }
+
+  if (p1.proxToBall === undefined) {
+    return false;
+  }
+
+  return p1.proxToBall >= p2.proxToBall;
 }
 
 export function handlePlayerDeflection(

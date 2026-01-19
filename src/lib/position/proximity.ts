@@ -1,12 +1,10 @@
 import type { PlayerWithProximity } from '../ballMovement.js';
 import * as common from '../common.js';
 import { createPlayer } from '../factories/playerFactory.js';
-import {
-  setIntentPosition,
-  setSetpieceKickOffTeam,
-  setSetpieceSecondTeam,
-} from '../setPositions.js';
+import { setIntentPosition } from '../setPositions.js';
 import type { Team, Player, MatchDetails, BallPosition, PlayerProximityDetails } from '../types.js';
+
+import { setSetpieceKickOffTeam, setSetpieceSecondTeam } from './set-pieces/penalties.js';
 
 export function getPlayersInDistance(
   team: Team,

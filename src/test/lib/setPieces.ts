@@ -1,4 +1,5 @@
 import * as common from '../../lib/common.js';
+import * as penalties from '../../lib/position/set-pieces/penalties.js';
 import * as setPos from '../../lib/setPositions.js';
 import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
@@ -7,13 +8,13 @@ import { readMatchDetails } from './utils.js';
 async function setupTopPenalty(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setTopPenalty(matchDetails);
+  return penalties.setTopPenalty(matchDetails);
 }
 
 async function setupBottomPenalty(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  return setPos.setBottomPenalty(matchDetails);
+  return penalties.setBottomPenalty(matchDetails);
 }
 
 async function setupTopLeftCorner(iterationFile: string) {
@@ -63,7 +64,7 @@ async function removeBallFromAllPlayers(iterationFile: string) {
 async function setSetpieceKickOffTeam(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setSetpieceKickOffTeam(matchDetails);
+  penalties.setSetpieceKickOffTeam(matchDetails);
 
   return matchDetails;
 }
@@ -71,7 +72,7 @@ async function setSetpieceKickOffTeam(iterationFile: string) {
 async function setSetpieceSecondTeam(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setSetpieceSecondTeam(matchDetails);
+  penalties.setSetpieceSecondTeam(matchDetails);
 
   return matchDetails;
 }

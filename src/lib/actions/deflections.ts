@@ -1,7 +1,8 @@
-import * as common from '../common.js'
-import { calculateDeflectionVector } from "../physics.js";
-import { keepInBoundaries, setSetpieceSecondTeam, setSetpieceKickOffTeam } from '../setPositions.js';
-import type { Player, Team, MatchDetails, BallPosition } from "../types.js";
+import * as common from '../common.js';
+import { calculateDeflectionVector } from '../physics.js';
+import { setSetpieceSecondTeam, setSetpieceKickOffTeam } from '../position/set-pieces/penalties.js';
+import { keepInBoundaries } from '../setPositions.js';
+import type { Player, Team, MatchDetails, BallPosition } from '../types.js';
 
 export function resolveDeflection(deflectionConfig: {
   power: number;
@@ -56,8 +57,6 @@ export function resolveDeflection(deflectionConfig: {
   return lastPOS;
 }
 
-
-
 export function setDeflectionPlayerHasBall(
   matchDetails: MatchDetails,
   defPlayer: Player,
@@ -85,8 +84,6 @@ export function setDeflectionPlayerHasBall(
   return undefined;
 }
 
-
-
 export function setDeflectionDirectionPos(
   direction: string,
   defPosition: [number, number],
@@ -94,9 +91,6 @@ export function setDeflectionDirectionPos(
 ): [number, number] {
   return calculateDeflectionVector(direction, defPosition, newPower);
 }
-
-
-
 
 export function setDeflectionPlayerOffside(
   matchDetails: MatchDetails,

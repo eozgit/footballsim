@@ -189,14 +189,6 @@ function resolveBallMovement(movementConfig: {
   });
 }
 
-
-
-
-
-
-
-
-
 function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
   return updateBallCardinalDirection(matchDetails, nextPOS);
 }
