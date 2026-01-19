@@ -38,7 +38,7 @@ function calculateDeflectionVector(
  * Updates the ball's cardinal direction based on movement vector.
  * Refactored to use a lookup map to reduce complexity.
  */
-function updateBallCardinalDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
+export function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
   const [currX, currY] = matchDetails.ball.position;
 
   const [nextX, nextY] = nextPOS;
@@ -78,8 +78,4 @@ function updateBallCardinalDirection(matchDetails: MatchDetails, nextPOS: BallPo
   matchDetails.ball.direction = directionMap[key] || matchDetails.ball.direction;
 }
 
-export function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
-  return updateBallCardinalDirection(matchDetails, nextPOS);
-}
-
-export { calculateDeflectionVector, updateBallCardinalDirection };
+export { calculateDeflectionVector };

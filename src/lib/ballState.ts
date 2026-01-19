@@ -2,15 +2,12 @@ import { checkGoalScored, resolveBallMovement } from './ballMovement.js';
 import { setBPlayer } from './factories/playerFactory.js';
 import { getBallDirection } from './physics.js';
 import type { MatchDetails } from './types.js';
-export function moveBall(matchDetails: MatchDetails): MatchDetails {
-  return processBallMomentum(matchDetails);
-}
 
 /**
  * Processes the continuation of ball movement from a previous action.
  * Refactored to comply with the 50-line limit.
  */
-function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
+export function moveBall(matchDetails: MatchDetails): MatchDetails {
   const { ball } = matchDetails;
 
   // 1. Validation & Early Exit
@@ -33,8 +30,8 @@ function processBallMomentum(matchDetails: MatchDetails): MatchDetails {
 
   const endPos = resolveBallMovement({
     player: setBPlayer([nbX, nbY]),
-    startPos: ball.position,
-    targetPos: nextBallPos,
+    startPos: [ball.position[0], ball.position[1]],
+    targetPos: [nextBallPos[0], nextBallPos[1]],
     power: nbZ,
     team: matchDetails.kickOffTeam,
     opp: matchDetails.secondTeam,
@@ -61,5 +58,3 @@ function finalizeMomentumStep(matchDetails: MatchDetails, endPos: [number, numbe
 
   return matchDetails;
 }
-
-export { processBallMomentum };

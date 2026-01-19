@@ -99,7 +99,6 @@ function startSecondHalf(matchDetails: MatchDetails): MatchDetails {
   return matchDetails;
 }
 
-export { initiateGame, playIteration, startSecondHalf };
 export {
   Ball,
   Cards,
@@ -113,3 +112,4 @@ export {
   Team,
   TeamStatistics,
 } from './lib/types.js';
+export { initiateGame, playIteration, startSecondHalf };
