@@ -107,5 +107,8 @@
       "prettier --write"
     ]
   },
-  "type": "module"
+  "type": "module",
+  "imports": {
+    "#/*": "./src/*"
+  }
 }

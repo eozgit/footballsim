@@ -5,7 +5,7 @@ import * as pMovement from '../lib/playerMovement.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import { logger } from '@/lib/logger.js';
+import { logger } from '#/lib/logger.js';
 
 describe('getMovement()', function () {
   it('Has Ball - runs', async () => {

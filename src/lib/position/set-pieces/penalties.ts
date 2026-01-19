@@ -1,7 +1,7 @@
-import type { MatchDetails, Team } from '@/engine.js';
-import * as common from '@/lib/common.js';
-import { setBottomFreekick } from '@/lib/setBottomFreekicks.js';
-import { setTopFreekick } from '@/lib/setTopFreekicks.js';
+import type { MatchDetails, Team } from '#/engine.js';
+import * as common from '#/lib/common.js';
+import { setBottomFreekick } from '#/lib/setBottomFreekicks.js';
+import { setTopFreekick } from '#/lib/setTopFreekicks.js';
 
 export function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
   const [, pitchHeight] = matchDetails.pitchSize;

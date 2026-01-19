@@ -4,10 +4,10 @@ import {
   oppositionNearContext,
   checkTeamMateSpaceClose,
 } from '../actions.js';
+import * as common from '../common.js';
 import { closestPlayerToPosition } from '../position/proximity.js';
 import type { MatchDetails, Player, Team, MatchEventWeights, Skill, AreaBounds } from '../types.js';
 
-import * as common from '@/lib/common.js';
 export function getAttackingThreatWeights(
   matchDetails: MatchDetails,
   player: Player,

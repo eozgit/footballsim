@@ -6,13 +6,13 @@ import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 
-import * as goal from '@/lib/event/goal.js';
+import * as goal from '#/lib/event/goal.js';
 import {
   setTopLeftCornerPositions,
   setTopRightCornerPositions,
   setBottomLeftCornerPositions,
   setBottomRightCornerPositions,
-} from '@/lib/position/set-pieces/corners.js';
+} from '#/lib/position/set-pieces/corners.js';
 
 async function setupTopPenalty(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);

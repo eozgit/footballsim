@@ -7,7 +7,7 @@ import type { Player } from '../lib/types.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import { createPlayer } from '@/lib/factories/playerFactory.js';
+import { createPlayer } from '#/lib/factories/playerFactory.js';
 
 describe('testPositionInTopBox()', function () {
   it('Inside Top Box Test', async () => {

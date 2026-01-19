@@ -1,7 +1,7 @@
+import * as common from '../common.js';
 import { resetPlayerPositions } from '../setVariables.js';
 import type { MatchDetails, Player, Team } from '../types.js';
 
-import * as common from '@/lib/common.js';
 export function setKickOffTeamGoalScored(matchDetails: MatchDetails): MatchDetails {
   const scorer = matchDetails.ball.lastTouch.playerName;
 

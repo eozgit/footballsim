@@ -11,11 +11,13 @@ import {
   setDeflectionDirectionPos,
   setDeflectionPlayerHasBall,
   setDeflectionPlayerOffside,
-} from '@/lib/actions/deflections.js';
-import { ballKicked, penaltyTaken, throughBall } from '@/lib/actions/triggers.js';
-import { moveBall } from '@/lib/ballState.js';
-import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
-import { getBallDirection } from '@/lib/physics.js';
+} from '#/lib/actions/deflections.js';
+import { ballKicked, penaltyTaken, throughBall } from '#/lib/actions/triggers.js';
+import { ballCrossed, shotMade } from '#/lib/ballActionHandler.js';
+import { moveBall } from '#/lib/ballState.js';
+import { createPlayer, setBPlayer } from '#/lib/factories/playerFactory.js';
+import { setTargetPlyPos } from '#/lib/kickLogic.js';
+import { getBallDirection } from '#/lib/physics.js';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
@@ -68,7 +70,7 @@ describe('ArrayStuffs()', function () {
 
     const player = matchDetails.kickOffTeam.players[9];
 
-    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
+    const newPosition = ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 334, 345);
 
@@ -84,7 +86,7 @@ describe('ArrayStuffs()', function () {
 
     const player = matchDetails.secondTeam.players[9];
 
-    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.secondTeam, player);
+    const newPosition = ballCrossed(matchDetails, matchDetails.secondTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 334, 345);
 
@@ -100,7 +102,7 @@ describe('ArrayStuffs()', function () {
 
     const player = matchDetails.secondTeam.players[4];
 
-    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.secondTeam, player);
+    const newPosition = ballCrossed(matchDetails, matchDetails.secondTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 330, 340);
 
@@ -116,7 +118,7 @@ describe('ArrayStuffs()', function () {
 
     const player = matchDetails.kickOffTeam.players[4];
 
-    const newPosition = bMovement.ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
+    const newPosition = ballCrossed(matchDetails, matchDetails.kickOffTeam, player);
 
     const xBetween = common.isBetween(newPosition[0], 330, 345);
 
@@ -174,7 +176,7 @@ describe('targetPlayers()', function () {
   }
 
   it('set target player position', async () => {
-    const output = bMovement.setTargetPlyPos({
+    const output = setTargetPlyPos({
       tplyr: [3, 4],
       lowX: 1,
       highX: 1,
@@ -186,7 +188,7 @@ describe('targetPlayers()', function () {
   });
 
   it('set target player position - negative', async () => {
-    const output = bMovement.setTargetPlyPos({
+    const output = setTargetPlyPos({
       tplyr: [3, 4],
       lowX: -1,
       highX: -1,
@@ -1145,7 +1147,7 @@ describe('shotMade()', function () {
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.shotMade(matchDetails, matchDetails.kickOffTeam, player);
+    const endPos = shotMade(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1165,7 +1167,7 @@ describe('shotMade()', function () {
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
+    const endPos = shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1186,7 +1188,7 @@ describe('shotMade()', function () {
     const player = matchDetails.secondTeam.players[3];
 
     player.skill.shooting = 1;
-    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
+    const endPos = shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1207,7 +1209,7 @@ describe('shotMade()', function () {
     const player = matchDetails.secondTeam.players[3];
 
     matchDetails.half = 2;
-    const endPos = bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
+    const endPos = shotMade(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1229,7 +1231,7 @@ describe('shotMade()', function () {
 
     matchDetails.half = 2;
     try {
-      bMovement.shotMade(matchDetails, matchDetails.secondTeam, player);
+      shotMade(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
 

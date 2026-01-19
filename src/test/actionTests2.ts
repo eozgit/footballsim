@@ -6,7 +6,7 @@ import * as common from '../lib/common.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
-import type { ProximityContext } from '@/lib/types.js';
+import type { ProximityContext } from '#/lib/types.js';
 
 describe('bottomTeamPlayerHasBallInMiddle()', function () {
   it('In middle of pitch, no opp. near, shooting over 85', async () => {

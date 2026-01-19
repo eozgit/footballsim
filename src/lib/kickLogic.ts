@@ -155,4 +155,23 @@ function calculateThroughBallTarget(
   return setTargetPlyPos({ tplyr: pos, lowX: -10, highX: 10, lowY: -10, highY: 10 });
 }
 
+export function setTargetPlyPos(targetConfig: {
+  tplyr: Player;
+  lowX: number;
+  highX: number;
+  lowY: number;
+  highY: number;
+}): [number, number] {
+  const { tplyr, lowX, highX, lowY, highY } = targetConfig;
+
+  const closePlyPos: [number, number] = [0, 0];
+
+  const [targetPlayerXPos, targetPlayerYPos] = common.destructPos(tplyr);
+
+  closePlyPos[0] = common.round(targetPlayerXPos + common.getRandomNumber(lowX, highX), 0);
+  closePlyPos[1] = common.round(targetPlayerYPos + common.getRandomNumber(lowY, highY), 0);
+
+  return closePlyPos;
+}
+
 export { executeKickAction, resolvePassDestination };

@@ -1,11 +1,12 @@
-import { calculateShotTarget } from './actions/ballTrajectory.js';
+import { updateLastTouch } from './ballActionHandler.js';
 import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
 import { resolveGoalScored } from './event/goal.js';
 import { attemptGoalieSave } from './intentLogic.js';
+import { setTargetPlyPos } from './kickLogic.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
-import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
+import type { BallPosition, MatchDetails, Player, Team } from './types.js';
 
 export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
 export type PlayerWithProximity = TestPlayer & { proximity: number };
@@ -25,82 +26,6 @@ function splitNumberIntoN(num: number, n: number): number[] {
   }
 
   return splitNumber;
-}
-
-function checkShotAccuracy(player: Player, pitchHeight: number, power: number): boolean {
-  const [, playerY] = player.currentPOS;
-
-  const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
-
-  const shotReachGoal = isTopTeam ? playerY + power >= pitchHeight : playerY - power <= 0;
-
-  return shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40);
-}
-
-function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-
-  // 1. Setup & Physics
-  updateLastTouchAndLog(matchDetails, team, player);
-  const shotPower = common.calculatePower(player.skill.strength);
-
-  // 2. Logic Resolution
-  const isOnTarget = checkShotAccuracy(player, pitchHeight, shotPower);
-
-  recordShotStats(matchDetails, player, isOnTarget);
-
-  // 3. Coordinate Resolution
-  const targetCoord = calculateShotTarget({
-    player: player,
-    onTarget: isOnTarget,
-    width: pitchWidth,
-    height: pitchHeight,
-    power: shotPower,
-  });
-
-  // 4. Execution
-  const endPos = calcBallMovementOverTime(matchDetails, player.skill.strength, targetCoord, player);
-
-  checkGoalScored(matchDetails);
-
-  return endPos;
-}
-
-function recordShotStats(matchDetails: MatchDetails, player: Player, isOnTarget: boolean): void {
-  const { half } = matchDetails;
-
-  if (half === 0) {
-    throw new Error(`You cannot supply 0 as a half`);
-  }
-
-  const teamStats = common.isEven(half)
-    ? matchDetails.kickOffTeamStatistics
-    : matchDetails.secondTeamStatistics;
-
-  // 1. Increment Total Shots
-  if (typeof teamStats.shots === 'number') {
-    teamStats.shots++;
-  } else {
-    teamStats.shots.total++;
-  }
-
-  player.stats.shots.total++;
-
-  // 2. Increment On/Off Target
-  const status = isOnTarget ? 'on' : 'off';
-
-  if (typeof teamStats.shots !== 'number') {
-    teamStats.shots[status] = (teamStats.shots[status] || 0) + 1;
-  }
-
-  if (typeof player.stats.shots !== 'number') {
-    player.stats.shots[status] = (player.stats.shots[status] || 0) + 1;
-  }
-}
-
-function updateLastTouchAndLog(matchDetails: MatchDetails, team: Team, player: Player): void {
-  matchDetails.iterationLog.push(`Shot Made by: ${player.name}`);
-  updateLastTouch(matchDetails.ball, player, team);
 }
 
 function checkGoalScored(matchDetails: MatchDetails): void {
@@ -205,12 +130,6 @@ function ballPassed(
 
 /** HELPER FUNCTIONS **/
 
-function updateLastTouch(ball: Ball, player: Player, team: Team): void {
-  ball.lastTouch.playerName = player.name;
-  ball.lastTouch.playerID = player.playerID;
-  ball.lastTouch.teamID = team.teamID;
-}
-
 function getTargetPlayerCandidate(
   team: Team,
   player: Player,
@@ -271,77 +190,12 @@ function getPassErrorRange(ballY: number, playerOriginY: number, pitchHeight: nu
   return playerSide === 'top' ? 10 : 100;
 }
 
-function setTargetPlyPos(targetConfig: {
-  tplyr: Player;
-  lowX: number;
-  highX: number;
-  lowY: number;
-  highY: number;
-}): [number, number] {
-  const { tplyr, lowX, highX, lowY, highY } = targetConfig;
-
-  const closePlyPos: [number, number] = [0, 0];
-
-  const [targetPlayerXPos, targetPlayerYPos] = common.destructPos(tplyr);
-
-  closePlyPos[0] = common.round(targetPlayerXPos + common.getRandomNumber(lowX, highX), 0);
-  closePlyPos[1] = common.round(targetPlayerYPos + common.getRandomNumber(lowY, highY), 0);
-
-  return closePlyPos;
-}
-
 function getTargetPlayer(
   playersArray: PlayerWithProximity[],
   side: string,
   pitchHeight: number = 1050,
 ): PlayerWithProximity {
   return resolveBestPassOption(playersArray, side, pitchHeight);
-}
-
-function ballCrossed(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
-  if (player.currentPOS[0] === 'NP') {
-    throw new Error('Player no position!');
-  }
-
-  matchDetails.ball.lastTouch.playerName = player.name;
-  matchDetails.ball.lastTouch.playerID = player.playerID;
-  matchDetails.ball.lastTouch.teamID = team.teamID;
-  const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
-
-  const ballIntended: [number, number] = [0, 0];
-
-  if (player.originPOS[1] > pitchHeight / 2) {
-    ballIntended[1] = common.getRandomNumber(0, pitchHeight / 5);
-
-    if (player.currentPOS[0] < pitchWidth / 2) {
-      ballIntended[0] = common.getRandomNumber(pitchWidth / 3, pitchWidth);
-    } else {
-      ballIntended[0] = common.getRandomNumber(0, pitchWidth - pitchWidth / 3);
-    }
-  } else {
-    ballIntended[1] = common.getRandomNumber(pitchHeight - pitchHeight / 5, pitchHeight);
-
-    if (player.currentPOS[0] < pitchWidth / 2) {
-      ballIntended[0] = common.getRandomNumber(pitchWidth / 3, pitchWidth);
-    } else {
-      ballIntended[0] = common.getRandomNumber(0, pitchWidth - pitchWidth / 3);
-    }
-  }
-
-  matchDetails.iterationLog.push(`ball crossed by: ${player.name}`);
-  player.stats.passes.total++;
-  const result = calcBallMovementOverTime(
-    matchDetails,
-    player.skill.strength,
-    ballIntended,
-    player,
-  );
-
-  if (!Array.isArray(result)) {
-    throw new Error('No coordinates!');
-  }
-
-  return result;
 }
 
 function calcBallMovementOverTime(
@@ -431,13 +285,10 @@ function mergeArrays(mergeConfig: {
 }
 
 export {
-  ballCrossed,
   ballPassed,
   calcBallMovementOverTime,
   checkGoalScored,
   getTargetPlayer,
-  setTargetPlyPos,
-  shotMade,
   resolveBallMovement,
   getPlayersInDistance,
   splitNumberIntoN,

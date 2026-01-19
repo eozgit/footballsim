@@ -12,7 +12,7 @@ import {
   resolveTackle,
   setInjury,
   setPostTackleBall,
-} from '@/lib/actions/defensiveActions.js';
+} from '#/lib/actions/defensiveActions.js';
 
 const swJson = './src/test/input/opposite/iterationSwitch.json';
 

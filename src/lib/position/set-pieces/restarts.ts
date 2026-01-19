@@ -1,7 +1,8 @@
-import * as common from '@/lib/common.js';
-import { setPlayerPositions } from '@/lib/setPositions.js';
-import { resetPlayerPositions } from '@/lib/setVariables.js';
-import type { BallPosition, MatchDetails, Team } from '@/lib/types.js';
+import * as common from '../../common.js';
+
+import { setPlayerPositions } from '#/lib/setPositions.js';
+import { resetPlayerPositions } from '#/lib/setVariables.js';
+import type { BallPosition, MatchDetails, Team } from '#/lib/types.js';
 export function setLeftKickOffTeamThrowIn(
   matchDetails: MatchDetails,
   ballIntended: BallPosition,

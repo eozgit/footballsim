@@ -1,5 +1,5 @@
-import type { MatchDetails, Team } from '@/engine.js';
-import * as common from '@/lib/common.js';
+import type { MatchDetails, Team } from '#/engine.js';
+import * as common from '#/lib/common.js';
 
 export function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
