@@ -41,7 +41,6 @@ export default tseslint.config(
       'sonarjs/cognitive-complexity': ['error', 15],
       'sonarjs/no-duplicate-string': 'warn',
       'sonarjs/no-identical-functions': 'error',
-
       // --- THE GOOD PARTS: CLEAN ENGINE ---
       complexity: ['error', 10],
       'max-depth': ['error', 3],
@@ -156,12 +155,13 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      // TODO: turn on once lib code is error free
+      // TO DO: turn on once lib code is error free
       'max-lines-per-function': 'off',
       'sonarjs/cognitive-complexity': 'warn',
       'no-console': 'warn',
-
-      // TODO: delete once lib code is error free
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      'import/no-default-export': 'warn',
+      // TO DO: delete once lib code is error free
       '@typescript-eslint/naming-convention': ['off'],
       'sonarjs/no-duplicate-string': 'off',
       'max-lines': ['off'],

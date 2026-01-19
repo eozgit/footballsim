@@ -6,6 +6,7 @@ import { readFile } from '../lib/fileReader.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import { resolveDeflection, setDeflectionDirectionPos, setDeflectionPlayerHasBall, setDeflectionPlayerOffside } from '@/lib/actions/deflections.js';
 import { moveBall } from '@/lib/ballState.js';
 import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
 
@@ -446,7 +447,7 @@ describe('direction()', function () {
 
 describe('setDeflectionDirectionPos()', function () {
   it(`east`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(`east`, [200, 300], 75);
+    const position = setDeflectionDirectionPos(`east`, [200, 300], 75);
 
     const yBetween = common.isBetween(position[1], 296, 304);
 
@@ -456,7 +457,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`west`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(`west`, [200, 300], 75);
+    const position = setDeflectionDirectionPos(`west`, [200, 300], 75);
 
     const yBetween = common.isBetween(position[1], 296, 304);
 
@@ -466,7 +467,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`north`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(`north`, [200, 300], 75);
+    const position = setDeflectionDirectionPos(`north`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], 196, 204);
 
@@ -476,7 +477,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`south`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(`south`, [200, 300], 75);
+    const position = setDeflectionDirectionPos(`south`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], 196, 204);
 
@@ -486,7 +487,7 @@ describe('setDeflectionDirectionPos()', function () {
   });
 
   it(`wait`, async () => {
-    const position = bMovement.setDeflectionDirectionPos(`wait`, [200, 300], 75);
+    const position = setDeflectionDirectionPos(`wait`, [200, 300], 75);
 
     const xBetween = common.isBetween(position[0], -38, 38);
 
@@ -506,7 +507,7 @@ describe('setDeflectionDirectionPos()', function () {
 
     const defTeam = matchDetails.kickOffTeam;
 
-    matchDetails = bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
+    matchDetails = setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
 
     expect(defPlayer.offside).to.eql(false);
 
@@ -526,7 +527,7 @@ describe('setDeflectionDirectionPos()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    matchDetails = bMovement.setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
+    matchDetails = setDeflectionPlayerOffside(matchDetails, defTeam, defPlayer);
 
     expect(defPlayer.offside).to.eql(false);
 
@@ -548,7 +549,7 @@ describe('setDeflectionPlayerHasBall()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
+    setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
 
     expect(matchDetails.ball.Player).to.eql('78883930303030201');
 
@@ -565,7 +566,7 @@ describe('setDeflectionPlayerHasBall()', function () {
     defPlayer.offside = true;
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
+    setDeflectionPlayerHasBall(matchDetails, defPlayer, defTeam);
 
     expect(matchDetails.ball.Player).to.eql('78883930303030105');
 
@@ -583,7 +584,7 @@ describe('resolveDeflection()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    bMovement.resolveDeflection({
+    resolveDeflection({
       power: 120,
       startPos: [120, 300],
       defPosition: [200, 350],
@@ -606,7 +607,7 @@ describe('resolveDeflection()', function () {
 
     const defTeam = matchDetails.secondTeam;
 
-    const pos = bMovement.resolveDeflection({
+    const pos = resolveDeflection({
       power: 220,
       startPos: [120, 300],
       defPosition: [200, 350],
@@ -1352,7 +1353,7 @@ describe('checkGoalScored()', function () {
 
     const { ball } = matchDetails;
 
-    const [bx, _, bz] = ball.position;
+    const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 1048, bz);
 
