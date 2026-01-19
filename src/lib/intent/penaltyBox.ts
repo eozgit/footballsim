@@ -4,7 +4,13 @@ import {
   checkTeamMateSpaceClose,
 } from '../actions.js';
 import * as common from '../common.js';
-import type { Player, MatchEventWeights, PlayerProximityDetails } from '../types.js';
+import type {
+  Player,
+  MatchEventWeights,
+  PlayerProximityDetails,
+  ProximityContext,
+} from '../types.js';
+import { assert } from '../utils/assert.js';
 
 import {
   STANDARD_SPACE_WEIGHTS,

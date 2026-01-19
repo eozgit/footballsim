@@ -155,7 +155,7 @@ function calculateThroughBallTarget(
 }
 
 export function setTargetPlyPos(targetConfig: {
-  tplyr: Player;
+  tplyr: [number, number];
   lowX: number;
   highX: number;
   lowY: number;

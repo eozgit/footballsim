@@ -1,7 +1,14 @@
 import { checkTeamMateSpaceClose, oppositionNearContext } from '../actions.js';
 import * as common from '../common.js';
 import { closestPlayerToPosition } from '../position/proximity.js';
-import type { Weights, MatchEventWeights, ResolveBoxContext, Player, Team } from '../types.js';
+import type {
+  Weights,
+  MatchEventWeights,
+  ResolveBoxContext,
+  Player,
+  Team,
+  PlayerProximityDetails,
+} from '../types.js';
 export function calculateShootingThresholds(
   shootingSkill: number,
   pitchHeight: number,

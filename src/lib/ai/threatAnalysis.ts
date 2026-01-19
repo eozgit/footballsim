@@ -6,7 +6,16 @@ import {
 } from '../actions.js';
 import * as common from '../common.js';
 import { closestPlayerToPosition } from '../position/proximity.js';
-import type { MatchDetails, Player, Team, MatchEventWeights, Skill, AreaBounds } from '../types.js';
+import type {
+  MatchDetails,
+  Player,
+  Team,
+  MatchEventWeights,
+  Skill,
+  AreaBounds,
+  PlayerProximityDetails,
+} from '../types.js';
+import { assert } from '../utils/assert.js';
 
 export function getAttackingThreatWeights(
   matchDetails: MatchDetails,
@@ -28,6 +37,7 @@ export function getAttackingThreatWeights(
     Math.abs(tmateInfo.proxPOS[1]),
   ];
 
+  assert(oppInfo.thePlayer, 'Player should be defined');
   const closeOppPOS = oppInfo.thePlayer.currentPOS;
 
   // 2. Branch 1: Deep inside the penalty box

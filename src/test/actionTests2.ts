@@ -1,4 +1,4 @@
-import { expect, it, describe } from 'vitest';
+import { describe, it, expect } from 'vitest';
 
 import * as findPossActions from '../lib/actions/findPossActions.js';
 import * as actions from '../lib/actions.js';

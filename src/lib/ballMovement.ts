@@ -240,7 +240,7 @@ function calcBallMovementOverTime(
   matchDetails.ball.ballOverIterations = ballOverIters;
   const endPos = resolveBallMovement({
     player: player,
-    startPos: position,
+    startPos: [position[0], position[1]],
     targetPos: [ballOverIters[0][0], ballOverIters[0][1]],
     power: power,
     team: kickOffTeam,
