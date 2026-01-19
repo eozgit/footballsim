@@ -1,11 +1,11 @@
 import { calculateShotTarget } from './actions/ballTrajectory.js';
 import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
+import { resolveGoalScored } from './event/goal.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { updateBallCardinalDirection } from './physics.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
-import * as setPositions from './setPositions.js';
 import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
 
 export type TestPlayer = Pick<Player, 'name' | 'currentPOS'>;
@@ -138,9 +138,9 @@ function checkGoalScored(matchDetails: MatchDetails): void {
 
   if (withinGoalX) {
     if (ballY < 1) {
-      setPositions.resolveGoalScored(matchDetails, true);
+      resolveGoalScored(matchDetails, true);
     } else if (ballY >= pitchHeight) {
-      setPositions.resolveGoalScored(matchDetails, false);
+      resolveGoalScored(matchDetails, false);
     }
   }
 }

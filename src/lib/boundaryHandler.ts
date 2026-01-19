@@ -1,4 +1,5 @@
 import * as common from './common.js';
+import { setSecondTeamGoalScored, setKickOffTeamGoalScored } from './event/goal.js';
 import {
   setTopLeftCornerPositions,
   setTopRightCornerPositions,
@@ -7,12 +8,10 @@ import {
 } from './position/set-pieces/corners.js';
 import {
   setBottomGoalKick,
-  setKickOffTeamGoalScored,
   setLeftKickOffTeamThrowIn,
   setLeftSecondTeamThrowIn,
   setRightKickOffTeamThrowIn,
   setRightSecondTeamThrowIn,
-  setSecondTeamGoalScored,
   setTopGoalKick,
 } from './setPositions.js';
 import type { BallContext, BallPosition, MatchDetails } from './types.js';

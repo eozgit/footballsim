@@ -1,5 +1,6 @@
 import { moveBall } from './lib/ballState.js';
 import * as common from './lib/common.js';
+import { setBallSpecificGoalScoreValue } from './lib/event/goal.js';
 import { matchInjury } from './lib/injury.js';
 import * as playerMovement from './lib/playerMovement.js';
 import * as setPositions from './lib/setPositions.js';
@@ -89,7 +90,7 @@ function startSecondHalf(matchDetails: MatchDetails): MatchDetails {
   setPositions.switchSide(matchDetails, secondTeam);
   common.removeBallFromAllPlayers(matchDetails);
   setVariables.resetPlayerPositions(matchDetails);
-  setPositions.setBallSpecificGoalScoreValue(matchDetails, matchDetails.secondTeam);
+  setBallSpecificGoalScoreValue(matchDetails, matchDetails.secondTeam);
   matchDetails.iterationLog = [`Second Half Started: ${matchDetails.secondTeam.name} to kick offs`];
   matchDetails.kickOffTeam.intent = `defend`;
   matchDetails.secondTeam.intent = `attack`;

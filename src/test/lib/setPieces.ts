@@ -5,6 +5,7 @@ import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 
+import * as goal from '@/lib/event/goal.js';
 import {
   setTopLeftCornerPositions,
   setTopRightCornerPositions,
@@ -107,7 +108,7 @@ async function switchSide(matchDetails: MatchDetails, team: Team) {
 async function setKickOffTeamGoalScored(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setKickOffTeamGoalScored(matchDetails);
+  goal.setKickOffTeamGoalScored(matchDetails);
 
   return matchDetails;
 }
@@ -115,7 +116,7 @@ async function setKickOffTeamGoalScored(iterationFile: string) {
 async function setSecondTeamGoalScored(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setSecondTeamGoalScored(matchDetails);
+  goal.setSecondTeamGoalScored(matchDetails);
 
   return matchDetails;
 }
