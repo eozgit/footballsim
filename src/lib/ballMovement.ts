@@ -2,11 +2,9 @@ import { calculateShotTarget } from './actions/ballTrajectory.js';
 import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
-import { executeKickAction, resolvePassDestination } from './kickLogic.js';
 import { updateBallCardinalDirection } from './physics.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
-import { executePenaltyShot } from './setPieces.js';
 import * as setPositions from './setPositions.js';
 import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
 
@@ -30,9 +28,7 @@ function splitNumberIntoN(num: number, n: number): number[] {
   return splitNumber;
 }
 
-function ballKicked(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
-  return executeKickAction(matchDetails, team, player);
-}
+
 
 function checkShotAccuracy(player: Player, pitchHeight: number, power: number): boolean {
   const [, playerY] = player.currentPOS;
@@ -110,9 +106,7 @@ function updateLastTouchAndLog(matchDetails: MatchDetails, team: Team, player: P
   updateLastTouch(matchDetails.ball, player, team);
 }
 
-function penaltyTaken(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
-  return executePenaltyShot(matchDetails, team, player);
-}
+
 
 function checkGoalScored(matchDetails: MatchDetails): void {
   const { ball, kickOffTeam, secondTeam } = matchDetails;
@@ -155,9 +149,7 @@ function checkGoalScored(matchDetails: MatchDetails): void {
   }
 }
 
-function throughBall(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
-  return resolvePassDestination(matchDetails, team, player);
-}
+
 
 function resolveBallMovement(movementConfig: {
   player: Player;
@@ -451,16 +443,13 @@ function mergeArrays(mergeConfig: {
 
 export {
   ballCrossed,
-  ballKicked,
   ballPassed,
   calcBallMovementOverTime,
   checkGoalScored,
   getBallDirection,
   getTargetPlayer,
-  penaltyTaken,
   setTargetPlyPos,
   shotMade,
-  throughBall,
   resolveBallMovement,
   getPlayersInDistance,
   splitNumberIntoN,

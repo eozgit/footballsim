@@ -12,6 +12,7 @@ import {
   setDeflectionPlayerHasBall,
   setDeflectionPlayerOffside,
 } from '@/lib/actions/deflections.js';
+import { ballKicked, penaltyTaken, throughBall } from '@/lib/actions/triggers.js';
 import { moveBall } from '@/lib/ballState.js';
 import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
 
@@ -673,7 +674,7 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[3];
 
     player.skill.passing = 101;
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -696,7 +697,7 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[3];
 
     player.skill.passing = 101;
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -719,7 +720,7 @@ describe('throughBall()', function () {
     const player = matchDetails.secondTeam.players[9];
 
     player.skill.passing = 1;
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -748,7 +749,7 @@ describe('throughBall()', function () {
     const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 1000, bz);
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -777,7 +778,7 @@ describe('throughBall()', function () {
     const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 100, bz);
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -800,7 +801,7 @@ describe('throughBall()', function () {
     const player = matchDetails.kickOffTeam.players[9];
 
     player.skill.passing = 1;
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -829,7 +830,7 @@ describe('throughBall()', function () {
     const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 1000, bz);
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -858,7 +859,7 @@ describe('throughBall()', function () {
     const [bx, , bz] = ball.position;
 
     common.setBallPosition(ball, bx, 100, bz);
-    const endPos = bMovement.throughBall(matchDetails, team, player);
+    const endPos = throughBall(matchDetails, team, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1101,7 +1102,7 @@ describe('ballKicked()', function () {
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.ballKicked(matchDetails, matchDetails.kickOffTeam, player);
+    const endPos = ballKicked(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1121,7 +1122,7 @@ describe('ballKicked()', function () {
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.ballKicked(matchDetails, matchDetails.secondTeam, player);
+    const endPos = ballKicked(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1242,7 +1243,7 @@ describe('penaltyTaken()', function () {
 
     const player = matchDetails.kickOffTeam.players[3];
 
-    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.kickOffTeam, player);
+    const endPos = penaltyTaken(matchDetails, matchDetails.kickOffTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1262,7 +1263,7 @@ describe('penaltyTaken()', function () {
 
     const player = matchDetails.secondTeam.players[3];
 
-    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
+    const endPos = penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1283,7 +1284,7 @@ describe('penaltyTaken()', function () {
     const player = matchDetails.secondTeam.players[3];
 
     player.skill.shooting = 1;
-    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
+    const endPos = penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1304,7 +1305,7 @@ describe('penaltyTaken()', function () {
     const player = matchDetails.secondTeam.players[3];
 
     matchDetails.half = 2;
-    const endPos = bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
+    const endPos = penaltyTaken(matchDetails, matchDetails.secondTeam, player);
 
     if (!Array.isArray(endPos)) {
       throw new Error(`Expected [number, number] but received MatchDetails state update.`);
@@ -1326,7 +1327,7 @@ describe('penaltyTaken()', function () {
 
     matchDetails.half = 22;
     try {
-      bMovement.penaltyTaken(matchDetails, matchDetails.secondTeam, player);
+      penaltyTaken(matchDetails, matchDetails.secondTeam, player);
     } catch (err) {
       expect(err).to.be.an('Error');
 
