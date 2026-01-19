@@ -100,6 +100,6 @@ function analyzeFile(filePath) {
 }
 
 // Run for requested files
-const targetFiles = ['src/lib/ballMovement.ts', 'src/lib/intentLogic.ts'];
+const targetFiles = ['src/lib/intentLogic.ts'];
 
 targetFiles.forEach(analyzeFile);

@@ -1,8 +1,8 @@
+import { attemptGoalieSave } from './actions/defensiveActions.js';
 import { updateLastTouch } from './ballActionHandler.js';
 import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
 import { resolveGoalScored } from './event/goal.js';
-import { attemptGoalieSave } from './intentLogic.js';
 import { setTargetPlyPos } from './kickLogic.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';

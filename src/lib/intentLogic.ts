@@ -1,24 +1,19 @@
 import {
-  checkOppositionBelow,
   checkPositionInBottomPenaltyBox,
   checkPositionInBottomPenaltyBoxClose,
-  checkTeamMateSpaceClose,
   onBottomCornerBoundary,
-  oppositionNearContext,
 } from './actions.js';
 import * as common from './common.js';
+import { handleInPenaltyBox, handleOutsidePenaltyBox } from './intent/penaltyBox.js';
+import { analyzePlayerSurroundings, calculateShootingThresholds } from './intent/utils.js';
+import {
+  handleGKIntent,
+  handleAttackingThirdIntent,
+  handleMiddleThirdIntent,
+  handleDefensiveThirdIntent,
+} from './intent/zones.js';
 import { closestPlayerToPosition } from './position/proximity.js';
-import type {
-  PlayerProximityDetails,
-  MatchEventWeights,
-  Player,
-  ProximityContext,
-  Skill,
-  Team,
-  ActionContext,
-  ResolveBoxContext,
-  Weights,
-} from './types.js';
+import type { ActionContext, MatchEventWeights } from './types.js';
 
 /**
  * Calculates match event weights based on attacking intent, considering
@@ -29,7 +24,7 @@ import type {
 function getAttackingIntentWeights(ctx: ActionContext): MatchEventWeights {
   const { matchDetails, player, team, opp: opposition } = ctx;
 
-  const playerPos = ensureValidPosition(player.currentPOS, 'Active player');
+  const playerPos = common.destructPos(player.currentPOS);
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
@@ -76,233 +71,24 @@ function getAttackingIntentWeights(ctx: ActionContext): MatchEventWeights {
 /**
  * Helper to analyze proximity of teammates and opponents.
  */
-function analyzePlayerSurroundings(
-  player: Player,
-  playerPos: [number, number],
-  team: Team,
-  opposition: Team,
-): {
-  oppInfo: { thePlayer: Player; proxPOS: [number, number]; proxToBall: number };
-  tmateProximity: [number, number];
-  oppPos: [number, number];
-} {
-  const oppInfo = closestPlayerToPosition(player, opposition, playerPos);
-
-  const tmateInfo = closestPlayerToPosition(player, team, playerPos);
-
-  const tmateProximity: [number, number] = [
-    Math.abs(tmateInfo.proxPOS[0]),
-    Math.abs(tmateInfo.proxPOS[1]),
-  ];
-
-  const oppPos = ensureValidPosition(oppInfo.thePlayer.currentPOS, 'Closest opponent');
-
-  return { oppInfo, tmateProximity, oppPos };
-}
 
 /**
  * Helper to determine shooting range thresholds based on player skill.
  */
-function calculateShootingThresholds(
-  shootingSkill: number,
-  pitchHeight: number,
-): { halfRange: number; fullRange: number } {
-  return {
-    halfRange: pitchHeight - shootingSkill / 2,
-    fullRange: pitchHeight - shootingSkill,
-  };
-}
 
 /**
  * Utility to guard against 'NP' (No Position) states during simulation logic.
  */
-function ensureValidPosition(
-  pos: readonly [number | 'NP', number],
-  entityName: string,
-): [number, number] {
-  if (pos[0] === 'NP') {
-    throw new Error(`${entityName} position is invalid ('NP')!`);
-  }
-
-  return pos as [number, number];
-}
 
 /**
  * Resolves weight based on vertical pitch position (Half, Shot, or Default range).
  */
-function getRangeBasedWeights(rangeConfig: {
-  yPos: number;
-  halfRange: number;
-  shotRange: number;
-  pitchHeight: number;
-  weightMap: Weights;
-}): MatchEventWeights {
-  const { yPos, halfRange, shotRange, pitchHeight, weightMap } = rangeConfig;
-
-  if (common.isBetween(yPos, halfRange, pitchHeight)) {
-    return weightMap.half;
-  }
-
-  if (common.isBetween(yPos, shotRange, pitchHeight)) {
-    return weightMap.shot;
-  }
-
-  return weightMap.fallback;
-}
 
 /**
  * Shared logic for choosing between "Pass to Teammate" or "Positional" weights.
  */
 
-function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
-  const {
-    tmateProximity,
-    yPos,
-    halfRange,
-    shotRange,
-    pitchHeight,
-    spaceConfig,
-    spaceWeights,
-    defaultWeights,
-  } = ctx;
-
-  // ... rest of the function remains exactly the same
-  const useSpaceWeights = checkTeamMateSpaceClose({
-    tmateProximity: tmateProximity,
-    lowX: spaceConfig[0],
-    highX: spaceConfig[1],
-    lowY: spaceConfig[2],
-    highY: spaceConfig[3],
-  });
-
-  return getRangeBasedWeights({
-    yPos: yPos,
-    halfRange: halfRange,
-    shotRange: shotRange,
-    pitchHeight: pitchHeight,
-    weightMap: useSpaceWeights ? spaceWeights : defaultWeights,
-  });
-}
-
 // Shared configuration for standard box intentions
-const STANDARD_SPACE_WEIGHTS: Weights = {
-  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-  shot: [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0],
-  fallback: [20, 0, 30, 0, 0, 0, 0, 30, 20, 0, 0],
-};
-
-function handleInPenaltyBox(penaltyBoxContext: {
-  playerInformation: Player;
-  tmateProximity: [number, number];
-  currentPOS: [number, number];
-  pos: [number, number];
-  oppCurPos: [number, number];
-  halfRange: number;
-  shotRange: number;
-  pitchHeight: number;
-}): MatchEventWeights {
-  const {
-    playerInformation,
-    tmateProximity,
-    currentPOS,
-    pos,
-    oppCurPos,
-    halfRange,
-    shotRange,
-    pitchHeight,
-  } = penaltyBoxContext;
-
-  // 1. Delegation to Pressure logic if opposition is close
-  if (oppositionNearContext(playerInformation, 6, 6)) {
-    return handleUnderPressureInBox({
-      tmateProximity: tmateProximity,
-      currentPOS: currentPOS,
-      pos: pos,
-      oppCurPos: oppCurPos,
-      halfRange: halfRange,
-      shotRange: shotRange,
-      pitchHeight: pitchHeight,
-    });
-  }
-
-  // 2. Default box resolution
-  return resolveBoxWeights({
-    tmateProximity,
-    yPos: currentPOS[1], // Mapping original currentPOS[1] to yPos
-    halfRange,
-    shotRange,
-    pitchHeight,
-    spaceConfig: [-10, 10, -4, 10],
-    spaceWeights: STANDARD_SPACE_WEIGHTS,
-    defaultWeights: {
-      half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      shot: [60, 0, 0, 0, 0, 0, 0, 40, 0, 0, 0],
-      fallback: [30, 0, 0, 0, 0, 0, 0, 40, 30, 0, 0],
-    },
-  });
-}
-
-const rangeBasedWeights: Weights = {
-  half: [100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
-  fallback: [20, 0, 0, 0, 0, 0, 0, 40, 20, 0, 0],
-};
-
-const boxWeights: Weights = {
-  half: [90, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0],
-  shot: [70, 0, 0, 0, 0, 0, 0, 30, 0, 0, 0],
-  fallback: [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0],
-};
-
-function handleUnderPressureInBox(boxPressureContext: {
-  tmateProximity: [number, number];
-  currentPOS: [number, number];
-  pos: [number, number];
-  oppCurPos: [number, number];
-  halfRange: number;
-  shotRange: number;
-  pitchHeight: number;
-}): MatchEventWeights {
-  const { tmateProximity, currentPOS, pos, oppCurPos, halfRange, shotRange, pitchHeight } =
-    boxPressureContext;
-
-  const yPos = currentPOS[1];
-
-  // 1. Check for specific "Opposition Below" logic
-  if (checkOppositionBelow(oppCurPos, pos)) {
-    if (
-      checkTeamMateSpaceClose({
-        tmateProximity: tmateProximity,
-        lowX: -10,
-        highX: 10,
-        lowY: -10,
-        highY: 10,
-      })
-    ) {
-      return [20, 0, 70, 0, 0, 0, 0, 10, 0, 0, 0];
-    }
-
-    return getRangeBasedWeights({
-      yPos: yPos,
-      halfRange: halfRange,
-      shotRange: shotRange,
-      pitchHeight: pitchHeight,
-      weightMap: rangeBasedWeights,
-    });
-  }
-
-  // 2. Standard pressure resolution
-  return resolveBoxWeights({
-    tmateProximity,
-    yPos,
-    halfRange,
-    shotRange,
-    pitchHeight,
-    spaceConfig: [-10, 10, -4, 10],
-    spaceWeights: STANDARD_SPACE_WEIGHTS,
-    defaultWeights: boxWeights,
-  });
-}
 
 function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
   const { matchDetails, player, team, opp: opposition } = ctx;
@@ -346,139 +132,15 @@ function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
 }
 
 // Utility to handle the "Opposition Close vs Open Space" pattern seen in all zones
-function resolveZonePressure(zonePressureConfig: {
-  playerInfo: unknown;
-  pressureWeights: MatchEventWeights;
-  openWeights: MatchEventWeights;
-  distX: number;
-  distY: number;
-}): MatchEventWeights {
-  const { playerInfo, pressureWeights, openWeights, distX = 10, distY = 10 } = zonePressureConfig;
-
-  return oppositionNearContext(playerInfo, distX, distY) ? pressureWeights : openWeights;
-}
-
-function handleGKIntent(zonePressureConfig: {
-  playerInfo: unknown;
-  pressureWeights: MatchEventWeights;
-  openWeights: MatchEventWeights;
-  distX: number;
-  distY: number;
-}): MatchEventWeights {
-  const { playerInfo } = zonePressureConfig;
-
-  return resolveZonePressure({
-    playerInfo: playerInfo,
-    pressureWeights: [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40],
-    openWeights: [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20],
-    distX: 10,
-    distY: 25,
-  });
-}
-
-function handleAttackingThirdIntent(playerInfo: ProximityContext, _: unknown): MatchEventWeights {
-  return resolveZonePressure({
-    playerInfo: playerInfo,
-    pressureWeights: [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0],
-    openWeights: [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0],
-  });
-}
-
-function handleMiddleThirdIntent(
-  playerInfo: ProximityContext,
-  position: string,
-  skill: Skill,
-): MatchEventWeights {
-  // Pressure check remains the highest priority in Middle Third
-  if (oppositionNearContext(playerInfo, 10, 10)) {
-    return [0, 20, 30, 20, 0, 0, 20, 0, 0, 0, 10];
-  }
-
-  // Skill and Position based branching for open space
-  if (skill.shooting > 85) {
-    return [10, 10, 30, 0, 0, 0, 50, 0, 0, 0, 0];
-  }
-
-  const isMidfielder = ['LM', 'CM', 'RM'].includes(position);
-
-  if (isMidfielder) {
-    return [0, 10, 10, 10, 0, 0, 0, 30, 40, 0, 0];
-  }
-
-  if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-  }
-
-  return [0, 0, 10, 0, 0, 0, 0, 60, 20, 0, 10];
-}
 
 /**
  * Resolves intent weights when a player is outside the penalty box.
  * Prioritizes shooting range, then defensive pressure, then open play.
  */
-function handleOutsidePenaltyBox(
-  playerInformation: PlayerProximityDetails,
-  currentPOS: readonly [number | 'NP', number],
-  shotRange: number,
-  pitchHeight: number,
-): MatchEventWeights {
-  const playerY = currentPOS[1];
-
-  // 1. If in shot range, shooting is the priority regardless of pressure
-  if (common.isBetween(playerY, shotRange, pitchHeight)) {
-    return [50, 0, 20, 0, 0, 0, 0, 30, 0, 0, 0];
-  }
-
-  // 2. Resolve based on opposition pressure vs. open space
-  return resolveZonePressure({
-    playerInfo: playerInformation,
-    pressureWeights: [10, 0, 70, 0, 0, 0, 0, 20, 0, 0, 0],
-    openWeights: [70, 0, 20, 0, 0, 0, 0, 10, 0, 0, 0],
-  });
-}
 
 /**
  * Shared logic for defensive third intentions.
  * Returns weight arrays based on pressure and player position.
  */
-function resolveDefensiveIntent(
-  playerInformation: PlayerProximityDetails,
-  position: string,
-  fallbackWeights: MatchEventWeights,
-): MatchEventWeights {
-  // 1. High Pressure / Opposition Near
-  if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [0, 0, 0, 0, 0, 0, 0, 10, 0, 70, 20];
-  }
 
-  // 2. Midfielders
-  if (['LM', 'CM', 'RM'].includes(position)) {
-    return [0, 0, 30, 0, 0, 0, 0, 30, 40, 0, 0];
-  }
-
-  // 3. Strikers
-  if (position === 'ST') {
-    return [0, 0, 0, 0, 0, 0, 0, 50, 50, 0, 0];
-  }
-
-  // 4. Default for Defenders/Goalies
-  return fallbackWeights;
-}
-
-function handleBottomDefensiveThirdIntent(
-  playerInfo: PlayerProximityDetails,
-  position: string,
-): MatchEventWeights {
-  return resolveDefensiveIntent(playerInfo, position, [0, 0, 30, 0, 0, 0, 0, 50, 0, 10, 10]);
-}
-
-function handleDefensiveThirdIntent(
-  playerInfo: PlayerProximityDetails,
-  position: string,
-): MatchEventWeights {
-  return resolveDefensiveIntent(playerInfo, position, [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10]);
-}
-
-export { getAttackingIntentWeights, getPlayerActionWeights, handleBottomDefensiveThirdIntent };
-
-export { attemptGoalieSave } from './actions/defensiveActions.js';
+export { getAttackingIntentWeights, getPlayerActionWeights };

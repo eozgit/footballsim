@@ -1,23 +1,24 @@
-import { handleBottomGKIntent, handleBottomAttackingThirdIntent } from './actions/intent.js';
+import { handleBottomAttackingThirdIntent, handleBottomGKIntent } from './actions/intent.js';
 import { getAttackingThreatWeights } from './ai/threatAnalysis.js';
 import * as common from './common.js';
-import { getAttackingIntentWeights, handleBottomDefensiveThirdIntent } from './intentLogic.js';
+import { handleBottomDefensiveThirdIntent } from './intent/zones.js';
+import { getAttackingIntentWeights } from './intentLogic.js';
 import {
-  checkPositionInTopPenaltyBox,
   checkPositionInBottomPenaltyBox,
+  checkPositionInTopPenaltyBox,
 } from './position/penaltyArea.js';
 import { closestPlayerToPosition } from './position/proximity.js';
 import type {
+  AreaBounds,
   BallPosition,
-  PlayerProximityDetails,
   MatchDetails,
   MatchEventWeights,
   Player,
+  PlayerProximityDetails,
   ProximityContext,
   Skill,
-  Team,
-  AreaBounds,
   TacticalWeighting,
+  Team,
 } from './types.js';
 
 function topTeamPlayerHasBallInBottomPenaltyBox(
@@ -303,35 +304,35 @@ function foulIntensity(): number {
  * Resolves illegal actions to a logical alternative.
  */
 
+export { findPossActions, selectAction } from './actions/findPossActions.js';
+export { setPostTacklePosition } from './actions/tackle.js';
 export {
-  topTeamPlayerHasBallInBottomPenaltyBox,
   bottomTeamPlayerHasBall,
   bottomTeamPlayerHasBallInMiddle,
   bottomTeamPlayerHasBallInTopPenaltyBox,
+  calcRetentionScore,
+  checkOppositionAhead,
+  checkOppositionBelow,
+  checkPositionInBottomPenaltyBox,
+  checkPositionInTopPenaltyBox,
+  checkTeamMateSpaceClose,
+  foulIntensity,
   noBallNotGK2CloseBall,
   noBallNotGK2CloseBallBottomTeam,
   noBallNotGK4CloseBall,
   noBallNotGK4CloseBallBottomTeam,
-  checkTeamMateSpaceClose,
-  checkOppositionAhead,
-  checkOppositionBelow,
   onBottomCornerBoundary,
   onTopCornerBoundary,
-  calcRetentionScore,
-  wasFoul,
-  foulIntensity,
   oppositionNearContext,
-  checkPositionInTopPenaltyBox,
-  checkPositionInBottomPenaltyBox,
+  topTeamPlayerHasBallInBottomPenaltyBox,
+  wasFoul,
 };
-export { selectAction, findPossActions } from './actions/findPossActions.js';
-export { setPostTacklePosition } from './actions/tackle.js';
 
-export { validateAndResolvePlayerAction } from './validation/action.js';
 export { setFoul } from './actions/booking.js';
 export { oppositionNearPlayer } from './position/proximity.js';
+export { validateAndResolvePlayerAction } from './validation/action.js';
 
 export {
-  checkPositionInTopPenaltyBoxClose,
   checkPositionInBottomPenaltyBoxClose,
+  checkPositionInTopPenaltyBoxClose,
 } from './position/penaltyArea.js';
