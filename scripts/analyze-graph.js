@@ -6,7 +6,7 @@ const CONFIG = {
   includePath: 'src/**/*.ts',
   excludePath: 'src/test/**/*.ts',
   useGroups: true,
-  port: 3000
+  port: 3000,
 };
 
 const project = new Project({ tsConfigFilePath: 'tsconfig.json' });
@@ -18,7 +18,10 @@ const directoryNodes = new Set();
 const existingNodeIds = new Set();
 
 // Track file order for spatial "hinting"
-const sortedFiles = project.getSourceFiles().map(f => f.getFilePath()).sort();
+const sortedFiles = project
+  .getSourceFiles()
+  .map((f) => f.getFilePath())
+  .sort();
 
 // Helper for generating distinct colors from strings
 function stringToColor(str) {
@@ -44,7 +47,13 @@ project.getSourceFiles().forEach(function (sourceFile) {
     currentPath = currentPath ? path.join(currentPath, part) : part;
     if (!directoryNodes.has(currentPath)) {
       elements.push({
-        data: { id: currentPath, label: part, parent: parentPath || undefined, isGroup: true, color: stringToColor(currentPath) }
+        data: {
+          id: currentPath,
+          label: part,
+          parent: parentPath || undefined,
+          isGroup: true,
+          color: stringToColor(currentPath),
+        },
       });
       directoryNodes.add(currentPath);
     }
@@ -63,17 +72,21 @@ project.getSourceFiles().forEach(function (sourceFile) {
           // HINT: Use fileIndex for X and lineNum for Y to organize clusters
           initialX: fileIndex * 300,
           initialY: lineNum * 5,
-          metadata: { file: fileName, line: lineNum, fileIdx: fileIndex }
-        }
+          metadata: { file: fileName, line: lineNum, fileIdx: fileIndex },
+        },
       });
       existingNodeIds.add(id);
     }
   };
 
-  sourceFile.getFunctions().forEach(fn => registerNode(fn.getName(), fn));
-  sourceFile.getVariableDeclarations().forEach(v => {
+  sourceFile.getFunctions().forEach((fn) => registerNode(fn.getName(), fn));
+  sourceFile.getVariableDeclarations().forEach((v) => {
     const init = v.getInitializer();
-    if (init && (init.getKind() === SyntaxKind.ArrowFunction || init.getKind() === SyntaxKind.FunctionExpression)) {
+    if (
+      init &&
+      (init.getKind() === SyntaxKind.ArrowFunction ||
+        init.getKind() === SyntaxKind.FunctionExpression)
+    ) {
       registerNode(v.getName(), v);
     }
   });
@@ -84,10 +97,10 @@ project.getSourceFiles().forEach(function (sourceFile) {
   const fileName = sourceFile.getBaseName();
   const processCalls = function (container, containerName) {
     const sourceId = fileName + ':' + containerName;
-    container.getDescendantsOfKind(SyntaxKind.CallExpression).forEach(call => {
+    container.getDescendantsOfKind(SyntaxKind.CallExpression).forEach((call) => {
       const symbol = call.getExpression().getSymbol();
       if (!symbol) return;
-      symbol.getDeclarations().forEach(decl => {
+      symbol.getDeclarations().forEach((decl) => {
         const targetId = decl.getSourceFile().getBaseName() + ':' + symbol.getName();
         if (existingNodeIds.has(targetId)) {
           const edgeId = sourceId + '->' + targetId;
@@ -99,10 +112,14 @@ project.getSourceFiles().forEach(function (sourceFile) {
       });
     });
   };
-  sourceFile.getFunctions().forEach(fn => processCalls(fn, fn.getName()));
-  sourceFile.getVariableDeclarations().forEach(v => {
+  sourceFile.getFunctions().forEach((fn) => processCalls(fn, fn.getName()));
+  sourceFile.getVariableDeclarations().forEach((v) => {
     const init = v.getInitializer();
-    if (init && (init.getKind() === SyntaxKind.ArrowFunction || init.getKind() === SyntaxKind.FunctionExpression)) {
+    if (
+      init &&
+      (init.getKind() === SyntaxKind.ArrowFunction ||
+        init.getKind() === SyntaxKind.FunctionExpression)
+    ) {
       processCalls(init, v.getName());
     }
   });

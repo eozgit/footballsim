@@ -311,13 +311,6 @@ function calculateSprintFormation(player: Player, sprintOptions: number[]): [num
   return [getMove(direction[0]), getMove(direction[1])];
 }
 
-
-
-
-
-
-
-
 export {
   decideMovement,
   getMovement,
@@ -341,8 +334,4 @@ export { checkProvidedAction } from './validation/action.js';
 
 export { ballMoved } from './actions/ball.js';
 
-
-export {
-
-  checkOffside,
-} from './position/offside.js'
+export { checkOffside } from './position/offside.js';

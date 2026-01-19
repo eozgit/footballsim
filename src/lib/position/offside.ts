@@ -1,4 +1,4 @@
-import * as common from '../common.js'
+import * as common from '../common.js';
 import type { MatchDetails, Player, Team } from '../types.js';
 
 export function offsideYPOS(
@@ -62,8 +62,6 @@ export function checkOffside(
   }
 }
 
-
-
 function team1atBottom(team1: Team, team2: Team, pitchHeight: number): void {
   if (updateOffside(team1, team2, 'top', pitchHeight)) {
     return;
@@ -107,8 +105,6 @@ function updateOffside(team: Team, opponent: Team, attackSide: Side, pitchHeight
 
   return false;
 }
-
-
 
 function getTopMostPlayer(team: Team, pitchHeight: number): Player | undefined {
   let player;
