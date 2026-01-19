@@ -1,5 +1,6 @@
 import { ballKicked, penaltyTaken, throughBall } from './actions/triggers.js';
 import * as ballMovement from './ballMovement.js';
+import { getBallDirection } from './physics.js';
 import { ballMoved, updateInformation } from './playerMovement.js';
 import type { MatchDetails, Player, Team } from './types.js';
 
@@ -44,7 +45,7 @@ function syncBallToPlayer(matchDetails: MatchDetails, player: Player): [number, 
     throw new Error('No player position!');
   }
 
-  ballMovement.getBallDirection(matchDetails, [posX, posY]);
+  getBallDirection(matchDetails, [posX, posY]);
   matchDetails.ball.position = [posX, posY, 0];
 
   return [posX, posY];

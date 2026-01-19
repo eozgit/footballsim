@@ -15,6 +15,7 @@ import {
 import { ballKicked, penaltyTaken, throughBall } from '@/lib/actions/triggers.js';
 import { moveBall } from '@/lib/ballState.js';
 import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
+import { getBallDirection } from '@/lib/physics.js';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
@@ -381,7 +382,7 @@ describe('direction()', function () {
   it(`south`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [337, 530]);
+    getBallDirection(matchDetails, [337, 530]);
 
     expect(matchDetails.ball.direction).to.eql('south');
   });
@@ -389,7 +390,7 @@ describe('direction()', function () {
   it(`north`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [337, 520]);
+    getBallDirection(matchDetails, [337, 520]);
 
     expect(matchDetails.ball.direction).to.eql('north');
   });
@@ -397,7 +398,7 @@ describe('direction()', function () {
   it(`east`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [340, 527]);
+    getBallDirection(matchDetails, [340, 527]);
 
     expect(matchDetails.ball.direction).to.eql('east');
   });
@@ -405,7 +406,7 @@ describe('direction()', function () {
   it(`west`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [320, 527]);
+    getBallDirection(matchDetails, [320, 527]);
 
     expect(matchDetails.ball.direction).to.eql('west');
   });
@@ -413,7 +414,7 @@ describe('direction()', function () {
   it(`wait`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [337, 527]);
+    getBallDirection(matchDetails, [337, 527]);
 
     expect(matchDetails.ball.direction).to.eql('wait');
   });
@@ -421,7 +422,7 @@ describe('direction()', function () {
   it(`northeast`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [340, 520]);
+    getBallDirection(matchDetails, [340, 520]);
 
     expect(matchDetails.ball.direction).to.eql('northeast');
   });
@@ -429,7 +430,7 @@ describe('direction()', function () {
   it(`northwest`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [320, 520]);
+    getBallDirection(matchDetails, [320, 520]);
 
     expect(matchDetails.ball.direction).to.eql('northwest');
   });
@@ -437,7 +438,7 @@ describe('direction()', function () {
   it(`southeast`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [340, 530]);
+    getBallDirection(matchDetails, [340, 530]);
 
     expect(matchDetails.ball.direction).to.eql('southeast');
   });
@@ -445,7 +446,7 @@ describe('direction()', function () {
   it(`southwest`, async () => {
     const matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    bMovement.getBallDirection(matchDetails, [320, 530]);
+    getBallDirection(matchDetails, [320, 530]);
 
     expect(matchDetails.ball.direction).to.eql('southwest');
   });

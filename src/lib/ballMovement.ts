@@ -3,7 +3,6 @@ import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
 import { resolveGoalScored } from './event/goal.js';
 import { attemptGoalieSave } from './intentLogic.js';
-import { updateBallCardinalDirection } from './physics.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
 import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
@@ -173,10 +172,6 @@ function resolveBallMovement(movementConfig: {
     opp: opp,
     matchDetails: matchDetails,
   });
-}
-
-function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
-  return updateBallCardinalDirection(matchDetails, nextPOS);
 }
 
 function ballPassed(
@@ -440,7 +435,6 @@ export {
   ballPassed,
   calcBallMovementOverTime,
   checkGoalScored,
-  getBallDirection,
   getTargetPlayer,
   setTargetPlyPos,
   shotMade,

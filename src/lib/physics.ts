@@ -78,4 +78,8 @@ function updateBallCardinalDirection(matchDetails: MatchDetails, nextPOS: BallPo
   matchDetails.ball.direction = directionMap[key] || matchDetails.ball.direction;
 }
 
+export function getBallDirection(matchDetails: MatchDetails, nextPOS: BallPosition): void {
+  return updateBallCardinalDirection(matchDetails, nextPOS);
+}
+
 export { calculateDeflectionVector, updateBallCardinalDirection };
