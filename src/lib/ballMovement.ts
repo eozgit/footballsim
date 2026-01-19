@@ -260,7 +260,7 @@ function calcBallMovementOverTime(
 
 function mergeArrays(mergeConfig: {
   arrayLength: number;
-  oldPos: [number, number];
+  oldPos: [number, number, number?];
   newPos: [number, number];
   array1: number[];
   array2: number[];

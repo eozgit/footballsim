@@ -155,16 +155,16 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-call': 'off',
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
-      // TO DO: turn on once lib code is error free
-      'max-lines-per-function': 'off',
+
+      'max-lines-per-function': 'warn',
       'sonarjs/cognitive-complexity': 'warn',
       'no-console': 'warn',
       '@typescript-eslint/no-unsafe-argument': 'warn',
       'import/no-default-export': 'warn',
-      // TO DO: delete once lib code is error free
-      '@typescript-eslint/naming-convention': ['off'],
-      'sonarjs/no-duplicate-string': 'off',
-      'max-lines': ['off'],
+
+      '@typescript-eslint/naming-convention': ['warn'],
+      'sonarjs/no-duplicate-string': 'warn',
+      'max-lines': ['warn'],
     },
   },
   // Ensure the config file itself doesn't try to use type-checked rules

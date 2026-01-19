@@ -6,6 +6,7 @@ import { readFile } from '../lib/fileReader.js';
 
 import { readMatchDetails } from './lib/utils.js';
 
+import type { Player } from '#/engine.js';
 import {
   resolveDeflection,
   setDeflectionDirectionPos,
@@ -133,7 +134,13 @@ describe('ArrayStuffs()', function () {
 describe('targetPlayers()', function () {
   for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) {
     it(`target Players top ${i}`, async () => {
-      const playersArray = await readFile('./src/test/input/ballMovements/targetPlayersArray.json');
+      const playersArrayData = await readFile(
+        './src/test/input/ballMovements/targetPlayersArray.json',
+      );
+
+      const playersArray: { thisArray: bMovement.PlayerWithProximity[] } = playersArrayData as {
+        thisArray: bMovement.PlayerWithProximity[];
+      };
 
       const thisPlayer = bMovement.getTargetPlayer(playersArray.thisArray, `top`);
 
@@ -141,10 +148,12 @@ describe('targetPlayers()', function () {
 
       const [tx, ty] = currentPOS;
 
-      const playerValid = playersArray.thisArray.some((p) => p.name === name);
+      const playerValid = playersArray.thisArray.some(
+        (p: { name: string }): boolean => p.name === name,
+      );
 
       const positionValid = playersArray.thisArray.some(
-        ({ currentPOS: [x, y] }) => x === tx && y === ty,
+        ({ currentPOS: [x, y] }): boolean => x === tx && y === ty,
       );
 
       expect(playerValid).toBe(true);
@@ -155,7 +164,13 @@ describe('targetPlayers()', function () {
 
   for (const i of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]) {
     it(`target Players bottom ${i}`, async () => {
-      const playersArray = await readFile('./src/test/input/ballMovements/targetPlayersArray.json');
+      const playersArrayData = await readFile(
+        './src/test/input/ballMovements/targetPlayersArray.json',
+      );
+
+      const playersArray: { thisArray: bMovement.PlayerWithProximity[] } = playersArrayData as {
+        thisArray: bMovement.PlayerWithProximity[];
+      };
 
       const thisPlayer = bMovement.getTargetPlayer(playersArray.thisArray, `bottom`);
 
@@ -163,7 +178,7 @@ describe('targetPlayers()', function () {
 
       const [tx, ty] = currentPOS;
 
-      const playerValid = playersArray.thisArray.some((p) => p.name === name);
+      const playerValid = playersArray.thisArray.some((p: { name: string }) => p.name === name);
 
       const positionValid = playersArray.thisArray.some(
         ({ currentPOS: [x, y] }) => x === tx && y === ty,
@@ -202,7 +217,9 @@ describe('targetPlayers()', function () {
   it('set B Player', async () => {
     const player = createPlayer('CM');
 
-    const bPlayer = await readFile('./src/test/input/ballMovements/bPlayer.json');
+    const bPlayerData = await readFile('./src/test/input/ballMovements/bPlayer.json');
+
+    const bPlayer: Player = bPlayerData as Player;
 
     const thisPlayer = setBPlayer([0, 200]);
 

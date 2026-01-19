@@ -3,11 +3,15 @@ import { expect, it, describe } from 'vitest';
 import { readFile } from '../lib/fileReader.js';
 import * as playerMovement from '../lib/playerMovement.js';
 
+import type { MatchDetails } from '#/engine.js';
+
 describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 1', async () => {
     const inputIteration = './src/test/input/closestPositions/closest1.json';
 
-    const matchInfo = await readFile(inputIteration);
+    const matchInfoData = await readFile(inputIteration);
+
+    const matchInfo: MatchDetails = matchInfoData as MatchDetails;
 
     const closestPlayerA = {
       name: '',
@@ -31,7 +35,9 @@ describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 2', async () => {
     const inputIteration = './src/test/input/closestPositions/closest2.json';
 
-    const matchInfo = await readFile(inputIteration);
+    const matchInfoData = await readFile(inputIteration);
+
+    const matchInfo: MatchDetails = matchInfoData as MatchDetails;
 
     const closestPlayerA = {
       name: '',
@@ -55,7 +61,9 @@ describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 3', async () => {
     const inputIteration = './src/test/input/closestPositions/closest3.json';
 
-    const matchInfo = await readFile(inputIteration);
+    const matchInfoData = await readFile(inputIteration);
+
+    const matchInfo: MatchDetails = matchInfoData as MatchDetails;
 
     const closestPlayerA = {
       name: '',
@@ -79,7 +87,9 @@ describe('testClosestPlayer()', function () {
   it('find the closest player to the ball - test 4', async () => {
     const inputIteration = './src/test/input/closestPositions/closest4.json';
 
-    const matchInfo = await readFile(inputIteration);
+    const matchInfoData = await readFile(inputIteration);
+
+    const matchInfo: MatchDetails = matchInfoData as MatchDetails;
 
     const closestPlayerA = {
       name: '',

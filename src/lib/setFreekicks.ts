@@ -138,7 +138,7 @@ function calculateAttackerY(
 function setDeepFreekickBallAndKicker(freekickConfig: {
   ball: Ball;
   kickPlayer: Player;
-  teamID: string;
+  teamID: number;
   pitchWidth: number;
   isTop: boolean;
 }): void {

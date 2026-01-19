@@ -117,7 +117,7 @@ interface ProximityContext {
 }
 
 type PlayerProximityDetails = ProximityContext & {
-  thePlayer?: Player;
+  thePlayer: Player;
   proxToBall?: number;
 };
 interface MatchContext {

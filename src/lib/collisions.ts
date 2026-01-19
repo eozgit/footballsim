@@ -52,7 +52,7 @@ export function thisPlayerIsInProximity(proximityConfig: {
   thisPos: [number, number];
   power: number;
   thisTeam: Team;
-}): [number, number] | [number, number, number] | undefined {
+}): BallPosition | void {
   const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
 
   const pos: [number, number, number] = [thisPos[0], thisPos[1], 0];

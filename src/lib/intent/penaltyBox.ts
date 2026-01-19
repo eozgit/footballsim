@@ -4,13 +4,7 @@ import {
   checkTeamMateSpaceClose,
 } from '../actions.js';
 import * as common from '../common.js';
-import type {
-  Player,
-  MatchEventWeights,
-  PlayerProximityDetails,
-  ProximityContext,
-} from '../types.js';
-import { assert } from '../utils/assert.js';
+import type { MatchEventWeights, PlayerProximityDetails } from '../types.js';
 
 import {
   STANDARD_SPACE_WEIGHTS,
@@ -21,7 +15,7 @@ import {
 import { resolveBoxWeights, getRangeBasedWeights, resolveZonePressure } from './utils.js';
 
 export function handleInPenaltyBox(penaltyBoxContext: {
-  playerInformation: Player;
+  playerInformation: PlayerProximityDetails;
   tmateProximity: [number, number];
   currentPOS: [number, number];
   pos: [number, number];

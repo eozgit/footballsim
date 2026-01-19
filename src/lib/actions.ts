@@ -14,7 +14,6 @@ import type {
   MatchDetails,
   MatchEventWeights,
   Player,
-  PlayerProximityDetails,
   ProximityContext,
   Skill,
   TacticalWeighting,
@@ -75,7 +74,7 @@ function bottomTeamPlayerHasBall(
 }
 
 function bottomTeamPlayerHasBallInMiddle(
-  playerInformation: PlayerProximityDetails,
+  playerInformation: ProximityContext,
   position: string,
   skill: Skill,
 ): MatchEventWeights {

@@ -44,7 +44,7 @@ export function checkOffside(
   team1: Team,
   team2: Team,
   matchDetails: MatchDetails,
-): MatchDetails | undefined {
+): MatchDetails | void {
   const { ball } = matchDetails;
 
   const { pitchSize } = matchDetails;

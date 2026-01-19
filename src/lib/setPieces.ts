@@ -3,7 +3,7 @@ import * as common from './common.js';
 import { setBallPossession } from './setFreekicks.js';
 import { calculatePenaltyTarget } from './setPositions.js';
 import { recordShotStats } from './stats.js';
-import type { ActionContext, Ball, BallContext, MatchDetails, Player, Team } from './types.js';
+import type { ActionContext, Ball, MatchDetails, Player, Team } from './types.js';
 
 function executePenaltyShot(
   matchDetails: MatchDetails,
@@ -48,15 +48,13 @@ function executePenaltyShot(
 /**
  * Calculates the Y-coordinate for an attacking player during a deep set piece.
  */
-function calculateAttackingSetPieceY(
-  yPositionConfig: BallContext & {
-    player: Player;
-    ballY: number;
-    isTopDirection: boolean;
-    pitchHeight: number;
-    isGKExecuting: boolean;
-  },
-): number {
+function calculateAttackingSetPieceY(yPositionConfig: {
+  player: Player;
+  ballY: number;
+  isTopDirection: boolean;
+  pitchHeight: number;
+  isGKExecuting: boolean;
+}): number {
   const { player, ballY, isTopDirection: isTop, pitchHeight, isGKExecuting } = yPositionConfig;
 
   const offset = isTop ? 300 : -300;
@@ -73,14 +71,13 @@ function calculateAttackingSetPieceY(
 /**
  * Calculates the Y-coordinate for a defensive player during a deep set piece.
  */
-function calculateDefensiveSetPieceY(
-  attackingYConfig: ActionContext & {
-    ballY: number;
-    isTop: boolean;
-    pitchHeight: number;
-    isGKExecuting: boolean;
-  },
-): number {
+function calculateDefensiveSetPieceY(attackingYConfig: {
+  player: Player;
+  ballY: number;
+  isTop: boolean;
+  pitchHeight: number;
+  isGKExecuting: boolean;
+}): number {
   const { player, isTop, pitchHeight, isGKExecuting } = attackingYConfig;
 
   if (isGKExecuting) {
@@ -314,7 +311,7 @@ function repositionTeamsForSetPiece(
     : common.getRandomTopPenaltyPosition;
 
   // 1. POSITION ATTACK
-  applyAttackerPositions(team, player, config.pitchHeight, isTop);
+  applyAttackerPositions(team, config.pitchHeight, isTop);
   fillRemainingAttackers(team, player, matchDetails, getRandomPos);
 
   // 2. POSITION DEFENCE
@@ -328,12 +325,7 @@ function repositionTeamsForSetPiece(
 /**
  * Handles fixed-positioning for attacking backline players.
  */
-function applyAttackerPositions(
-  team: Team,
-  kicker: Player,
-  pitchHeight: number,
-  isTop: boolean,
-): void {
+function applyAttackerPositions(team: Team, pitchHeight: number, isTop: boolean): void {
   for (const p of team.players) {
     const targetY = getAttackerSetPieceY(p.position, pitchHeight, isTop);
 

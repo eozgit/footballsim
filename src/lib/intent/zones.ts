@@ -9,11 +9,11 @@ import type {
 import { resolveZonePressure } from './utils.js';
 
 export function handleGKIntent(zonePressureConfig: {
-  playerInfo: unknown;
-  pressureWeights: MatchEventWeights;
-  openWeights: MatchEventWeights;
-  distX: number;
-  distY: number;
+  playerInfo: PlayerProximityDetails;
+  pressureWeights?: MatchEventWeights;
+  openWeights?: MatchEventWeights;
+  distX?: number;
+  distY?: number;
 }): MatchEventWeights {
   const { playerInfo } = zonePressureConfig;
 
@@ -27,7 +27,7 @@ export function handleGKIntent(zonePressureConfig: {
 }
 
 export function handleAttackingThirdIntent(
-  playerInfo: ProximityContext,
+  playerInfo: PlayerProximityDetails,
   _: unknown,
 ): MatchEventWeights {
   return resolveZonePressure({

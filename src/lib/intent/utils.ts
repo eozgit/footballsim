@@ -70,11 +70,11 @@ export function resolveBoxWeights(ctx: ResolveBoxContext): MatchEventWeights {
 }
 
 export function resolveZonePressure(zonePressureConfig: {
-  playerInfo: unknown;
+  playerInfo: PlayerProximityDetails;
   pressureWeights: MatchEventWeights;
   openWeights: MatchEventWeights;
-  distX: number;
-  distY: number;
+  distX?: number;
+  distY?: number;
 }): MatchEventWeights {
   const { playerInfo, pressureWeights, openWeights, distX = 10, distY = 10 } = zonePressureConfig;
 
@@ -87,7 +87,7 @@ export function analyzePlayerSurroundings(
   team: Team,
   opposition: Team,
 ): {
-  oppInfo: { thePlayer: Player; proxPOS: [number, number]; proxToBall: number };
+  oppInfo: PlayerProximityDetails;
   tmateProximity: [number, number];
   oppPos: [number, number];
 } {

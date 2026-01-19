@@ -6,6 +6,8 @@ import { readFile } from '../lib/fileReader.js';
 import { readMatchDetails } from './lib/utils.js';
 import validation from './lib/validateTests.js';
 
+import type { Team } from '#/engine.js';
+
 describe('testValidationOfInputData()', function () {
   it('init game returns an object', async () => {
     const t1location = './src/init_config/team1.json';
@@ -452,7 +454,7 @@ describe('otherValidationTests()', function () {
   it('validate team even if not in JSON format', async () => {
     const team = await readFile('./src/init_config/team1.json');
 
-    expect(validation.validateTeam(team)).to.not.be.an('Error');
+    expect(validation.validateTeam(team as Team)).to.not.be.an('Error');
   });
 
   it('validate team in second half even if not in JSON format', async () => {

@@ -74,7 +74,7 @@ function validatePlayerPosition(pos: readonly [number | 'NP', number]): [number,
 }
 
 function handleDeepBoxThreat(deepThreatConfig: {
-  oppInfo: unknown;
+  oppInfo: PlayerProximityDetails;
   tmateProx: [number, number];
   currentPOS: [number, number];
   closeOppPOS: [number, number];
