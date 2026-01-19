@@ -1,11 +1,11 @@
-import type { PlayerWithProximity } from '../ballMovement.js';
+import { createPlayer, type PlayerWithProximity } from '../ballMovement.js';
 import * as common from '../common.js';
 import {
   setIntentPosition,
   setSetpieceKickOffTeam,
   setSetpieceSecondTeam,
 } from '../setPositions.js';
-import type { Team, Player, MatchDetails } from '../types.js';
+import type { Team, Player, MatchDetails, BallPosition, PlayerProximityDetails } from '../types.js';
 
 export function getPlayersInDistance(
   team: Team,
@@ -162,4 +162,45 @@ export function closestPlayerActionBallY(ballToPlayerY: number): number {
   }
 
   return ballToPlayerY;
+}
+
+export function closestPlayerToPosition(
+  player: Player,
+  team: Team,
+  position: BallPosition,
+): PlayerProximityDetails {
+  let currentDifference = 1000000;
+
+  const playerInformation: {
+    thePlayer: Player;
+    proxPOS: [number, number];
+    proxToBall: number;
+  } = {
+    thePlayer: createPlayer('GK'),
+    proxPOS: [0, 0],
+    proxToBall: 0,
+  };
+
+  for (const thisPlayer of team.players) {
+    if (player.playerID !== thisPlayer.playerID) {
+      if (thisPlayer.currentPOS[0] === 'NP') {
+        throw new Error('Player no position!');
+      }
+
+      const ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
+
+      const ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
+
+      const proximityToBall = Math.abs(ballToPlayerX) + Math.abs(ballToPlayerY);
+
+      if (proximityToBall < currentDifference) {
+        playerInformation.thePlayer = thisPlayer;
+        playerInformation.proxPOS = [ballToPlayerX, ballToPlayerY];
+        playerInformation.proxToBall = proximityToBall;
+        currentDifference = proximityToBall;
+      }
+    }
+  }
+
+  return playerInformation;
 }

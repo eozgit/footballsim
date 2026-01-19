@@ -1,7 +1,6 @@
 import { executeActiveBallAction } from './ballActionHandler.js';
 import * as common from './common.js';
 import { getInterceptTrajectory } from './position/trajectory.js';
-import * as setPositions from './setPositions.js';
 import { processTeamTactics } from './teamAi.js';
 import type { ActionContext, BallPosition, MatchDetails, Player, Team } from './types.js';
 
@@ -207,6 +206,14 @@ function calculateProximityMovement(
   return move;
 }
 
+function formationCheck(origin: [number, number], current: [number, number]): number[] {
+  const xPos = origin[0] - current[0];
+
+  const yPos = origin[1] - current[1];
+
+  return [xPos, yPos];
+}
+
 // Helper: Handle movement toward formation position
 function calculateFormationMovement(player: Player, runOptions: number[]): [number, number] {
   const [x, y] = player.currentPOS;
@@ -215,7 +222,7 @@ function calculateFormationMovement(player: Player, runOptions: number[]): [numb
     throw new Error('No player position!');
   }
 
-  const direction = setPositions.formationCheck(player.intentPOS, [Number(x), Number(y)]);
+  const direction = formationCheck(player.intentPOS, [Number(x), Number(y)]);
 
   const getMove = (dir: number): number => {
     if (dir === 0) {
@@ -296,7 +303,7 @@ function calculateSprintFormation(player: Player, sprintOptions: number[]): [num
     throw new Error('No player position!');
   }
 
-  const direction = setPositions.formationCheck(player.intentPOS, [Number(x), Number(y)]);
+  const direction = formationCheck(player.intentPOS, [Number(x), Number(y)]);
 
   const getMove = (dir: number): number => {
     if (dir === 0) {

@@ -5,6 +5,9 @@ import {
   setBPlayer,
 } from './ballMovement.js';
 import type { MatchDetails } from './types.js';
+export function moveBall(matchDetails: MatchDetails): MatchDetails {
+  return processBallMomentum(matchDetails);
+}
 
 /**
  * Processes the continuation of ball movement from a previous action.

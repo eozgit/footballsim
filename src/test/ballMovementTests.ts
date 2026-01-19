@@ -1,10 +1,12 @@
-import { expect, it, describe } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import * as bMovement from '../lib/ballMovement.js';
 import * as common from '../lib/common.js';
 import { readFile } from '../lib/fileReader.js';
 
 import { readMatchDetails } from './lib/utils.js';
+
+import { moveBall } from '@/lib/ballState.js';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
@@ -869,7 +871,7 @@ describe('moveBall()', function () {
   it(`no ballOverIterations`, async () => {
     let matchDetails = await readMatchDetails('./src/test/input/getMovement/matchDetails1.json');
 
-    matchDetails = bMovement.moveBall(matchDetails);
+    matchDetails = moveBall(matchDetails);
 
     expect(matchDetails.ball.direction).to.eql('wait');
   });
@@ -882,7 +884,7 @@ describe('moveBall()', function () {
       [215, 104],
     ];
 
-    matchDetails = bMovement.moveBall(matchDetails);
+    matchDetails = moveBall(matchDetails);
 
     expect(matchDetails.ball.position).to.eql([211, 100]);
 

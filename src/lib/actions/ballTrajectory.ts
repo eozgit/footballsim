@@ -1,5 +1,5 @@
 import * as common from '../common.js';
-import type { Player } from '../types.js';
+import type { BallPosition, Player } from '../types.js';
 
 export function calculateShotTarget(shotConfig: {
   player: Player;

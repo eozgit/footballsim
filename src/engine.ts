@@ -1,4 +1,4 @@
-import * as ballMovement from './lib/ballMovement.js';
+import { moveBall } from './lib/ballState.js';
 import * as common from './lib/common.js';
 import { matchInjury } from './lib/injury.js';
 import * as playerMovement from './lib/playerMovement.js';
@@ -51,7 +51,7 @@ function playIteration(matchDetails: MatchDetails): MatchDetails {
 
   matchInjury(matchDetails, kickOffTeam);
   matchInjury(matchDetails, secondTeam);
-  matchDetails = ballMovement.moveBall(matchDetails);
+  matchDetails = moveBall(matchDetails);
 
   if (matchDetails.endIteration === true) {
     delete matchDetails.endIteration;

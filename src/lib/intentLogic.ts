@@ -8,9 +8,8 @@ import {
   onBottomCornerBoundary,
   oppositionNearContext,
 } from './actions.js';
-import { resolveDeflection, setBallMovementMatchDetails } from './ballMovement.js';
 import * as common from './common.js';
-import * as setPositions from './setPositions.js';
+import { closestPlayerToPosition } from './position/proximity.js';
 import type {
   PlayerProximityDetails,
   MatchDetails,
@@ -21,7 +20,6 @@ import type {
   Team,
   ActionContext,
   ResolveBoxContext,
-  BallPosition,
   Weights,
   AreaBounds,
 } from './types.js';
@@ -92,9 +90,9 @@ function analyzePlayerSurroundings(
   tmateProximity: [number, number];
   oppPos: [number, number];
 } {
-  const oppInfo = setPositions.closestPlayerToPosition(player, opposition, playerPos);
+  const oppInfo = closestPlayerToPosition(player, opposition, playerPos);
 
-  const tmateInfo = setPositions.closestPlayerToPosition(player, team, playerPos);
+  const tmateInfo = closestPlayerToPosition(player, team, playerPos);
 
   const tmateProximity: [number, number] = [
     Math.abs(tmateInfo.proxPOS[0]),
@@ -321,7 +319,7 @@ function getPlayerActionWeights(ctx: ActionContext): MatchEventWeights {
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
-  const playerInformation = setPositions.closestPlayerToPosition(player, opposition, pos);
+  const playerInformation = closestPlayerToPosition(player, opposition, pos);
 
   // 1. Special Cases
   if (position === 'GK') {
@@ -429,9 +427,9 @@ function getAttackingThreatWeights(
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
   // 1. Analyze surroundings
-  const oppInfo = setPositions.closestPlayerToPosition(player, opposition, curPOS);
+  const oppInfo = closestPlayerToPosition(player, opposition, curPOS);
 
-  const tmateInfo = setPositions.closestPlayerToPosition(player, team, curPOS);
+  const tmateInfo = closestPlayerToPosition(player, team, curPOS);
 
   const tmateProximity: [number, number] = [
     Math.abs(tmateInfo.proxPOS[0]),
@@ -614,30 +612,6 @@ function handlePressuredBoxDecision(
   return [20, 0, 0, 0, 0, 0, 0, 50, 30, 0, 0];
 }
 
-function handleBottomGKIntent(playerInformation: {
-  thePlayer?: Player;
-  proxPOS: [number, number];
-  proxToBall?: number;
-}): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 25)) {
-    return [0, 0, 10, 0, 0, 0, 0, 10, 0, 40, 40];
-  }
-
-  return [0, 0, 50, 0, 0, 0, 0, 10, 0, 20, 20];
-}
-
-function handleBottomAttackingThirdIntent(playerInformation: {
-  thePlayer?: Player;
-  proxPOS: [number, number];
-  proxToBall?: number;
-}): MatchEventWeights {
-  if (oppositionNearContext(playerInformation, 10, 10)) {
-    return [30, 20, 20, 10, 0, 0, 0, 20, 0, 0, 0];
-  }
-
-  return [70, 10, 10, 0, 0, 0, 0, 10, 0, 0, 0];
-}
-
 /**
  * Shared logic for defensive third intentions.
  * Returns weight arrays based on pressure and player position.
@@ -680,91 +654,11 @@ function handleDefensiveThirdIntent(
   return resolveDefensiveIntent(playerInfo, position, [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10]);
 }
 
-function handleGoalieSave(saveConfig: {
-  matchDetails: MatchDetails;
-  player: Player;
-  ballPos: BallPosition;
-  power: number;
-  team: Team;
-}): [number, number, number] | undefined {
-  const { matchDetails, player, ballPos, power, team } = saveConfig;
-
-  const [posX, posY] = player.currentPOS;
-
-  if (posX === 'NP') {
-    throw new Error('No position');
-  }
-
-  const inGoalieProx =
-    common.isBetween(posX, ballPos[0] - 11, ballPos[0] + 11) &&
-    common.isBetween(posY, ballPos[1] - 2, ballPos[1] + 2);
-
-  if (inGoalieProx && common.isBetween(ballPos[2], -1, player.skill.jumping + 1)) {
-    const savingSkill = player.skill.saving || 0;
-
-    if (savingSkill > common.getRandomNumber(0, power)) {
-      setBallMovementMatchDetails({
-        matchDetails: matchDetails,
-        player: player,
-        startPos: ballPos,
-        team: team,
-      });
-      matchDetails.iterationLog.push(`Ball saved`);
-      player.stats.saves = (player.stats.saves || 0) + 1;
-
-      return ballPos;
-    }
-  }
-
-  return undefined;
-}
-
-function handlePlayerDeflection(
-  deflectionConfig: ActionContext & {
-    thisPOS: [number, number];
-    ballPos: BallPosition;
-    power: number;
-  },
-): [number, number] | undefined {
-  const { matchDetails, player, thisPOS, ballPos, power, team } = deflectionConfig;
-
-  const [posX, posY] = player.currentPOS;
-
-  if (posX === 'NP') {
-    throw new Error('No position');
-  }
-
-  const inProx =
-    common.isBetween(posX, ballPos[0] - 3, ballPos[0] + 3) &&
-    common.isBetween(posY, ballPos[1] - 3, ballPos[1] + 3);
-
-  if (inProx && common.isBetween(ballPos[2], -1, player.skill.jumping + 1)) {
-    const newPOS = resolveDeflection({
-      power: power,
-      startPos: thisPOS,
-      defPosition: [posX, posY],
-      player: player,
-      team: team,
-      matchDetails: matchDetails,
-    });
-
-    matchDetails.iterationLog.push(`Ball deflected`);
-
-    return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
-  }
-
-  return undefined;
-}
-
 export {
   getAttackingIntentWeights,
   getPlayerActionWeights,
   getAttackingThreatWeights,
-  handleBottomGKIntent,
-  handleBottomAttackingThirdIntent,
   handleBottomDefensiveThirdIntent,
-  handleGoalieSave,
-  handlePlayerDeflection,
 };
 
 export { attemptGoalieSave } from './actions/defensiveActions.js';

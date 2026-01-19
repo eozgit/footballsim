@@ -1,16 +1,15 @@
+import { handleBottomGKIntent, handleBottomAttackingThirdIntent } from './actions/intent.js';
 import * as common from './common.js';
 import {
   getAttackingIntentWeights,
   getAttackingThreatWeights,
-  handleBottomAttackingThirdIntent,
   handleBottomDefensiveThirdIntent,
-  handleBottomGKIntent,
 } from './intentLogic.js';
 import {
   checkPositionInTopPenaltyBox,
   checkPositionInBottomPenaltyBox,
 } from './position/penaltyArea.js';
-import * as setPositions from './setPositions.js';
+import { closestPlayerToPosition } from './position/proximity.js';
 import type {
   BallPosition,
   PlayerProximityDetails,
@@ -45,7 +44,7 @@ function bottomTeamPlayerHasBall(
 
   const [, posY] = pos;
 
-  const playerInformation = setPositions.closestPlayerToPosition(player, opposition, pos);
+  const playerInformation = closestPlayerToPosition(player, opposition, pos);
 
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 

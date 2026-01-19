@@ -1,6 +1,5 @@
 import { calculateShotTarget } from './actions/ballTrajectory.js';
-import { processBallMomentum } from './ballState.js';
-import { checkInterceptionsOnTrajectory, resolvePlayerBallInteraction } from './collisions.js';
+import { checkInterceptionsOnTrajectory } from './collisions.js';
 import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { executeKickAction, resolvePassDestination } from './kickLogic.js';
@@ -30,10 +29,6 @@ function splitNumberIntoN(num: number, n: number): number[] {
   }
 
   return splitNumber;
-}
-
-function moveBall(matchDetails: MatchDetails): MatchDetails {
-  return processBallMomentum(matchDetails);
 }
 
 function createPlayer(position: string): Player {
@@ -73,6 +68,16 @@ function ballKicked(matchDetails: MatchDetails, team: Team, player: Player): [nu
   return executeKickAction(matchDetails, team, player);
 }
 
+function checkShotAccuracy(player: Player, pitchHeight: number, power: number): boolean {
+  const [, playerY] = player.currentPOS;
+
+  const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
+
+  const shotReachGoal = isTopTeam ? playerY + power >= pitchHeight : playerY - power <= 0;
+
+  return shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40);
+}
+
 function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
 
@@ -81,7 +86,7 @@ function shotMade(matchDetails: MatchDetails, team: Team, player: Player): [numb
   const shotPower = common.calculatePower(player.skill.strength);
 
   // 2. Logic Resolution
-  const isOnTarget = setPositions.checkShotAccuracy(player, pitchHeight, shotPower);
+  const isOnTarget = checkShotAccuracy(player, pitchHeight, shotPower);
 
   recordShotStats(matchDetails, player, isOnTarget);
 
@@ -215,26 +220,6 @@ function resolveBallMovement(movementConfig: {
     team: team,
     opp: opp,
     matchDetails: matchDetails,
-  });
-}
-
-function thisPlayerIsInProximity(proximityConfig: {
-  matchDetails: MatchDetails;
-  thisPlayer: Player;
-  thisPOS: [number, number];
-  thisPos: [number, number];
-  power: number;
-  thisTeam: Team;
-}): [number, number] | [number, number, number] | undefined {
-  const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
-
-  return resolvePlayerBallInteraction({
-    matchDetails: matchDetails,
-    thisPlayer: thisPlayer,
-    thisPOS: thisPOS,
-    thisPos: thisPos,
-    power: power,
-    thisTeam: thisTeam,
   });
 }
 
@@ -615,7 +600,6 @@ export {
   checkGoalScored,
   getBallDirection,
   getTargetPlayer,
-  moveBall,
   penaltyTaken,
   resolveDeflection,
   setBPlayer,
@@ -626,7 +610,6 @@ export {
   shotMade,
   throughBall,
   resolveBallMovement,
-  thisPlayerIsInProximity,
   createPlayer,
   getPlayersInDistance,
   splitNumberIntoN,

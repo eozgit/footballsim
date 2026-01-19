@@ -1,8 +1,62 @@
-import { thisPlayerIsInProximity } from './ballMovement.js';
+import { resolveDeflection, setBallMovementMatchDetails } from './ballMovement.js';
 import * as common from './common.js';
 import { handleGoalieSave, handlePlayerDeflection } from './intentLogic.js';
+import { closestPlayerToPosition } from './position/proximity.js';
 import * as setPositions from './setPositions.js';
-import type { MatchDetails, Player, Team } from './types.js';
+import type { ActionContext, BallPosition, MatchDetails, Player, Team } from './types.js';
+
+export function handleGoalieSave(saveConfig: {
+  matchDetails: MatchDetails;
+  player: Player;
+  ballPos: BallPosition;
+  power: number;
+  team: Team;
+}): BallPosition | void {
+  const { matchDetails, player, ballPos, power, team } = saveConfig;
+
+  const [posX, posY] = common.destructPos(player.currentPOS);
+
+  const inGoalieProx =
+    common.isBetween(posX, ballPos[0] - 11, ballPos[0] + 11) &&
+    common.isBetween(posY, ballPos[1] - 2, ballPos[1] + 2);
+
+  if (inGoalieProx && common.isBetween(ballPos[2] ?? 0, -1, player.skill.jumping + 1)) {
+    const savingSkill = player.skill.saving || 0;
+
+    if (savingSkill > common.getRandomNumber(0, power)) {
+      setBallMovementMatchDetails({
+        matchDetails: matchDetails,
+        player: player,
+        startPos: [ballPos[0], ballPos[1]],
+        team: team,
+      });
+      matchDetails.iterationLog.push(`Ball saved`);
+      player.stats.saves = (player.stats.saves || 0) + 1;
+
+      return ballPos;
+    }
+  }
+}
+
+export function thisPlayerIsInProximity(proximityConfig: {
+  matchDetails: MatchDetails;
+  thisPlayer: Player;
+  thisPOS: [number, number];
+  thisPos: [number, number];
+  power: number;
+  thisTeam: Team;
+}): [number, number] | [number, number, number] | undefined {
+  const { matchDetails, thisPlayer, thisPOS, thisPos, power, thisTeam } = proximityConfig;
+
+  return resolvePlayerBallInteraction({
+    matchDetails: matchDetails,
+    thisPlayer: thisPlayer,
+    thisPOS: thisPOS,
+    thisPos: thisPos,
+    power: power,
+    thisTeam: thisTeam,
+  });
+}
 
 function resolvePlayerBallInteraction(interactionConfig: {
   matchDetails: MatchDetails;
@@ -123,9 +177,9 @@ function resolvePathInterceptions(pathConfig: {
   for (const step of trajectory) {
     const checkPos: [number, number] = [common.round(step[0], 0), common.round(step[1], 0)];
 
-    const p1 = setPositions.closestPlayerToPosition(originPlayer, team, checkPos);
+    const p1 = closestPlayerToPosition(originPlayer, team, checkPos);
 
-    const p2 = setPositions.closestPlayerToPosition(originPlayer, opp, checkPos);
+    const p2 = closestPlayerToPosition(originPlayer, opp, checkPos);
 
     const useP1 = p1.proxToBall >= p2.proxToBall;
 
@@ -143,6 +197,37 @@ function resolvePathInterceptions(pathConfig: {
         thisTeam: closestTeam,
       });
     }
+  }
+}
+
+export function handlePlayerDeflection(
+  deflectionConfig: ActionContext & {
+    thisPOS: [number, number];
+    ballPos: BallPosition;
+    power: number;
+  },
+): [number, number] | void {
+  const { matchDetails, player, thisPOS, ballPos, power, team } = deflectionConfig;
+
+  const [posX, posY] = common.destructPos(player.currentPOS);
+
+  const inProx =
+    common.isBetween(posX, ballPos[0] - 3, ballPos[0] + 3) &&
+    common.isBetween(posY, ballPos[1] - 3, ballPos[1] + 3);
+
+  if (inProx && common.isBetween(ballPos[2] ?? 0, -1, player.skill.jumping + 1)) {
+    const newPOS = resolveDeflection({
+      power: power,
+      startPos: thisPOS,
+      defPosition: [posX, posY],
+      player: player,
+      team: team,
+      matchDetails: matchDetails,
+    });
+
+    matchDetails.iterationLog.push(`Ball deflected`);
+
+    return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
   }
 }
 

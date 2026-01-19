@@ -1,7 +1,8 @@
 import * as common from '../common.js';
-import { closestPlayerToPosition } from '../setPositions.js';
 import { initStats } from '../setVariables.js';
 import type { Team, BallPosition, Player } from '../types.js';
+
+import { closestPlayerToPosition } from './proximity.js';
 
 const mockPlayer: Player = {
   name: 'George Johnson',

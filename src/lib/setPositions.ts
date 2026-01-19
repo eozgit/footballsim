@@ -1,18 +1,10 @@
-import { createPlayer } from './ballMovement.js';
 import { resolveBallLocation } from './boundaryHandler.js';
 import * as common from './common.js';
 import * as setBottomFreekicks from './setBottomFreekicks.js';
 import { executeDeepSetPieceSetup } from './setPieces.js';
 import * as setTopFreekicks from './setTopFreekicks.js';
 import * as setVariables from './setVariables.js';
-import type {
-  Ball,
-  BallPosition,
-  MatchDetails,
-  Player,
-  PlayerProximityDetails,
-  Team,
-} from './types.js';
+import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
 
 function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
@@ -411,47 +403,6 @@ function setBallSpecificGoalKickValue(matchDetails: MatchDetails, attack: Team):
   matchDetails.iterationLog.push(`Goal Kick to - ${attack.name}`);
 }
 
-function closestPlayerToPosition(
-  player: Player,
-  team: Team,
-  position: BallPosition,
-): PlayerProximityDetails {
-  let currentDifference = 1000000;
-
-  const playerInformation: {
-    thePlayer: Player;
-    proxPOS: [number, number];
-    proxToBall: number;
-  } = {
-    thePlayer: createPlayer('GK'),
-    proxPOS: [0, 0],
-    proxToBall: 0,
-  };
-
-  for (const thisPlayer of team.players) {
-    if (player.playerID !== thisPlayer.playerID) {
-      if (thisPlayer.currentPOS[0] === 'NP') {
-        throw new Error('Player no position!');
-      }
-
-      const ballToPlayerX = thisPlayer.currentPOS[0] - position[0];
-
-      const ballToPlayerY = thisPlayer.currentPOS[1] - position[1];
-
-      const proximityToBall = Math.abs(ballToPlayerX) + Math.abs(ballToPlayerY);
-
-      if (proximityToBall < currentDifference) {
-        playerInformation.thePlayer = thisPlayer;
-        playerInformation.proxPOS = [ballToPlayerX, ballToPlayerY];
-        playerInformation.proxToBall = proximityToBall;
-        currentDifference = proximityToBall;
-      }
-    }
-  }
-
-  return playerInformation;
-}
-
 function setSetpieceKickOffTeam(matchDetails: MatchDetails): MatchDetails {
   const [, pitchHeight] = matchDetails.pitchSize;
 
@@ -739,14 +690,6 @@ function setPlayerPositions(matchDetails: MatchDetails, team: Team, extra: numbe
       thisPlayer.intentPOS = [thisPlayer.originPOS[0], playerPos];
     }
   }
-}
-
-function formationCheck(origin: [number, number], current: [number, number]): number[] {
-  const xPos = origin[0] - current[0];
-
-  const yPos = origin[1] - current[1];
-
-  return [xPos, yPos];
 }
 
 function setIntentPosition(matchDetails: MatchDetails, closestPlayer: Player): void {
@@ -1075,16 +1018,6 @@ function resolveGoalScored(matchDetails: MatchDetails, isTopGoal: boolean): Matc
   }
 }
 
-function checkShotAccuracy(player: Player, pitchHeight: number, power: number): boolean {
-  const [, playerY] = player.currentPOS;
-
-  const isTopTeam = player.originPOS[1] < pitchHeight / 2; // Fixed logic for top/bottom
-
-  const shotReachGoal = isTopTeam ? playerY + power >= pitchHeight : playerY - power <= 0;
-
-  return shotReachGoal && player.skill.shooting > common.getRandomNumber(0, 40);
-}
-
 /**
  * Calculates the X and Y target coordinates for a penalty shot
  */
@@ -1103,9 +1036,6 @@ function repositionForDeepSetPiece(
 }
 
 export {
-  checkShotAccuracy,
-  closestPlayerToPosition,
-  formationCheck,
   keepInBoundaries,
   repositionForDeepSetPiece,
   resolveGoalScored,
