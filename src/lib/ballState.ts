@@ -1,9 +1,5 @@
-import {
-  checkGoalScored,
-  getBallDirection,
-  resolveBallMovement,
-  setBPlayer,
-} from './ballMovement.js';
+import { checkGoalScored, getBallDirection, resolveBallMovement } from './ballMovement.js';
+import { setBPlayer } from './factories/playerFactory.js';
 import type { MatchDetails } from './types.js';
 export function moveBall(matchDetails: MatchDetails): MatchDetails {
   return processBallMomentum(matchDetails);

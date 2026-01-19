@@ -1,5 +1,6 @@
-import { createPlayer, type PlayerWithProximity } from '../ballMovement.js';
+import type { PlayerWithProximity } from '../ballMovement.js';
 import * as common from '../common.js';
+import { createPlayer } from '../factories/playerFactory.js';
 import {
   setIntentPosition,
   setSetpieceKickOffTeam,

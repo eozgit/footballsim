@@ -2,11 +2,12 @@ import { expect, it, describe } from 'vitest';
 
 import * as findPossActions from '../lib/actions/findPossActions.js';
 import * as actions from '../lib/actions.js';
-import { createPlayer } from '../lib/ballMovement.js';
 import * as common from '../lib/common.js';
 import type { Player } from '../lib/types.js';
 
 import { readMatchDetails } from './lib/utils.js';
+
+import { createPlayer } from '@/lib/factories/playerFactory.js';
 
 describe('testPositionInTopBox()', function () {
   it('Inside Top Box Test', async () => {

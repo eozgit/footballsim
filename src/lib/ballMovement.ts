@@ -4,7 +4,6 @@ import * as common from './common.js';
 import { attemptGoalieSave } from './intentLogic.js';
 import { executeKickAction, resolvePassDestination } from './kickLogic.js';
 import { calculateDeflectionVector, updateBallCardinalDirection } from './physics.js';
-import { initializePlayerObject } from './playerDefaults.js';
 import { resolveBestPassOption } from './playerSelectors.js';
 import { getPlayersInDistance } from './position/proximity.js';
 import { executePenaltyShot } from './setPieces.js';
@@ -29,39 +28,6 @@ function splitNumberIntoN(num: number, n: number): number[] {
   }
 
   return splitNumber;
-}
-
-function createPlayer(position: string): Player {
-  return initializePlayerObject(position);
-}
-
-function setBPlayer(ballPos: BallPosition): Player {
-  const [ballX, ballY] = ballPos;
-
-  const pos: [number, number] = [ballX, ballY];
-
-  const player = createPlayer('LB');
-
-  const patch: Partial<Player> = {
-    name: `Ball`,
-    position: `LB`,
-    rating: `100`,
-    skill: {
-      passing: 100,
-      shooting: 100,
-      saving: 100,
-      tackling: 100,
-      agility: 100,
-      strength: 100,
-      penalty_taking: 100,
-      jumping: 100,
-    },
-    originPOS: pos,
-    currentPOS: pos,
-    injured: false,
-  };
-
-  return { ...player, ...patch };
 }
 
 function ballKicked(matchDetails: MatchDetails, team: Team, player: Player): [number, number] {
@@ -602,7 +568,6 @@ export {
   getTargetPlayer,
   penaltyTaken,
   resolveDeflection,
-  setBPlayer,
   setDeflectionDirectionPos,
   setDeflectionPlayerHasBall,
   setDeflectionPlayerOffside,
@@ -610,7 +575,6 @@ export {
   shotMade,
   throughBall,
   resolveBallMovement,
-  createPlayer,
   getPlayersInDistance,
   splitNumberIntoN,
   mergeArrays,

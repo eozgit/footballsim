@@ -7,6 +7,7 @@ import { readFile } from '../lib/fileReader.js';
 import { readMatchDetails } from './lib/utils.js';
 
 import { moveBall } from '@/lib/ballState.js';
+import { createPlayer, setBPlayer } from '@/lib/factories/playerFactory.js';
 
 describe('ArrayStuffs()', function () {
   it('merging arrays', async () => {
@@ -189,11 +190,11 @@ describe('targetPlayers()', function () {
   });
 
   it('set B Player', async () => {
-    const player = bMovement.createPlayer('CM');
+    const player = createPlayer('CM');
 
     const bPlayer = await readFile('./src/test/input/ballMovements/bPlayer.json');
 
-    const thisPlayer = bMovement.setBPlayer([0, 200]);
+    const thisPlayer = setBPlayer([0, 200]);
 
     expect(thisPlayer).to.eql({ ...player, ...bPlayer });
   });
