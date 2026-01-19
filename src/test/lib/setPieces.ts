@@ -1,5 +1,6 @@
 import * as common from '../../lib/common.js';
 import * as penalties from '../../lib/position/set-pieces/penalties.js';
+import * as restarts from '../../lib/position/set-pieces/restarts.js';
 import * as setPos from '../../lib/setPositions.js';
 import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
@@ -88,7 +89,7 @@ async function setSetpieceSecondTeam(iterationFile: string) {
 async function setTopGoalKick(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setTopGoalKick(matchDetails);
+  restarts.setTopGoalKick(matchDetails);
 
   return matchDetails;
 }
@@ -96,7 +97,7 @@ async function setTopGoalKick(iterationFile: string) {
 async function setBottomGoalKick(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setBottomGoalKick(matchDetails);
+  restarts.setBottomGoalKick(matchDetails);
 
   return matchDetails;
 }
@@ -124,7 +125,7 @@ async function setSecondTeamGoalScored(iterationFile: string) {
 async function setLeftKickOffTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
+  restarts.setLeftKickOffTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
 }
@@ -132,7 +133,7 @@ async function setLeftKickOffTeamThrowIn(iterationFile: string, ballIntended: Ba
 async function setLeftSecondTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setLeftSecondTeamThrowIn(matchDetails, ballIntended);
+  restarts.setLeftSecondTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
 }
@@ -140,7 +141,7 @@ async function setLeftSecondTeamThrowIn(iterationFile: string, ballIntended: Bal
 async function setRightKickOffTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setRightKickOffTeamThrowIn(matchDetails, ballIntended);
+  restarts.setRightKickOffTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
 }
@@ -148,7 +149,7 @@ async function setRightKickOffTeamThrowIn(iterationFile: string, ballIntended: B
 async function setRightSecondTeamThrowIn(iterationFile: string, ballIntended: BallPosition) {
   const matchDetails = await readMatchDetails(iterationFile);
 
-  setPos.setRightSecondTeamThrowIn(matchDetails, ballIntended);
+  restarts.setRightSecondTeamThrowIn(matchDetails, ballIntended);
 
   return matchDetails;
 }

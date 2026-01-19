@@ -1,7 +1,7 @@
-import { resetPlayerPositions } from "../setVariables.js";
-import type { MatchDetails, Player, Team } from "../types.js";
+import { resetPlayerPositions } from '../setVariables.js';
+import type { MatchDetails, Player, Team } from '../types.js';
 
-import * as common from '@/lib/common.js'
+import * as common from '@/lib/common.js';
 export function setKickOffTeamGoalScored(matchDetails: MatchDetails): MatchDetails {
   const scorer = matchDetails.ball.lastTouch.playerName;
 
@@ -27,8 +27,6 @@ export function setKickOffTeamGoalScored(matchDetails: MatchDetails): MatchDetai
 
   return matchDetails;
 }
-
-
 
 export function setSecondTeamGoalScored(matchDetails: MatchDetails): MatchDetails {
   const scorer = matchDetails.ball.lastTouch.playerName;
@@ -56,10 +54,10 @@ export function setSecondTeamGoalScored(matchDetails: MatchDetails): MatchDetail
   return matchDetails;
 }
 
-
-
-
-export function setBallSpecificGoalScoreValue(matchDetails: MatchDetails, conceedingTeam: Team): void {
+export function setBallSpecificGoalScoreValue(
+  matchDetails: MatchDetails,
+  conceedingTeam: Team,
+): void {
   matchDetails.ball.position = [matchDetails.pitchSize[0] / 2, matchDetails.pitchSize[1] / 2, 0];
   matchDetails.ball.ballOverIterations = [];
   matchDetails.ball.withPlayer = true;
@@ -85,9 +83,6 @@ export function setBallSpecificGoalScoreValue(matchDetails: MatchDetails, concee
     matchDetails.ball.position[1],
   );
 }
-
-
-
 
 export function resolveGoalScored(matchDetails: MatchDetails, isTopGoal: boolean): MatchDetails {
   const { half } = matchDetails;

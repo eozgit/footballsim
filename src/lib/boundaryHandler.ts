@@ -7,13 +7,13 @@ import {
   setBottomRightCornerPositions,
 } from './position/set-pieces/corners.js';
 import {
-  setBottomGoalKick,
-  setLeftKickOffTeamThrowIn,
   setLeftSecondTeamThrowIn,
-  setRightKickOffTeamThrowIn,
+  setLeftKickOffTeamThrowIn,
   setRightSecondTeamThrowIn,
+  setRightKickOffTeamThrowIn,
   setTopGoalKick,
-} from './setPositions.js';
+  setBottomGoalKick,
+} from './position/set-pieces/restarts.js';
 import type { BallContext, BallPosition, MatchDetails } from './types.js';
 
 /**
