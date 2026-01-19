@@ -4,18 +4,6 @@ import { executeDeepSetPieceSetup } from './setPieces.js';
 import * as setVariables from './setVariables.js';
 import type { Ball, BallPosition, MatchDetails, Player, Team } from './types.js';
 
-
-
-
-
-
-
-
-
-
-
-
-
 function setLeftKickOffTeamThrowIn(
   matchDetails: MatchDetails,
   ballIntended: BallPosition,

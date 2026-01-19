@@ -1,5 +1,5 @@
-import type { MatchDetails, Team } from "@/engine.js";
-import * as common from '@/lib/common.js'
+import type { MatchDetails, Team } from '@/engine.js';
+import * as common from '@/lib/common.js';
 
 export function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
@@ -15,8 +15,6 @@ export function setTopRightCornerPositions(matchDetails: MatchDetails): MatchDet
 
   return matchDetails;
 }
-
-
 
 function assignTeamsAndResetPositions(matchDetails: MatchDetails): { attack: Team; defence: Team } {
   common.removeBallFromAllPlayers(matchDetails);
@@ -49,8 +47,6 @@ function assignTeamsAndResetPositions(matchDetails: MatchDetails): { attack: Tea
   return { attack, defence };
 }
 
-
-
 export function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
   const { attack, defence } = assignTeamsAndResetPositions(matchDetails);
 
@@ -63,8 +59,6 @@ export function setTopLeftCornerPositions(matchDetails: MatchDetails): MatchDeta
 
   return matchDetails;
 }
-
-
 
 export function setBottomLeftCornerPositions(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
@@ -106,9 +100,6 @@ export function setBottomLeftCornerPositions(matchDetails: MatchDetails): MatchD
   return matchDetails;
 }
 
-
-
-
 export function setBottomRightCornerPositions(matchDetails: MatchDetails): MatchDetails {
   common.removeBallFromAllPlayers(matchDetails);
   const [pitchWidth, pitchHeight] = matchDetails.pitchSize;
@@ -148,8 +139,6 @@ export function setBottomRightCornerPositions(matchDetails: MatchDetails): Match
 
   return matchDetails;
 }
-
-
 
 function setBallSpecificCornerValue(matchDetails: MatchDetails, attack: Team): void {
   attack.players[1].hasBall = true;

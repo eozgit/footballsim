@@ -13,7 +13,6 @@ export function getPlayersInDistance(
 ): PlayerWithProximity[] {
   const [curX, curY] = common.destructPos(player.currentPOS);
 
-
   const [pitchWidth, pitchHeight] = pitchSize;
 
   const playersInDistance: PlayerWithProximity[] = [];

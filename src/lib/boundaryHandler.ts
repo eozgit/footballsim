@@ -1,5 +1,10 @@
 import * as common from './common.js';
-import { setTopLeftCornerPositions, setTopRightCornerPositions, setBottomLeftCornerPositions, setBottomRightCornerPositions } from './position/set-pieces/corners.js';
+import {
+  setTopLeftCornerPositions,
+  setTopRightCornerPositions,
+  setBottomLeftCornerPositions,
+  setBottomRightCornerPositions,
+} from './position/set-pieces/corners.js';
 import {
   setBottomGoalKick,
   setKickOffTeamGoalScored,

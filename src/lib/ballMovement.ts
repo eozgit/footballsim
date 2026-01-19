@@ -28,8 +28,6 @@ function splitNumberIntoN(num: number, n: number): number[] {
   return splitNumber;
 }
 
-
-
 function checkShotAccuracy(player: Player, pitchHeight: number, power: number): boolean {
   const [, playerY] = player.currentPOS;
 
@@ -106,8 +104,6 @@ function updateLastTouchAndLog(matchDetails: MatchDetails, team: Team, player: P
   updateLastTouch(matchDetails.ball, player, team);
 }
 
-
-
 function checkGoalScored(matchDetails: MatchDetails): void {
   const { ball, kickOffTeam, secondTeam } = matchDetails;
 
@@ -148,8 +144,6 @@ function checkGoalScored(matchDetails: MatchDetails): void {
     }
   }
 }
-
-
 
 function resolveBallMovement(movementConfig: {
   player: Player;

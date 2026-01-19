@@ -1,10 +1,7 @@
 import { handleBottomGKIntent, handleBottomAttackingThirdIntent } from './actions/intent.js';
+import { getAttackingThreatWeights } from './ai/threatAnalysis.js';
 import * as common from './common.js';
-import {
-  getAttackingIntentWeights,
-  getAttackingThreatWeights,
-  handleBottomDefensiveThirdIntent,
-} from './intentLogic.js';
+import { getAttackingIntentWeights, handleBottomDefensiveThirdIntent } from './intentLogic.js';
 import {
   checkPositionInTopPenaltyBox,
   checkPositionInBottomPenaltyBox,

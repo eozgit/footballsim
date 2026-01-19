@@ -5,7 +5,12 @@ import type { BallPosition, MatchDetails, Team } from '../../lib/types.js';
 
 import { readMatchDetails } from './utils.js';
 
-import { setTopLeftCornerPositions, setTopRightCornerPositions, setBottomLeftCornerPositions, setBottomRightCornerPositions } from '@/lib/position/set-pieces/corners.js';
+import {
+  setTopLeftCornerPositions,
+  setTopRightCornerPositions,
+  setBottomLeftCornerPositions,
+  setBottomRightCornerPositions,
+} from '@/lib/position/set-pieces/corners.js';
 
 async function setupTopPenalty(iterationFile: string) {
   const matchDetails = await readMatchDetails(iterationFile);
