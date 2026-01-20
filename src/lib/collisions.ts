@@ -12,7 +12,7 @@ import type {
   Team,
 } from './types.js';
 
-export function handleGoalieSave(saveConfig: {
+function handleGoalieSave(saveConfig: {
   matchDetails: MatchDetails;
   player: Player;
   ballPos: BallPosition;
@@ -45,7 +45,7 @@ export function handleGoalieSave(saveConfig: {
   }
 }
 
-export function thisPlayerIsInProximity(proximityConfig: {
+function thisPlayerIsInProximity(proximityConfig: {
   matchDetails: MatchDetails;
   thisPlayer: Player;
   thisPOS: [number, number];
@@ -124,7 +124,7 @@ function resolvePlayerBallInteraction(interactionConfig: {
  * Resolves ball movement by checking for player interceptions and pitch boundaries.
  * Refactored to comply with the 50-line limit by extracting the trajectory loop.
  */
-function checkInterceptionsOnTrajectory(trajectoryConfig: {
+export function checkInterceptionsOnTrajectory(trajectoryConfig: {
   player: Player;
   thisPOS: [number, number];
   newPOS: [number, number];
@@ -221,7 +221,7 @@ function compareProximity(p1: PlayerProximityDetails, p2: PlayerProximityDetails
   return p1.proxToBall >= p2.proxToBall;
 }
 
-export function handlePlayerDeflection(
+function handlePlayerDeflection(
   deflectionConfig: ActionContext & {
     thisPOS: [number, number];
     ballPos: BallPosition;
@@ -251,5 +251,3 @@ export function handlePlayerDeflection(
     return [common.round(newPOS[0], 2), common.round(newPOS[1], 2)];
   }
 }
-
-export { checkInterceptionsOnTrajectory, resolvePlayerBallInteraction };

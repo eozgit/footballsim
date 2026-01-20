@@ -318,14 +318,7 @@ function calculateSprintFormation(player: Player, sprintOptions: number[]): [num
   return [getMove(direction[0]), getMove(direction[1])];
 }
 
-export {
-  decideMovement,
-  getMovement,
-  getRunMovement,
-  getSprintMovement,
-  handleBallPlayerActions,
-  getInterceptTrajectory,
-};
+export { decideMovement, getMovement, getRunMovement, getSprintMovement, handleBallPlayerActions };
 
 export { setClosePlayerTakesBall, closestPlayerToBall } from './position/proximity.js';
 

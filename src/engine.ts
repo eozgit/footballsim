@@ -99,7 +99,7 @@ function startSecondHalf(matchDetails: MatchDetails): MatchDetails {
   return matchDetails;
 }
 
-export {
+export type {
   Ball,
   Cards,
   LastTouch,

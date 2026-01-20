@@ -61,7 +61,7 @@ export function handleInPenaltyBox(penaltyBoxContext: {
   });
 }
 
-export function handleUnderPressureInBox(boxPressureContext: {
+function handleUnderPressureInBox(boxPressureContext: {
   tmateProximity: [number, number];
   currentPOS: [number, number];
   pos: [number, number];

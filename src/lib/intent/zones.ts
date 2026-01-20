@@ -79,7 +79,7 @@ export function handleDefensiveThirdIntent(
   return resolveDefensiveIntent(playerInfo, position, [0, 0, 40, 0, 0, 0, 0, 30, 0, 20, 10]);
 }
 
-export function resolveDefensiveIntent(
+function resolveDefensiveIntent(
   playerInformation: PlayerProximityDetails,
   position: string,
   fallbackWeights: MatchEventWeights,

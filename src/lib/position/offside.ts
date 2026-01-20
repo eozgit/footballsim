@@ -1,7 +1,7 @@
 import * as common from '../common.js';
 import type { MatchDetails, Player, Team } from '../types.js';
 
-export function offsideYPOS(
+function offsideYPOS(
   team: Team,
   side: unknown,
   pitchHeight: number,
