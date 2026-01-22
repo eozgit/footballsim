@@ -6,7 +6,6 @@
   "files": [
     "dist/",
     "!dist/test",
-    "!dist/**/*.map",
     "!dist/vitestSetup.*",
     "README.md",
     "LICENSE"
