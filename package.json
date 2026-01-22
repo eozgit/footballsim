@@ -2,7 +2,7 @@
   "name": "footballsim",
   "version": "5.0.0",
   "description": "A modernized, TypeScript-first engine for simulating football matches (Fork of footballSimulationEngine)",
-  "homepage": "https://github.com/GallagherAiden/footballSimulationEngine",
+  "homepage": "https://github.com/eozgit/footballsim",
   "files": [
     "dist/",
     "!dist/test",
@@ -53,7 +53,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/GallagherAiden/footballSimulationEngine"
+    "url": "https://github.com/eozgit/footballsim"
   },
   "keywords": [
     "football",
