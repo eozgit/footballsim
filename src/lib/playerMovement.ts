@@ -216,11 +216,7 @@ function formationCheck(origin: [number, number], current: [number, number]): nu
 
 // Helper: Handle movement toward formation position
 function calculateFormationMovement(player: Player, runOptions: number[]): [number, number] {
-  const [x, y] = player.currentPOS;
-
-  if (x === 'NP') {
-    throw new Error('No player position!');
-  }
+  const [x, y] = common.destructPos(player.currentPOS);
 
   const direction = formationCheck(player.intentPOS, [Number(x), Number(y)]);
 

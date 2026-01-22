@@ -3,6 +3,14 @@
   "version": "5.0.0",
   "description": "A modernized, TypeScript-first engine for simulating football matches (Fork of footballSimulationEngine)",
   "homepage": "https://github.com/GallagherAiden/footballSimulationEngine",
+  "files": [
+    "dist/",
+    "!dist/test",
+    "!dist/**/*.map",
+    "!dist/vitestSetup.*",
+    "README.md",
+    "LICENSE"
+  ],
   "main": "./dist/engine.js",
   "types": "./dist/engine.d.ts",
   "exports": {
@@ -12,7 +20,6 @@
     }
   },
   "scripts": {
-    "start": "node engine.js",
     "build": "tsc",
     "dev": "tsc --watch",
     "prepublishOnly": "npm run build",
@@ -24,12 +31,10 @@
     "test:bail": "vitest run src/test --bail 1",
     "test:watch": "vitest",
     "test:coverage": "vitest run src/test --coverage --coverage.reportsDirectory ./coverage/test/",
-    "test:coverage:open": "npm run test:coverage; xdg-open ./coverage/test/index.html",
     "test:precommit": "vitest run --reporter=dot --silent --bail 1",
-    "prepare": "[ -d .git ] && husky install || echo 'Skipping husky'",
+    "prepare": "husky",
     "type-check": "tsc --noEmit",
     "type-check:coverage": "typescript-coverage-report -o ./coverage/type/ --ignore-files 'coverage/**'",
-    "type-check:coverage:open": "npm run type-check:coverage && xdg-open coverage/type/index.html",
     "coverage:all": "npm run test:coverage && npm run type-check:coverage",
     "arch": "depcruise src --config .dependency-cruiser.cjs --output-type err",
     "arch:graph": "depcruise src --output-type mermaid > architecture.mmd",
@@ -61,7 +66,7 @@
     "footie",
     "football management"
   ],
-  "author": "Aiden Gallagher <aiden.g@live.co.uk>",
+  "author": "Aiden Gallagher",
   "license": "ISC",
   "engines": {
     "node": ">=20.0.0"
