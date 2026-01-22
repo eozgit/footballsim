@@ -18,6 +18,11 @@
       "import": "./dist/engine.js"
     }
   },
+  "release": {
+    "branches": [
+      "main"
+    ]
+  },
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
