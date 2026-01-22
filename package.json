@@ -12,16 +12,20 @@
   ],
   "main": "./dist/engine.js",
   "types": "./dist/engine.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/engine.d.ts",
-      "import": "./dist/engine.js"
-    }
-  },
   "release": {
     "branches": [
       "main"
     ]
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/engine.d.ts",
+      "import": "./dist/engine.js"
+    },
+    "./lib/*": "./dist/lib/*"
+  },
+  "imports": {
+    "#/*": "./dist/*.js"
   },
   "scripts": {
     "build": "tsc",
@@ -120,8 +124,5 @@
       "prettier --write"
     ]
   },
-  "type": "module",
-  "imports": {
-    "#/*": "./dist/*"
-  }
+  "type": "module"
 }
